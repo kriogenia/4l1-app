@@ -1,6 +1,5 @@
 package dev.sotoestevez.allforone.ui
 
-import dev.sotoestevez.allforone.R.layout.activity_launch
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -17,7 +16,6 @@ import dev.sotoestevez.allforone.util.logError
 import dev.sotoestevez.allforone.util.logInfo
 import dev.sotoestevez.allforone.util.logWarning
 import kotlinx.android.synthetic.main.activity_launch.*
-
 
 /**
  * Launching activity of the project. It is in charge of managing the login of the user in the app.
@@ -51,7 +49,7 @@ class LaunchActivity : AppCompatActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(activity_launch)
+		setContentView(R.layout.activity_launch)
 		// Action for the sign-in button
 		sign_in_button.setOnClickListener { signIn() }
 	}
