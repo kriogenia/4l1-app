@@ -1,7 +1,6 @@
 package dev.sotoestevez.allforone.api
 
 import android.content.Context
-import android.content.res.Resources
 import dev.sotoestevez.allforone.R
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,9 +19,11 @@ class ApiFactory(context: Context) {
 
 }
 
+data class Credentials(val auth: String)
+
 interface AuthService {
 
 	@POST("/auth/login")
-	suspend fun sendCredentials(): String
+	suspend fun sendCredentials(): Credentials
 
 }
