@@ -6,16 +6,19 @@ import android.os.Bundle
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.identity.SignInCredential
 import com.google.android.gms.common.api.ApiException
 import dev.sotoestevez.allforone.R
+import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.util.logDebug
 import dev.sotoestevez.allforone.util.logError
 import dev.sotoestevez.allforone.util.logInfo
 import dev.sotoestevez.allforone.util.logWarning
 import kotlinx.android.synthetic.main.activity_launch.*
+import kotlinx.coroutines.launch
 
 /**
  * Launching activity of the project. It is in charge of managing the login of the user in the app.
@@ -34,9 +37,7 @@ class LaunchActivity : AppCompatActivity() {
 			try {
 				val credential = Identity.getSignInClient(this)
 					.getSignInCredentialFromIntent(result.data)
-				// TODO create logging dedicated function
-				logInfo("User logged in: $credential")
-				startActivity(Intent(this, MainActivity::class.java))
+				handleSignInResult(credential)
 			} catch (e: ApiException) {
 				logError("Error retrieving user data from intent", e)
 				//TODO add error managements - Toaster?
@@ -51,24 +52,19 @@ class LaunchActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_launch)
 		// Action for the sign-in button
-		sign_in_button.setOnClickListener { signIn() }
+		sign_in_button.setOnClickListener { invokeSignInAPI() }
 	}
 
 	override fun onStart() {
 		super.onStart()
-		// Check for existing Google Sign In account
-		val account = GoogleSignIn.getLastSignedInAccount(this)
-		if (account != null) {
-			logDebug("Previous account detected, auto-logging performed")
-			// TODO create logging dedicated function
-			startActivity(Intent(this, MainActivity::class.java))
-		}
+		logDebug("Application started")
+		// TODO silent sign in
 	}
 
 	/**
 	 * Launches an intent to call the Google Sign In API to perform the authentication
 	 */
-	private fun signIn() {
+	private fun invokeSignInAPI() {
 		// Build the sign-in request
 		val request = GetSignInIntentRequest.builder()
 			.setServerClientId(getString(R.string.server_client_id))
@@ -85,5 +81,16 @@ class LaunchActivity : AppCompatActivity() {
 			}
 	}
 
+	private fun handleSignInResult(credential: SignInCredential) {
+		logInfo("User logged in: ${credential.id}")
+		val factory = ApiFactory(this)
+		val service = factory.getAuthService()
+		lifecycleScope.launch {
+			val retrieved = service.sendCredentials()
+			logDebug("Retrieved HttpCall: $retrieved")
+		}.invokeOnCompletion {
+			startActivity(Intent(this, MainActivity::class.java))
+		}
+	}
 
 }
