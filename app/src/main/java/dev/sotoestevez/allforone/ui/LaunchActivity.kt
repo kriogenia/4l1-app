@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.identity.SignInCredential
 import com.google.android.gms.common.api.ApiException
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.api.ApiFactory
+import dev.sotoestevez.allforone.api.data.GoogleCredentials
 import dev.sotoestevez.allforone.util.logDebug
 import dev.sotoestevez.allforone.util.logError
 import dev.sotoestevez.allforone.util.logInfo
@@ -48,6 +49,10 @@ class LaunchActivity : AppCompatActivity() {
 		}
 	}
 
+	/**
+	 * Override of the onCreate method
+	 * @param savedInstanceState bundle with a saved instance
+	 */
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_launch)
@@ -55,6 +60,9 @@ class LaunchActivity : AppCompatActivity() {
 		sign_in_button.setOnClickListener { invokeSignInAPI() }
 	}
 
+	/**
+	 * Override of the onStart method
+	 */
 	override fun onStart() {
 		super.onStart()
 		logDebug("Application started")
@@ -81,12 +89,18 @@ class LaunchActivity : AppCompatActivity() {
 			}
 	}
 
+	/**
+	 * Handles the retrieved credentials in the sign in request.
+	 * Sends the credentials to the API to retrieve the User
+	 * @param credential    Google SignIn credentials to check
+	 */
 	private fun handleSignInResult(credential: SignInCredential) {
-		logInfo("User logged in: ${credential.id}")
-		val factory = ApiFactory(this)
-		val service = factory.getAuthService()
+		logInfo("Google-SignIn-Authentication: ${credential.id}")
+		val service = ApiFactory(this).getAuthService()
 		lifecycleScope.launch {
-			val retrieved = service.sendCredentials()
+			val googleCredentials = GoogleCredentials(
+				null, credential.givenName, credential.familyName)
+			val retrieved = service.validateCredentials(googleCredentials)
 			logDebug("Retrieved HttpCall: $retrieved")
 		}.invokeOnCompletion {
 			startActivity(Intent(this, MainActivity::class.java))
