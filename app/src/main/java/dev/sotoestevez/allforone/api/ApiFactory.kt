@@ -1,6 +1,7 @@
 package dev.sotoestevez.allforone.api
 
 import android.content.Context
+import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.api.services.AuthService
 import retrofit2.Retrofit
@@ -18,6 +19,7 @@ class ApiFactory(context: Context) {
 
 	private var service: Retrofit = Retrofit.Builder()
 		.baseUrl(context.getString(R.string.server_ip))
+		.addCallAdapterFactory(NetworkResponseAdapterFactory())
 		.addConverterFactory(GsonConverterFactory.create())
 		.build()
 

@@ -3,6 +3,7 @@ package dev.sotoestevez.allforone.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -11,14 +12,13 @@ import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInCredential
 import com.google.android.gms.common.api.ApiException
+import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.data.GoogleCredentials
-import dev.sotoestevez.allforone.util.logDebug
-import dev.sotoestevez.allforone.util.logError
-import dev.sotoestevez.allforone.util.logInfo
-import dev.sotoestevez.allforone.util.logWarning
+import dev.sotoestevez.allforone.util.*
 import kotlinx.android.synthetic.main.activity_launch.*
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 /**
@@ -96,15 +96,49 @@ class LaunchActivity : AppCompatActivity() {
 	 */
 	private fun handleSignInResult(credential: SignInCredential) {
 		logInfo("Google-SignIn-Authentication: ${credential.id}")
+		// Get authentication service
 		val service = ApiFactory(this).getAuthService()
+		// Launch the coroutine
 		lifecycleScope.launch {
-			val googleCredentials = GoogleCredentials(
-				null, credential.givenName, credential.familyName)
-			val retrieved = service.validateCredentials(googleCredentials)
-			logDebug("Retrieved HttpCall: $retrieved")
-		}.invokeOnCompletion {
+			val googleCredentials = GoogleCredentials(null)
+			//val googleCredentials = GoogleCredentials(credential.id)
+			// Send the credentials to the server
+			when (val retrieved = service.validateCredentials(googleCredentials)) {
+				is NetworkResponse.Success -> {
+					// credentials validated, store the retrieved user
+					logDebug("Credentials validated")
+				}
+				// error in the request, cancel the coroutine and handle it
+				is NetworkResponse.ServerError -> {
+					cancel(retrieved.body?.message ?: getString(R.string.error_unexpected))
+				}
+				is NetworkResponse.Error -> {
+					// unknown error, also propagate the error
+					cancel(getString(R.string.error_unexpected), retrieved.error)
+				}
+			}
+		}.invokeOnCompletion { cause ->
+			// handle the cancellation cause
+			if (cause != null) {
+				assert(cause.message != null)
+				if (cause.cause != null) {
+					// unknown error, log it with the error
+					logError("Error occurred validating credentials", cause.cause!!)
+				} else {
+					// known error, log the message as warning
+					logWarning(cause.message!!)
+				}
+				// TODO manage the message and translate it
+				toast(cause.message!!)
+				return@invokeOnCompletion
+			}
 			startActivity(Intent(this, MainActivity::class.java))
 		}
+	}
+
+	private fun toast(message: String) {
+		val localMessage = getRelatedMessage(message)
+		Toast.makeText(this, localMessage, Toast.LENGTH_SHORT).show()
 	}
 
 }

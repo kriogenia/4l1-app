@@ -1,6 +1,8 @@
 package dev.sotoestevez.allforone.api.services
 
 import com.google.android.gms.auth.api.credentials.Credentials
+import com.haroldadmin.cnradapter.NetworkResponse
+import dev.sotoestevez.allforone.api.data.ErrorResponse
 import dev.sotoestevez.allforone.api.data.GoogleCredentials
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -15,6 +17,6 @@ interface AuthService {
 	 * @return logged in user
 	 */
 	@POST("/auth/validate")
-	suspend fun validateCredentials(@Body credentials: GoogleCredentials): Credentials
+	suspend fun validateCredentials(@Body credentials: GoogleCredentials): NetworkResponse<Credentials, ErrorResponse>
 
 }

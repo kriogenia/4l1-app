@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_invalid_google_account">This Google account does not have a valid Id</string>
+    <string name="error_unexpected">An unexpected error has occurred</string>
+</resources>
