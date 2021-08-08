@@ -10,12 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.auth.api.identity.SignInCredential
 import com.google.android.gms.common.api.ApiException
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.api.ApiFactory
-import dev.sotoestevez.allforone.api.data.GoogleCredentials
 import dev.sotoestevez.allforone.util.*
 import kotlinx.android.synthetic.main.activity_launch.*
 import kotlinx.coroutines.cancel
@@ -38,14 +36,16 @@ class LaunchActivity : AppCompatActivity() {
 			try {
 				val credential = Identity.getSignInClient(this)
 					.getSignInCredentialFromIntent(result.data)
-				handleSignInResult(credential)
+				if (credential.googleIdToken != null) {
+					handleSignInResult(credential.googleIdToken!!)
+				}
 			} catch (e: ApiException) {
 				logError("Error retrieving user data from intent", e)
 				//TODO add error managements - Toaster?
 			}
 		} else {
 			logWarning("Google Sign-In intent failed and returned ${result.resultCode}")
-			//TODO add error managements - Toaster?
+			toast(getString(R.string.error_google_auth))
 		}
 	}
 
@@ -86,27 +86,28 @@ class LaunchActivity : AppCompatActivity() {
 			}
 			.addOnFailureListener { e ->
 				logError("Google Sign-in failed", e)
+				toast(getString(R.string.error_google_auth))
 			}
 	}
 
 	/**
-	 * Handles the retrieved credentials in the sign in request.
-	 * Sends the credentials to the API to retrieve the User
-	 * @param credential    Google SignIn credentials to check
+	 * Handles the retrieved token in the sign in request.
+	 * Sends the Google token to the API to retrieve the User and the session tokens
+	 * @param googleIdToken obtained in the authentication with Google
 	 */
-	private fun handleSignInResult(credential: SignInCredential) {
-		logInfo("Google-SignIn-Authentication: ${credential.id}")
+	private fun handleSignInResult(googleIdToken: String) {
+		logInfo("Google-SignIn-Authentication: $googleIdToken")
 		// Get authentication service
 		val service = ApiFactory(this).getAuthService()
 		// Launch the coroutine
 		lifecycleScope.launch {
-			val googleCredentials = GoogleCredentials(null)
-			//val googleCredentials = GoogleCredentials(credential.id)
-			// Send the credentials to the server
-			when (val retrieved = service.validateCredentials(googleCredentials)) {
+			// Send the token to the server
+			when (val retrieved = service.signIn(googleIdToken)) {
 				is NetworkResponse.Success -> {
 					// credentials validated, store the retrieved user
 					logDebug("Credentials validated")
+					logDebug(retrieved.body.user.role.toString())
+					// TODO store result
 				}
 				// error in the request, cancel the coroutine and handle it
 				is NetworkResponse.ServerError -> {
@@ -129,16 +130,12 @@ class LaunchActivity : AppCompatActivity() {
 					logWarning(cause.message!!)
 				}
 				// TODO manage the message and translate it
-				toast(cause.message!!)
+				toast(getRelatedMessage(cause.message!!))
 				return@invokeOnCompletion
 			}
+			// if no cancellation has occurred, move to the next activity
 			startActivity(Intent(this, MainActivity::class.java))
 		}
-	}
-
-	private fun toast(message: String) {
-		val localMessage = getRelatedMessage(message)
-		Toast.makeText(this, localMessage, Toast.LENGTH_SHORT).show()
 	}
 
 }

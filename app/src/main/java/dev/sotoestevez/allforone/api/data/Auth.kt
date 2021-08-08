@@ -1,11 +1,18 @@
 package dev.sotoestevez.allforone.api.data
 
-/**
- * Model with the used properties from the Google SignInCredentials
- * @property id GoogleIdToken of the account
- */
-data class GoogleCredentials(
-	val id: String?,
-)
+import dev.sotoestevez.allforone.entities.User
 
-data class Credentials(val auth: String)
+/**
+ * Model of the response to be received from the /auth/signin endpoint
+ *
+ * @property auth       Auth token
+ * @property refresh    Refresh token
+ * @property expiration time of the auth token
+ * @property user       data of the user
+ */
+data class SignInResponse(
+	val auth: String,
+	val refresh: String,
+	val expiration: Int,
+	val user: User
+)
