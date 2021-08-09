@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.4l1app">
         <activity
+            android:name=".ui.keeper.KMainActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.patient.PMainActivity"
             android:exported="true" />
         <activity

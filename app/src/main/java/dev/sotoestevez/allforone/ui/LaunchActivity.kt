@@ -17,6 +17,7 @@ import dev.sotoestevez.allforone.api.data.SignInResponse
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity
 import dev.sotoestevez.allforone.util.*
 import kotlinx.android.synthetic.main.activity_launch.*
@@ -122,9 +123,12 @@ class LaunchActivity : AppCompatActivity() {
 		val ( auth, refresh, expiration, user ) = authData
 		SessionManager.openSession(this, auth, refresh, expiration)
 		// Build the intent with the user and launch the activity
-		val intent = Intent(this, PMainActivity::class.java)
+		val destiny = KMainActivity::class.java
+		val intent = Intent(this, destiny)
 		intent.putExtra(User::class.simpleName, user)
 		startActivity(intent)
+		// Delete the activity so it's not accessed going back
+		finish()
 	}
 
 }
