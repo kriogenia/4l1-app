@@ -1,7 +1,7 @@
 package dev.sotoestevez.allforone.api.services
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import dev.sotoestevez.allforone.api.data.ErrorResponse
+import dev.sotoestevez.allforone.api.data.BaseErrorResponse
 import dev.sotoestevez.allforone.api.data.SignInResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,6 +16,6 @@ interface AuthService {
 	 * @return logged in user
 	 */
 	@GET("/auth/signin/{token}")
-	suspend fun signIn(@Path("token") token: String): NetworkResponse<SignInResponse, ErrorResponse>
+	suspend fun signIn(@Path("token") token: String): NetworkResponse<SignInResponse, BaseErrorResponse>
 
 }

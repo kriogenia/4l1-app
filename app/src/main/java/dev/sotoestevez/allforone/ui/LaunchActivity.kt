@@ -14,6 +14,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.data.SignInResponse
+import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.util.*
 import kotlinx.android.synthetic.main.activity_launch.*
@@ -100,47 +101,19 @@ class LaunchActivity : AppCompatActivity() {
 		logInfo("Google-SignIn-Authentication: $googleIdToken")
 		// Get authentication service
 		val service = ApiFactory(this).getAuthService()
-		// Launch the coroutine
-		lifecycleScope.launch {
-			// Send the token to the server
-			when (val retrieved = service.signIn(googleIdToken)) {
-				is NetworkResponse.Success -> {
-					// credentials validated, store the retrieved user and tokens
-					completeAuthentication(retrieved.body)
-				}
-				// error in the request, cancel the coroutine and handle it
-				is NetworkResponse.ServerError -> {
-					cancel(retrieved.body?.message ?: getString(R.string.error_unexpected))
-				}
-				is NetworkResponse.Error -> {
-					// unknown error, also propagate the error
-					cancel(getString(R.string.error_unexpected), retrieved.error)
-				}
-			}
-		}.invokeOnCompletion { cause ->
-			// handle the cancellation cause
-			if (cause != null) {
-				assert(cause.message != null)
-				if (cause.cause != null) {
-					// unknown error, log it with the error
-					logError("Error occurred validating credentials", cause.cause!!)
-				} else {
-					// known error, log the message as warning
-					logWarning(cause.message!!)
-				}
-				// TODO manage the message and translate it
-				toast(getRelatedMessage(cause.message!!))
-				return@invokeOnCompletion
-			}
-			// if no cancellation has occurred, move to the next activity
-			startActivity(Intent(this, MainActivity::class.java))
-		}
+		// And perform the request to sign in
+		val request = ApiRequest(this, suspend { service.signIn(googleIdToken) })
+		request.performRequest(
+			{ result -> completeAuthentication(result) },
+			{ cause -> errorToast(cause) }
+		)
 	}
 
 	private fun completeAuthentication(authData: SignInResponse) {
 		logDebug("Authentication validated. User[${authData.user.id}]")
 		val ( auth, refresh, expiration ) = authData
 		SessionManager.openSession(this, auth, refresh, expiration)
+		startActivity(Intent(this, MainActivity::class.java))
 	}
 
 }
