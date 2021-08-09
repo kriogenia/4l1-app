@@ -3,7 +3,6 @@ package dev.sotoestevez.allforone.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +13,8 @@ import com.google.android.gms.common.api.ApiException
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.api.ApiFactory
+import dev.sotoestevez.allforone.api.data.SignInResponse
+import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.util.*
 import kotlinx.android.synthetic.main.activity_launch.*
 import kotlinx.coroutines.cancel
@@ -104,10 +105,8 @@ class LaunchActivity : AppCompatActivity() {
 			// Send the token to the server
 			when (val retrieved = service.signIn(googleIdToken)) {
 				is NetworkResponse.Success -> {
-					// credentials validated, store the retrieved user
-					logDebug("Credentials validated")
-					logDebug(retrieved.body.user.role.toString())
-					// TODO store result
+					// credentials validated, store the retrieved user and tokens
+					completeAuthentication(retrieved.body)
 				}
 				// error in the request, cancel the coroutine and handle it
 				is NetworkResponse.ServerError -> {
@@ -136,6 +135,12 @@ class LaunchActivity : AppCompatActivity() {
 			// if no cancellation has occurred, move to the next activity
 			startActivity(Intent(this, MainActivity::class.java))
 		}
+	}
+
+	private fun completeAuthentication(authData: SignInResponse) {
+		logDebug("Authentication validated. User[${authData.user.id}]")
+		val ( auth, refresh, expiration ) = authData
+		SessionManager.openSession(this, auth, refresh, expiration)
 	}
 
 }
