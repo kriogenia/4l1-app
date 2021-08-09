@@ -46,7 +46,10 @@ class ApiRequest<Res : Any, Err : ErrorResponse> (
 				}
 				// error in the request, cancel the coroutine and handle it
 				is NetworkResponse.ServerError -> {
-					cancel(retrieved.body?.message ?: context.getString(R.string.error_unexpected))
+					val message = if (retrieved.body?.message != null)
+						"${context.getString(R.string.api_prefix)}${retrieved.body?.message}"
+						else context.getString(R.string.error_unexpected)
+					cancel(message)
 				}
 				// with unknown errors, also propagate the error
 				is NetworkResponse.Error -> {
@@ -65,6 +68,7 @@ class ApiRequest<Res : Any, Err : ErrorResponse> (
 				}
 				// finally, call the error manager callback
 				onFailure(cause)
+				return@invokeOnCompletion
 			}
 		}
 	}

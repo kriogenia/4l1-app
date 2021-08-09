@@ -107,6 +107,7 @@ class LaunchActivity : AppCompatActivity() {
 			{ result -> completeAuthentication(result) },
 			{ cause -> errorToast(cause) }
 		)
+		logDebug("Llegas aquí?")
 	}
 
 	private fun completeAuthentication(authData: SignInResponse) {

@@ -10,8 +10,19 @@ import dev.sotoestevez.allforone.R
  * @param throwable with the info to display
  */
 fun Activity.errorToast(throwable: Throwable) {
-	// TODO retrieve error and get the localized message
-	toast(throwable.message ?: getString(R.string.error_unexpected))
+	// Retrieve the message from the error
+	var message = throwable.message ?: getString(R.string.error_unexpected)
+	// In case of API error, get the related string resource to ensure internationalization
+	val apiPrefix = getString(R.string.api_prefix)
+	if (message.startsWith(apiPrefix)) {
+		message = when(message.replaceFirst(apiPrefix, "")) {
+			getString(R.string.api_invalid_google_id) -> getString(R.string.error_invalid_google_account)
+			// if not message matches, return to same message
+			else -> message
+		}
+	}
+	// Display the toast with the message
+	toast(message)
 }
 
 /**
@@ -20,5 +31,5 @@ fun Activity.errorToast(throwable: Throwable) {
  * @param message to print in the toast
  */
 fun Activity.toast(message: String) {
-	Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+	runOnUiThread { Toast.makeText(this, message, Toast.LENGTH_LONG).show() }
 }
