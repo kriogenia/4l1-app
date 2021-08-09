@@ -15,7 +15,7 @@ import com.google.gson.annotations.SerializedName
 class User(
 	@SerializedName("_id") val id: String,
 	val googleId: String,
-	val role: Role,
+	var role: Role,
 	val displayName: String?
 ): Parcelable {
 

@@ -6,23 +6,20 @@ import android.os.Bundle
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.common.api.ApiException
-import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.data.SignInResponse
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.ui.blank.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity
 import dev.sotoestevez.allforone.util.*
 import kotlinx.android.synthetic.main.activity_launch.*
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 
 /**
  * Launching activity of the project. It is in charge of managing the login of the user in the app.
@@ -122,8 +119,13 @@ class LaunchActivity : AppCompatActivity() {
 		logDebug("Authentication validated. User[${authData.user.id}]")
 		val ( auth, refresh, expiration, user ) = authData
 		SessionManager.openSession(this, auth, refresh, expiration)
+		// Decide the activity to navigate based on the user role
+		val destiny = when (user.role) {
+			User.Role.KEEPER -> KMainActivity::class.java
+			User.Role.PATIENT -> PMainActivity::class.java
+			User.Role.BLANK -> SetUpActivity::class.java
+		}
 		// Build the intent with the user and launch the activity
-		val destiny = KMainActivity::class.java
 		val intent = Intent(this, destiny)
 		intent.putExtra(User::class.simpleName, user)
 		startActivity(intent)

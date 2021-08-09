@@ -14,26 +14,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.4l1app">
         <activity
+            android:name=".ui.blank.SetUpActivity"
+            android:label="@string/title_activity_set_up"
+            android:exported="true"
+            android:theme="@style/Theme.4l1app.NoActionBar" />
+        <activity
             android:name=".ui.keeper.KMainActivity"
             android:exported="true" />
         <activity
             android:name=".ui.patient.PMainActivity"
             android:exported="true" />
-        <activity
-            android:name=".ui.patient.PatientMainActivity"
-            android:exported="true"
-            android:label="@string/title_activity_patient_main"
-            android:theme="@style/Theme.4l1app.NoActionBar" />
-        <activity android:name=".ui.LaunchActivity">
+        <activity android:name=".ui.LaunchActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.MainActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </activity>
     </application>
