@@ -16,6 +16,8 @@ import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.data.SignInResponse
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.entities.SessionManager
+import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.ui.patient.PMainActivity
 import dev.sotoestevez.allforone.util.*
 import kotlinx.android.synthetic.main.activity_launch.*
 import kotlinx.coroutines.cancel
@@ -107,14 +109,22 @@ class LaunchActivity : AppCompatActivity() {
 			{ result -> completeAuthentication(result) },
 			{ cause -> errorToast(cause) }
 		)
-		logDebug("Llegas aquí?")
 	}
 
+	/**
+	 * Once all the authorization is validated, complete it saving the session tokens and
+	 * opening the next activity
+	 *
+	 * @param authData authentication data with the tokens and user info
+	 */
 	private fun completeAuthentication(authData: SignInResponse) {
 		logDebug("Authentication validated. User[${authData.user.id}]")
-		val ( auth, refresh, expiration ) = authData
+		val ( auth, refresh, expiration, user ) = authData
 		SessionManager.openSession(this, auth, refresh, expiration)
-		startActivity(Intent(this, MainActivity::class.java))
+		// Build the intent with the user and launch the activity
+		val intent = Intent(this, PMainActivity::class.java)
+		intent.putExtra(User::class.simpleName, user)
+		startActivity(intent)
 	}
 
 }
