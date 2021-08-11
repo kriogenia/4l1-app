@@ -9,16 +9,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * Factory of the different services of the API
- *
- * @constructor
- * Creates an ApiFactory with a Retrofit service to build the services
- *
- * @param context   current context to retrieve the URL from the resources
  */
-class ApiFactory(context: Context) {
+object ApiFactory {
 
 	private var service: Retrofit = Retrofit.Builder()
-		.baseUrl(context.getString(R.string.server_ip))
+		.baseUrl("http://10.0.2.2:3000")
 		.addCallAdapterFactory(NetworkResponseAdapterFactory())
 		.addConverterFactory(GsonConverterFactory.create())
 		.build()

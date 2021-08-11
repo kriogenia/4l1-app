@@ -1,7 +1,9 @@
 package dev.sotoestevez.allforone.api
 
 import androidx.core.app.ComponentActivity
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.api.data.ErrorResponse
@@ -20,7 +22,7 @@ import kotlinx.coroutines.launch
  * @property request to perform to the API
  */
 class ApiRequest<Res : Any, Err : ErrorResponse> (
-	private val context: ComponentActivity,
+	private val context: ViewModel,
 	private val request: suspend () -> NetworkResponse<Res, Err>,
 ) {
 
@@ -36,7 +38,7 @@ class ApiRequest<Res : Any, Err : ErrorResponse> (
 		onFailure: (cause: Throwable) -> Unit
 	) {
 		// Launch the coroutine
-		context.lifecycleScope.launch {
+		context.viewModelScope.launch {
 			// Performs the request
 			when (val retrieved = request()) {
 				// if the response is successful, calls the onCompletion function with it
@@ -47,13 +49,13 @@ class ApiRequest<Res : Any, Err : ErrorResponse> (
 				// error in the request, cancel the coroutine and handle it
 				is NetworkResponse.ServerError -> {
 					val message = if (retrieved.body?.message != null)
-						"${context.getString(R.string.api_prefix)}${retrieved.body?.message}"
-						else context.getString(R.string.error_unexpected)
+						"[API] ${retrieved.body?.message}"
+						else "An unexpected error has occurred"
 					cancel(message)
 				}
 				// with unknown errors, also propagate the error
 				is NetworkResponse.Error -> {
-					cancel(context.getString(R.string.error_unexpected), retrieved.error)
+					cancel("An unexpected error has occurred", retrieved.error)
 				}
 			}
 		}.invokeOnCompletion { cause ->

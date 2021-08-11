@@ -1,6 +1,7 @@
 package dev.sotoestevez.allforone.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -10,6 +11,7 @@ import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.entities.GoogleAuthHelper
 import dev.sotoestevez.allforone.entities.User
 import dev.sotoestevez.allforone.model.LaunchViewModel
+import dev.sotoestevez.allforone.model.factories.LaunchViewModelFactory
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity
@@ -23,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_launch.*
  */
 class LaunchActivity : AppCompatActivity() {
 
-	private val viewModel: LaunchViewModel by viewModels()
+	private val viewModel: LaunchViewModel by viewModels { LaunchViewModelFactory(this) }
 
 	private val googleAuthHelper = GoogleAuthHelper(this)
 
