@@ -13,6 +13,7 @@ import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.data.SignInResponse
 import dev.sotoestevez.allforone.api.ApiRequest
+import dev.sotoestevez.allforone.entities.GoogleAuthHelper
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.entities.User
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
@@ -23,33 +24,12 @@ import kotlinx.android.synthetic.main.activity_launch.*
 
 /**
  * Launching activity of the project. It is in charge of managing the login of the user in the app.
- * Once a valid session is registered, the activity sends the user to the [MainActivity]
+ * Once a valid session is registered, the activity sends the user to the he adequate main
+ * activity ([KMainActivity] or [PMainActivity]) or to the [SetUpActivity] if it's a new user.
  */
 class LaunchActivity : AppCompatActivity() {
 
-	/**
-	 * Launcher to the Sing-In intent sender for result. It manages the result of the intent and
-	 * moves the user to the [MainActivity] if the logging is a success. Otherwise, it  manages the
-	 * error resulted.
-	 */
-	private val gsiLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()
-	) { result ->
-		if (result.resultCode == Activity.RESULT_OK) {
-			try {
-				val credential = Identity.getSignInClient(this)
-					.getSignInCredentialFromIntent(result.data)
-				if (credential.googleIdToken != null) {
-					handleSignInResult(credential.googleIdToken!!)
-				}
-			} catch (e: ApiException) {
-				logError("Error retrieving user data from intent", e)
-				//TODO add error managements - Toaster?
-			}
-		} else {
-			logWarning("Google Sign-In intent failed and returned ${result.resultCode}")
-			toast(getString(R.string.error_google_auth))
-		}
-	}
+	private val googleAuthHelper = GoogleAuthHelper(this)
 
 	/**
 	 * Override of the onCreate method
@@ -59,7 +39,8 @@ class LaunchActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_launch)
 		// Action for the sign-in button
-		sign_in_button.setOnClickListener { invokeSignInAPI() }
+		googleAuthHelper.setCallback { token -> handleSignInResult(token) }
+		sign_in_button.setOnClickListener { googleAuthHelper.invokeSignInAPI() }
 	}
 
 	/**
@@ -71,27 +52,7 @@ class LaunchActivity : AppCompatActivity() {
 		// TODO silent sign in
 	}
 
-	/**
-	 * Launches an intent to call the Google Sign In API to perform the authentication
-	 */
-	private fun invokeSignInAPI() {
-		// Build the sign-in request
-		val request = GetSignInIntentRequest.builder()
-			.setServerClientId(getString(R.string.server_client_id))
-			.build()
-		// Launches and manages the sign-in intent
-		Identity.getSignInClient(this)
-			.getSignInIntent(request)
-			.addOnSuccessListener { signInResult ->
-				logDebug("Launching Sign-In intent")
-				gsiLauncher.launch(IntentSenderRequest.Builder(signInResult).build())
-			}
-			.addOnFailureListener { e ->
-				logError("Google Sign-in failed", e)
-				toast(getString(R.string.error_google_auth))
-			}
-	}
-
+	// TODO move to ViewModel
 	/**
 	 * Handles the retrieved token in the sign in request.
 	 * Sends the Google token to the API to retrieve the User and the session tokens
@@ -100,6 +61,7 @@ class LaunchActivity : AppCompatActivity() {
 	private fun handleSignInResult(googleIdToken: String) {
 		logInfo("Google-SignIn-Authentication: $googleIdToken")
 		// Get authentication service
+		// TODO move to repo
 		val service = ApiFactory(this).getAuthService()
 		// And perform the request to sign in
 		val request = ApiRequest(this, suspend { service.signIn(googleIdToken) })
@@ -109,6 +71,7 @@ class LaunchActivity : AppCompatActivity() {
 		)
 	}
 
+	// TODO move to ViewModel
 	/**
 	 * Once all the authorization is validated, complete it saving the session tokens and
 	 * opening the next activity
