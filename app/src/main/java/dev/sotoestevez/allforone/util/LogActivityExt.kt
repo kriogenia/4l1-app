@@ -9,7 +9,7 @@ import dev.sotoestevez.allforone.BuildConfig
  *
  * @param message to log
  */
-fun Activity.logDebug(message: String) {
+fun Any.logDebug(message: String) {
 	if (BuildConfig.DEBUG) Log.d(this::class.simpleName, message)
 }
 
@@ -18,7 +18,7 @@ fun Activity.logDebug(message: String) {
  *
  * @param message to log
  */
-fun Activity.logInfo(message: String) {
+fun Any.logInfo(message: String) {
 	Log.i(this::class.simpleName, message)
 }
 
@@ -27,7 +27,7 @@ fun Activity.logInfo(message: String) {
  *
  * @param message to log
  */
-fun Activity.logWarning(message: String) {
+fun Any.logWarning(message: String) {
 	Log.d(this::class.simpleName, message)
 }
 
@@ -36,7 +36,7 @@ fun Activity.logWarning(message: String) {
  *
  * @param message to log
  */
-fun Activity.logError(message: String) {
+fun Any.logError(message: String) {
 	Log.e(this::class.simpleName, message)
 }
 
@@ -44,8 +44,8 @@ fun Activity.logError(message: String) {
  * Logs an error message and the related error with the Activity name
  *
  * @param message to log
- * @param error to log
+ * @param error to logº
  */
-fun Activity.logError(message: String, error: Throwable) {
+fun Any.logError(message: String, error: Throwable) {
 	Log.e(this::class.simpleName, message, error)
 }
