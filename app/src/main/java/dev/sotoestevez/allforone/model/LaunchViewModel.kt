@@ -1,12 +1,10 @@
 package dev.sotoestevez.allforone.model
 
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.util.Log
-import androidx.activity.ComponentActivity
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.data.SignInResponse
@@ -19,12 +17,22 @@ import dev.sotoestevez.allforone.ui.patient.PMainActivity
 import dev.sotoestevez.allforone.util.errorToast
 import dev.sotoestevez.allforone.util.logDebug
 
+/**
+ * ViewModel of the [LaunchActivity]
+ *
+ * @constructor
+ * To create the ViewModel
+ *
+ * @param sharedPreferences SharedPreferences object to persist data
+ */
 class LaunchViewModel(
-	savedStateHandle: SavedStateHandle,
 	sharedPreferences: SharedPreferences
 ): ViewModel() {
 
-	val sessionManager = SessionManager(sharedPreferences)
+	/**
+	 * Session manager to safe the new session when started
+	 */
+	private val sessionManager: SessionManager = SessionManager(sharedPreferences)
 
 	/**
 	 * Live data holding the class of the next activity to launch from the LaunchActivity
@@ -33,14 +41,17 @@ class LaunchViewModel(
 		get() = _destiny
 	private var _destiny = MutableLiveData<Class<out Activity>>()
 
-	public var user: User? = null
+	/**
+	 * User data retrieved from the server
+	 */
+	var user: User? = null
 
 	/**
 	 * Handles the retrieved token in the sign in request.
 	 * Sends the Google token to the API to retrieve the User and the session tokens
 	 * @param googleIdToken obtained in the authentication with Google
 	 */
-	public fun handleSignInResult(context: LaunchActivity, googleIdToken: String) {
+	fun handleSignInResult(context: LaunchActivity, googleIdToken: String) {
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
 		// Get authentication service
 		// TODO move to repo
@@ -48,7 +59,7 @@ class LaunchViewModel(
 		// And perform the request to sign in
 		val request = ApiRequest(this, suspend { service.signIn(googleIdToken) })
 		request.performRequest(
-			{ result -> completeAuthentication(context, result) },
+			{ result -> completeAuthentication(result) },
 			{ cause -> context.errorToast(cause) }
 		)
 	}
@@ -59,7 +70,7 @@ class LaunchViewModel(
 	 *
 	 * @param authData authentication data with the tokens and user info
 	 */
-	private fun completeAuthentication(context: LaunchActivity, authData: SignInResponse) {
+	private fun completeAuthentication(authData: SignInResponse) {
 		user = authData.user
 		logDebug("Authentication validated. User[${user!!.id}]")
 		val ( auth, refresh, expiration, user ) = authData

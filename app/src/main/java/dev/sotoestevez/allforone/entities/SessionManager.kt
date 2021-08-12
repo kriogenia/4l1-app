@@ -1,10 +1,8 @@
 package dev.sotoestevez.allforone.entities
 
 import android.content.SharedPreferences
-import android.util.Log
 import dev.sotoestevez.allforone.util.logDebug
 import java.time.Instant
-import kotlin.math.log
 
 /**
  * Entity to manage the session logic. It allows to open a new session, close it

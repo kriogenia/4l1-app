@@ -14,6 +14,11 @@ import dev.sotoestevez.allforone.util.logError
 import dev.sotoestevez.allforone.util.logWarning
 import dev.sotoestevez.allforone.util.toast
 
+/**
+ * Helper class to manage all the logic related to the Google Authentication
+ *
+ * @property activity invoking the authentication
+ */
 class GoogleAuthHelper (private val activity: ComponentActivity) {
 
 	private lateinit var authenticationLauncher: ActivityResultLauncher<IntentSenderRequest>
@@ -39,7 +44,11 @@ class GoogleAuthHelper (private val activity: ComponentActivity) {
 			}
 	}
 
-	public fun setCallback(
+	/**
+	 * Creates the launcher to send the activity for the SignInResult
+	 * @param processToken callback to process the retrieved GoogleIdToken
+	 */
+	fun setCallback(
 		processToken: (String) -> Unit
 	) {
 		authenticationLauncher = activity.registerForActivityResult(

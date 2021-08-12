@@ -1,8 +1,6 @@
 package dev.sotoestevez.allforone.api
 
-import android.content.Context
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
-import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.api.services.AuthService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

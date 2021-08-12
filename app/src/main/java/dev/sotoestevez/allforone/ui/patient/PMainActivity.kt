@@ -1,15 +1,16 @@
 package dev.sotoestevez.allforone.ui.patient
 
 import android.os.Bundle
-import dev.sotoestevez.allforone.R
+import dev.sotoestevez.allforone.databinding.ActivityPmainBinding
 import dev.sotoestevez.allforone.entities.User
 import dev.sotoestevez.allforone.ui.PrivateActivity
-import kotlinx.android.synthetic.main.activity_pmain.*
 
 /**
  * Main Activity of Patients
  */
 class PMainActivity : PrivateActivity() {
+
+	private lateinit var binding: ActivityPmainBinding
 
 	override var roles: Array<User.Role> = arrayOf<User.Role>(User.Role.PATIENT)
 
@@ -19,7 +20,9 @@ class PMainActivity : PrivateActivity() {
 	 */
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_pmain)
+		// Set the layout
+		binding = ActivityPmainBinding.inflate(layoutInflater)
+		setContentView(binding.root)
 	}
 
 	/**
@@ -28,6 +31,6 @@ class PMainActivity : PrivateActivity() {
 	override fun onStart() {
 		super.onStart()
 		val text = "Logged in patient: ${user.id}"
-		textView.text = text
+		binding.textView.text = text
 	}
 }

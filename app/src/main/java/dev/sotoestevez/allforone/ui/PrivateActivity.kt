@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.entities.User
 import dev.sotoestevez.allforone.util.logError
-import kotlinx.android.synthetic.main.activity_pmain.*
 
 /**
  * Base Activity for all the Activities requiring user checking
@@ -25,7 +24,7 @@ open class PrivateActivity : AppCompatActivity() {
 	/**
 	 * List of permitted roles in the Activity
 	 */
-	protected open var roles: Array<User.Role> = arrayOf<User.Role>()
+	protected open var roles: Array<User.Role> = arrayOf()
 
 	/**
 	 * Override of the onCreate method

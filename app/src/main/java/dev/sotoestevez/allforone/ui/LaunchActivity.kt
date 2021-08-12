@@ -1,22 +1,20 @@
 package dev.sotoestevez.allforone.ui
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import dev.sotoestevez.allforone.R
+import dev.sotoestevez.allforone.databinding.ActivityLaunchBinding
 import dev.sotoestevez.allforone.entities.GoogleAuthHelper
 import dev.sotoestevez.allforone.entities.User
 import dev.sotoestevez.allforone.model.LaunchViewModel
-import dev.sotoestevez.allforone.model.factories.LaunchViewModelFactory
+import dev.sotoestevez.allforone.model.factories.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity
 import dev.sotoestevez.allforone.util.*
-import kotlinx.android.synthetic.main.activity_launch.*
 
 /**
  * Launching activity of the project. It is in charge of managing the login of the user in the app.
@@ -25,7 +23,9 @@ import kotlinx.android.synthetic.main.activity_launch.*
  */
 class LaunchActivity : AppCompatActivity() {
 
-	private val viewModel: LaunchViewModel by viewModels { LaunchViewModelFactory(this) }
+	private lateinit var binding: ActivityLaunchBinding
+
+	private val viewModel: LaunchViewModel by viewModels { ExtendedViewModelFactory(this) }
 
 	private val googleAuthHelper = GoogleAuthHelper(this)
 
@@ -35,12 +35,14 @@ class LaunchActivity : AppCompatActivity() {
 	 */
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_launch)
+		// Set the layout
+		binding = ActivityLaunchBinding.inflate(layoutInflater)
+		setContentView(binding.root)
 		// Observe the destiny
-		viewModel.destiny.observe(this, Observer { it -> nextActivity(it) })
+		viewModel.destiny.observe(this, { nextActivity(it) })
 		// Action for the sign-in button
 		googleAuthHelper.setCallback { token -> viewModel.handleSignInResult(this, token) }
-		sign_in_button.setOnClickListener { googleAuthHelper.invokeSignInAPI() }
+		binding.signInButton.setOnClickListener { googleAuthHelper.invokeSignInAPI() }
 	}
 
 	/**

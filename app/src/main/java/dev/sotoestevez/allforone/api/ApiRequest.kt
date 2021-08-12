@@ -1,11 +1,8 @@
 package dev.sotoestevez.allforone.api
 
-import androidx.core.app.ComponentActivity
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.cnradapter.NetworkResponse
-import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.api.data.ErrorResponse
 import dev.sotoestevez.allforone.util.logDebug
 import dev.sotoestevez.allforone.util.logError
