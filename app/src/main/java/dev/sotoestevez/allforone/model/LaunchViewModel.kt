@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.data.SignInResponse
@@ -16,6 +17,7 @@ import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity
 import dev.sotoestevez.allforone.util.errorToast
 import dev.sotoestevez.allforone.util.logDebug
+import kotlinx.coroutines.launch
 
 /**
  * ViewModel of the [LaunchActivity]
@@ -42,6 +44,13 @@ class LaunchViewModel(
 	private var _destiny = MutableLiveData<Class<out Activity>>()
 
 	/**
+	 * Live data holding the error messages to handle in the Activity
+	 */
+	val error: LiveData<Throwable>
+		get() = _error
+	private var _error = MutableLiveData<Throwable>()
+
+	/**
 	 * User data retrieved from the server
 	 */
 	var user: User? = null
@@ -54,14 +63,13 @@ class LaunchViewModel(
 	fun handleSignInResult(googleIdToken: String, onException: (error: Throwable) -> Unit) {
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
 		// Get authentication service
-		// TODO move to repo
-		val service = ApiFactory.getAuthService()
-		// And perform the request to sign in
-		val request = ApiRequest(this, suspend { service.signIn(googleIdToken) })
-		request.performRequest(
-			{ result -> completeAuthentication(result) },
-			{ cause -> onException(cause) }
-		)
+		viewModelScope.launch {
+			// TODO move to repo
+			val service = ApiFactory.getAuthService()
+			// And perform the request to sign in
+			val result = ApiRequest(suspend { service.signIn(googleIdToken) }).performRequest()
+			completeAuthentication(result)
+		}
 	}
 
 	/**
@@ -82,7 +90,5 @@ class LaunchViewModel(
 			User.Role.BLANK -> SetUpActivity::class.java
 		}
 	}
-
-
 
 }

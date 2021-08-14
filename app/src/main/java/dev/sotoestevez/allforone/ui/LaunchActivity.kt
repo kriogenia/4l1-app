@@ -38,7 +38,8 @@ class LaunchActivity : AppCompatActivity() {
 		// Set the layout
 		binding = ActivityLaunchBinding.inflate(layoutInflater)
 		setContentView(binding.root)
-		// Observe the destiny
+		// Observe the destiny, state and error
+		viewModel.error.observe(this, { handleError(it) })
 		viewModel.destiny.observe(this, { nextActivity(it) })
 		// Action for the sign-in button
 		googleAuthHelper.setCallback { token -> viewModel.handleSignInResult(token) { error -> errorToast(error) } }

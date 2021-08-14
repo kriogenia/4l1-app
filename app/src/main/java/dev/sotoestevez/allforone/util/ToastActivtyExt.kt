@@ -5,7 +5,7 @@ import android.widget.Toast
 import dev.sotoestevez.allforone.R
 
 /**
- * Displays a toast with an error message
+ * Displays a toast with an localized error message
  *
  * @param throwable with the info to display
  */
