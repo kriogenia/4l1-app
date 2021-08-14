@@ -3,6 +3,7 @@ package dev.sotoestevez.allforone.util
 import android.app.Activity
 import android.widget.Toast
 import dev.sotoestevez.allforone.R
+import dev.sotoestevez.allforone.api.APIErrorException
 
 /**
  * Displays a toast with an localized error message
@@ -13,11 +14,10 @@ fun Activity.errorToast(throwable: Throwable) {
 	// TODO localize exception messages
 	// Retrieve the message from the error
 	throwable.localizedMessage
-	var message = throwable.message ?: getString(R.string.error_unexpected)
+	var message = throwable.localizedMessage ?: getString(R.string.error_unexpected)
 	// In case of API error, get the related string resource to ensure internationalization
-	val apiPrefix = getString(R.string.api_prefix)
-	if (message.startsWith(apiPrefix)) {
-		message = when(message.replaceFirst(apiPrefix, "")) {
+	if (throwable is APIErrorException) {
+		message = when(message) {
 			getString(R.string.api_invalid_google_id) -> getString(R.string.error_invalid_google_account)
 			// if not message matches, return to same message
 			else -> message

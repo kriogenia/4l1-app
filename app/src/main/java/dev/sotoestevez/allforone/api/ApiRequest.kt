@@ -36,11 +36,8 @@ class ApiRequest<Res : Any, Err : ErrorResponse> (
 			}
 			// with server errors, log it and generate the error to throw
 			is NetworkResponse.ServerError -> {
-				val message = if (retrieved.body?.message != null)
-					"[API]${retrieved.body?.message}"
-					else "An unexpected error has occurred"
-				logWarning(message)
-				throw Exception(message)	// TODO create own exception
+				retrieved.body?.message?.let { logWarning(it) }
+				throw APIErrorException(retrieved.body)
 			}
 			// with unknown errors, log and propagate the error
 			is NetworkResponse.NetworkError -> {
