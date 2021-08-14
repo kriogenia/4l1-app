@@ -66,7 +66,6 @@ class LaunchActivity : AppCompatActivity() {
 	 * @param next Class of the activity to start
 	 */
 	private fun nextActivity(next: Class<out Activity>) {
-		uiLoading(false)
 		// Build the intent with the user and launch the activity
 		val intent = Intent(this, next)
 		intent.putExtra(User::class.simpleName, viewModel.user)

@@ -11,6 +11,7 @@ import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.data.SignInResponse
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.ui.LaunchActivity
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
@@ -63,11 +64,7 @@ class LaunchViewModel(
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
 		// Launch the coroutine with the request
 		viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-			// TODO move to repo
-			// Retrieve the service
-			val service = ApiFactory.getAuthService()
-			// And perform the request to sign in
-			val result = ApiRequest(suspend { service.signIn(googleIdToken) }).performRequest()
+			val result = UserRepository.signIn(googleIdToken)
 			withContext(Dispatchers.Main) {
 				completeAuthentication(result)
 			}
