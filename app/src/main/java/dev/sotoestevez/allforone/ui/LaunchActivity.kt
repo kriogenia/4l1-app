@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.databinding.ActivityLaunchBinding
 import dev.sotoestevez.allforone.entities.GoogleAuthHelper
 import dev.sotoestevez.allforone.entities.User
@@ -17,16 +16,16 @@ import dev.sotoestevez.allforone.ui.patient.PMainActivity
 import dev.sotoestevez.allforone.util.*
 
 /**
- * Launching activity of the project. It is in charge of managing the login of the user in the app.
- * Once a valid session is registered, the activity sends the user to the he adequate main
- * activity ([KMainActivity] or [PMainActivity]) or to the [SetUpActivity] if it's a new user.
+ * Launching activity of the project. It is in charge of managing the authentication of the user in the app.
+ * Once a valid session is registered, the activity sends the user to the adequate main  activity
+ * ([KMainActivity] or [PMainActivity]) or to the [SetUpActivity] if it's a new user.
  */
 class LaunchActivity : AppCompatActivity() {
 
 	private lateinit var binding: ActivityLaunchBinding
-
 	private val viewModel: LaunchViewModel by viewModels { ExtendedViewModelFactory(this) }
 
+	// Module with the logic to perform Google authentications
 	private val googleAuthHelper = GoogleAuthHelper(this)
 
 	/**
@@ -42,7 +41,7 @@ class LaunchActivity : AppCompatActivity() {
 		viewModel.error.observe(this, { handleError(it) })
 		viewModel.destiny.observe(this, { nextActivity(it) })
 		// Action for the sign-in button
-		googleAuthHelper.setCallback { token -> viewModel.handleSignInResult(token) { error -> errorToast(error) } }
+		googleAuthHelper.setCallback { token -> viewModel.handleSignInResult(token) }
 		binding.signInButton.setOnClickListener { googleAuthHelper.invokeSignInAPI() }
 	}
 
@@ -55,6 +54,12 @@ class LaunchActivity : AppCompatActivity() {
 		// TODO silent sign in
 	}
 
+	/**
+	 * Starts the next activity once the authentication is completed.
+	 * Observer of the authentication process
+	 *
+	 * @param next Class of the activity to start
+	 */
 	private fun nextActivity(next: Class<out Activity>) {
 		// Build the intent with the user and launch the activity
 		val intent = Intent(this, next)
@@ -64,6 +69,11 @@ class LaunchActivity : AppCompatActivity() {
 		finish()
 	}
 
+	/**
+	 * Error observer
+	 *
+	 * @param error Registered error to handle
+	 */
 	private fun handleError(error: Throwable) {
 		errorToast(error)
 	}

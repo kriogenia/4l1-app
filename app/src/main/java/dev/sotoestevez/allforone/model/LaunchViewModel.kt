@@ -15,9 +15,11 @@ import dev.sotoestevez.allforone.ui.LaunchActivity
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity
-import dev.sotoestevez.allforone.util.errorToast
 import dev.sotoestevez.allforone.util.logDebug
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * ViewModel of the [LaunchActivity]
@@ -31,9 +33,6 @@ class LaunchViewModel(
 	sharedPreferences: SharedPreferences
 ): ViewModel() {
 
-	/**
-	 * Session manager to safe the new session when started
-	 */
 	private val sessionManager: SessionManager = SessionManager(sharedPreferences)
 
 	/**
@@ -58,17 +57,20 @@ class LaunchViewModel(
 	/**
 	 * Handles the retrieved token in the sign in request.
 	 * Sends the Google token to the API to retrieve the User and the session tokens
-	 * @param googleIdToken obtained in the authentication with Google
+	 * @param googleIdToken Id Token obtained in the authentication with Google
 	 */
-	fun handleSignInResult(googleIdToken: String, onException: (error: Throwable) -> Unit) {
+	fun handleSignInResult(googleIdToken: String) {
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
-		// Get authentication service
-		viewModelScope.launch {
+		// Launch the coroutine with the request
+		viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
 			// TODO move to repo
+			// Retrieve the service
 			val service = ApiFactory.getAuthService()
 			// And perform the request to sign in
 			val result = ApiRequest(suspend { service.signIn(googleIdToken) }).performRequest()
-			completeAuthentication(result)
+			withContext(Dispatchers.Main) {
+				completeAuthentication(result)
+			}
 		}
 	}
 
@@ -76,19 +78,25 @@ class LaunchViewModel(
 	 * Once all the authorization is validated, complete it saving the session tokens and
 	 * opening the next activity
 	 *
-	 * @param authData authentication data with the tokens and user info
+	 * @param authData Authentication data with the tokens and user info
 	 */
 	private fun completeAuthentication(authData: SignInResponse) {
+		// Save the user to be retrieved with activity update
 		user = authData.user
 		logDebug("Authentication validated. User[${user!!.id}]")
+		// Store all the session info
 		val ( auth, refresh, expiration, user ) = authData
 		sessionManager.openSession( auth, refresh, expiration)
-		// Decide the activity to navigate based on the user role
+		// Decide the activity to navigate based on the user role (invoking the Activity)
 		_destiny.value = when (user.role) {
 			User.Role.KEEPER -> KMainActivity::class.java
 			User.Role.PATIENT -> PMainActivity::class.java
 			User.Role.BLANK -> SetUpActivity::class.java
 		}
+	}
+
+	private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+		_error.postValue(throwable)
 	}
 
 }

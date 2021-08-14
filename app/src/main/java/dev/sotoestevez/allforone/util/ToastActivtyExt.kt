@@ -10,7 +10,9 @@ import dev.sotoestevez.allforone.R
  * @param throwable with the info to display
  */
 fun Activity.errorToast(throwable: Throwable) {
+	// TODO localize exception messages
 	// Retrieve the message from the error
+	throwable.localizedMessage
 	var message = throwable.message ?: getString(R.string.error_unexpected)
 	// In case of API error, get the related string resource to ensure internationalization
 	val apiPrefix = getString(R.string.api_prefix)
