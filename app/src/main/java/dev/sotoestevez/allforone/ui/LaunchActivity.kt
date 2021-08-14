@@ -3,6 +3,8 @@ package dev.sotoestevez.allforone.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dev.sotoestevez.allforone.databinding.ActivityLaunchBinding
@@ -42,7 +44,10 @@ class LaunchActivity : AppCompatActivity() {
 		viewModel.destiny.observe(this, { nextActivity(it) })
 		// Action for the sign-in button
 		googleAuthHelper.setCallback { token -> viewModel.handleSignInResult(token) }
-		binding.signInButton.setOnClickListener { googleAuthHelper.invokeSignInAPI() }
+		binding.signInButton.setOnClickListener {
+			uiLoading(true)
+			googleAuthHelper.invokeSignInAPI()
+		}
 	}
 
 	/**
@@ -61,6 +66,7 @@ class LaunchActivity : AppCompatActivity() {
 	 * @param next Class of the activity to start
 	 */
 	private fun nextActivity(next: Class<out Activity>) {
+		uiLoading(false)
 		// Build the intent with the user and launch the activity
 		val intent = Intent(this, next)
 		intent.putExtra(User::class.simpleName, viewModel.user)
@@ -75,7 +81,18 @@ class LaunchActivity : AppCompatActivity() {
 	 * @param error Registered error to handle
 	 */
 	private fun handleError(error: Throwable) {
+		uiLoading(false)
 		errorToast(error)
+	}
+
+	/**
+	 * Changes the screen components to display based on the loading state
+	 *
+	 * @param loading	true if the authentication operation is being performed, false otherwise
+	 */
+	private fun uiLoading(loading: Boolean) {
+		binding.signInButton.visibility = if (loading) GONE else VISIBLE
+		binding.loadingBar.visibility = if (loading) VISIBLE else GONE
 	}
 
 }
