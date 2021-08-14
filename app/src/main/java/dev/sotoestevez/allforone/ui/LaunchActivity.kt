@@ -41,7 +41,7 @@ class LaunchActivity : AppCompatActivity() {
 		// Observe the destiny
 		viewModel.destiny.observe(this, { nextActivity(it) })
 		// Action for the sign-in button
-		googleAuthHelper.setCallback { token -> viewModel.handleSignInResult(this, token) }
+		googleAuthHelper.setCallback { token -> viewModel.handleSignInResult(token) { error -> errorToast(error) } }
 		binding.signInButton.setOnClickListener { googleAuthHelper.invokeSignInAPI() }
 	}
 
@@ -61,6 +61,10 @@ class LaunchActivity : AppCompatActivity() {
 		startActivity(intent)
 		// Delete the activity so it's not accessed going back
 		finish()
+	}
+
+	private fun handleError(error: Throwable) {
+		errorToast(error)
 	}
 
 }

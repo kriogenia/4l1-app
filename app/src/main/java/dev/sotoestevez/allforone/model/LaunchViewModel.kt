@@ -51,7 +51,7 @@ class LaunchViewModel(
 	 * Sends the Google token to the API to retrieve the User and the session tokens
 	 * @param googleIdToken obtained in the authentication with Google
 	 */
-	fun handleSignInResult(context: LaunchActivity, googleIdToken: String) {
+	fun handleSignInResult(googleIdToken: String, onException: (error: Throwable) -> Unit) {
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
 		// Get authentication service
 		// TODO move to repo
@@ -60,7 +60,7 @@ class LaunchViewModel(
 		val request = ApiRequest(this, suspend { service.signIn(googleIdToken) })
 		request.performRequest(
 			{ result -> completeAuthentication(result) },
-			{ cause -> context.errorToast(cause) }
+			{ cause -> onException(cause) }
 		)
 	}
 
