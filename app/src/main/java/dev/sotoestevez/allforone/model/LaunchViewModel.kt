@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.sotoestevez.allforone.api.data.SignInResponse
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.entities.User
 import dev.sotoestevez.allforone.repositories.UserRepository
@@ -14,6 +13,8 @@ import dev.sotoestevez.allforone.ui.LaunchActivity
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity
+import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
+import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.*
 
@@ -23,11 +24,12 @@ import kotlinx.coroutines.*
  * @constructor
  * To create the ViewModel
  *
- * @param sharedPreferences SharedPreferences object to persist data
+ * @param sharedPreferences [SharedPreferences] object to persist data
+ * @param dispatchers [DispatcherProvider] to inject the dispatchers
  */
 class LaunchViewModel(
 	sharedPreferences: SharedPreferences,
-	//private val dispatcher: CoroutineDispatcher
+	private val dispatchers: DispatcherProvider = DefaultDispatcherProvider
 ): ViewModel() {
 
 	private val sessionManager: SessionManager = SessionManager(sharedPreferences)
@@ -59,27 +61,28 @@ class LaunchViewModel(
 	fun handleSignInResult(googleIdToken: String): Job {
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
 		// Launch the coroutine with the request
-		return viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+		return viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
 			val result = UserRepository.signIn(googleIdToken)
-			withContext(Dispatchers.Main) {
-				completeAuthentication(result)
+			// Store all the session info
+			val ( auth, refresh, expiration, user ) = result
+			logDebug("Authentication validated. User[${user.id}]")
+			sessionManager.openSession( auth, refresh, expiration)
+			// Update the data in the Main thread
+			withContext(dispatchers.main()) {
+				updateDestiny(user)
 			}
 		}
 	}
 
 	/**
-	 * Once all the authorization is validated, complete it saving the session tokens and
-	 * opening the next activity
+	 * Once all the authorization is handled, update the User and [destiny] so the [LaunchActivity] can be
+	 * notified and trigger the change of activity
 	 *
-	 * @param authData Authentication data with the tokens and user info
+	 * @param user Data of the authenticated user
 	 */
-	private fun completeAuthentication(authData: SignInResponse) {
-		// Save the user to be retrieved with activity update
-		user = authData.user
-		logDebug("Authentication validated. User[${user!!.id}]")
-		// Store all the session info
-		val ( auth, refresh, expiration, user ) = authData
-		sessionManager.openSession( auth, refresh, expiration)
+	private fun updateDestiny(user: User) {
+		// Save the user
+		this.user = user
 		// Decide the activity to navigate based on the user role (invoking the Activity)
 		_destiny.value = when (user.role) {
 			User.Role.KEEPER -> KMainActivity::class.java

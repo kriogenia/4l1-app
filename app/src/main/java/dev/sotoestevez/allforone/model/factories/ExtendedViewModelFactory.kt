@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
+import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 
 /**
  * Factory to generate ViewModels with SavedStateHandles and SharedPreferences
@@ -34,8 +36,9 @@ class ExtendedViewModelFactory(
 	): T {
 		//val ssh = SavedStateHandle::class.java
 		val sp = SharedPreferences::class.java
+		val dp = DispatcherProvider::class.java
 		val sharedPreferences = activity.getSharedPreferences("SESSION", Context.MODE_PRIVATE)
-		return modelClass.getConstructor(sp).newInstance(sharedPreferences)
+		return modelClass.getConstructor(sp, dp).newInstance(sharedPreferences, DefaultDispatcherProvider)
 	}
 
 }
