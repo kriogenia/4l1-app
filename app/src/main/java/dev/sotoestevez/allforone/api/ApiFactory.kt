@@ -19,7 +19,7 @@ object ApiFactory {
 	/**
 	 * @return  service of the /auth endpoints
 	 */
-	public fun getAuthService() : AuthService {
+	public fun getAuthService(): AuthService {
 		return service.create(AuthService::class.java)
 	}
 
