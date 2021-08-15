@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.model
 
+import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dev.sotoestevez.allforone.api.APIErrorException
 import dev.sotoestevez.allforone.api.data.SignInResponse
@@ -7,6 +8,8 @@ import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.entities.User
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
+import dev.sotoestevez.allforone.ui.keeper.KMainActivity
+import dev.sotoestevez.allforone.ui.patient.PMainActivity
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,10 +28,6 @@ class LaunchViewModelTest {
 
     @get:Rule
     var instantExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
-
-    // Objects
-    private val user: User = User("id", "valid", User.Role.BLANK, null)
-    private val errorResponse: APIErrorException = APIErrorException("error")
 
     // Test object
     private lateinit var model: LaunchViewModel
@@ -49,6 +48,7 @@ class LaunchViewModelTest {
 
     @Test
     fun handleSignInResult_validToken(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+        val user: User = User("id", "valid", User.Role.BLANK, null)
         val signInResponse = SignInResponse("auth", "refresh", 0, user)
         coEvery { UserRepository.signIn("valid") } returns signInResponse
         // Perform the authentication
@@ -58,6 +58,34 @@ class LaunchViewModelTest {
         // Check the model data has been updated
         assertEquals(user, model.user)
         assertEquals(SetUpActivity::class.java, model.destiny.value)
+    }
+
+    @Test
+    fun handleSignInResult_invalidToken(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+        val errorResponse = APIErrorException("error")
+        coEvery { UserRepository.signIn("invalid") } throws errorResponse
+        // Perform the authentication
+        model.handleSignInResult("invalid")
+        // Check the error update
+        assertEquals(errorResponse, model.error.value)
+    }
+
+    @Test
+    fun handleSignInResult_updateDestiny(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+        // No Role
+        checkDestinyByRole(User.Role.BLANK, SetUpActivity::class.java)
+        // Keeper role
+        checkDestinyByRole(User.Role.KEEPER, KMainActivity::class.java)
+        // Patient role
+        checkDestinyByRole(User.Role.PATIENT, PMainActivity::class.java)
+    }
+
+    private fun checkDestinyByRole(role: User.Role, destiny: Class<out Activity>) {
+        val user = User("id", "valid", role, null)
+        val signInResponse = SignInResponse("auth", "refresh", 0, user)
+        coEvery { UserRepository.signIn("valid") } returns signInResponse
+        model.handleSignInResult("valid")
+        assertEquals(destiny, model.destiny.value)
     }
 
 }
