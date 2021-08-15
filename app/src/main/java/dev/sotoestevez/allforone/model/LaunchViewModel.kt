@@ -14,11 +14,8 @@ import dev.sotoestevez.allforone.ui.LaunchActivity
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity
-import dev.sotoestevez.allforone.util.logDebug
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import dev.sotoestevez.allforone.util.extensions.logDebug
+import kotlinx.coroutines.*
 
 /**
  * ViewModel of the [LaunchActivity]
@@ -29,7 +26,8 @@ import kotlinx.coroutines.withContext
  * @param sharedPreferences SharedPreferences object to persist data
  */
 class LaunchViewModel(
-	sharedPreferences: SharedPreferences
+	sharedPreferences: SharedPreferences,
+	//private val dispatcher: CoroutineDispatcher
 ): ViewModel() {
 
 	private val sessionManager: SessionManager = SessionManager(sharedPreferences)
@@ -58,10 +56,10 @@ class LaunchViewModel(
 	 * Sends the Google token to the API to retrieve the User and the session tokens
 	 * @param googleIdToken Id Token obtained in the authentication with Google
 	 */
-	fun handleSignInResult(googleIdToken: String) {
+	fun handleSignInResult(googleIdToken: String): Job {
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
 		// Launch the coroutine with the request
-		viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+		return viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
 			val result = UserRepository.signIn(googleIdToken)
 			withContext(Dispatchers.Main) {
 				completeAuthentication(result)

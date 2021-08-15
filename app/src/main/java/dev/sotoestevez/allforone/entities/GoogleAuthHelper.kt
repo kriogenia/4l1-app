@@ -9,10 +9,10 @@ import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.common.api.ApiException
 import dev.sotoestevez.allforone.R
-import dev.sotoestevez.allforone.util.logDebug
-import dev.sotoestevez.allforone.util.logError
-import dev.sotoestevez.allforone.util.logWarning
-import dev.sotoestevez.allforone.util.toast
+import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.util.extensions.logError
+import dev.sotoestevez.allforone.util.extensions.logWarning
+import dev.sotoestevez.allforone.util.extensions.toast
 
 /**
  * Helper class to manage all the logic related to the Google Authentication

@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.util
+package dev.sotoestevez.allforone.util.extensions
 
 import android.app.Activity
 import android.widget.Toast

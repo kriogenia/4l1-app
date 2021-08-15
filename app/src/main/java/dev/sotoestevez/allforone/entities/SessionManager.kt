@@ -1,7 +1,7 @@
 package dev.sotoestevez.allforone.entities
 
 import android.content.SharedPreferences
-import dev.sotoestevez.allforone.util.logDebug
+import dev.sotoestevez.allforone.util.extensions.logDebug
 import java.time.Instant
 
 /**

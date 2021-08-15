@@ -2,9 +2,9 @@ package dev.sotoestevez.allforone.api
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.data.ErrorResponse
-import dev.sotoestevez.allforone.util.logDebug
-import dev.sotoestevez.allforone.util.logError
-import dev.sotoestevez.allforone.util.logWarning
+import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.util.extensions.logError
+import dev.sotoestevez.allforone.util.extensions.logWarning
 import java.io.IOException
 
 /**

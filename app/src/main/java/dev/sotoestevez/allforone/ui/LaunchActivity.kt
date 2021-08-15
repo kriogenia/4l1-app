@@ -15,7 +15,8 @@ import dev.sotoestevez.allforone.model.factories.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity
-import dev.sotoestevez.allforone.util.*
+import dev.sotoestevez.allforone.util.extensions.errorToast
+import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /**
  * Launching activity of the project. It is in charge of managing the authentication of the user in the app.

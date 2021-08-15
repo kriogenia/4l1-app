@@ -6,7 +6,7 @@ import android.security.keystore.UserNotAuthenticatedException
 import androidx.appcompat.app.AppCompatActivity
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.entities.User
-import dev.sotoestevez.allforone.util.logError
+import dev.sotoestevez.allforone.util.extensions.logError
 
 /**
  * Base Activity for all the Activities requiring user checking
