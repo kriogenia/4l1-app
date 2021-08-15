@@ -1,9 +1,12 @@
 package dev.sotoestevez.allforone.repositories
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.APIErrorException
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
+import dev.sotoestevez.allforone.api.data.ErrorResponse
 import dev.sotoestevez.allforone.api.data.SignInResponse
+import kotlinx.coroutines.delay
 import java.io.IOException
 
 /**

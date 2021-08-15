@@ -34,9 +34,11 @@ class LaunchViewModelTest {
 
     @Before
     fun beforeEach() {
+        // Mocks
         mockkObject(UserRepository)
         mockkConstructor(SessionManager::class)
         every { anyConstructed<SessionManager>().openSession(any(), any(), any()) } returns Unit
+        // Init test object
         model = LaunchViewModel(mockk(), coroutineRule.testDispatcherProvider)
     }
 
@@ -48,7 +50,7 @@ class LaunchViewModelTest {
 
     @Test
     fun handleSignInResult_validToken(): Unit = coroutineRule.testDispatcher.runBlockingTest {
-        val user: User = User("id", "valid", User.Role.BLANK, null)
+        val user = User("id", "valid", User.Role.BLANK, null)
         val signInResponse = SignInResponse("auth", "refresh", 0, user)
         coEvery { UserRepository.signIn("valid") } returns signInResponse
         // Perform the authentication
