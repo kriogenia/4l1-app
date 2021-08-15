@@ -17,7 +17,7 @@ class User(
 	@SerializedName("_id") val id: String,
 	val googleId: String,
 	var role: Role,
-	val displayName: String?
+	val displayName: String = ""
 ): Parcelable {
 
 	/**

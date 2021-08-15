@@ -1,8 +1,10 @@
 package dev.sotoestevez.allforone.repositories
 
+import dev.sotoestevez.allforone.api.APIErrorException
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.data.SignInResponse
+import java.io.IOException
 
 /**
  * Repository to make all the user related operations
@@ -14,7 +16,12 @@ object UserRepository {
      *
      * @param googleIdToken Google Id Token to use in the authentication
      * @return User credentials returned from the server
+     *
+     * @throws APIErrorException for request with non 2xx error
+     * @throws IOException for network errors
+     * @throws Throwable for unknown errors
      */
+    @Throws(APIErrorException::class, IOException::class, Throwable::class)
     suspend fun signIn(googleIdToken: String): SignInResponse {
         // Retrieve the auth service
         val service = ApiFactory.getAuthService()

@@ -22,10 +22,11 @@ class ApiRequest<Res : Any, Err : ErrorResponse> (
 	 * Executes the request and manage the response received executing the callbacks in case of
 	 * success or error. Also logs and manages the possible errors, known and unknown.
 	 *
-	 * @throws NetworkResponse.ServerError for request with non 2xx error //TODO change to new exception
+	 * @throws APIErrorException for request with non 2xx error
 	 * @throws IOException for network errors
 	 * @throws Throwable for unknown errors
 	 */
+	@Throws(APIErrorException::class, IOException::class, Throwable::class)
 	suspend fun performRequest(): Res {
 		// Performs the request
 		return when (val retrieved = request()) {

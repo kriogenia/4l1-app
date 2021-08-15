@@ -6,8 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.sotoestevez.allforone.api.ApiFactory
-import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.data.SignInResponse
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.entities.User
