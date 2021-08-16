@@ -8,6 +8,7 @@ import dev.sotoestevez.allforone.api.data.ErrorResponse
 import dev.sotoestevez.allforone.api.data.SignInResponse
 import dev.sotoestevez.allforone.entities.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
+import dev.sotoestevez.allforone.util.rules.WebServerRule
 import dev.sotoestevez.allforone.util.webserver.AuthDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -30,30 +31,15 @@ class AuthServiceTest {
 	@get:Rule
 	var coroutineRule: CoroutineRule = CoroutineRule()
 
-	private val mockWebServer = MockWebServer()
+	@get:Rule
+	var webServerRule: WebServerRule = WebServerRule()
 
-	private val client = OkHttpClient.Builder()
-		.connectTimeout(1, TimeUnit.SECONDS)
-		.readTimeout(1, TimeUnit.SECONDS)
-		.writeTimeout(1, TimeUnit.SECONDS)
-		.build()
-
-	private val api = Retrofit.Builder()
-		.baseUrl(mockWebServer.url("/"))
-		.client(client)
-		.addCallAdapterFactory(NetworkResponseAdapterFactory())
-		.addConverterFactory(GsonConverterFactory.create())
-		.build()
-		.create(AuthService::class.java)
+	// Object to test
+	private val api: AuthService = webServerRule.api.create(AuthService::class.java)
 
 	@Before
 	fun beforeEach() {
-		mockWebServer.dispatcher = AuthDispatcher
-	}
-
-	@After
-	fun tearDown() {
-		mockWebServer.shutdown()
+		webServerRule.mock.dispatcher = AuthDispatcher
 	}
 
 	@Test
