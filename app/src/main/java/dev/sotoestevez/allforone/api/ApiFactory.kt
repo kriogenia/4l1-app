@@ -1,6 +1,7 @@
 package dev.sotoestevez.allforone.api
 
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
+import dev.sotoestevez.allforone.BuildConfig
 import dev.sotoestevez.allforone.api.services.AuthService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiFactory {
 
 	private var service: Retrofit = Retrofit.Builder()
-		.baseUrl("http://10.0.2.2:3000")
+		.baseUrl(BuildConfig.SERVER_IP)
 		.addCallAdapterFactory(NetworkResponseAdapterFactory())
 		.addConverterFactory(GsonConverterFactory.create())
 		.build()

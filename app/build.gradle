@@ -20,10 +20,14 @@ android {
 
     buildTypes {
         release {
+            buildConfigField("String", "SERVER_IP", "http://10.0.2.2:3000")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
                 'proguard/proguard-rules.pro', 'proguard/retrofit2.pro',
                 'proguard/okhttp3.pro'
+        }
+        debug {
+            buildConfigField("String", "SERVER_IP", "\"http://10.0.2.2:3000\"")
         }
     }
     compileOptions {
@@ -35,6 +39,13 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src\\main\\res', 'src\\test\\res'
+            }
+        }
     }
 }
 
@@ -52,6 +63,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation "com.squareup.okhttp3:mockwebserver:4.9.1"
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'io.mockk:mockk:1.12.0'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1'
