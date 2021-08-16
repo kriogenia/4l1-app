@@ -1,10 +1,7 @@
 package dev.sotoestevez.allforone.api.services
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.haroldadmin.cnradapter.NetworkResponse
-import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import dev.sotoestevez.allforone.api.data.BaseErrorResponse
-import dev.sotoestevez.allforone.api.data.ErrorResponse
 import dev.sotoestevez.allforone.api.data.SignInResponse
 import dev.sotoestevez.allforone.entities.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
@@ -12,18 +9,11 @@ import dev.sotoestevez.allforone.util.rules.WebServerRule
 import dev.sotoestevez.allforone.util.webserver.AuthDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
-import okhttp3.OkHttpClient
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 @ExperimentalCoroutinesApi
 class AuthServiceTest {
@@ -35,10 +25,11 @@ class AuthServiceTest {
 	var webServerRule: WebServerRule = WebServerRule()
 
 	// Object to test
-	private val api: AuthService = webServerRule.api.create(AuthService::class.java)
+	private val api: AuthService = webServerRule.factory.create(AuthService::class.java)
 
 	@Before
 	fun beforeEach() {
+		// Set /auth endpoint mock dispatcher
 		webServerRule.mock.dispatcher = AuthDispatcher
 	}
 

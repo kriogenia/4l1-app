@@ -19,6 +19,9 @@ import kotlin.coroutines.ContinuationInterceptor
 @ExperimentalCoroutinesApi
 class CoroutineRule(val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()) : TestWatcher(), TestCoroutineScope by TestCoroutineScope() {
 
+    /**
+     * Mock of DispatcherProvider to focus tests into a given thread
+     */
     val testDispatcherProvider: DispatcherProvider = object: DispatcherProvider {
         override fun default(): CoroutineDispatcher = testDispatcher
         override fun io(): CoroutineDispatcher = testDispatcher

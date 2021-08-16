@@ -49,7 +49,7 @@ class LaunchViewModelTest {
 
 
     @Test
-    fun handleSignInResult_validToken(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+    fun `should handle the sign in as expected when given a valid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val user = User("id", "valid", User.Role.BLANK, null)
         val signInResponse = SignInResponse("auth", "refresh", 0, user)
         coEvery { UserRepository.signIn("valid") } returns signInResponse
@@ -63,7 +63,7 @@ class LaunchViewModelTest {
     }
 
     @Test
-    fun handleSignInResult_invalidToken(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+    fun `should throw and manage an error when given an invalid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val errorResponse = APIErrorException("error")
         coEvery { UserRepository.signIn("invalid") } throws errorResponse
         // Perform the authentication
@@ -73,7 +73,7 @@ class LaunchViewModelTest {
     }
 
     @Test
-    fun handleSignInResult_updateDestiny(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+    fun `should update the destiny accordingly to the user role`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         // No Role
         checkDestinyByRole(User.Role.BLANK, SetUpActivity::class.java)
         // Keeper role

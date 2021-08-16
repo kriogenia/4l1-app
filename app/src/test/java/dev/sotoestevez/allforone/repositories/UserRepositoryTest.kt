@@ -28,7 +28,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    fun signIn_validToken(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+    fun `should return the sign in response when provided a valid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         // Mock APIRequest
         val signInResponse = SignInResponse("auth", "refresh", 0,
             User("id", "googleId", User.Role.BLANK, "name"))

@@ -21,7 +21,7 @@ class ApiRequestTest {
     private val message = "error"
 
     @Test
-    fun performRequest_success(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+    fun `should return the body of successful requests`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val response = SignInResponse("auth", "refresh", 0,
             User("id", "googleId", User.Role.BLANK, "name"))
         val networkResponse = NetworkResponse.Success(response, null, 200)
@@ -30,7 +30,9 @@ class ApiRequestTest {
     }
 
     @Test
-    fun performRequest_serverError(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+    fun `should return an ErrorResponse with the body of the error with unsuccessful but completed requests`(): Unit =
+        coroutineRule.testDispatcher.runBlockingTest {
+
         val response = BaseErrorResponse(message)
         val networkResponse = NetworkResponse.ServerError(response, 400)
         try {
@@ -42,7 +44,7 @@ class ApiRequestTest {
     }
 
     @Test
-    fun performRequest_networkError(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+    fun `should throw an IOException when network error occurs`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val networkError = IOException(message)
         val networkResponse = NetworkResponse.NetworkError(networkError)
         try {
@@ -54,7 +56,9 @@ class ApiRequestTest {
     }
 
     @Test
-    fun performRequest_unknownError(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+    fun `should return a RuntimeException when the request provokes an unknown error`(): Unit =
+        coroutineRule.testDispatcher.runBlockingTest {
+
         val unknownError = RuntimeException(message)
         val networkResponse = NetworkResponse.UnknownError(unknownError)
         try {

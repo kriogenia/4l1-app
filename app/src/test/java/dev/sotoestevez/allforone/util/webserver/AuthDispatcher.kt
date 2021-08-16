@@ -4,6 +4,9 @@ import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
 
+/**
+ * MockWebServer [Dispatcher] mocking all the calls to the /auth endpoint
+ */
 object AuthDispatcher: Dispatcher() {
 
 	override fun dispatch(request: RecordedRequest): MockResponse {
