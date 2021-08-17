@@ -24,7 +24,7 @@ class SessionManager(private val state: SavedStateHandle) {
 	 * @param refresh Refresh token to get new authentication tokens
 	 * @param expiration Expiration time of the current authentication token
 	 */
-	fun openSession(auth: String, refresh: String, expiration: Int) {
+	fun setSession(auth: String, refresh: String, expiration: Int) {
 		state[kLoggedIn] = true;
 		state[kAuthToken] = auth;
 		state[kRefreshToken] = refresh;

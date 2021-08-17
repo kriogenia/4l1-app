@@ -37,7 +37,7 @@ class LaunchViewModelTest {
         // Mocks
         mockkObject(UserRepository)
         mockkConstructor(SessionManager::class)
-        every { anyConstructed<SessionManager>().openSession(any(), any(), any()) } returns Unit
+        every { anyConstructed<SessionManager>().setSession(any(), any(), any()) } returns Unit
         // Init test object
         model = LaunchViewModel(mockk(), coroutineRule.testDispatcherProvider)
     }
@@ -56,7 +56,7 @@ class LaunchViewModelTest {
         // Perform the authentication
         model.handleSignInResult("valid")
         // Check the session was stored
-        verify(exactly = 1) { anyConstructed<SessionManager>().openSession(any(), any(), any()) }
+        verify(exactly = 1) { anyConstructed<SessionManager>().setSession(any(), any(), any()) }
         // Check the model data has been updated
         assertEquals(user, model.user)
         assertEquals(SetUpActivity::class.java, model.destiny.value)

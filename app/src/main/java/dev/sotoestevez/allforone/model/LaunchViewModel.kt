@@ -1,7 +1,6 @@
 package dev.sotoestevez.allforone.model
 
 import android.app.Activity
-import android.content.SharedPreferences
 import androidx.lifecycle.*
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.entities.User
@@ -18,11 +17,12 @@ import kotlinx.coroutines.*
 /**
  * ViewModel of the [LaunchActivity]
  *
+ * @property dispatchers [DispatcherProvider] to inject the dispatchers
+ *
  * @constructor
  * To create the ViewModel
  *
  * @param savedStateHandle [SavedStateHandle] object to store session data
- * @param dispatchers [DispatcherProvider] to inject the dispatchers
  */
 class LaunchViewModel(
 	savedStateHandle: SavedStateHandle,
@@ -55,15 +55,15 @@ class LaunchViewModel(
 	 * Sends the Google token to the API to retrieve the User and the session tokens
 	 * @param googleIdToken Id Token obtained in the authentication with Google
 	 */
-	fun handleSignInResult(googleIdToken: String): Job {
+	fun handleSignInResult(googleIdToken: String){
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
 		// Launch the coroutine with the request
-		return viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
+		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
 			val result = UserRepository.signIn(googleIdToken)
 			// Store all the session info
 			val ( auth, refresh, expiration, user ) = result
 			logDebug("Authentication validated. User[${user.id}]")
-			sessionManager.openSession( auth, refresh, expiration)
+			sessionManager.setSession( auth, refresh, expiration)
 			// Update the data in the Main thread
 			withContext(dispatchers.main()) {
 				updateDestiny(user)
