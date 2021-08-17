@@ -2,10 +2,7 @@ package dev.sotoestevez.allforone.model
 
 import android.app.Activity
 import android.content.SharedPreferences
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.entities.User
 import dev.sotoestevez.allforone.repositories.UserRepository
@@ -24,15 +21,15 @@ import kotlinx.coroutines.*
  * @constructor
  * To create the ViewModel
  *
- * @param sharedPreferences [SharedPreferences] object to persist data
+ * @param savedStateHandle [SavedStateHandle] object to store session data
  * @param dispatchers [DispatcherProvider] to inject the dispatchers
  */
 class LaunchViewModel(
-	sharedPreferences: SharedPreferences,
+	savedStateHandle: SavedStateHandle,
 	private val dispatchers: DispatcherProvider = DefaultDispatcherProvider
 ): ViewModel() {
 
-	private val sessionManager: SessionManager = SessionManager(sharedPreferences)
+	private val sessionManager: SessionManager = SessionManager(savedStateHandle)
 
 	/**
 	 * Live data holding the class of the next activity to launch from the LaunchActivity

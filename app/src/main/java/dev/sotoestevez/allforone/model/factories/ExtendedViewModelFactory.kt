@@ -34,11 +34,9 @@ class ExtendedViewModelFactory(
 		modelClass: Class<T>,
 		handle: SavedStateHandle
 	): T {
-		//val ssh = SavedStateHandle::class.java
-		val sp = SharedPreferences::class.java
+		val ssh = SavedStateHandle::class.java
 		val dp = DispatcherProvider::class.java
-		val sharedPreferences = activity.getSharedPreferences("SESSION", Context.MODE_PRIVATE)
-		return modelClass.getConstructor(sp, dp).newInstance(sharedPreferences, DefaultDispatcherProvider)
+		return modelClass.getConstructor(ssh, dp).newInstance(handle, DefaultDispatcherProvider)
 	}
 
 }
