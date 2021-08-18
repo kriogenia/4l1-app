@@ -61,9 +61,9 @@ class LaunchViewModel(
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
 			val result = UserRepository.signIn(googleIdToken)
 			// Store all the session info
-			val ( auth, refresh, expiration, user ) = result
+			val ( session, user ) = result
 			logDebug("Authentication validated. User[${user.id}]")
-			sessionManager.setSession( Session(auth, refresh, expiration))
+			sessionManager.setSession(session)
 			// Update the data in the Main thread
 			withContext(dispatchers.main()) {
 				updateDestiny(user)

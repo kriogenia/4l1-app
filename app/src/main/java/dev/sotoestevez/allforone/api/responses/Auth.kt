@@ -6,15 +6,11 @@ import dev.sotoestevez.allforone.data.User
 /**
  * Model of the response to be received from the /auth/signin endpoint
  *
- * @property auth       Authentication token
- * @property refresh    Refresh token
- * @property expiration Expiration time of the authentication token
+ * @property session    Session info
  * @property user       Data of the user
  */
 data class SignInResponse(
-	val auth: String,
-	val refresh: String,
-	val expiration: Int,
+	val session: Session,
 	val user: User
 )
 
