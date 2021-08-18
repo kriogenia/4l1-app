@@ -3,9 +3,9 @@ package dev.sotoestevez.allforone.model
 import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dev.sotoestevez.allforone.api.APIErrorException
-import dev.sotoestevez.allforone.api.data.SignInResponse
+import dev.sotoestevez.allforone.api.responses.SignInResponse
 import dev.sotoestevez.allforone.entities.SessionManager
-import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity

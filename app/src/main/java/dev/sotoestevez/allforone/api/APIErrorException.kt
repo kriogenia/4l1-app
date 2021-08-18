@@ -1,6 +1,6 @@
 package dev.sotoestevez.allforone.api
 
-import dev.sotoestevez.allforone.api.data.ErrorResponse
+import dev.sotoestevez.allforone.api.responses.ErrorResponse
 import java.io.IOException
 
 /**

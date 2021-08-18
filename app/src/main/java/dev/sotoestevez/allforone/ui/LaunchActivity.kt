@@ -7,9 +7,10 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.databinding.ActivityLaunchBinding
 import dev.sotoestevez.allforone.entities.GoogleAuthHelper
-import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.model.LaunchViewModel
 import dev.sotoestevez.allforone.model.factories.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
@@ -69,6 +70,7 @@ class LaunchActivity : AppCompatActivity() {
 	private fun nextActivity(next: Class<out Activity>) {
 		// Build the intent with the user and launch the activity
 		val intent = Intent(this, next)
+		intent.putExtra(Session::class.simpleName, viewModel.session)
 		intent.putExtra(User::class.simpleName, viewModel.user)
 		startActivity(intent)
 		// Delete the activity so it's not accessed going back

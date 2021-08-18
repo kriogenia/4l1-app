@@ -2,7 +2,7 @@ package dev.sotoestevez.allforone.ui.keeper
 
 import android.os.Bundle
 import dev.sotoestevez.allforone.databinding.ActivityKmainBinding
-import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.ui.PrivateActivity
 
 /**

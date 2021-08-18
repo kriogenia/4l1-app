@@ -1,9 +1,9 @@
 package dev.sotoestevez.allforone.api.services
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import dev.sotoestevez.allforone.api.data.BaseErrorResponse
-import dev.sotoestevez.allforone.api.data.SignInResponse
-import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.api.responses.BaseErrorResponse
+import dev.sotoestevez.allforone.api.responses.SignInResponse
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import dev.sotoestevez.allforone.util.rules.WebServerRule
 import dev.sotoestevez.allforone.util.webserver.AuthDispatcher

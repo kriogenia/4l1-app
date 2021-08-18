@@ -8,7 +8,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import dev.sotoestevez.allforone.R
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivitySetUpBinding
+import dev.sotoestevez.allforone.ui.PrivateActivity
 
 /**
  * Activity to finish setting up the account of new users.
@@ -16,10 +18,12 @@ import dev.sotoestevez.allforone.databinding.ActivitySetUpBinding
  * 1. Name and role selection
  * 2. Legal advisement
  */
-class SetUpActivity : AppCompatActivity() {
+class SetUpActivity : PrivateActivity() {
 
 	private lateinit var appBarConfiguration: AppBarConfiguration
 	private lateinit var binding: ActivitySetUpBinding
+
+	override var roles: Array<User.Role> = arrayOf<User.Role>(User.Role.BLANK)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)

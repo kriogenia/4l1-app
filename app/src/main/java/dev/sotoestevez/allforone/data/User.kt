@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.entities
+package dev.sotoestevez.allforone.data
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -13,7 +13,7 @@ import kotlinx.parcelize.Parcelize
  * @property displayName of the user
  */
 @Parcelize
-class User(
+data class User(
 	@SerializedName("_id") val id: String,
 	val googleId: String,
 	var role: Role,
@@ -56,6 +56,5 @@ class User(
 	override fun hashCode(): Int {
 		return id.hashCode()
 	}
-
 
 }

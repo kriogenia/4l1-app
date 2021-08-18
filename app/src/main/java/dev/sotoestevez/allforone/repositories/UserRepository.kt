@@ -1,12 +1,12 @@
 package dev.sotoestevez.allforone.repositories
 
-import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.APIErrorException
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.data.ErrorResponse
-import dev.sotoestevez.allforone.api.data.SignInResponse
-import kotlinx.coroutines.delay
+import dev.sotoestevez.allforone.api.requests.RefreshRequest
+import dev.sotoestevez.allforone.api.responses.RefreshResponse
+import dev.sotoestevez.allforone.api.responses.SignInResponse
+import dev.sotoestevez.allforone.data.Session
 import java.io.IOException
 
 /**
@@ -26,10 +26,20 @@ object UserRepository {
      */
     @Throws(APIErrorException::class, IOException::class, Throwable::class)
     suspend fun signIn(googleIdToken: String): SignInResponse {
-        // Retrieve the auth service
         val service = ApiFactory.getAuthService()
-        // And perform the request to sign in
         return ApiRequest(suspend { service.signIn(googleIdToken) }).performRequest()
+    }
+
+    /**
+     * Sends the current session data to the server to renew the session info
+     * and refresh the tokens
+     *
+     * @param session   Current session data
+     * @return          New session tokens and expiration timestamp
+     */
+    suspend fun refreshSession(session: Session): RefreshResponse {
+        val service = ApiFactory.getAuthService()
+        return ApiRequest(suspend { service.refresh(RefreshRequest(session.auth, session.refresh)) }).performRequest()
     }
 
 }

@@ -2,8 +2,9 @@ package dev.sotoestevez.allforone.model
 
 import android.app.Activity
 import androidx.lifecycle.*
+import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.entities.SessionManager
-import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.ui.LaunchActivity
 import dev.sotoestevez.allforone.ui.blank.SetUpActivity
@@ -31,24 +32,23 @@ class LaunchViewModel(
 
 	private val sessionManager: SessionManager = SessionManager(savedStateHandle)
 
-	/**
-	 * Live data holding the class of the next activity to launch from the LaunchActivity
-	 */
+	/** Currently stored session data */
+	val session: Session?
+		get() = sessionManager.getSession()
+
+	/** User data retrieved from the server **/
+	var user: User? = null
+
+	/** Live data holding the class of the next activity to launch from the LaunchActivity **/
 	val destiny: LiveData<Class<out Activity>>
 		get() = _destiny
 	private var _destiny = MutableLiveData<Class<out Activity>>()
 
-	/**
-	 * Live data holding the error messages to handle in the Activity
-	 */
+	/** Live data holding the error messages to handle in the Activity **/
 	val error: LiveData<Throwable>
 		get() = _error
 	private var _error = MutableLiveData<Throwable>()
 
-	/**
-	 * User data retrieved from the server
-	 */
-	var user: User? = null
 
 	/**
 	 * Handles the retrieved token in the sign in request.
@@ -63,7 +63,7 @@ class LaunchViewModel(
 			// Store all the session info
 			val ( auth, refresh, expiration, user ) = result
 			logDebug("Authentication validated. User[${user.id}]")
-			sessionManager.setSession( auth, refresh, expiration)
+			sessionManager.setSession( Session(auth, refresh, expiration))
 			// Update the data in the Main thread
 			withContext(dispatchers.main()) {
 				updateDestiny(user)

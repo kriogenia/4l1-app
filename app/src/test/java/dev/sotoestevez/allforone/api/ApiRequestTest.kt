@@ -1,9 +1,9 @@
 package dev.sotoestevez.allforone.api
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import dev.sotoestevez.allforone.api.data.BaseErrorResponse
-import dev.sotoestevez.allforone.api.data.SignInResponse
-import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.api.responses.BaseErrorResponse
+import dev.sotoestevez.allforone.api.responses.SignInResponse
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -23,7 +23,8 @@ class ApiRequestTest {
     @Test
     fun `should return the body of successful requests`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val response = SignInResponse("auth", "refresh", 0,
-            User("id", "googleId", User.Role.BLANK, "name"))
+            User("id", "googleId", User.Role.BLANK, "name")
+        )
         val networkResponse = NetworkResponse.Success(response, null, 200)
         val req = ApiRequest(suspend { networkResponse }).performRequest()
         assertEquals(response, req)

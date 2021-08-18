@@ -6,9 +6,10 @@ import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.util.extensions.logError
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.async
+import java.lang.IllegalStateException
 
 /**
  * ViewModel of the the Activities using session (derived from PrivateActivity)
@@ -39,20 +40,25 @@ open class PrivateViewModel(
 	 *
 	 * @return Authentication token
 	 */
-	private fun token(): String {
-		val storedToken = sessionManager.getToken()
+	/*private*/ suspend fun token(): String {
+		val storedToken = sessionManager.getAuthToken()
 		// If the stored token is still valid, use it
-		if (storedToken != null)
-			return storedToken
+		//if (storedToken != null)
+			//return storedToken
 		// In case it's not, get a new one
-		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-			val result = UserRepository.refresh(sessionManager.getRefreshToken())
-			// Store all the session info
-			val ( auth, refresh, expiration ) = result
-			logDebug("Authentication refreshed. Auth[$auth]")
-			sessionManager.setSession( auth, refresh, expiration)
+		val tokenJob = viewModelScope.async(dispatchers.io() /*+ coroutineExceptionHandler*/) {
+			val session = sessionManager.getSession() ?: throw IllegalStateException("Missing session data in private activity")
+			val newSession = UserRepository.refreshSession(session).session
+			logDebug("Authentication refreshed. Auth[${newSession.auth}]")
+			sessionManager.setSession(newSession)
 			// Returns the retrieved token
-			return@launch auth
+			return@async newSession.auth
+		}
+		return try {
+			tokenJob.await()
+		} catch (e: Throwable) {
+			logError(e.message!!, e)
+			"nope"
 		}
 	}
 

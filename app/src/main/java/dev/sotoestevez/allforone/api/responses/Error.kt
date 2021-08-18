@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.api.data
+package dev.sotoestevez.allforone.api.responses
 
 /**
  * Base properties of error responses

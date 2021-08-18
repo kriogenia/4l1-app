@@ -1,7 +1,9 @@
 package dev.sotoestevez.allforone.entities
 
 import androidx.lifecycle.SavedStateHandle
+import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import java.lang.IllegalStateException
 import java.time.Instant
 
 /**
@@ -12,34 +14,28 @@ import java.time.Instant
  */
 class SessionManager(private val state: SavedStateHandle) {
 
-	private val kLoggedIn = "logged_in"
-	private val kAuthToken = "auth"
-	private val kRefreshToken = "refresh"
-	private val kExpiration = "expiration"
+	companion object {
+		private const val LOGGED_IN = "logged_in"
+		private val SESSION = Session::class.java.simpleName
+	}
 
 	/**
 	 * Creates a new session. Storing all the session details in the state
 	 *
-	 * @param auth Authentication token of the session
-	 * @param refresh Refresh token to get new authentication tokens
-	 * @param expiration Expiration time of the current authentication token
+	 * @param session Session data with the tokens and expiration time
 	 */
-	fun setSession(auth: String, refresh: String, expiration: Int) {
-		state[kLoggedIn] = true;
-		state[kAuthToken] = auth;
-		state[kRefreshToken] = refresh;
-		state[kExpiration] = expiration;
-		logDebug("New session stored Auth[$auth]. Expires at $expiration")
+	fun setSession(session: Session) {
+		state[LOGGED_IN] = true;
+		state[SESSION] = session;
+		logDebug("New session stored Auth[${session.auth}]. Expires at ${session.expiration}")
 	}
 
 	/**
 	 * Closes the current session deleting both tokens and the expiration time
 	 */
 	fun closeSession() {
-		state.remove<Boolean>(kLoggedIn)
-		state.remove<String>(kAuthToken)
-		state.remove<String>(kRefreshToken)
-		state.remove<Int>(kExpiration)
+		state.remove<Boolean>(LOGGED_IN)
+		state.remove<Session>(SESSION)
 		logDebug("Current session closed")
 	}
 
@@ -48,24 +44,32 @@ class SessionManager(private val state: SavedStateHandle) {
 	 *
 	 * @return true if the session is open, false otherwise
 	 */
-	fun isLoggedIn(): Boolean {
-		return state.get(kLoggedIn) ?: false
+	private fun isLoggedIn(): Boolean {
+		return state.get(LOGGED_IN) ?: false
 	}
 
 	/**
-	 * Retrieves the auth token from the Session
+	 * Retrieves the authentication token from the Session
 	 *
-	 * @return auth token if it's still valid
+	 * @return Authentication token if it's still valid
 	 */
-	fun getToken(): String? {
-		val expiration: Int = state.get(kExpiration) ?: 0
+	fun getAuthToken(): String? {
+		//val session = getSession() ?: return null
+		val session: Session = state.get(SESSION) ?: return null
 		val currentTime = Instant.now().epochSecond
-		logDebug("Comparing times. Expiration[$expiration]. Current[$currentTime]")
-		if (expiration > currentTime) {// TODO add margin to request a new one
-			return state.get(kAuthToken)
+		logDebug("Comparing times. Expiration[${session.expiration}]. Current[$currentTime]")
+		if (session.expiration > currentTime) {// TODO add margin to request a new one
+			return session.auth
 		}
 		logDebug("Authentication token expired. A new one should be retrieved.")
 		return null
 	}
+
+	/**
+	 * Retrieves the current active session
+	 *
+	 * @return Session with the tokens and expiration time
+	 */
+	fun getSession(): Session? = state.get(SESSION)
 
 }

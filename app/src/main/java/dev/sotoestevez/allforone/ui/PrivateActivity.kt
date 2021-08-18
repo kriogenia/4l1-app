@@ -3,15 +3,24 @@ package dev.sotoestevez.allforone.ui
 import android.content.Intent
 import android.os.Bundle
 import android.security.keystore.UserNotAuthenticatedException
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import dev.sotoestevez.allforone.R
-import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.model.PrivateViewModel
+import dev.sotoestevez.allforone.model.factories.ExtendedViewModelFactory
+import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.logError
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Base Activity for all the Activities requiring user checking
  */
 open class PrivateActivity : AppCompatActivity() {
+
+	private val viewModel: PrivateViewModel by viewModels { ExtendedViewModelFactory(this) }
 
 	/**
 	 * Information of the current user.
@@ -44,6 +53,8 @@ open class PrivateActivity : AppCompatActivity() {
 			startActivity(Intent(this, LaunchActivity::class.java))
 			finish()
 		}
+		viewModel
+		lifecycleScope.launch(Dispatchers.IO) { logDebug(viewModel.token()) }
 	}
 
 	/**

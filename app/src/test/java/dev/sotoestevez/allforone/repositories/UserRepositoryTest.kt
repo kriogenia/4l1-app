@@ -2,9 +2,9 @@ package dev.sotoestevez.allforone.repositories
 
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.data.ErrorResponse
-import dev.sotoestevez.allforone.api.data.SignInResponse
-import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.api.responses.ErrorResponse
+import dev.sotoestevez.allforone.api.responses.SignInResponse
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,7 +31,8 @@ class UserRepositoryTest {
     fun `should return the sign in response when provided a valid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         // Mock APIRequest
         val signInResponse = SignInResponse("auth", "refresh", 0,
-            User("id", "googleId", User.Role.BLANK, "name"))
+            User("id", "googleId", User.Role.BLANK, "name")
+        )
         coEvery { anyConstructed<ApiRequest<SignInResponse, ErrorResponse>>().performRequest() } returns signInResponse
         // Perform the operation
         val result = UserRepository.signIn("valid")
