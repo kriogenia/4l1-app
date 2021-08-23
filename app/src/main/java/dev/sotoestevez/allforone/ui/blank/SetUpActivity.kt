@@ -18,13 +18,18 @@ import dev.sotoestevez.allforone.ui.PrivateActivity
 
 /**
  * Activity to finish setting up the account of new users.
- * It features two obligatory panels:
- * 1. Name and role selection
- * 2. Legal advisement
+ * It features four obligatory panels:
+ * 1. Name selection
+ * 2. Role selection
+ * 3. Extra data input
+ * 4. Legal agreement
  */
 class SetUpActivity : PrivateActivity() {
 
-	override val viewModel: SetUpViewModel by viewModels { ExtendedViewModelFactory(this) }
+	/**
+	 * Shared view model of the [SetUpActivity]
+	 */
+	override val model: SetUpViewModel by viewModels { ExtendedViewModelFactory(this) }
 
 	private lateinit var appBarConfiguration: AppBarConfiguration
 	private lateinit var binding: ActivitySetUpBinding

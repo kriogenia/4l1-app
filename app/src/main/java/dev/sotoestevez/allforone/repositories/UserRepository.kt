@@ -9,9 +9,7 @@ import dev.sotoestevez.allforone.api.responses.SignInResponse
 import dev.sotoestevez.allforone.data.Session
 import java.io.IOException
 
-/**
- * Repository to make all the user related operations
- */
+/** Repository to make all the user related operations */
 object UserRepository {
 
     /**

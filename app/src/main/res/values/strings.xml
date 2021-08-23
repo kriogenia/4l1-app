@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">4l1-app</string>
+    <string name="keeper">Keeper</string>
+    <string name="patient">Patient</string>
     <!-- Activity titles -->
     <string name="title_activity_patient_main">Main</string>
     <string name="title_activity_set_up">Set Up</string>
@@ -9,9 +11,15 @@
     <!-- Navigation -->
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <!-- Set Up -->
-    <string name="hello_name">Hello %1$s</string>
-    <string name="welcome">Welcome to All For One</string>
+    <!-- Labels -->
+    <string name="hello_name">Hello %s!</string>
     <string name="choose_name">What name do you want to use?</string>
+    <string name="keeper_definition">You are here to help someone you care a lot for</string>
+    <string name="patient_definition">You want to use this app to let your dearest ones to help</string>
+    <string name="welcome">Welcome to All For One</string>
+    <!-- Media description -->
+    <string name="patient_media_description">Icon of patients</string>
+    <!-- Text view placeholders -->
     <string name="placeholder_your_name">Your name</string>
+    <string name="role_selection">What kind of user are you?</string>
 </resources>

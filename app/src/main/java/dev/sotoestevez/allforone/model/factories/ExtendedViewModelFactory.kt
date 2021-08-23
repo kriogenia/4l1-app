@@ -1,16 +1,11 @@
 package dev.sotoestevez.allforone.model.factories
 
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import dev.sotoestevez.allforone.model.LaunchViewModel
-import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
-import java.lang.IllegalArgumentException
 
 /**
  * Factory to generate ViewModels with SavedStateHandles and SharedPreferences
@@ -40,11 +35,6 @@ class ExtendedViewModelFactory(
 		val ssh = SavedStateHandle::class.java
 		val dp = DispatcherProvider::class.java
 		return modelClass.getConstructor(ssh, dp).newInstance(handle, DefaultDispatcherProvider)
-	/*	return when (key) {
-			LaunchViewModel::class.qualifiedName -> modelClass.getConstructor(ssh, dp).newInstance(handle, DefaultDispatcherProvider)
-			PrivateViewModel::class.qualifiedName -> modelClass.getConstructor(ssh, dp).newInstance(handle, DefaultDispatcherProvider)
-			else -> throw IllegalArgumentException("The specified view model doesn't exist")
-		}*/
 	}
 
 }

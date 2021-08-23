@@ -27,7 +27,7 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
 class LaunchActivity : AppCompatActivity() {
 
 	private lateinit var binding: ActivityLaunchBinding
-	private val viewModel: LaunchViewModel by viewModels { ExtendedViewModelFactory(this) }
+	private val model: LaunchViewModel by viewModels { ExtendedViewModelFactory(this) }
 
 	// Module with the logic to perform Google authentications
 	private val googleAuthHelper = GoogleAuthHelper(this)
@@ -42,10 +42,10 @@ class LaunchActivity : AppCompatActivity() {
 		binding = ActivityLaunchBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 		// Observe the destiny, state and error
-		viewModel.error.observe(this, { handleError(it) })
-		viewModel.destiny.observe(this, { nextActivity(it) })
+		model.error.observe(this, { handleError(it) })
+		model.destiny.observe(this, { nextActivity(it) })
 		// Action for the sign-in button
-		googleAuthHelper.setCallback { token -> viewModel.handleSignInResult(token) }
+		googleAuthHelper.setCallback { token -> model.handleSignInResult(token) }
 		binding.signInButton.setOnClickListener {
 			uiLoading(true)
 			googleAuthHelper.invokeSignInAPI()
@@ -70,8 +70,8 @@ class LaunchActivity : AppCompatActivity() {
 	private fun nextActivity(next: Class<out Activity>) {
 		// Build the intent with the user and launch the activity
 		val intent = Intent(this, next)
-		intent.putExtra(Session::class.simpleName, viewModel.session)
-		intent.putExtra(User::class.simpleName, viewModel.user)
+		intent.putExtra(Session::class.simpleName, model.session)
+		intent.putExtra(User::class.simpleName, model.user)
 		startActivity(intent)
 		// Delete the activity so it's not accessed going back
 		finish()

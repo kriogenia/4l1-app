@@ -32,19 +32,15 @@ open class PrivateViewModel(
 
 	private val sessionManager: SessionManager = SessionManager(savedStateHandle)
 
-	/**
-	 * Live data holding the user information
-	 */
+	/** Live data holding the user information */
 	val user: LiveData<User>
 		get() = _user
-	private var _user = MutableLiveData<User>(savedStateHandle[USER])
+	protected var _user = MutableLiveData<User>(savedStateHandle[USER])
 
-	/**
-	 * Live data holding the error to handle in the Activity
-	 */
+	/** Live data holding the error to handle in the Activity */
 	val error: LiveData<Throwable>
 		get() = _error
-	private var _error = MutableLiveData<Throwable>()
+	var _error = MutableLiveData<Throwable>()
 
 	/**
 	 * Retrieves the stored token if it's still valid. If it's not, refresh the current token
@@ -69,9 +65,7 @@ open class PrivateViewModel(
 		return tokenJob.await()
 	}
 
-	/**
-	 * Base coroutine exception handler
-	 */
+	/** Base coroutine exception handler */
 	protected open val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
 		_error.postValue(throwable)
 	}

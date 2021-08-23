@@ -1,29 +1,32 @@
 package dev.sotoestevez.allforone.ui.blank
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.databinding.FragmentNameSelectionBinding
+import dev.sotoestevez.allforone.model.blank.SetUpViewModel
 
 /**
- * A simple [Fragment] subclass as the default destination in the navigation.
+ * [Fragment] of [SetUpActivity] to set the displayName of the user.
  */
 class NameSelectionFragment : Fragment() {
 
+	private val binding
+		get() = _binding!!
 	private var _binding: FragmentNameSelectionBinding? = null
 
-	// This property is only valid between onCreateView and
-	// onDestroyView.
-	private val binding get() = _binding!!
+	private val model: SetUpViewModel by activityViewModels()
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
-	): View? {
+	): View {
 
 		_binding = FragmentNameSelectionBinding.inflate(inflater, container, false)
 		return binding.root
@@ -34,8 +37,14 @@ class NameSelectionFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 
 		binding.btnNextNameSelection.setOnClickListener {
-			findNavController().navigate(R.id.action_NameSelection_to_RoleSelection)
+			model.setDisplayName(binding.txtNameSelection.text.toString())
 		}
+
+		model.user.observe(viewLifecycleOwner) {
+			if (!Strings.isEmptyOrWhitespace(it.displayName))
+				findNavController().navigate(R.id.action_NameSelection_to_RoleSelection)
+		}
+
 	}
 
 	override fun onDestroyView() {

@@ -6,9 +6,7 @@ import dev.sotoestevez.allforone.api.services.AuthService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-/**
- * Factory of the different services of the API
- */
+/** Factory of the different services of the API */
 object ApiFactory {
 
 	private var service: Retrofit = Retrofit.Builder()

@@ -20,24 +20,16 @@ data class User(
 	var displayName: String?
 ): Parcelable {
 
-	/**
-	 * Different types of users of the application
-	 */
+	/** Different types of users of the application */
 	enum class Role {
 
-		/**
-		 * Users that didn't select a [Role] yet
-		 */
+		/** Users that didn't select a [Role] yet */
 		@SerializedName("blank") BLANK,
 
-		/**
-		 * Users helping a patient
-		 */
+		/** Users helping a patient */
 		@SerializedName("keeper") KEEPER,
 
-		/**
-		 * Users suffering the disease
-		 */
+		/** Users suffering the disease */
 		@SerializedName("patient") PATIENT
 
 	}
