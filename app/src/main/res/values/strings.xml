@@ -1,13 +1,17 @@
 <resources>
     <string name="app_name">4l1-app</string>
-    <string name="title_activity_patient_main">PatientMainActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <!-- Activity titles -->
+    <string name="title_activity_patient_main">Main</string>
+    <string name="title_activity_set_up">Set Up</string>
+    <!-- Fragment labels -->
+    <string name="title_fragment_name_selection">Welcome: Name</string>
+    <string name="title_fragment_role_selection">Welcome: Role</string>
+    <!-- Navigation -->
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="title_activity_set_up">SetUpActivity</string>
+    <!-- Set Up -->
+    <string name="hello_name">Hello %1$s</string>
+    <string name="welcome">Welcome to All For One</string>
+    <string name="choose_name">What name do you want to use?</string>
+    <string name="placeholder_your_name">Your name</string>
 </resources>

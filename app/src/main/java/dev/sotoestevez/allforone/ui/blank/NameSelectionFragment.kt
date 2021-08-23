@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import dev.sotoestevez.allforone.R
-import dev.sotoestevez.allforone.databinding.FragmentFirstBinding
+import dev.sotoestevez.allforone.databinding.FragmentNameSelectionBinding
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class NameSelectionFragment : Fragment() {
 
-	private var _binding: FragmentFirstBinding? = null
+	private var _binding: FragmentNameSelectionBinding? = null
 
 	// This property is only valid between onCreateView and
 	// onDestroyView.
@@ -25,7 +25,7 @@ class FirstFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View? {
 
-		_binding = FragmentFirstBinding.inflate(inflater, container, false)
+		_binding = FragmentNameSelectionBinding.inflate(inflater, container, false)
 		return binding.root
 
 	}
@@ -33,8 +33,8 @@ class FirstFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		binding.buttonFirst.setOnClickListener {
-			findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+		binding.btnNextNameSelection.setOnClickListener {
+			findNavController().navigate(R.id.action_NameSelection_to_RoleSelection)
 		}
 	}
 

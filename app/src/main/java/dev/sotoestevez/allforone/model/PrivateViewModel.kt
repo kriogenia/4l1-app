@@ -1,6 +1,7 @@
 package dev.sotoestevez.allforone.model
 
 import androidx.lifecycle.*
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
@@ -25,7 +26,18 @@ open class PrivateViewModel(
 	private val dispatchers: DispatcherProvider = DefaultDispatcherProvider
 ): ViewModel() {
 
+	companion object {
+		private val USER = User::class.java.simpleName
+	}
+
 	private val sessionManager: SessionManager = SessionManager(savedStateHandle)
+
+	/**
+	 * Live data holding the user information
+	 */
+	val user: LiveData<User>
+		get() = _user
+	private var _user = MutableLiveData<User>(savedStateHandle[USER])
 
 	/**
 	 * Live data holding the error to handle in the Activity
@@ -40,13 +52,13 @@ open class PrivateViewModel(
 	 *
 	 * @return Authentication token
 	 */
-	/*private*/ suspend fun token(): String {
+	protected suspend fun token(): String {
 		val storedToken = sessionManager.getAuthToken()
 		// If the stored token is still valid, use it
-		//if (storedToken != null)
-			//return storedToken
+		if (storedToken != null)
+			return storedToken
 		// In case it's not, get a new one
-		val tokenJob = viewModelScope.async(dispatchers.io() /*+ coroutineExceptionHandler*/) {
+		val tokenJob = viewModelScope.async(dispatchers.io() + coroutineExceptionHandler) {
 			val session = sessionManager.getSession() ?: throw IllegalStateException("Missing session data in private activity")
 			val newSession = UserRepository.refreshSession(session).session
 			logDebug("Authentication refreshed. Auth[${newSession.auth}]")
@@ -54,12 +66,7 @@ open class PrivateViewModel(
 			// Returns the retrieved token
 			return@async newSession.auth
 		}
-		return try {
-			tokenJob.await()
-		} catch (e: Throwable) {
-			logError(e.message!!, e)
-			"nope"
-		}
+		return tokenJob.await()
 	}
 
 	/**

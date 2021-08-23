@@ -1,6 +1,7 @@
 package dev.sotoestevez.allforone.ui.blank
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -10,6 +11,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivitySetUpBinding
+import dev.sotoestevez.allforone.model.PrivateViewModel
+import dev.sotoestevez.allforone.model.blank.SetUpViewModel
+import dev.sotoestevez.allforone.model.factories.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.PrivateActivity
 
 /**
@@ -20,10 +24,12 @@ import dev.sotoestevez.allforone.ui.PrivateActivity
  */
 class SetUpActivity : PrivateActivity() {
 
+	override val viewModel: SetUpViewModel by viewModels { ExtendedViewModelFactory(this) }
+
 	private lateinit var appBarConfiguration: AppBarConfiguration
 	private lateinit var binding: ActivitySetUpBinding
 
-	override var roles: Array<User.Role> = arrayOf<User.Role>(User.Role.BLANK)
+	override val roles: Array<User.Role> = arrayOf<User.Role>(User.Role.BLANK)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -37,10 +43,6 @@ class SetUpActivity : PrivateActivity() {
 		appBarConfiguration = AppBarConfiguration(navController.graph)
 		setupActionBarWithNavController(navController, appBarConfiguration)
 
-		binding.fab.setOnClickListener { view ->
-			Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-				.setAction("Action", null).show()
-		}
 	}
 
 	override fun onSupportNavigateUp(): Boolean {

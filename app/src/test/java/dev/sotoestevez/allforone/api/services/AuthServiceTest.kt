@@ -3,6 +3,7 @@ package dev.sotoestevez.allforone.api.services
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.responses.BaseErrorResponse
 import dev.sotoestevez.allforone.api.responses.SignInResponse
+import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import dev.sotoestevez.allforone.util.rules.WebServerRule
@@ -36,15 +37,15 @@ class AuthServiceTest {
 	@Test
 	fun `should parse SignInResponse with valid token`(): Unit = runBlocking {
 		val expected = SignInResponse(
-			"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiI2MTE5OGZmMjQwY2VjMzA2N2E2NmMwYjEiLCJpYXQiOjE2MjkwNjUyMDIsImV4cCI6MTYyOTA2ODgwMn0.g-5EN1u69zj0c3mVVI4zKiQfuy-OIKqa3pIqWiHXlqk",
-			"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiI2MTE5OGZmMjQwY2VjMzA2N2E2NmMwYjEiLCJpYXQiOjE2MjkwNjUyMDIsImV4cCI6MTYyOTE1MTYwMn0.u052QG8_ktGJC077CHbH8cRrNRDf4m1K-RM4O9QbXrU",
-			1629068802,
+			Session(
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiI2MTE5OGZmMjQwY2VjMzA2N2E2NmMwYjEiLCJpYXQiOjE2MjkwNjUyMDIsImV4cCI6MTYyOTA2ODgwMn0.g-5EN1u69zj0c3mVVI4zKiQfuy-OIKqa3pIqWiHXlqk",
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiI2MTE5OGZmMjQwY2VjMzA2N2E2NmMwYjEiLCJpYXQiOjE2MjkwNjUyMDIsImV4cCI6MTYyOTE1MTYwMn0.u052QG8_ktGJC077CHbH8cRrNRDf4m1K-RM4O9QbXrU",
+				1629068802),
 			User(
 				"61198ff240cec3067a66c0b1",
 				"valid",
 				User.Role.BLANK,
-				null
-			)
+				null)
 		)
 		val actual = api.signIn("valid")
 		assertTrue(actual is NetworkResponse.Success)

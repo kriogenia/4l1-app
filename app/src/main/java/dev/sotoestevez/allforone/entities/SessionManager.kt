@@ -54,8 +54,7 @@ class SessionManager(private val state: SavedStateHandle) {
 	 * @return Authentication token if it's still valid
 	 */
 	fun getAuthToken(): String? {
-		//val session = getSession() ?: return null
-		val session: Session = state.get(SESSION) ?: return null
+		val session = getSession() ?: return null
 		val currentTime = Instant.now().epochSecond
 		logDebug("Comparing times. Expiration[${session.expiration}]. Current[$currentTime]")
 		if (session.expiration > currentTime) {// TODO add margin to request a new one

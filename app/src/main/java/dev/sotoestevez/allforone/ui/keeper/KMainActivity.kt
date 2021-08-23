@@ -30,7 +30,7 @@ class KMainActivity : PrivateActivity() {
 	 */
 	override fun onStart() {
 		super.onStart()
-		val text = "Logged in keeper: ${user.id}"
+		val text = "Logged in keeper: ${viewModel.user.value?.id}"
 		binding.textView2.text = text
 	}
 

@@ -10,6 +10,7 @@ import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.model.factories.ExtendedViewModelFactory
+import dev.sotoestevez.allforone.util.extensions.errorToast
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.logError
 import kotlinx.coroutines.Dispatchers
@@ -20,20 +21,12 @@ import kotlinx.coroutines.launch
  */
 open class PrivateActivity : AppCompatActivity() {
 
-	private val viewModel: PrivateViewModel by viewModels { ExtendedViewModelFactory(this) }
-
-	/**
-	 * Information of the current user.
-	 *
-	 * **WARNING** Don't access to user properties before the onStart phase as it could
-	 * be null during the onCreate even with the check
-	 */
-	protected lateinit var user: User
+	protected open val viewModel: PrivateViewModel by viewModels { ExtendedViewModelFactory(this) }
 
 	/**
 	 * List of permitted roles in the Activity
 	 */
-	protected open var roles: Array<User.Role> = arrayOf()
+	protected open val roles: Array<User.Role> = arrayOf()
 
 	/**
 	 * Override of the onCreate method
@@ -44,17 +37,18 @@ open class PrivateActivity : AppCompatActivity() {
 	 */
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		// Set the user
-		try {
-			user = loadUser()
-		} catch (e: UserNotAuthenticatedException) {
-			// if the user is not valid, return to the launch activity and kill this
-			logError(e.message!!, e)
-			startActivity(Intent(this, LaunchActivity::class.java))
-			finish()
-		}
-		viewModel
-		lifecycleScope.launch(Dispatchers.IO) { logDebug(viewModel.token()) }
+		checkUser()
+		// Set observers
+		viewModel.error.observe(this, { handleError(it) })
+	}
+
+	/**
+	 * Error observer
+	 *
+	 * @param error Registered error to handle
+	 */
+	private fun handleError(error: Throwable) {
+		errorToast(error)
 	}
 
 	/**
@@ -62,18 +56,13 @@ open class PrivateActivity : AppCompatActivity() {
 	 *
 	 * @return the user if it's valid
 	 */
-	@Throws(UserNotAuthenticatedException::class)
-	fun loadUser(): User {
-		// Retrieve user
-		val fromParcelable = intent.getParcelableExtra<User>(User::class.simpleName)
-		// User is not logged in or has the wrong role, return to LaunchActivity
-		if (fromParcelable != null) {
-			if (roles.contains(fromParcelable.role)) {
-				return fromParcelable
-			}
-			throw UserNotAuthenticatedException(getString(R.string.error_invalid_permissions))
+	private fun checkUser() {
+		val user = viewModel.user.value
+		if (user == null || !roles.contains(user.role)) {
+			logError(getString(R.string.error_invalid_permissions))
+			startActivity(Intent(this, LaunchActivity::class.java))
+			finish()
 		}
-		throw UserNotAuthenticatedException(getString(R.string.error_not_authenticated_user))
 	}
 
 }

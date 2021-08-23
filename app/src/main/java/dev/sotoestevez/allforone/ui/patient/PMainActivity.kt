@@ -30,7 +30,7 @@ class PMainActivity : PrivateActivity() {
 	 */
 	override fun onStart() {
 		super.onStart()
-		val text = "Logged in patient: ${user.id}"
+		val text = "Logged in patient: ${viewModel.user.value?.id}"
 		binding.textView.text = text
 	}
 }

@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dev.sotoestevez.allforone.api.APIErrorException
 import dev.sotoestevez.allforone.api.responses.SignInResponse
+import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.repositories.UserRepository
@@ -37,7 +38,7 @@ class LaunchViewModelTest {
         // Mocks
         mockkObject(UserRepository)
         mockkConstructor(SessionManager::class)
-        every { anyConstructed<SessionManager>().setSession(any(), any(), any()) } returns Unit
+        every { anyConstructed<SessionManager>().setSession(any()) } returns Unit
         // Init test object
         model = LaunchViewModel(mockk(), coroutineRule.testDispatcherProvider)
     }
@@ -51,12 +52,12 @@ class LaunchViewModelTest {
     @Test
     fun `should handle the sign in as expected when given a valid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val user = User("id", "valid", User.Role.BLANK, null)
-        val signInResponse = SignInResponse("auth", "refresh", 0, user)
+        val signInResponse = SignInResponse(Session("auth", "refresh", 0), user)
         coEvery { UserRepository.signIn("valid") } returns signInResponse
         // Perform the authentication
         model.handleSignInResult("valid")
         // Check the session was stored
-        verify(exactly = 1) { anyConstructed<SessionManager>().setSession(any(), any(), any()) }
+        verify(exactly = 1) { anyConstructed<SessionManager>().setSession(any()) }
         // Check the model data has been updated
         assertEquals(user, model.user)
         assertEquals(SetUpActivity::class.java, model.destiny.value)
@@ -84,7 +85,7 @@ class LaunchViewModelTest {
 
     private fun checkDestinyByRole(role: User.Role, destiny: Class<out Activity>) {
         val user = User("id", "valid", role, null)
-        val signInResponse = SignInResponse("auth", "refresh", 0, user)
+        val signInResponse = SignInResponse(Session("auth", "refresh", 0), user)
         coEvery { UserRepository.signIn("valid") } returns signInResponse
         model.handleSignInResult("valid")
         assertEquals(destiny, model.destiny.value)
