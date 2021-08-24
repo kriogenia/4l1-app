@@ -31,9 +31,13 @@ class SetUpActivity : PrivateActivity() {
 
 	override val roles: Array<User.Role> = arrayOf<User.Role>(User.Role.BLANK)
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
+	override fun onSupportNavigateUp(): Boolean {
+		val navController = findNavController(R.id.nav_host_fragment_set_up)
+		return navController.navigateUp(appBarConfiguration)
+				|| super.onSupportNavigateUp()
+	}
 
+	override fun bindLayout() {
 		binding = ActivitySetUpBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 
@@ -43,15 +47,5 @@ class SetUpActivity : PrivateActivity() {
 		val navController = navHostFragment.navController
 		appBarConfiguration = AppBarConfiguration(navController.graph)
 		setupActionBarWithNavController(navController, appBarConfiguration)
-	}
-
-	override fun bindLayout() {}
-
-	override fun attachListeners() {}
-
-	override fun onSupportNavigateUp(): Boolean {
-		val navController = findNavController(R.id.nav_host_fragment_set_up)
-		return navController.navigateUp(appBarConfiguration)
-				|| super.onSupportNavigateUp()
 	}
 }

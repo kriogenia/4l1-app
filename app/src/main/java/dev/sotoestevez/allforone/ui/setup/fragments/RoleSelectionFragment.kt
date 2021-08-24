@@ -1,10 +1,13 @@
 package dev.sotoestevez.allforone.ui.setup.fragments
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import dev.sotoestevez.allforone.R
@@ -14,7 +17,7 @@ import dev.sotoestevez.allforone.model.blank.SetUpViewModel
 import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /**
- * [Fragment] of [SetUpActivity] to select the [User.Role].
+ * [Fragment] of SetUpActivity to select the [User.Role].
  */
 class RoleSelectionFragment : Fragment() {
 
@@ -29,7 +32,7 @@ class RoleSelectionFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-		logDebug("onCreateView")
+
 		_binding = FragmentRoleSelectionBinding.inflate(inflater, container, false)
 		return binding.root
 
@@ -37,9 +40,8 @@ class RoleSelectionFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		logDebug("onViewCreated")
-		// Init
-		binding.lblGreetingsName.text = getString(R.string.hello_name, model.user.value?.displayName)
+
+		updateUi()
 		// Action listeners
 		binding.btnPreviousRoleSelection.setOnClickListener {
 			findNavController().navigate(R.id.action_RoleSelectionFragment_to_NameSelectionFragment)
@@ -49,21 +51,31 @@ class RoleSelectionFragment : Fragment() {
 		}
 		binding.cardPatient.setOnClickListener {
 			model.setRole(User.Role.PATIENT)
-			binding.cardPatient.isSelected = true
 		}
 		binding.cardKeeper.setOnClickListener {
 			model.setRole(User.Role.KEEPER)
-			binding.cardKeeper.isSelected = true
 		}
 		// Observers
 		model.user.observe(viewLifecycleOwner) {
-			binding.btnNextRoleSelection.isEnabled = model.user.value?.role != User.Role.BLANK
+			updateUi()
 		}
 	}
 
 	override fun onDestroyView() {
-		logDebug("onDestroyView")
 		super.onDestroyView()
 		_binding = null
+	}
+
+	private fun updateUi() {
+		binding.btnNextRoleSelection.isEnabled = model.user.value?.role != User.Role.BLANK
+		binding.lblGreetingsName.text = getString(R.string.hello_name, model.user.value?.displayName)
+		if (model.user.value?.role == User.Role.PATIENT) {
+			binding.cardPatient.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_dark_background))
+			binding.cardKeeper.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_light_background))
+		}
+		if (model.user.value?.role == User.Role.KEEPER) {
+			binding.cardKeeper.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_dark_background))
+			binding.cardPatient.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_light_background))
+		}
 	}
 }

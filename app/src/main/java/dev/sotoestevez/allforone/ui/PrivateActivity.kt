@@ -26,8 +26,11 @@ abstract class PrivateActivity : MyActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		checkUser()
-
 	}
+
+	override fun bindLayout() {}
+
+	override fun attachListeners() {}
 
 	override fun attachObservers() {
 		model.error.observe(this, { handleError(it) })

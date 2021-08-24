@@ -21,13 +21,8 @@ class SetUpViewModel(
 	 *
 	 * @param displayName   New display name of the user
 	 */
-	fun setDisplayName(displayName: String): Boolean {
-		if (Strings.isEmptyOrWhitespace(displayName)) {
-			_error.postValue(IllegalArgumentException("Your display name can't be empty"))
-			return false
-		}
+	fun setDisplayName(displayName: String): Unit {
 		_user.value?.displayName = displayName
-		return true
 	}
 
 	/**
