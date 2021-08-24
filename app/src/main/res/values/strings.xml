@@ -6,6 +6,7 @@
     <string name="title_activity_patient_main">Main</string>
     <string name="title_activity_set_up">Set Up</string>
     <!-- Fragment labels -->
+    <string name="title_fragment_contact_fill">Welcome: Contact</string>
     <string name="title_fragment_name_selection">Welcome: Name</string>
     <string name="title_fragment_role_selection">Welcome: Role</string>
     <!-- Navigation -->
@@ -22,4 +23,6 @@
     <!-- Text view placeholders -->
     <string name="placeholder_your_name">Your name</string>
     <string name="role_selection">What kind of user are you?</string>
+    <string name="contact_info_description">The following information is optional, but it can be very valuable to contact you in case of emergency</string>
+    <string name="choose_phone">Your phone number</string>
 </resources>

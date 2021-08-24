@@ -1,17 +1,15 @@
-package dev.sotoestevez.allforone.ui.blank
+package dev.sotoestevez.allforone.ui.setup
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivitySetUpBinding
-import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.model.blank.SetUpViewModel
 import dev.sotoestevez.allforone.model.factories.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.PrivateActivity
@@ -26,9 +24,6 @@ import dev.sotoestevez.allforone.ui.PrivateActivity
  */
 class SetUpActivity : PrivateActivity() {
 
-	/**
-	 * Shared view model of the [SetUpActivity]
-	 */
 	override val model: SetUpViewModel by viewModels { ExtendedViewModelFactory(this) }
 
 	private lateinit var appBarConfiguration: AppBarConfiguration
@@ -44,14 +39,18 @@ class SetUpActivity : PrivateActivity() {
 
 		setSupportActionBar(binding.toolbar)
 
-		val navController = findNavController(R.id.nav_host_fragment_content_set_up)
+		val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_set_up) as NavHostFragment
+		val navController = navHostFragment.navController
 		appBarConfiguration = AppBarConfiguration(navController.graph)
 		setupActionBarWithNavController(navController, appBarConfiguration)
-
 	}
 
+	override fun bindLayout() {}
+
+	override fun attachListeners() {}
+
 	override fun onSupportNavigateUp(): Boolean {
-		val navController = findNavController(R.id.nav_host_fragment_content_set_up)
+		val navController = findNavController(R.id.nav_host_fragment_set_up)
 		return navController.navigateUp(appBarConfiguration)
 				|| super.onSupportNavigateUp()
 	}

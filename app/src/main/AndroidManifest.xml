@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.4l1app">
         <activity
-            android:name=".ui.blank.SetUpActivity"
+            android:name=".ui.setup.SetUpActivity"
             android:label="@string/title_activity_set_up"
             android:exported="true"
             android:theme="@style/Theme.4l1app.NoActionBar" />
@@ -24,7 +24,7 @@
         <activity
             android:name=".ui.patient.PMainActivity"
             android:exported="true" />
-        <activity android:name=".ui.LaunchActivity"
+        <activity android:name=".ui.launch.LaunchActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

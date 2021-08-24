@@ -25,6 +25,14 @@ class KMainActivity : PrivateActivity() {
 		setContentView(binding.root)
 	}
 
+	override fun bindLayout() {
+		TODO("Not yet implemented")
+	}
+
+	override fun attachListeners() {
+		TODO("Not yet implemented")
+	}
+
 	/**
 	 * Override of the onStart method
 	 */

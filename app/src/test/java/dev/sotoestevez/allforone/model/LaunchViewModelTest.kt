@@ -8,7 +8,7 @@ import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.repositories.UserRepository
-import dev.sotoestevez.allforone.ui.blank.SetUpActivity
+import dev.sotoestevez.allforone.ui.setup.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
