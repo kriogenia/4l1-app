@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -13,57 +12,46 @@ import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.databinding.FragmentNameSelectionBinding
 import dev.sotoestevez.allforone.model.blank.SetUpViewModel
+import dev.sotoestevez.allforone.ui.MyFragment
 import dev.sotoestevez.allforone.util.extensions.logDebug
-import dev.sotoestevez.allforone.util.extensions.logError
 
 /**
  * [Fragment] of SetUpActivity to set the displayName of the user.
  */
-class NameSelectionFragment : Fragment() {
+class NameSelectionFragment : MyFragment() {
 
-	private val binding
+	private val binding: FragmentNameSelectionBinding
 		get() = _binding!!
 	private var _binding: FragmentNameSelectionBinding? = null
 
 	private val model: SetUpViewModel by activityViewModels()
 
-	override fun onCreateView(
-		inflater: LayoutInflater,
-		container: ViewGroup?,
-		savedInstanceState: Bundle?
-	): View {
-
+	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
 		_binding = FragmentNameSelectionBinding.inflate(inflater, container, false)
 		return binding.root
-
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-
-		updateUi()
 		binding.txtNameSelection.setText(model.user.value?.displayName ?: "")
+	}
 
-
-
-		// Action listeners
+	override fun attachListeners() {
 		binding.txtNameSelection.doAfterTextChanged {
 			model.setDisplayName(it.toString())
-			updateUi()
 		}
 		binding.btnNextNameSelection.setOnClickListener {
 			findNavController().navigate(R.id.action_NameSelectionFragment_to_RoleSelectionFragment)
 		}
-
 	}
 
-	override fun onDestroyView() {
-		logDebug("onDestroyView")
-		super.onDestroyView()
-		_binding = null
+	override fun attachObservers() {
+		model.user.observe(viewLifecycleOwner) {
+			updateUi()
+		}
 	}
 
-	private fun updateUi() {
+	override fun updateUi() {
 		binding.btnNextNameSelection.isEnabled = !Strings.isEmptyOrWhitespace(model.user.value?.displayName)
 	}
 

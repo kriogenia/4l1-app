@@ -14,12 +14,13 @@ import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.FragmentRoleSelectionBinding
 import dev.sotoestevez.allforone.model.blank.SetUpViewModel
+import dev.sotoestevez.allforone.ui.MyFragment
 import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /**
  * [Fragment] of SetUpActivity to select the [User.Role].
  */
-class RoleSelectionFragment : Fragment() {
+class RoleSelectionFragment : MyFragment() {
 
 	private val binding
 		get() = _binding!!
@@ -27,22 +28,12 @@ class RoleSelectionFragment : Fragment() {
 
 	private val model: SetUpViewModel by activityViewModels()
 
-	override fun onCreateView(
-		inflater: LayoutInflater,
-		container: ViewGroup?,
-		savedInstanceState: Bundle?
-	): View {
-
+	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
 		_binding = FragmentRoleSelectionBinding.inflate(inflater, container, false)
 		return binding.root
-
 	}
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
-		updateUi()
-		// Action listeners
+	override fun attachListeners() {
 		binding.btnPreviousRoleSelection.setOnClickListener {
 			findNavController().navigate(R.id.action_RoleSelectionFragment_to_NameSelectionFragment)
 		}
@@ -55,20 +46,17 @@ class RoleSelectionFragment : Fragment() {
 		binding.cardKeeper.setOnClickListener {
 			model.setRole(User.Role.KEEPER)
 		}
-		// Observers
+	}
+
+	override fun attachObservers() {
 		model.user.observe(viewLifecycleOwner) {
 			updateUi()
 		}
 	}
 
-	override fun onDestroyView() {
-		super.onDestroyView()
-		_binding = null
-	}
-
-	private fun updateUi() {
-		binding.btnNextRoleSelection.isEnabled = model.user.value?.role != User.Role.BLANK
+	override fun updateUi() {
 		binding.lblGreetingsName.text = getString(R.string.hello_name, model.user.value?.displayName)
+		binding.btnNextRoleSelection.isEnabled = model.user.value?.role != User.Role.BLANK
 		if (model.user.value?.role == User.Role.PATIENT) {
 			binding.cardPatient.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_dark_background))
 			binding.cardKeeper.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_light_background))
@@ -78,4 +66,5 @@ class RoleSelectionFragment : Fragment() {
 			binding.cardPatient.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_light_background))
 		}
 	}
+
 }

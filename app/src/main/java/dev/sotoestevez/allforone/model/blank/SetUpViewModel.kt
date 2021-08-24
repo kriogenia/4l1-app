@@ -22,7 +22,9 @@ class SetUpViewModel(
 	 * @param displayName   New display name of the user
 	 */
 	fun setDisplayName(displayName: String): Unit {
-		_user.value?.displayName = displayName
+		_user.value = _user.value?.also {
+			it.displayName = displayName
+		}
 	}
 
 	/**

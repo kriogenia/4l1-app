@@ -20,7 +20,8 @@ import dev.sotoestevez.allforone.ui.PrivateActivity
  * 1. Name selection
  * 2. Role selection
  * 3. Extra data input
- * 4. Legal agreement
+ * 4. Confirmation
+ * TODO consider the option of adding Legal agreement
  */
 class SetUpActivity : PrivateActivity() {
 
