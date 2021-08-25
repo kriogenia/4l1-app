@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.model.factories
+package dev.sotoestevez.allforone.model
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AbstractSavedStateViewModelFactory

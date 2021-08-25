@@ -9,8 +9,8 @@ import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivityLaunchBinding
 import dev.sotoestevez.allforone.entities.GoogleAuthHelper
-import dev.sotoestevez.allforone.model.LaunchViewModel
-import dev.sotoestevez.allforone.model.factories.ExtendedViewModelFactory
+import dev.sotoestevez.allforone.model.launch.LaunchViewModel
+import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.MyActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity

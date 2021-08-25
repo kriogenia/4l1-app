@@ -4,6 +4,7 @@ import android.os.Bundle
 import dev.sotoestevez.allforone.databinding.ActivityPmainBinding
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.ui.PrivateActivity
+import java.util.*
 
 /**
  * Main Activity of Patients
@@ -12,7 +13,7 @@ class PMainActivity : PrivateActivity() {
 
 	private lateinit var binding: ActivityPmainBinding
 
-	override var roles: Array<User.Role> = arrayOf<User.Role>(User.Role.PATIENT)
+	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT)
 
 	/**
 	 * Override of the onCreate method

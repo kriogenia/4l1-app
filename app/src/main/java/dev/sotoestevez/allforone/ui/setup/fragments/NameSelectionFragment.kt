@@ -11,9 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.databinding.FragmentNameSelectionBinding
-import dev.sotoestevez.allforone.model.blank.SetUpViewModel
+import dev.sotoestevez.allforone.model.setup.SetUpViewModel
 import dev.sotoestevez.allforone.ui.MyFragment
-import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /**
  * [Fragment] of SetUpActivity to set the displayName of the user.
@@ -37,18 +36,14 @@ class NameSelectionFragment : MyFragment() {
 	}
 
 	override fun attachListeners() {
-		binding.txtNameSelection.doAfterTextChanged {
-			model.setDisplayName(it.toString())
-		}
+		binding.txtNameSelection.doAfterTextChanged { model.setDisplayName(it.toString()) }
 		binding.btnNextNameSelection.setOnClickListener {
 			findNavController().navigate(R.id.action_NameSelectionFragment_to_RoleSelectionFragment)
 		}
 	}
 
 	override fun attachObservers() {
-		model.user.observe(viewLifecycleOwner) {
-			updateUi()
-		}
+		model.user.observe(viewLifecycleOwner) { updateUi() }
 	}
 
 	override fun updateUi() {

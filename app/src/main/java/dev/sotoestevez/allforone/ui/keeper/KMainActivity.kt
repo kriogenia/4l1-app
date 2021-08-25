@@ -4,6 +4,7 @@ import android.os.Bundle
 import dev.sotoestevez.allforone.databinding.ActivityKmainBinding
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.ui.PrivateActivity
+import java.util.*
 
 /**
  *  Main activity of Keepers
@@ -12,7 +13,7 @@ class KMainActivity : PrivateActivity() {
 
 	private lateinit var binding: ActivityKmainBinding
 
-	override var roles: Array<User.Role> = arrayOf<User.Role>(User.Role.KEEPER)
+	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.KEEPER)
 
 	/**
 	 * Override of the onCreate method

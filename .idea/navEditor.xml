@@ -71,7 +71,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_ContactFill_to_RoleSelection">
+                            <entry key="action_ContactFillFragment_to_RoleSelectionFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -92,7 +92,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_NameSelection_to_RoleSelection">
+                            <entry key="action_NameSelectionFragment_to_RoleSelectionFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -113,12 +113,33 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_RoleSelection_to_ContactFill">
+                            <entry key="action_RoleSelectionFragment_to_ContactFillFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_RoleSelection_to_NameSelection">
+                            <entry key="action_RoleSelectionFragment_to_NameSelectionFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="S">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_ContactFillFragment_to_RoleSelectionFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

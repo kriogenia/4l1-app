@@ -20,9 +20,25 @@
     <string name="welcome">Welcome to All For One</string>
     <!-- Media description -->
     <string name="patient_media_description">Icon of patients</string>
+    <string name="profile_banner_description">Banner of the profile card</string>
+    <string name="profile_picture_description">Profile picture of the user</string>
     <!-- Text view placeholders -->
-    <string name="placeholder_your_name">Your name</string>
-    <string name="role_selection">What kind of user are you?</string>
+    <string name="hint_address_street">Street, number</string>
+    <string name="hint_address_extended">Door</string>
+    <string name="hint_address_locality">Locality</string>
+    <string name="hint_address_region">Region</string>
+    <string name="hint_name">Your name</string>
+    <!-- Activity strings -->
+    <string name="choose_phone">Phone number</string>
+    <string name="hint_phone_alt">Alternative phone number, just in case</string>
+    <string name="choose_email">An email address, useful to share files</string>
+    <string name="choose_address">Your postal address</string>
     <string name="contact_info_description">The following information is optional, but it can be very valuable to contact you in case of emergency</string>
-    <string name="choose_phone">Your phone number</string>
+    <string name="role_selection">What kind of user are you?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_fragment_set_up_confirmation">Welcome: Confirmation</string>
+    <string name="hint_phone">Main way to contact you</string>
+    <string name="choose_phone_alt">Alternative</string>
+    <string name="hint_address_email">Email address</string>
 </resources>

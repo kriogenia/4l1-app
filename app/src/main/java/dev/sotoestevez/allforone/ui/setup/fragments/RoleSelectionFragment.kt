@@ -1,8 +1,5 @@
 package dev.sotoestevez.allforone.ui.setup.fragments
 
-import android.content.Context
-import android.content.res.ColorStateList
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +10,8 @@ import androidx.navigation.fragment.findNavController
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.FragmentRoleSelectionBinding
-import dev.sotoestevez.allforone.model.blank.SetUpViewModel
+import dev.sotoestevez.allforone.model.setup.SetUpViewModel
 import dev.sotoestevez.allforone.ui.MyFragment
-import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /**
  * [Fragment] of SetUpActivity to select the [User.Role].
@@ -40,18 +36,12 @@ class RoleSelectionFragment : MyFragment() {
 		binding.btnNextRoleSelection.setOnClickListener {
 			findNavController().navigate(R.id.action_RoleSelectionFragment_to_ContactFillFragment)
 		}
-		binding.cardPatient.setOnClickListener {
-			model.setRole(User.Role.PATIENT)
-		}
-		binding.cardKeeper.setOnClickListener {
-			model.setRole(User.Role.KEEPER)
-		}
+		binding.cardPatient.setOnClickListener { model.setRole(User.Role.PATIENT) }
+		binding.cardKeeper.setOnClickListener { model.setRole(User.Role.KEEPER) }
 	}
 
 	override fun attachObservers() {
-		model.user.observe(viewLifecycleOwner) {
-			updateUi()
-		}
+		model.user.observe(viewLifecycleOwner) { updateUi() }
 	}
 
 	override fun updateUi() {

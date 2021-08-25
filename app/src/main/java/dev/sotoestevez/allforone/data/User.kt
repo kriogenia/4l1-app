@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.data
 
+import android.location.Address
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
@@ -7,18 +8,26 @@ import kotlinx.parcelize.Parcelize
 /**
  * Properties of an user
  *
- * @property id unique identifier of the user
- * @property googleId unique Google identifier of the user
- * @property role type of user
- * @property displayName of the user
+ * @property id Unique identifier of the user
+ * @property googleId Unique Google identifier of the user
+ * @property role Type of user
+ * @property displayName Name of the user to display
+ * @property mainPhoneNumber Main phone number of the user
+ * @property altPhoneNumber Alternative phone number of the user
+ * @property address Postal address of the user
+ * @property email Email address of the user
  */
 @Parcelize
 data class User(
 	@SerializedName("_id") val id: String,
 	val googleId: String,
 	var role: Role,
-	var displayName: String?
-): Parcelable {
+	var displayName: String?,
+	var mainPhoneNumber: String?,
+	var altPhoneNumber: String?,
+	var address: Address?,
+	var email: String?
+	): Parcelable {
 
 	/** Different types of users of the application */
 	enum class Role {

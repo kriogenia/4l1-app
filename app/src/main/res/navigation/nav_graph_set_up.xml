@@ -45,8 +45,29 @@
         android:label="@string/title_fragment_contact_fill"
         android:layout="@layout/fragment_contact_fill">
         <action
+            android:id="@+id/action_ContactFillFragment_to_SetUpConfirmationFragment"
+            app:destination="@id/SetUpConfirmationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
             android:id="@+id/action_ContactFillFragment_to_RoleSelectionFragment"
             app:destination="@id/RoleSelectionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/SetUpConfirmationFragment"
+        android:name="dev.sotoestevez.allforone.ui.setup.fragments.SetUpConfirmationFragment"
+        android:label="@string/title_fragment_set_up_confirmation"
+        android:layout="@layout/fragment_set_up_confirmation">
+        <action
+            android:id="@+id/action_SetUpConfirmationFragment_to_ContactFillFragment"
+            app:destination="@id/ContactFillFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"

@@ -21,7 +21,7 @@ import java.lang.IllegalStateException
  *
  * @param savedStateHandle [SavedStateHandle] object to store session data
  */
-open class PrivateViewModel(
+abstract class PrivateViewModel(
 	savedStateHandle: SavedStateHandle,
 	private val dispatchers: DispatcherProvider = DefaultDispatcherProvider
 ): ViewModel() {

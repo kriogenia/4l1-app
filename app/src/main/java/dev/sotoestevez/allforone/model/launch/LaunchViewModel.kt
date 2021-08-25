@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.model
+package dev.sotoestevez.allforone.model.launch
 
 import android.app.Activity
 import androidx.lifecycle.*
