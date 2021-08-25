@@ -1,92 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/profileCard"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/lblProfileCardDescription"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/card_layout_margin"
-        app:cardElevation="@dimen/cardview_default_elevation"
+        android:layout_marginStart="@dimen/double_base_margin"
+        android:layout_marginEnd="@dimen/double_base_margin"
+        android:text="@string/profile_card_description"
+        app:layout_constraintBottom_toTopOf="@id/profileCard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lblSetUpConfirmation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/double_base_margin"
+        android:layout_marginEnd="@dimen/double_base_margin"
+        android:text="@string/profile_card_confirmation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblProfileCardDescription" />
+
+    <include layout="@layout/content_profile_card"
+        android:id="@+id/profileCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/double_base_margin"
+        android:layout_marginEnd="@dimen/double_base_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <!-- Buttons -->
 
-            <!-- Banner -->
-            <ImageView
-                android:id="@+id/profileCardBanner"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/card_image_height"
-                android:contentDescription="@string/profile_banner_description"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
-
-            <!-- Name section -->
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <!-- Profile picture -->
-
-                <ImageView
-                    android:id="@+id/imgProfileCardPicture"
-                    android:layout_width="@dimen/pfp_size"
-                    android:layout_height="@dimen/pfp_size"
-                    android:layout_marginStart="@dimen/base_margin"
-                    android:layout_marginTop="@dimen/base_margin"
-                    android:layout_marginBottom="@dimen/base_margin"
-                    android:contentDescription="@string/profile_picture_description"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@tools:sample/avatars" />
-
-                <!-- Name -->
-
-                <TextView
-                    android:id="@+id/lblProfileCardName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/base_margin"
-                    android:layout_marginEnd="@dimen/base_margin"
-                    android:text="@string/patient"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                    app:layout_constraintBottom_toTopOf="@id/lblProfileCardRole"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imgProfileCardPicture"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <!-- Role -->
-
-                <TextView
-                    android:id="@+id/lblProfileCardRole"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/base_margin"
-                    android:layout_marginEnd="@dimen/base_margin"
-                    android:text="@string/patient"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imgProfileCardPicture"
-                    app:layout_constraintTop_toBottomOf="@+id/lblProfileCardName" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
+    <include layout="@layout/content_navigation_buttons"
+        android:id="@+id/layButtonsSetUpConfirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileCard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

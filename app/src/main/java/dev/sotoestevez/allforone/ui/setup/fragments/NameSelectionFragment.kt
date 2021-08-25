@@ -1,6 +1,5 @@
 package dev.sotoestevez.allforone.ui.setup.fragments
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,12 +26,8 @@ class NameSelectionFragment : MyFragment() {
 
 	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
 		_binding = FragmentNameSelectionBinding.inflate(inflater, container, false)
+		binding.name = model.user.value?.displayName
 		return binding.root
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		binding.txtNameSelection.setText(model.user.value?.displayName ?: "")
 	}
 
 	override fun attachListeners() {

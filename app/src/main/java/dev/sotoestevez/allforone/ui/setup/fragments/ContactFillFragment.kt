@@ -11,7 +11,6 @@ import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.databinding.FragmentContactFillBinding
 import dev.sotoestevez.allforone.model.setup.SetUpViewModel
 import dev.sotoestevez.allforone.ui.MyFragment
-import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /**
  * [Fragment] of SetUpActivity to set the remaining contact info of the user.
@@ -26,6 +25,7 @@ class ContactFillFragment : MyFragment() {
 
 	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
 		_binding = FragmentContactFillBinding.inflate(inflater, container, false)
+		binding.user = model.user.value
 		return binding.root
 	}
 
@@ -39,24 +39,12 @@ class ContactFillFragment : MyFragment() {
 		binding.eTxtContactAddressLocality.doAfterTextChanged { updateAddress() }
 		binding.eTxtContactAddressRegion.doAfterTextChanged { updateAddress() }
 
-		binding.btnPreviousContactFill.setOnClickListener {
+		binding.layButtonsContactFill.btnPrevious.setOnClickListener {
 			findNavController().navigate(R.id.action_ContactFillFragment_to_RoleSelectionFragment)
 		}
-		binding.btnNextContactFill.setOnClickListener {
+		binding.layButtonsContactFill.btnNext.setOnClickListener {
 			findNavController().navigate(R.id.action_ContactFillFragment_to_SetUpConfirmationFragment)
 		}
-	}
-
-	override fun updateUi() {
-		binding.eTxtContactPhone.setText(model.user.value?.mainPhoneNumber ?: "")
-		binding.eTxtContactPhoneAlt.setText(model.user.value?.altPhoneNumber ?: "")
-		binding.eTxtContactEmail.setText(model.user.value?.email ?: "")
-
-		val address = model.user.value?.address ?: return
-		binding.eTxtContactAddressStreet.setText(address.getAddressLine(0))
-		binding.eTxtContactAddressExtended.setText(address.getAddressLine(1))
-		binding.eTxtContactAddressLocality.setText(address.locality)
-		binding.eTxtContactAddressRegion.setText(address.adminArea)
 	}
 
 	private fun updateAddress() {

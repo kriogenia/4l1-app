@@ -2,6 +2,8 @@
     <string name="app_name">4l1-app</string>
     <string name="keeper">Keeper</string>
     <string name="patient">Patient</string>
+    <string name="address">Address</string>
+    <string name="phone_number">Phone number</string>
     <!-- Activity titles -->
     <string name="title_activity_patient_main">Main</string>
     <string name="title_activity_set_up">Set Up</string>
@@ -12,12 +14,6 @@
     <!-- Navigation -->
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <!-- Labels -->
-    <string name="hello_name">Hello %s!</string>
-    <string name="choose_name">What name do you want to use?</string>
-    <string name="keeper_definition">You are here to help someone you care a lot for</string>
-    <string name="patient_definition">You want to use this app to let your dearest ones to help</string>
-    <string name="welcome">Welcome to All For One</string>
     <!-- Media description -->
     <string name="patient_media_description">Icon of patients</string>
     <string name="profile_banner_description">Banner of the profile card</string>
@@ -27,18 +23,23 @@
     <string name="hint_address_extended">Door</string>
     <string name="hint_address_locality">Locality</string>
     <string name="hint_address_region">Region</string>
+    <string name="hint_email">Email address</string>
     <string name="hint_name">Your name</string>
-    <!-- Activity strings -->
-    <string name="choose_phone">Phone number</string>
-    <string name="hint_phone_alt">Alternative phone number, just in case</string>
-    <string name="choose_email">An email address, useful to share files</string>
-    <string name="choose_address">Your postal address</string>
-    <string name="contact_info_description">The following information is optional, but it can be very valuable to contact you in case of emergency</string>
-    <string name="role_selection">What kind of user are you?</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_fragment_set_up_confirmation">Welcome: Confirmation</string>
     <string name="hint_phone">Main way to contact you</string>
+    <string name="hint_phone_alt">Alternative phone number, just in case</string>
+    <!-- Activity strings -->
+    <string name="alt_phone_number">Alternative phone number</string>
+    <string name="hello_name">Hello %s!</string>
+    <string name="choose_address">Your postal address</string>
+    <string name="choose_email">An email address, useful to share files</string>
+    <string name="choose_name">What name do you want to use?</string>
+    <string name="contact_info_description">The following information is optional, but it can be very valuable to contact you in case of emergency. If you don\'t want to set it up now, you can always do it later</string>
     <string name="choose_phone_alt">Alternative</string>
-    <string name="hint_address_email">Email address</string>
+    <string name="keeper_definition">You are here to help someone you care a lot for</string>
+    <string name="patient_definition">You want to use this app to let your dearest ones to help</string>
+    <string name="role_selection">What kind of user are you?</string>
+    <string name="title_fragment_set_up_confirmation">Welcome: Confirmation</string>
+    <string name="welcome">Welcome to All For One</string>
+    <string name="profile_card_description">This is your profile card. Check that everything is ok. If it\'s not you can go back and fix what is wrong.</string>
+    <string name="profile_card_confirmation">If everything is ok, we can finish the set up</string>
 </resources>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.google.android.gms.common.util.Strings"/>
+        <import type="android.view.View"/>
+        <variable
+            name="user"
+            type="dev.sotoestevez.allforone.data.User" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardUserProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/card_layout_margin"
+        app:cardElevation="@dimen/cardview_default_elevation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/double_base_margin"
+            android:orientation="vertical">
+
+            <!-- Banner -->
+            <ImageView
+                android:id="@+id/profileCardBanner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/card_image_height"
+                android:contentDescription="@string/profile_banner_description"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <!-- Name section -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layProfileCardTop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- Profile picture -->
+
+                <ImageView
+                    android:id="@+id/imgProfileCardPicture"
+                    android:layout_width="@dimen/pfp_size"
+                    android:layout_height="@dimen/pfp_size"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginTop="@dimen/base_margin"
+                    android:layout_marginBottom="@dimen/base_margin"
+                    android:contentDescription="@string/profile_picture_description"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@tools:sample/avatars" />
+
+                <!-- Name -->
+
+                <TextView
+                    android:id="@+id/lblProfileCardName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginEnd="@dimen/base_margin"
+                    android:text="@{user.displayName}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    app:layout_constraintBottom_toTopOf="@id/lblProfileCardRole"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imgProfileCardPicture"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Role -->
+
+                <TextView
+                    android:id="@+id/lblProfileCardRole"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginEnd="@dimen/base_margin"
+                    android:text="@{user.role.toString()}"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="?android:attr/textColorSecondary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imgProfileCardPicture"
+                    app:layout_constraintTop_toBottomOf="@+id/lblProfileCardName" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dvdProfileCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerInsetEnd="@dimen/double_base_margin"
+                app:dividerInsetStart="@dimen/double_base_margin" />
+
+            <!-- TODO change phone numbers -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="@{Strings.isEmptyOrWhitespace(user.mainPhoneNumber) ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginEnd="@dimen/base_margin"
+                    android:text="@string/phone_number" />
+
+                <TextView
+                    android:id="@+id/lblProfileCardPhoneNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@{user.mainPhoneNumber}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="@{Strings.isEmptyOrWhitespace(user.altPhoneNumber) ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginEnd="@dimen/base_margin"
+                    android:text="@string/alt_phone_number" />
+
+                <TextView
+                    android:id="@+id/lblProfileCardPhoneNumberAlt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@{user.altPhoneNumber}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="@{Strings.isEmptyOrWhitespace(user.email) ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginEnd="@dimen/base_margin"
+                    android:text="@string/hint_email" />
+
+                <TextView
+                    android:id="@+id/lblProfileCardEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@{user.email}" />
+
+            </LinearLayout>
+
+            <!-- TODO change Address -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="@{user.address != null ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginEnd="@dimen/base_margin"
+                    android:text="@string/address" />
+
+                <TextView
+                    android:id="@+id/lblProfileCardAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@{user.address.toString()}" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

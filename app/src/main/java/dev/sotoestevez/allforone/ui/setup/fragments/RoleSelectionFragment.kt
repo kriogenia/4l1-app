@@ -30,10 +30,10 @@ class RoleSelectionFragment : MyFragment() {
 	}
 
 	override fun attachListeners() {
-		binding.btnPreviousRoleSelection.setOnClickListener {
+		binding.layButtonsRoleSelection.btnPrevious.setOnClickListener {
 			findNavController().navigate(R.id.action_RoleSelectionFragment_to_NameSelectionFragment)
 		}
-		binding.btnNextRoleSelection.setOnClickListener {
+		binding.layButtonsRoleSelection.btnNext.setOnClickListener {
 			findNavController().navigate(R.id.action_RoleSelectionFragment_to_ContactFillFragment)
 		}
 		binding.cardPatient.setOnClickListener { model.setRole(User.Role.PATIENT) }
@@ -46,7 +46,7 @@ class RoleSelectionFragment : MyFragment() {
 
 	override fun updateUi() {
 		binding.lblGreetingsName.text = getString(R.string.hello_name, model.user.value?.displayName)
-		binding.btnNextRoleSelection.isEnabled = model.user.value?.role != User.Role.BLANK
+		binding.layButtonsRoleSelection.btnNext.isEnabled = model.user.value?.role != User.Role.BLANK
 		if (model.user.value?.role == User.Role.PATIENT) {
 			binding.cardPatient.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_dark_background))
 			binding.cardKeeper.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_light_background))

@@ -25,7 +25,7 @@ data class User(
 	var displayName: String?,
 	var mainPhoneNumber: String?,
 	var altPhoneNumber: String?,
-	var address: Address?,
+	var address: Address?, // TODO create my own Address
 	var email: String?
 	): Parcelable {
 
