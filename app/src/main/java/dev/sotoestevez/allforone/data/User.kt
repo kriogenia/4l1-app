@@ -1,6 +1,5 @@
 package dev.sotoestevez.allforone.data
 
-import android.location.Address
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
@@ -25,7 +24,7 @@ data class User(
 	var displayName: String?,
 	var mainPhoneNumber: String?,
 	var altPhoneNumber: String?,
-	var address: Address?, // TODO create my own Address
+	var address: Address?,
 	var email: String?
 	): Parcelable {
 

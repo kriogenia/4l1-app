@@ -167,26 +167,39 @@
 
             <!-- TODO change Address -->
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:visibility="@{user.address != null ? View.VISIBLE : View.GONE}">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/base_margin"
-                    android:layout_marginEnd="@dimen/base_margin"
-                    android:text="@string/address" />
-
-                <TextView
                     android:id="@+id/lblProfileCardAddress"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@{user.address.toString()}" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:text="@string/address"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/lblProfileCardAddressLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:text="@{user.address.postalAddress}"
+                    app:layout_constraintStart_toEndOf="@id/lblProfileCardAddress"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/lblProfileCardAddressLocality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{user.address.localityFull}"
+                    app:layout_constraintStart_toStartOf="@id/lblProfileCardAddressLine"
+                    app:layout_constraintTop_toBottomOf="@id/lblProfileCardAddressLine" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 

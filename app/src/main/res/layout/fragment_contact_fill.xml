@@ -114,7 +114,7 @@
                     android:layout_height="wrap_content"
                     android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_STREET_ADDRESS"
                     android:inputType="textPostalAddress"
-                    android:text="@{user.address.getAddressLine(0)}" />
+                    android:text="@{user.address.firstLine}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_STREET_ADDRESS"
                     android:inputType="textPostalAddress"
-                    android:text="@{user.address.getAddressLine(1)}" />
+                    android:text="@{user.address.secondLine}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -180,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_LOCALITY"
                     android:inputType="textPostalAddress"
-                    android:text="@{user.address.adminArea}" />
+                    android:text="@{user.address.region}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

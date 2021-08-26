@@ -1,14 +1,12 @@
 package dev.sotoestevez.allforone.model.setup
 
-import android.location.Address
 import androidx.lifecycle.SavedStateHandle
+import dev.sotoestevez.allforone.data.Address
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
-import dev.sotoestevez.allforone.util.extensions.logDebug
 import java.util.*
-import java.util.concurrent.ThreadLocalRandom.current
 
 /**
  * Shared ViewModel of the SetUpActivity and its fragments
@@ -74,15 +72,9 @@ class SetUpViewModel(
 	 * @param door Door number
 	 * @param locality Locality
 	 * @param region Administrative area or region
-	 * @param locale Primary locale
 	 */
-	fun setAddress(street: String, door: String, locality: String, region: String, locale: Locale) {
-		val address = Address(locale)
-		address.setAddressLine(0, street)
-		address.setAddressLine(1, door)
-		address.locality = locality
-		address.adminArea = region
-		_user.value?.address = address
+	fun setAddress(street: String, door: String, locality: String, region: String) {
+		_user.value?.address = Address(street, door, locality, region)
 	}
 
 }

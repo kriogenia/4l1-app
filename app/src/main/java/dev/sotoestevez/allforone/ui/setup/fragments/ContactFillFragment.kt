@@ -52,8 +52,7 @@ class ContactFillFragment : MyFragment() {
 			binding.eTxtContactAddressStreet.text.toString(),
 			binding.eTxtContactAddressExtended.text.toString(),
 			binding.eTxtContactAddressLocality.text.toString(),
-			binding.eTxtContactAddressRegion.text.toString(),
-			resources.configuration.locales.get(0)
+			binding.eTxtContactAddressRegion.text.toString()
 		)
 	}
 
