@@ -5,7 +5,7 @@ import androidx.lifecycle.*
 import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.data.User
-import dev.sotoestevez.allforone.repositories.UserRepository
+import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.ui.launch.LaunchActivity
 import dev.sotoestevez.allforone.ui.setup.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
@@ -59,7 +59,7 @@ class LaunchViewModel(
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
 		// Launch the coroutine with the request
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-			val result = UserRepository.signIn(googleIdToken)
+			val result = SessionRepository.signIn(googleIdToken)
 			// Store all the session info
 			val ( session, user ) = result
 			logDebug("Authentication validated. User[${user.id}]")

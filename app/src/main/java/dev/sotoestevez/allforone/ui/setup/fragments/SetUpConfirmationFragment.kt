@@ -5,9 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.databinding.FragmentSetUpConfirmationBinding
 import dev.sotoestevez.allforone.model.setup.SetUpViewModel
 import dev.sotoestevez.allforone.ui.MyFragment
+import dev.sotoestevez.allforone.util.extensions.logDebug
 
 
 /**
@@ -29,9 +32,33 @@ class SetUpConfirmationFragment : MyFragment() {
 		return binding.root
 	}
 
-	override fun updateUi() {
-		// Fill the user card data
+	override fun attachListeners() {
+		binding.layButtonsSetUpConfirmation.btnPrevious.setOnClickListener {
+			findNavController().navigate(R.id.action_SetUpConfirmationFragment_to_ContactFillFragment)
+		}
+		binding.layButtonsSetUpConfirmation.btnNext.setOnClickListener {
+			confirmData()
+		}
 	}
 
+	override fun attachObservers() {
+		model.destiny.observe(this) {
+			logDebug("Move to $it")
+		}
+	}
+
+	private fun confirmData() {
+		uiLoading(true)
+		model.sendUpdate()
+	}
+
+	// Receives update
+	// Changes Activity
+
+	private fun uiLoading(loading: Boolean) {
+		binding.loadBarSetUp.visibility = if (loading) View.VISIBLE else View.GONE
+		binding.layButtonsSetUpConfirmation.btnPrevious.isEnabled = !loading
+		binding.layButtonsSetUpConfirmation.btnNext.isEnabled = !loading
+	}
 
 }

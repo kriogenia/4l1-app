@@ -83,7 +83,7 @@ class LaunchActivity : MyActivity() {
 	 */
 	private fun uiLoading(loading: Boolean) {
 		binding.signInButton.visibility = if (loading) GONE else VISIBLE
-		binding.loadingBar.visibility = if (loading) VISIBLE else GONE
+		binding.loadCircleLaunch.visibility = if (loading) VISIBLE else GONE
 	}
 
 }

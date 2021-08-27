@@ -3,6 +3,7 @@ package dev.sotoestevez.allforone.api
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import dev.sotoestevez.allforone.BuildConfig
 import dev.sotoestevez.allforone.api.services.AuthService
+import dev.sotoestevez.allforone.api.services.UserService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -16,10 +17,18 @@ object ApiFactory {
 		.build()
 
 	/**
-	 * @return  service of the /auth endpoints
+	 * @return  Service of the /auth endpoints
 	 */
-	public fun getAuthService(): AuthService {
+	fun getAuthService(): AuthService {
 		return service.create(AuthService::class.java)
+	}
+
+	/**
+	 *
+	 * @return  Service of the /user endpoints
+	 */
+	fun getUserService(): UserService {
+		return service.create(UserService::class.java)
 	}
 
 }

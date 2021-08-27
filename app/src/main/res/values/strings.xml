@@ -13,6 +13,7 @@
     <string name="title_fragment_role_selection">Welcome: Role</string>
     <!-- Navigation -->
     <string name="next">Next</string>
+    <string name="finish">Finish</string>
     <string name="previous">Previous</string>
     <!-- Media description -->
     <string name="patient_media_description">Icon of patients</string>

@@ -30,10 +30,6 @@ class KMainActivity : PrivateActivity() {
 		TODO("Not yet implemented")
 	}
 
-	override fun attachListeners() {
-		TODO("Not yet implemented")
-	}
-
 	/**
 	 * Override of the onStart method
 	 */

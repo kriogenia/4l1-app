@@ -21,11 +21,11 @@ data class User(
 	@SerializedName("_id") val id: String,
 	val googleId: String,
 	var role: Role,
-	var displayName: String?,
-	var mainPhoneNumber: String?,
-	var altPhoneNumber: String?,
-	var address: Address?,
-	var email: String?
+	var displayName: String? = "",
+	var mainPhoneNumber: String? = "",
+	var altPhoneNumber: String? = "",
+	var address: Address? = null,
+	var email: String? = ""
 	): Parcelable {
 
 	/** Different types of users of the application */

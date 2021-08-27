@@ -10,9 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-/**
- * Service to handle the operations related to the /auth endpoints of the API
- */
+/** Service to handle the operations related to the /auth endpoints of the API */
 interface AuthService {
 
 	/**
