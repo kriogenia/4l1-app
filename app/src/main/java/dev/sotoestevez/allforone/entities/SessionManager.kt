@@ -1,49 +1,42 @@
 package dev.sotoestevez.allforone.entities
 
-import android.content.SharedPreferences
+import androidx.lifecycle.SavedStateHandle
+import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import java.lang.IllegalStateException
 import java.time.Instant
 
 /**
  * Entity to manage the session logic. It allows to open a new session, close it
  * and to query information about it
  *
- * @property sharedPrefs Shared Preferences accessor
+ * @property state Saved State accessor
  */
-class SessionManager(private val sharedPrefs: SharedPreferences) {
+class SessionManager(private val state: SavedStateHandle) {
 
-	private val kLoggedIn = "logged_in"
-	private val kAuthToken = "auth"
-	private val kRefreshToken = "refresh"
-	private val kExpiration = "expiration"
+	companion object {
+		private const val LOGGED_IN = "logged_in"
+		private const val MARGIN = 60
+		private val SESSION = Session::class.java.simpleName
+	}
 
 	/**
-	 * Creates a new session. Storing all the session details in the preferences
+	 * Creates a new session. Storing all the session details in the state
 	 *
-	 * @param auth authentication token of the session
-	 * @param refresh refresh token to get new authentication tokens
-	 * @param expiration expiration time of the current authentication token
+	 * @param session Session data with the tokens and expiration time
 	 */
-	fun openSession(auth: String, refresh: String, expiration: Int) {
-		sharedPrefs.edit()
-			.putBoolean(kLoggedIn, true)
-			.putString(kAuthToken, auth)
-			.putString(kRefreshToken, refresh)
-			.putInt(kExpiration, expiration)
-			.apply()
-		logDebug("New session stored Auth[$auth]. Expires at $expiration")
+	fun setSession(session: Session) {
+		state[LOGGED_IN] = true;
+		state[SESSION] = session;
+		logDebug("New session stored Auth[${session.auth}]. Expires at ${session.expiration}")
 	}
 
 	/**
 	 * Closes the current session deleting both tokens and the expiration time
 	 */
 	fun closeSession() {
-		sharedPrefs.edit()
-			.remove(kLoggedIn)
-			.remove(kAuthToken)
-			.remove(kRefreshToken)
-			.remove(kExpiration)
-			.apply()
+		state.remove<Boolean>(LOGGED_IN)
+		state.remove<Session>(SESSION)
 		logDebug("Current session closed")
 	}
 
@@ -52,24 +45,31 @@ class SessionManager(private val sharedPrefs: SharedPreferences) {
 	 *
 	 * @return true if the session is open, false otherwise
 	 */
-	fun isLoggedIn(): Boolean {
-		return sharedPrefs.getBoolean(kLoggedIn, false)
+	private fun isLoggedIn(): Boolean {
+		return state.get(LOGGED_IN) ?: false
 	}
 
 	/**
-	 * Retrieves the auth token from the Session
+	 * Retrieves the authentication token from the Session
 	 *
-	 * @return auth token if it's still valid
+	 * @return Authentication token if it's still valid
 	 */
-	fun getToken(): String? {
-		val expiration = sharedPrefs.getInt(kExpiration, 0)
+	fun getAuthToken(): String? {
+		val session = getSession() ?: return null
 		val currentTime = Instant.now().epochSecond
-		logDebug("Comparing times. Expiration[$expiration]. Current[$currentTime]")
-		if (expiration > currentTime) {// TODO add margin to request a new one
-			return sharedPrefs.getString(kAuthToken, null)
+		logDebug("Comparing times. Expiration[${session.expiration}]. Current[$currentTime]")
+		if (session.expiration > currentTime + MARGIN) {// TODO add margin to request a new one
+			return session.auth
 		}
 		logDebug("Authentication token expired. A new one should be retrieved.")
 		return null
 	}
+
+	/**
+	 * Retrieves the current active session
+	 *
+	 * @return Session with the tokens and expiration time
+	 */
+	fun getSession(): Session? = state.get(SESSION)
 
 }

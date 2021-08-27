@@ -2,8 +2,9 @@ package dev.sotoestevez.allforone.ui.patient
 
 import android.os.Bundle
 import dev.sotoestevez.allforone.databinding.ActivityPmainBinding
-import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.ui.PrivateActivity
+import java.util.*
 
 /**
  * Main Activity of Patients
@@ -12,7 +13,7 @@ class PMainActivity : PrivateActivity() {
 
 	private lateinit var binding: ActivityPmainBinding
 
-	override var roles: Array<User.Role> = arrayOf<User.Role>(User.Role.PATIENT)
+	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT)
 
 	/**
 	 * Override of the onCreate method
@@ -25,12 +26,20 @@ class PMainActivity : PrivateActivity() {
 		setContentView(binding.root)
 	}
 
+	override fun bindLayout() {
+		TODO("Not yet implemented")
+	}
+
+	override fun attachListeners() {
+		TODO("Not yet implemented")
+	}
+
 	/**
 	 * Override of the onStart method
 	 */
 	override fun onStart() {
 		super.onStart()
-		val text = "Logged in patient: ${user.id}"
+		val text = "Logged in patient: ${model.user.value?.id}"
 		binding.textView.text = text
 	}
 }

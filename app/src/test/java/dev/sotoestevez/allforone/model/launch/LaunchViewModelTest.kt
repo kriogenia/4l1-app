@@ -1,13 +1,14 @@
-package dev.sotoestevez.allforone.model
+package dev.sotoestevez.allforone.model.launch
 
 import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dev.sotoestevez.allforone.api.APIErrorException
-import dev.sotoestevez.allforone.api.data.SignInResponse
+import dev.sotoestevez.allforone.api.responses.SignInResponse
+import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.entities.SessionManager
-import dev.sotoestevez.allforone.entities.User
-import dev.sotoestevez.allforone.repositories.UserRepository
-import dev.sotoestevez.allforone.ui.blank.SetUpActivity
+import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.repositories.SessionRepository
+import dev.sotoestevez.allforone.ui.setup.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KMainActivity
 import dev.sotoestevez.allforone.ui.patient.PMainActivity
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
@@ -35,9 +36,9 @@ class LaunchViewModelTest {
     @Before
     fun beforeEach() {
         // Mocks
-        mockkObject(UserRepository)
+        mockkObject(SessionRepository)
         mockkConstructor(SessionManager::class)
-        every { anyConstructed<SessionManager>().openSession(any(), any(), any()) } returns Unit
+        every { anyConstructed<SessionManager>().setSession(any()) } returns Unit
         // Init test object
         model = LaunchViewModel(mockk(), coroutineRule.testDispatcherProvider)
     }
@@ -51,12 +52,12 @@ class LaunchViewModelTest {
     @Test
     fun `should handle the sign in as expected when given a valid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val user = User("id", "valid", User.Role.BLANK, null)
-        val signInResponse = SignInResponse("auth", "refresh", 0, user)
-        coEvery { UserRepository.signIn("valid") } returns signInResponse
+        val signInResponse = SignInResponse(Session("auth", "refresh", 0), user)
+        coEvery { SessionRepository.signIn("valid") } returns signInResponse
         // Perform the authentication
         model.handleSignInResult("valid")
         // Check the session was stored
-        verify(exactly = 1) { anyConstructed<SessionManager>().openSession(any(), any(), any()) }
+        verify(exactly = 1) { anyConstructed<SessionManager>().setSession(any()) }
         // Check the model data has been updated
         assertEquals(user, model.user)
         assertEquals(SetUpActivity::class.java, model.destiny.value)
@@ -65,7 +66,7 @@ class LaunchViewModelTest {
     @Test
     fun `should throw and manage an error when given an invalid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val errorResponse = APIErrorException("error")
-        coEvery { UserRepository.signIn("invalid") } throws errorResponse
+        coEvery { SessionRepository.signIn("invalid") } throws errorResponse
         // Perform the authentication
         model.handleSignInResult("invalid")
         // Check the error update
@@ -84,8 +85,8 @@ class LaunchViewModelTest {
 
     private fun checkDestinyByRole(role: User.Role, destiny: Class<out Activity>) {
         val user = User("id", "valid", role, null)
-        val signInResponse = SignInResponse("auth", "refresh", 0, user)
-        coEvery { UserRepository.signIn("valid") } returns signInResponse
+        val signInResponse = SignInResponse(Session("auth", "refresh", 0), user)
+        coEvery { SessionRepository.signIn("valid") } returns signInResponse
         model.handleSignInResult("valid")
         assertEquals(destiny, model.destiny.value)
     }

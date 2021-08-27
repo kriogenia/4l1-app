@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="user"
+            type="dev.sotoestevez.allforone.data.User" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/lblContactInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/contact_info_description"
+            app:layout_constraintBottom_toTopOf="@id/txtContactPhone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Main phone number -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtContactPhone"
+            android:layout_width="@dimen/long_text_width"
+            android:layout_height="wrap_content"
+            android:hint="@string/phone_number"
+            app:helperText="@string/hint_phone"
+            app:layout_constraintBottom_toTopOf="@id/txtContactPhoneAlt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblContactInfo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eTxtContactPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=".AUTOFILL_HINT_PHONE_NUMBER"
+                android:inputType="phone"
+                android:text="@{user.mainPhoneNumber}"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Alternative phone number -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtContactPhoneAlt"
+                android:layout_width="@dimen/long_text_width"
+                android:layout_height="wrap_content"
+                android:hint="@string/choose_phone_alt"
+                app:helperText="@string/hint_phone_alt"
+                app:layout_constraintBottom_toTopOf="@id/layContactAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtContactPhone"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eTxtContactPhoneAlt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=".AUTOFILL_HINT_PHONE_NUMBER"
+                    android:inputType="phone"
+                    android:text="@{user.altPhoneNumber}"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <!-- Address -->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layContactAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/txtContactEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtContactPhoneAlt">
+
+
+            <TextView
+                android:id="@+id/lblContactAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_address"
+                app:layout_constraintBottom_toTopOf="@id/txtContactAddressStreet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Street line and extra line -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtContactAddressStreet"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_address_street"
+                app:layout_constraintBottom_toTopOf="@id/txtContactAddressLocality"
+                app:layout_constraintEnd_toStartOf="@id/txtContactAddressExtended"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblContactAddress"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eTxtContactAddressStreet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_STREET_ADDRESS"
+                    android:inputType="textPostalAddress"
+                    android:text="@{user.address.firstLine}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtContactAddressExtended"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_address_extended"
+                app:layout_constraintBottom_toTopOf="@id/txtContactAddressRegion"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txtContactAddressStreet"
+                app:layout_constraintTop_toBottomOf="@id/lblContactAddress"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eTxtContactAddressExtended"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_STREET_ADDRESS"
+                    android:inputType="textPostalAddress"
+                    android:text="@{user.address.secondLine}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Location and region line -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtContactAddressLocality"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_address_locality"
+                android:layout_marginEnd="@dimen/base_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/txtContactAddressRegion"
+                app:layout_constraintStart_toStartOf="@id/txtContactAddressStreet"
+                app:layout_constraintTop_toBottomOf="@id/txtContactAddressStreet"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eTxtContactAddressLocality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_LOCALITY"
+                    android:inputType="textPostalAddress"
+                    android:text="@{user.address.locality}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtContactAddressRegion"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_address_region"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/txtContactAddressExtended"
+                app:layout_constraintStart_toEndOf="@id/txtContactAddressLocality"
+                app:layout_constraintTop_toBottomOf="@id/txtContactAddressStreet"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eTxtContactAddressRegion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_LOCALITY"
+                    android:inputType="textPostalAddress"
+                    android:text="@{user.address.region}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Email -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtContactEmail"
+            android:layout_width="@dimen/long_text_width"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_email"
+            app:helperText="@string/choose_email"
+            app:layout_constraintBottom_toTopOf="@id/layButtonsContactFill"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layContactAddress"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eTxtContactEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS"
+                android:inputType="textEmailAddress"
+                android:text="@{user.email}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Buttons -->
+
+        <include layout="@layout/content_navigation_buttons"
+            android:id="@+id/layButtonsContactFill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtContactEmail"
+
+            app:nextText="@{@string/next}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_set_up"
+    app:startDestination="@id/NameSelectionFragment">
+
+    <fragment
+        android:id="@+id/NameSelectionFragment"
+        android:name="dev.sotoestevez.allforone.ui.setup.fragments.NameSelectionFragment"
+        android:label="@string/title_fragment_name_selection"
+        android:layout="@layout/fragment_name_selection">
+        <action
+            android:id="@+id/action_NameSelectionFragment_to_RoleSelectionFragment"
+            app:destination="@id/RoleSelectionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/RoleSelectionFragment"
+        android:name="dev.sotoestevez.allforone.ui.setup.fragments.RoleSelectionFragment"
+        android:label="@string/title_fragment_role_selection"
+        android:layout="@layout/fragment_role_selection">
+        <action
+            android:id="@+id/action_RoleSelectionFragment_to_ContactFillFragment"
+            app:destination="@id/ContactFillFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_RoleSelectionFragment_to_NameSelectionFragment"
+            app:destination="@id/NameSelectionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"  />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ContactFillFragment"
+        android:name="dev.sotoestevez.allforone.ui.setup.fragments.ContactFillFragment"
+        android:label="@string/title_fragment_contact_fill"
+        android:layout="@layout/fragment_contact_fill">
+        <action
+            android:id="@+id/action_ContactFillFragment_to_SetUpConfirmationFragment"
+            app:destination="@id/SetUpConfirmationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_ContactFillFragment_to_RoleSelectionFragment"
+            app:destination="@id/RoleSelectionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/SetUpConfirmationFragment"
+        android:name="dev.sotoestevez.allforone.ui.setup.fragments.SetUpConfirmationFragment"
+        android:label="@string/title_fragment_set_up_confirmation"
+        android:layout="@layout/fragment_set_up_confirmation">
+        <action
+            android:id="@+id/action_SetUpConfirmationFragment_to_ContactFillFragment"
+            app:destination="@id/ContactFillFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+</navigation>

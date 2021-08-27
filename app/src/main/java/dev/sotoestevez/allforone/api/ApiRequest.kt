@@ -1,7 +1,7 @@
 package dev.sotoestevez.allforone.api
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import dev.sotoestevez.allforone.api.data.ErrorResponse
+import dev.sotoestevez.allforone.api.responses.ErrorResponse
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.logError
 import dev.sotoestevez.allforone.util.extensions.logWarning

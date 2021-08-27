@@ -2,48 +2,42 @@ package dev.sotoestevez.allforone.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.security.keystore.UserNotAuthenticatedException
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 import dev.sotoestevez.allforone.R
-import dev.sotoestevez.allforone.entities.User
+import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.model.PrivateViewModel
+import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
+import dev.sotoestevez.allforone.ui.launch.LaunchActivity
+import dev.sotoestevez.allforone.util.extensions.errorToast
 import dev.sotoestevez.allforone.util.extensions.logError
+import java.util.*
 
 /**
  * Base Activity for all the Activities requiring user checking
  */
-open class PrivateActivity : AppCompatActivity() {
+abstract class PrivateActivity : MyActivity() {
 
-	/**
-	 * Information of the current user.
-	 *
-	 * **WARNING** Don't access to user properties before the onStart phase as it could
-	 * be null during the onCreate even with the check
-	 */
-	protected lateinit var user: User
+	/** ViewModel to handle all the logic of the Activity */
+	protected open val model: PrivateViewModel by viewModels { ExtendedViewModelFactory(this) }
 
-	/**
-	 * List of permitted roles in the Activity
-	 */
-	protected open var roles: Array<User.Role> = arrayOf()
+	/** List of permitted roles in the Activity */
+	protected open val roles: EnumSet<User.Role> = EnumSet.noneOf(User.Role::class.java)
 
-	/**
-	 * Override of the onCreate method
-	 * Retrieves the user from the intent and checks the permissions
-	 * If the user can't access this activity, the activity is killed and the user
-	 * is returned to the authentication activity
-	 * @param savedInstanceState bundle with a saved instance
-	 */
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		// Set the user
-		try {
-			user = loadUser()
-		} catch (e: UserNotAuthenticatedException) {
-			// if the user is not valid, return to the launch activity and kill this
-			logError(e.message!!, e)
-			startActivity(Intent(this, LaunchActivity::class.java))
-			finish()
-		}
+		checkUser()
+	}
+
+	override fun bindLayout() {}
+
+	override fun attachListeners() {}
+
+	override fun attachObservers() {
+		model.error.observe(this, { handleError(it) })
+	}
+
+	override fun handleError(error: Throwable) {
+		errorToast(error)
 	}
 
 	/**
@@ -51,18 +45,13 @@ open class PrivateActivity : AppCompatActivity() {
 	 *
 	 * @return the user if it's valid
 	 */
-	@Throws(UserNotAuthenticatedException::class)
-	fun loadUser(): User {
-		// Retrieve user
-		val fromParcelable = intent.getParcelableExtra<User>(User::class.simpleName)
-		// User is not logged in or has the wrong role, return to LaunchActivity
-		if (fromParcelable != null) {
-			if (roles.contains(fromParcelable.role)) {
-				return fromParcelable
-			}
-			throw UserNotAuthenticatedException(getString(R.string.error_invalid_permissions))
+	private fun checkUser() {
+		val user = model.user.value
+		if (user == null || !roles.contains(user.role)) {
+			logError(getString(R.string.error_invalid_permissions))
+			startActivity(Intent(this, LaunchActivity::class.java))
+			finish()
 		}
-		throw UserNotAuthenticatedException(getString(R.string.error_not_authenticated_user))
 	}
 
 }

@@ -1,11 +1,9 @@
 package dev.sotoestevez.allforone.api
 
-import dev.sotoestevez.allforone.api.data.ErrorResponse
+import dev.sotoestevez.allforone.api.responses.ErrorResponse
 import java.io.IOException
 
-/**
- * Custom exception to generate from API errors
- */
+/** Custom exception to generate from API errors */
 class APIErrorException: IOException {
 
     constructor(message: String): super(message)
