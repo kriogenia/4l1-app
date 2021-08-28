@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.ui.setup
 
+import android.app.Activity
 import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -32,6 +33,7 @@ class SetUpActivity : PrivateActivity() {
 
 	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.BLANK)
 
+	@Suppress("KDocMissingDocumentation")
 	override fun onSupportNavigateUp(): Boolean {
 		val navController = findNavController(R.id.nav_host_fragment_set_up)
 		return navController.navigateUp(appBarConfiguration)
@@ -48,5 +50,14 @@ class SetUpActivity : PrivateActivity() {
 		val navController = navHostFragment.navController
 		appBarConfiguration = AppBarConfiguration(navController.graph)
 		setupActionBarWithNavController(navController, appBarConfiguration)
+	}
+
+	override fun attachObservers() {
+		model.destiny.observe(this) {	nextActivity(it) }
+	}
+
+	private fun nextActivity(next: Class<out Activity>) {
+		startActivity(buildIntent(next))
+		finish()
 	}
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 /** Base [Fragment] to use as template for application fragments */
 abstract class MyFragment: Fragment() {
 
+	@Suppress("KDocMissingDocumentation")
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
@@ -17,6 +18,7 @@ abstract class MyFragment: Fragment() {
 		return bindLayout(inflater, container)
 	}
 
+	@Suppress("KDocMissingDocumentation")
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		attachListeners()
 		attachObservers()

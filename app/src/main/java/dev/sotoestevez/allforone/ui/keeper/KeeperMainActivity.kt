@@ -1,8 +1,11 @@
 package dev.sotoestevez.allforone.ui.keeper
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivityKeeperMainBinding
+import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
+import dev.sotoestevez.allforone.model.patient.PatientMainViewModel
 import dev.sotoestevez.allforone.ui.PrivateActivity
 import java.util.*
 
@@ -10,6 +13,9 @@ import java.util.*
  *  Main activity of Keepers
  */
 class KeeperMainActivity : PrivateActivity() {
+
+	// TODO replace
+	override val model: PatientMainViewModel by viewModels { ExtendedViewModelFactory(this) }
 
 	private lateinit var binding: ActivityKeeperMainBinding
 

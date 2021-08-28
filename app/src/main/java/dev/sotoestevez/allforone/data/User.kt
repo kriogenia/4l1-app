@@ -30,13 +30,10 @@ data class User(
 
 	/** Different types of users of the application */
 	enum class Role {
-
 		/** Users that didn't select a [Role] yet */
 		@SerializedName("blank") BLANK,
-
 		/** Users helping a patient */
 		@SerializedName("keeper") KEEPER,
-
 		/** Users suffering the disease */
 		@SerializedName("patient") PATIENT
 

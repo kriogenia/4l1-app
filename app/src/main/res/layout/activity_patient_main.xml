@@ -9,25 +9,41 @@
             type="dev.sotoestevez.allforone.data.User" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/layPatientMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".ui.patient.PatientMainActivity">
+
+        <!-- Top profile card -->
 
         <include
             android:id="@+id/profileCard"
             layout="@layout/content_profile_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/base_margin"
             app:isExpandable="@{true}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:user="@{user}" />
 
+        <!-- No bond warning -->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <include layout="@layout/content_warning_box"
+            app:message="@{@string/warn_no_bonds}"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_extra"
+            android:layout_marginStart="@dimen/base_margin"
+            android:layout_marginEnd="@dimen/base_margin"
+            android:text="@string/bonds"
+            android:textSize="@dimen/txt_btn_extra" />
+
+
+    </LinearLayout>
+
+
 
 
 </layout>

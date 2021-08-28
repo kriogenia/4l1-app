@@ -23,24 +23,23 @@ import java.lang.IllegalStateException
 abstract class PrivateViewModel(
 	savedStateHandle: SavedStateHandle,
 	protected val dispatchers: DispatcherProvider = DefaultDispatcherProvider
-): ViewModel() {
+): ViewModel(), ExtendedViewModel {
 
 	companion object {
 		private val USER = User::class.java.simpleName
 	}
 
-	/**	Module to manage the tokens currently stored in memory */
-	private val sessionManager: SessionManager = SessionManager(savedStateHandle)
+	override val sessionManager: SessionManager = SessionManager(savedStateHandle)
 
-	/** Live data holding the user information */
-	val user: LiveData<User>
-		get() = _user
-	protected var _user = MutableLiveData<User>(savedStateHandle[USER])
+	/** Mutable implementation of the user live data exposed **/
+	protected var mUser: MutableLiveData<User> = MutableLiveData<User>(savedStateHandle[USER])
+	override val user: LiveData<User>
+		get() = mUser
 
-	/** Live data holding the error to handle in the Activity */
-	val error: LiveData<Throwable>
-		get() = _error
-	private var _error = MutableLiveData<Throwable>()
+	/** Mutable implementation of the error live data exposed **/
+	private var mError = MutableLiveData<Throwable>()
+	override val error: LiveData<Throwable>
+		get() = mError
 
 	/**
 	 * Retrieves the stored token if it's still valid. If it's not, refresh the current token
@@ -67,13 +66,13 @@ abstract class PrivateViewModel(
 
 	/** Base coroutine exception handler */
 	protected open val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-		_error.postValue(throwable)
+		mError.postValue(throwable)
 	}
 
 	/************ TDD oriented injections ******************/
 
 	internal fun injectUser(user: User) {
-		_user.value = user
+		mUser.value = user
 	}
 
 }

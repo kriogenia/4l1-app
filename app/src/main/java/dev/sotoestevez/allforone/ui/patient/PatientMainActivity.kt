@@ -1,6 +1,5 @@
 package dev.sotoestevez.allforone.ui.patient
 
-import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.transition.AutoTransition
@@ -23,14 +22,6 @@ class PatientMainActivity : PrivateActivity() {
 
 	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT)
 
-	/**
-	 * Override of the onCreate method
-	 * @param savedInstanceState bundle with a saved instance
-	 */
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-	}
-
 	override fun bindLayout() {
 		binding = ActivityPatientMainBinding.inflate(layoutInflater)
 		binding.user = model.user.value
@@ -39,7 +30,8 @@ class PatientMainActivity : PrivateActivity() {
 
 	override fun attachListeners() {
 		binding.profileCard.btnExpandCard.setOnClickListener {
-			TransitionManager.beginDelayedTransition(binding.profileCard.cardUserProfile, AutoTransition())
+			TransitionManager.beginDelayedTransition(binding.layPatientMain, AutoTransition())
+			//TransitionManager.beginDelayedTransition(binding.profileCard.cardUserProfile, AutoTransition())
 			if (binding.profileCard.layExpandableSection.visibility == View.GONE) {
 				binding.profileCard.layExpandableSection.visibility = View.VISIBLE
 				binding.profileCard.btnExpandCard.rotation = 180f

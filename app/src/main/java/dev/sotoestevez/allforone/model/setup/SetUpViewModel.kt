@@ -26,8 +26,8 @@ class SetUpViewModel(
 
 	/** Live data to invoke a change of activity in the related activity **/
 	val destiny: LiveData<Class<out Activity>>
-		get() = _destiny
-	private var _destiny = MutableLiveData<Class<out Activity>>()
+		get() = mDestiny
+	private var mDestiny = MutableLiveData<Class<out Activity>>()
 
 	/**
 	 * Updates the display name of the user also calling the observers
@@ -35,7 +35,7 @@ class SetUpViewModel(
 	 * @param displayName   New display name of the user
 	 */
 	fun setDisplayName(displayName: String) {
-		_user.value = _user.value?.also {
+		mUser.value = mUser.value?.also {
 			it.displayName = displayName
 		}
 	}
@@ -46,7 +46,7 @@ class SetUpViewModel(
 	 * @param role   New role of the user
 	 */
 	fun setRole(role: User.Role) {
-		_user.value = _user.value?.also {
+		mUser.value = mUser.value?.also {
 			it.role = role
 		}
 	}
@@ -57,7 +57,7 @@ class SetUpViewModel(
 	 * @param number Main phone number of the user
 	 */
 	fun setMainPhoneNumber(number: String) {
-		_user.value?.mainPhoneNumber = number
+		mUser.value?.mainPhoneNumber = number
 	}
 
 	/**
@@ -66,7 +66,7 @@ class SetUpViewModel(
 	 * @param number Alternative phone number of the user
 	 */
 	fun setAltPhoneNumber(number: String) {
-		_user.value?.altPhoneNumber = number
+		mUser.value?.altPhoneNumber = number
 	}
 
 	/**
@@ -75,7 +75,7 @@ class SetUpViewModel(
 	 * @param email Email address of the user
 	 */
 	fun setEmail(email: String) {
-		_user.value?.email = email
+		mUser.value?.email = email
 	}
 
 	/**
@@ -87,7 +87,7 @@ class SetUpViewModel(
 	 * @param region Administrative area or region
 	 */
 	fun setAddress(street: String, door: String, locality: String, region: String) {
-		_user.value?.address = Address(street, door, locality, region)
+		mUser.value?.address = Address(street, door, locality, region)
 	}
 
 	/**
@@ -106,7 +106,7 @@ class SetUpViewModel(
 	}
 
 	private fun updateDestiny() {
-		_destiny.value = when (user.value?.role) {
+		mDestiny.value = when (user.value?.role) {
 			User.Role.KEEPER -> KeeperMainActivity::class.java
 			User.Role.PATIENT -> PatientMainActivity::class.java
 			else -> throw IllegalStateException("Set-up completed with no role selected")

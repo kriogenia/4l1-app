@@ -2,11 +2,8 @@ package dev.sotoestevez.allforone.ui
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.data.User
-import dev.sotoestevez.allforone.model.PrivateViewModel
-import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.launch.LaunchActivity
 import dev.sotoestevez.allforone.util.extensions.errorToast
 import dev.sotoestevez.allforone.util.extensions.logError
@@ -17,12 +14,10 @@ import java.util.*
  */
 abstract class PrivateActivity : MyActivity() {
 
-	/** ViewModel to handle all the logic of the Activity */
-	protected open val model: PrivateViewModel by viewModels { ExtendedViewModelFactory(this) }
-
 	/** List of permitted roles in the Activity */
 	protected open val roles: EnumSet<User.Role> = EnumSet.noneOf(User.Role::class.java)
 
+	@Suppress("KDocMissingDocumentation")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		checkUser()

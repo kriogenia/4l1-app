@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.model.ExtendedViewModel
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.ui.launch.LaunchActivity
 import dev.sotoestevez.allforone.ui.setup.SetUpActivity
@@ -28,26 +29,24 @@ import kotlinx.coroutines.*
 class LaunchViewModel(
 	savedStateHandle: SavedStateHandle,
 	private val dispatchers: DispatcherProvider = DefaultDispatcherProvider
-): ViewModel() {
+): ViewModel(), ExtendedViewModel {
 
-	private val sessionManager: SessionManager = SessionManager(savedStateHandle)
+	override val sessionManager: SessionManager = SessionManager(savedStateHandle)
 
-	/** Currently stored session data */
-	val session: Session?
-		get() = sessionManager.getSession()
+	/** Mutable implementation of the user live data exposed **/
+	private var mUser: MutableLiveData<User> = MutableLiveData<User>()
+	override val user: LiveData<User>
+		get() = mUser
 
-	/** User data retrieved from the server **/
-	var user: User? = null
+	/** Mutable implementation of the error live data exposed **/
+	private var mError = MutableLiveData<Throwable>()
+	override val error: LiveData<Throwable>
+		get() = mError
 
 	/** Live data holding the class of the next activity to launch from the LaunchActivity **/
 	val destiny: LiveData<Class<out Activity>>
-		get() = _destiny
-	private var _destiny = MutableLiveData<Class<out Activity>>()
-
-	/** Live data holding the error messages to handle in the Activity **/
-	val error: LiveData<Throwable>
-		get() = _error
-	private var _error = MutableLiveData<Throwable>()
+		get() = mDestiny
+	private var mDestiny = MutableLiveData<Class<out Activity>>()
 
 
 	/**
@@ -79,9 +78,9 @@ class LaunchViewModel(
 	 */
 	private fun updateDestiny(user: User) {
 		// Save the user
-		this.user = user
+		mUser.value = user
 		// Decide the activity to navigate based on the user role (invoking the Activity)
-		_destiny.value = when (user.role) {
+		mDestiny.value = when (user.role) {
 			User.Role.KEEPER -> KeeperMainActivity::class.java
 			User.Role.PATIENT -> PatientMainActivity::class.java
 			User.Role.BLANK -> SetUpActivity::class.java
@@ -89,7 +88,7 @@ class LaunchViewModel(
 	}
 
 	private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-		_error.postValue(throwable)
+		mError.postValue(throwable)
 	}
 
 }

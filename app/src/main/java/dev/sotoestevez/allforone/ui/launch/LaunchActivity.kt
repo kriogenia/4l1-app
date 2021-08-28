@@ -1,16 +1,13 @@
 package dev.sotoestevez.allforone.ui.launch
 
 import android.app.Activity
-import android.content.Intent
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.activity.viewModels
-import dev.sotoestevez.allforone.data.Session
-import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivityLaunchBinding
 import dev.sotoestevez.allforone.entities.GoogleAuthHelper
-import dev.sotoestevez.allforone.model.launch.LaunchViewModel
 import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
+import dev.sotoestevez.allforone.model.launch.LaunchViewModel
 import dev.sotoestevez.allforone.ui.MyActivity
 import dev.sotoestevez.allforone.ui.keeper.KeeperMainActivity
 import dev.sotoestevez.allforone.ui.patient.PatientMainActivity
@@ -26,11 +23,12 @@ class LaunchActivity : MyActivity() {
 
 	private lateinit var binding: ActivityLaunchBinding
 
-	private val model: LaunchViewModel by viewModels { ExtendedViewModelFactory(this) }
+	override val model: LaunchViewModel by viewModels { ExtendedViewModelFactory(this) }
 
 	// Module with the logic to perform Google authentications
 	private val googleAuthHelper = GoogleAuthHelper(this)
 
+	@Suppress("KDocMissingDocumentation")
 	override fun onStart() {
 		super.onStart()
 		logDebug("Application started")
@@ -51,8 +49,8 @@ class LaunchActivity : MyActivity() {
 	}
 
 	override fun attachObservers() {
-		model.error.observe(this, { handleError(it) })
-		model.destiny.observe(this, { nextActivity(it) })
+		model.error.observe(this) { handleError(it) }
+		model.destiny.observe(this) { nextActivity(it) }
 	}
 
 	override fun handleError(error: Throwable) {
@@ -60,19 +58,8 @@ class LaunchActivity : MyActivity() {
 		super.handleError(error)
 	}
 
-	/**
-	 * Starts the next activity once the authentication is completed.
-	 * Observer of the authentication process
-	 *
-	 * @param next Class of the activity to start
-	 */
 	private fun nextActivity(next: Class<out Activity>) {
-		// Build the intent with the user and launch the activity
-		val intent = Intent(this, next)
-		intent.putExtra(Session::class.simpleName, model.session)
-		intent.putExtra(User::class.simpleName, model.user)
-		startActivity(intent)
-		// Delete the activity so it's not accessed going back
+		startActivity(buildIntent(next))
 		finish()
 	}
 
