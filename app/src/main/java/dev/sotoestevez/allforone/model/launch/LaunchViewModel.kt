@@ -48,6 +48,8 @@ class LaunchViewModel(
 		get() = mDestiny
 	private var mDestiny = MutableLiveData<Class<out Activity>>()
 
+	override val loading: MutableLiveData<Boolean> = MutableLiveData(false)
+
 
 	/**
 	 * Handles the retrieved token in the sign in request.

@@ -9,7 +9,7 @@ import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.extensions.errorToast
 
 /** Base activity to reduce code duplication and implement the common creation flow */
-abstract class MyActivity : AppCompatActivity(), ExtendedActivity  {
+abstract class BaseExtendedActivity : AppCompatActivity(), ExtendedActivity, SteppedCreation  {
 
 	@Suppress("KDocMissingDocumentation")
 	override fun onCreate(savedInstanceState: Bundle?) {

@@ -95,6 +95,7 @@ class SetUpViewModel(
 	 */
 	fun sendUpdate() {
 		logDebug("[${user.value?.id}] Finalized user set-up")
+		loading.value = true
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
 			val user = user.value ?: throw IllegalStateException("Set-up completed without user object")
 			val result = UserRepository.update(user, authHeader())

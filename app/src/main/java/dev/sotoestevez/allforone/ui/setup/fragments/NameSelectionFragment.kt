@@ -11,18 +11,18 @@ import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.databinding.FragmentNameSelectionBinding
 import dev.sotoestevez.allforone.model.setup.SetUpViewModel
-import dev.sotoestevez.allforone.ui.MyFragment
+import dev.sotoestevez.allforone.ui.BaseExtendedFragment
 
 /**
  * [Fragment] of SetUpActivity to set the displayName of the user.
  */
-class NameSelectionFragment : MyFragment() {
+class NameSelectionFragment : BaseExtendedFragment() {
 
 	private val binding: FragmentNameSelectionBinding
 		get() = _binding!!
 	private var _binding: FragmentNameSelectionBinding? = null
 
-	private val model: SetUpViewModel by activityViewModels()
+	override val model: SetUpViewModel by activityViewModels()
 
 	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
 		_binding = FragmentNameSelectionBinding.inflate(inflater, container, false)

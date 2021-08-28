@@ -31,7 +31,6 @@ class PatientMainActivity : PrivateActivity() {
 	override fun attachListeners() {
 		binding.profileCard.btnExpandCard.setOnClickListener {
 			TransitionManager.beginDelayedTransition(binding.layPatientMain, AutoTransition())
-			//TransitionManager.beginDelayedTransition(binding.profileCard.cardUserProfile, AutoTransition())
 			if (binding.profileCard.layExpandableSection.visibility == View.GONE) {
 				binding.profileCard.layExpandableSection.visibility = View.VISIBLE
 				binding.profileCard.btnExpandCard.rotation = 180f

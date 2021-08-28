@@ -41,6 +41,8 @@ abstract class PrivateViewModel(
 	override val error: LiveData<Throwable>
 		get() = mError
 
+	override val loading: MutableLiveData<Boolean> = MutableLiveData(false)
+
 	/**
 	 * Retrieves the stored token if it's still valid. If it's not, refresh the current token
 	 * with the refresh token and obtain and store a new one

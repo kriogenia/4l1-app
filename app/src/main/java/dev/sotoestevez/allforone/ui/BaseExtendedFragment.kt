@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
 /** Base [Fragment] to use as template for application fragments */
-abstract class MyFragment: Fragment() {
+abstract class BaseExtendedFragment: Fragment(), ExtendedFragment, SteppedCreation {
 
 	@Suppress("KDocMissingDocumentation")
 	override fun onCreateView(
@@ -25,22 +25,10 @@ abstract class MyFragment: Fragment() {
 		updateUi()
 	}
 
-	/**
-	 * Operation to bind the layout of the fragment
-	 *
-	 * @param inflater  Layout inflater
-	 * @param container Fragment container
-	 * @return  Binding root
-	 */
-	abstract fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View
+	override fun attachListeners() {}
 
-	/** Operation to attach the fragment component listeners */
-	protected open fun attachListeners() {}
+	override fun attachObservers() {}
 
-	/** Operation to attach the model component observers */
-	protected open fun attachObservers() {}
-
-	/** Operation to update the UI */
-	protected open fun updateUi() {}
+	override fun updateUi() {}
 
 }
