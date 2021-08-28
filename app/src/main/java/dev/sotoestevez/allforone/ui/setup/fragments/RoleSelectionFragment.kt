@@ -30,6 +30,7 @@ class RoleSelectionFragment : BaseExtendedFragment() {
 	}
 
 	override fun attachListeners() {
+		super.attachListeners()
 		binding.layButtonsRoleSelection.btnPrevious.setOnClickListener {
 			findNavController().navigate(R.id.action_RoleSelectionFragment_to_NameSelectionFragment)
 		}
@@ -41,10 +42,12 @@ class RoleSelectionFragment : BaseExtendedFragment() {
 	}
 
 	override fun attachObservers() {
+		super.attachObservers()
 		model.user.observe(viewLifecycleOwner) { updateUi() }
 	}
 
 	override fun updateUi() {
+		super.updateUi()
 		binding.lblGreetingsName.text = getString(R.string.hello_name, model.user.value?.displayName)
 		binding.layButtonsRoleSelection.btnNext.isEnabled = model.user.value?.role != User.Role.BLANK
 		if (model.user.value?.role == User.Role.PATIENT) {

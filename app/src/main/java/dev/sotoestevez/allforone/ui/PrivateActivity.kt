@@ -15,7 +15,7 @@ import java.util.*
 abstract class PrivateActivity : BaseExtendedActivity() {
 
 	/** List of permitted roles in the Activity */
-	protected open val roles: EnumSet<User.Role> = EnumSet.noneOf(User.Role::class.java)
+	abstract val roles: EnumSet<User.Role>
 
 	@Suppress("KDocMissingDocumentation")
 	override fun onCreate(savedInstanceState: Bundle?) {

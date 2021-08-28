@@ -32,7 +32,10 @@
         <include layout="@layout/content_warning_box"
             app:message="@{@string/warn_no_bonds}"/>
 
+        <!-- Bond button -->
+
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBonds"
             android:layout_width="match_parent"
             android:layout_height="@dimen/btn_extra"
             android:layout_marginStart="@dimen/base_margin"

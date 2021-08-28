@@ -31,6 +31,7 @@ class NameSelectionFragment : BaseExtendedFragment() {
 	}
 
 	override fun attachListeners() {
+		super.attachListeners()
 		binding.txtNameSelection.doAfterTextChanged { model.setDisplayName(it.toString()) }
 		binding.btnNextNameSelection.setOnClickListener {
 			findNavController().navigate(R.id.action_NameSelectionFragment_to_RoleSelectionFragment)
@@ -38,10 +39,12 @@ class NameSelectionFragment : BaseExtendedFragment() {
 	}
 
 	override fun attachObservers() {
+		super.attachObservers()
 		model.user.observe(viewLifecycleOwner) { updateUi() }
 	}
 
 	override fun updateUi() {
+		super.updateUi()
 		binding.btnNextNameSelection.isEnabled = !Strings.isEmptyOrWhitespace(model.user.value?.displayName)
 	}
 

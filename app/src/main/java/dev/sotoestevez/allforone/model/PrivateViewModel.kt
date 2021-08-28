@@ -4,12 +4,10 @@ import androidx.lifecycle.*
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.repositories.SessionRepository
-import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
-import java.lang.IllegalStateException
 
 /**
  * ViewModel of the the Activities using session (derived from PrivateActivity)
@@ -22,7 +20,7 @@ import java.lang.IllegalStateException
  */
 abstract class PrivateViewModel(
 	savedStateHandle: SavedStateHandle,
-	protected val dispatchers: DispatcherProvider = DefaultDispatcherProvider
+	protected val dispatchers: DispatcherProvider
 ): ViewModel(), ExtendedViewModel {
 
 	companion object {

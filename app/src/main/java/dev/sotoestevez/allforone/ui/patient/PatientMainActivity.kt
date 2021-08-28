@@ -9,6 +9,7 @@ import dev.sotoestevez.allforone.databinding.ActivityPatientMainBinding
 import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.model.patient.PatientMainViewModel
 import dev.sotoestevez.allforone.ui.PrivateActivity
+import dev.sotoestevez.allforone.ui.bonds.BondsActivity
 import java.util.*
 
 /**
@@ -29,6 +30,7 @@ class PatientMainActivity : PrivateActivity() {
 	}
 
 	override fun attachListeners() {
+		super.attachListeners()
 		binding.profileCard.btnExpandCard.setOnClickListener {
 			TransitionManager.beginDelayedTransition(binding.layPatientMain, AutoTransition())
 			if (binding.profileCard.layExpandableSection.visibility == View.GONE) {
@@ -39,6 +41,11 @@ class PatientMainActivity : PrivateActivity() {
 				binding.profileCard.btnExpandCard.rotation = 0f
 			}
 		}
+		binding.btnBonds.setOnClickListener { launchActivity(BondsActivity::class.java) }
+	}
+
+	private fun launchActivity(next: Class<BondsActivity>) {
+		startActivity(buildIntent(next))
 	}
 
 }

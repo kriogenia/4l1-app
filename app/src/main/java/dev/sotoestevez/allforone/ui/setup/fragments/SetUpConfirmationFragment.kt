@@ -33,6 +33,7 @@ class SetUpConfirmationFragment : BaseExtendedFragment() {
 	}
 
 	override fun attachListeners() {
+		super.attachListeners()
 		binding.layButtonsSetUpConfirmation.btnPrevious.setOnClickListener {
 			findNavController().navigate(R.id.action_SetUpConfirmationFragment_to_ContactFillFragment)
 		}
@@ -40,6 +41,7 @@ class SetUpConfirmationFragment : BaseExtendedFragment() {
 	}
 
 	override fun attachObservers() {
+		super.attachObservers()
 		model.loading.observe(this) { uiLoading(it) }
 	}
 

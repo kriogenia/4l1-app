@@ -30,6 +30,7 @@ class ContactFillFragment : BaseExtendedFragment() {
 	}
 
 	override fun attachListeners() {
+		super.attachListeners()
 		binding.eTxtContactPhone.doAfterTextChanged { model.setMainPhoneNumber(it.toString()) }
 		binding.eTxtContactPhoneAlt.doAfterTextChanged { model.setAltPhoneNumber(it.toString()) }
 		binding.eTxtContactEmail.doAfterTextChanged { model.setEmail(it.toString()) }
