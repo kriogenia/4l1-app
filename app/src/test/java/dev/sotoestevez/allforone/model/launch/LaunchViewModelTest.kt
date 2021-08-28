@@ -9,8 +9,8 @@ import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.ui.setup.SetUpActivity
-import dev.sotoestevez.allforone.ui.keeper.KMainActivity
-import dev.sotoestevez.allforone.ui.patient.PMainActivity
+import dev.sotoestevez.allforone.ui.keeper.KeeperMainActivity
+import dev.sotoestevez.allforone.ui.patient.PatientMainActivity
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -78,9 +78,9 @@ class LaunchViewModelTest {
         // No Role
         checkDestinyByRole(User.Role.BLANK, SetUpActivity::class.java)
         // Keeper role
-        checkDestinyByRole(User.Role.KEEPER, KMainActivity::class.java)
+        checkDestinyByRole(User.Role.KEEPER, KeeperMainActivity::class.java)
         // Patient role
-        checkDestinyByRole(User.Role.PATIENT, PMainActivity::class.java)
+        checkDestinyByRole(User.Role.PATIENT, PatientMainActivity::class.java)
     }
 
     private fun checkDestinyByRole(role: User.Role, destiny: Class<out Activity>) {

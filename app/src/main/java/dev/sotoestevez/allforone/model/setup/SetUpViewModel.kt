@@ -9,8 +9,8 @@ import dev.sotoestevez.allforone.data.Address
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.repositories.UserRepository
-import dev.sotoestevez.allforone.ui.keeper.KMainActivity
-import dev.sotoestevez.allforone.ui.patient.PMainActivity
+import dev.sotoestevez.allforone.ui.keeper.KeeperMainActivity
+import dev.sotoestevez.allforone.ui.patient.PatientMainActivity
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
@@ -18,9 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.IllegalStateException
 
-/**
- * Shared ViewModel of the SetUpActivity and its fragments
- */
+/** Shared ViewModel of the SetUpActivity and its fragments */
 class SetUpViewModel(
 	savedStateHandle: SavedStateHandle,
 	dispatchers: DispatcherProvider = DefaultDispatcherProvider
@@ -36,7 +34,7 @@ class SetUpViewModel(
 	 *
 	 * @param displayName   New display name of the user
 	 */
-	fun setDisplayName(displayName: String): Unit {
+	fun setDisplayName(displayName: String) {
 		_user.value = _user.value?.also {
 			it.displayName = displayName
 		}
@@ -109,8 +107,8 @@ class SetUpViewModel(
 
 	private fun updateDestiny() {
 		_destiny.value = when (user.value?.role) {
-			User.Role.KEEPER -> KMainActivity::class.java
-			User.Role.PATIENT -> PMainActivity::class.java
+			User.Role.KEEPER -> KeeperMainActivity::class.java
+			User.Role.PATIENT -> PatientMainActivity::class.java
 			else -> throw IllegalStateException("Set-up completed with no role selected")
 		}
 	}

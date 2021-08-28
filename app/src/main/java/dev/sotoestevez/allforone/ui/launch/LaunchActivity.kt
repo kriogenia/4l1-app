@@ -12,15 +12,15 @@ import dev.sotoestevez.allforone.entities.GoogleAuthHelper
 import dev.sotoestevez.allforone.model.launch.LaunchViewModel
 import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.MyActivity
-import dev.sotoestevez.allforone.ui.keeper.KMainActivity
-import dev.sotoestevez.allforone.ui.patient.PMainActivity
+import dev.sotoestevez.allforone.ui.keeper.KeeperMainActivity
+import dev.sotoestevez.allforone.ui.patient.PatientMainActivity
 import dev.sotoestevez.allforone.ui.setup.SetUpActivity
 import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /**
  * Launching activity of the project. It is in charge of managing the authentication of the user in the app.
  * Once a valid session is registered, the activity sends the user to the adequate main  activity
- * ([KMainActivity] or [PMainActivity]) or to the [SetUpActivity] if it's a new user.
+ * ([KeeperMainActivity] or [PatientMainActivity]) or to the [SetUpActivity] if it's a new user.
  */
 class LaunchActivity : MyActivity() {
 

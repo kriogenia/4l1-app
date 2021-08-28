@@ -132,9 +132,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardKeeper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            app:nextText="@{@string/next}" />
+            android:layout_height="wrap_content" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

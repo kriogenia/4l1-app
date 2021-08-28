@@ -1,17 +1,17 @@
 package dev.sotoestevez.allforone.ui.keeper
 
 import android.os.Bundle
-import dev.sotoestevez.allforone.databinding.ActivityKmainBinding
 import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.databinding.ActivityKeeperMainBinding
 import dev.sotoestevez.allforone.ui.PrivateActivity
 import java.util.*
 
 /**
  *  Main activity of Keepers
  */
-class KMainActivity : PrivateActivity() {
+class KeeperMainActivity : PrivateActivity() {
 
-	private lateinit var binding: ActivityKmainBinding
+	private lateinit var binding: ActivityKeeperMainBinding
 
 	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.KEEPER)
 
@@ -22,7 +22,7 @@ class KMainActivity : PrivateActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		// Set the layout
-		binding = ActivityKmainBinding.inflate(layoutInflater)
+		binding = ActivityKeeperMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 	}
 

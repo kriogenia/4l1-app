@@ -1,13 +1,12 @@
 package dev.sotoestevez.allforone.model.setup
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.SavedStateHandle
 import dev.sotoestevez.allforone.api.responses.MessageResponse
 import dev.sotoestevez.allforone.data.Address
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.repositories.UserRepository
-import dev.sotoestevez.allforone.ui.patient.PMainActivity
+import dev.sotoestevez.allforone.ui.patient.PatientMainActivity
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -98,7 +97,7 @@ class SetUpViewModelTest {
 			model.sendUpdate()
 
 			coVerify(exactly = 1) { UserRepository.update(any(), any()) }
-			assertEquals(model.destiny.value, PMainActivity::class.java)
+			assertEquals(model.destiny.value, PatientMainActivity::class.java)
 		}
 
 }

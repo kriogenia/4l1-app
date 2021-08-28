@@ -8,8 +8,8 @@ import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.ui.launch.LaunchActivity
 import dev.sotoestevez.allforone.ui.setup.SetUpActivity
-import dev.sotoestevez.allforone.ui.keeper.KMainActivity
-import dev.sotoestevez.allforone.ui.patient.PMainActivity
+import dev.sotoestevez.allforone.ui.keeper.KeeperMainActivity
+import dev.sotoestevez.allforone.ui.patient.PatientMainActivity
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
@@ -82,8 +82,8 @@ class LaunchViewModel(
 		this.user = user
 		// Decide the activity to navigate based on the user role (invoking the Activity)
 		_destiny.value = when (user.role) {
-			User.Role.KEEPER -> KMainActivity::class.java
-			User.Role.PATIENT -> PMainActivity::class.java
+			User.Role.KEEPER -> KeeperMainActivity::class.java
+			User.Role.PATIENT -> PatientMainActivity::class.java
 			User.Role.BLANK -> SetUpActivity::class.java
 		}
 	}
