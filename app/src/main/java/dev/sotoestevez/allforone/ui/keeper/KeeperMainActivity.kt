@@ -1,19 +1,22 @@
 package dev.sotoestevez.allforone.ui.keeper
 
+import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivityKeeperMainBinding
 import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
-import dev.sotoestevez.allforone.model.QRScannerActivity
+import dev.sotoestevez.allforone.ui.qr.QRScannerActivity
 import dev.sotoestevez.allforone.model.keeper.KeeperMainViewModel
-import dev.sotoestevez.allforone.model.patient.PatientMainViewModel
 import dev.sotoestevez.allforone.ui.PrivateActivity
+import dev.sotoestevez.allforone.util.extensions.toast
 import java.util.*
 
 /**
- *  Main activity of Keepers
+ *  Main activity of Keepers.
+ *  Handles the bonding with the Patient when no bond is set invoking the QR Scanner and connecting with the server
  */
 class KeeperMainActivity : PrivateActivity() {
 
@@ -30,7 +33,18 @@ class KeeperMainActivity : PrivateActivity() {
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.btnForgeBond.setOnClickListener { startActivity(buildIntent(QRScannerActivity::class.java)) }
+		binding.btnForgeBond.setOnClickListener { invokeQRScanner() }
+	}
+
+	private fun invokeQRScanner() {
+		registerForActivityResult(
+			ActivityResultContracts.StartActivityForResult()
+		) { result ->
+			if (result.resultCode == Activity.RESULT_OK)
+				model.bond(result.data?.data.toString())
+			else
+				toast(getString(R.string.error_qr_scanner))
+		}.launch(Intent(this, QRScannerActivity::class.java))
 	}
 
 }

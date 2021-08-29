@@ -53,4 +53,5 @@
     <string name="collapse">Collapse</string>
     <string name="scan_instructions">Scan the following QR Code with your new Keeper application to form the bond</string>
     <string name="forge_bond">Forge bond</string>
+    <string name="error_qr_scanner">Some error occurred while using the QR Scanner, please try again</string>
 </resources>
