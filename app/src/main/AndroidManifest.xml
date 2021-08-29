@@ -3,6 +3,7 @@
     package="dev.sotoestevez.allforone">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.4l1app">
         <activity
-            android:name="dev.sotoestevez.allforone.ui.bonds.BondsActivity"
+            android:name=".model.QRScannerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.bonds.BondsActivity"
             android:exported="true" />
         <activity
             android:name=".ui.setup.SetUpActivity"

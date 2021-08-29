@@ -52,4 +52,5 @@
     <string name="desc_collapse_qr_view">Button to collapse the view of the QR</string>
     <string name="collapse">Collapse</string>
     <string name="scan_instructions">Scan the following QR Code with your new Keeper application to form the bond</string>
+    <string name="forge_bond">Forge bond</string>
 </resources>
