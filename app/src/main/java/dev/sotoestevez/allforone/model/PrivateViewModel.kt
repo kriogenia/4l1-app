@@ -8,6 +8,7 @@ import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
+import org.jetbrains.annotations.TestOnly
 
 /**
  * ViewModel of the the Activities using session (derived from PrivateActivity)
@@ -28,6 +29,8 @@ abstract class PrivateViewModel(
 	}
 
 	override val sessionManager: SessionManager = SessionManager(savedStateHandle)
+
+	private var sessionRepo = SessionRepository()
 
 	/** Mutable implementation of the user live data exposed **/
 	protected var mUser: MutableLiveData<User> = MutableLiveData<User>(savedStateHandle[USER])
@@ -55,7 +58,7 @@ abstract class PrivateViewModel(
 		// In case it's not, get a new one
 		val tokenJob = viewModelScope.async(dispatchers.io() + coroutineExceptionHandler) {
 			val session = sessionManager.getSession() ?: throw IllegalStateException("Missing session data in private activity")
-			val newSession = SessionRepository.refreshSession(session).session
+			val newSession = sessionRepo.refreshSession(session)
 			logDebug("Authentication refreshed. Auth[${newSession.auth}]")
 			sessionManager.setSession(newSession)
 			// Returns the retrieved token
@@ -69,10 +72,14 @@ abstract class PrivateViewModel(
 		mError.postValue(throwable)
 	}
 
-	/************ TDD oriented injections ******************/
-
+	@TestOnly
 	internal fun injectUser(user: User) {
 		mUser.value = user
+	}
+
+	@TestOnly
+	internal fun injectSessionRepo(sessionRepository: SessionRepository) {
+		sessionRepo = sessionRepository;
 	}
 
 }

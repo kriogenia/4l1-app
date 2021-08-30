@@ -48,7 +48,7 @@
             android:visibility="gone" >
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCollapseQe"
+                android:id="@+id/btn_collapse_qr"
                 android:text="@string/collapse"
                 app:icon="@drawable/expand_arrow"
                 android:layout_width="wrap_content"

@@ -1,7 +1,6 @@
 package dev.sotoestevez.allforone.model.setup
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import dev.sotoestevez.allforone.api.responses.MessageResponse
 import dev.sotoestevez.allforone.data.Address
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.entities.SessionManager
@@ -26,18 +25,22 @@ class SetUpViewModelTest {
 	@get:Rule
 	var instantExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
+	// Mocks
+	private lateinit var mockUserRepo: UserRepository
+
 	// Test object
 	private lateinit var model: SetUpViewModel
 
 	@Before
 	fun beforeEach() {
 		// Mocks
-		mockkObject(UserRepository)
+		mockUserRepo = mockk()
 		mockkConstructor(SessionManager::class)
 		every { anyConstructed<SessionManager>().getAuthToken() } returns "token"
 		// Init test object
 		model = SetUpViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider)
 		model.injectUser(User("id", "google", User.Role.BLANK))
+		model.injectUserRepository(mockUserRepo)
 	}
 
 	@After
@@ -88,16 +91,15 @@ class SetUpViewModelTest {
 	}
 
 	@Test
-	fun `should send the update to the server and change the destiny when invoked sendUpdate`() : Unit =
+	fun `should send the update to the server and change the destiny when invoked sendUpdate`(): Unit =
 		coroutineRule.testDispatcher.runBlockingTest {
 			model.injectUser(User("id", "googleId", User.Role.PATIENT))
-			val messageResponse = MessageResponse("201")
-			coEvery { UserRepository.update(any(), any()) } returns messageResponse
+			coEvery { mockUserRepo.update(any(), any()) } returns Unit
 
 			model.sendUpdate()
 
-			coVerify(exactly = 1) { UserRepository.update(any(), any()) }
-			assertEquals(model.destiny.value, PatientMainActivity::class.java)
+			coVerify(exactly = 1) { mockUserRepo.update(any(), any()) }
+			assertEquals(PatientMainActivity::class.java, model.destiny.value)
 		}
 
 }

@@ -2,6 +2,7 @@ package dev.sotoestevez.allforone.ui.keeper
 
 import android.app.Activity
 import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import dev.sotoestevez.allforone.R
@@ -26,6 +27,8 @@ class KeeperMainActivity : PrivateActivity() {
 
 	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.KEEPER)
 
+	private lateinit var qrScannerLauncher: ActivityResultLauncher<Intent>
+
 	override fun bindLayout() {
 		binding = ActivityKeeperMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
@@ -33,18 +36,15 @@ class KeeperMainActivity : PrivateActivity() {
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.btnForgeBond.setOnClickListener { invokeQRScanner() }
-	}
-
-	private fun invokeQRScanner() {
-		registerForActivityResult(
+		qrScannerLauncher = registerForActivityResult(
 			ActivityResultContracts.StartActivityForResult()
 		) { result ->
 			if (result.resultCode == Activity.RESULT_OK)
 				model.bond(result.data?.data.toString())
 			else
 				toast(getString(R.string.error_qr_scanner))
-		}.launch(Intent(this, QRScannerActivity::class.java))
+		}
+		binding.btnForgeBond.setOnClickListener { qrScannerLauncher.launch(Intent(this, QRScannerActivity::class.java)) }
 	}
 
 }

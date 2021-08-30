@@ -26,8 +26,8 @@ class SessionManager(private val state: SavedStateHandle) {
 	 * @param session Session data with the tokens and expiration time
 	 */
 	fun setSession(session: Session) {
-		state[LOGGED_IN] = true;
-		state[SESSION] = session;
+		state[LOGGED_IN] = true
+		state[SESSION] = session
 		logDebug("New session stored Auth[${session.auth}]. Expires at ${session.expiration}")
 	}
 

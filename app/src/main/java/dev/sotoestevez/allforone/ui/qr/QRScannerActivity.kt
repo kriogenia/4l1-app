@@ -60,7 +60,7 @@ class QRScannerActivity : AppCompatActivity() {
 	override fun onResume() {
 		super.onResume()
 		if (mPermissionGranted) {
-			codeScanner.startPreview();
+			codeScanner.startPreview()
 		}
 	}
 
@@ -101,10 +101,10 @@ class QRScannerActivity : AppCompatActivity() {
 
 	private fun requestPermission() {
 		if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-			mPermissionGranted = false;
-			requestPermissions(arrayOf(Manifest.permission.CAMERA), RC_PERMISSION);
+			mPermissionGranted = false
+			requestPermissions(arrayOf(Manifest.permission.CAMERA), RC_PERMISSION)
 		} else {
-			mPermissionGranted = true;
+			mPermissionGranted = true
 		}
 	}
 

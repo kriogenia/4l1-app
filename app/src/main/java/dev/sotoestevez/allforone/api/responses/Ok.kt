@@ -13,6 +13,15 @@ data class MessageResponse(
 )
 
 /**
+ * Model of the response to be received from the /user/bond/generate endpoint
+ *
+ * @property code    Returned bonding token
+ */
+data class BondGenerateResponse(
+	val code: String
+)
+
+/**
  * Model of the response to be received from the /auth/refresh endpoint
  *
  * @property session    Session info

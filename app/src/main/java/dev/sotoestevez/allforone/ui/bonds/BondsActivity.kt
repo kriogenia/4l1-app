@@ -1,10 +1,10 @@
 package dev.sotoestevez.allforone.ui.bonds
 
-import android.transition.AutoTransition
 import android.transition.ChangeBounds
 import android.transition.TransitionManager
 import android.view.View
 import androidx.activity.viewModels
+import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivityBondsBinding
 import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
@@ -26,13 +26,20 @@ class BondsActivity : PrivateActivity() {
 		setContentView(binding.root)
 	}
 
+	override fun attachListeners() {
+		super.attachListeners()
+		binding.btnAddBond.setOnClickListener { showQrPanel(true) }
+		binding.btnCollapseQr.setOnClickListener { showQrPanel(false) }
+	}
+
 	override fun attachObservers() {
 		super.attachObservers()
-		binding.btnAddBond.setOnClickListener {
-			showQrPanel(true)
-			binding.imgQrCode.setImageBitmap(model.getQrCodeBitmap("Prueba"))
+		model.qrCode.observe(this) {
+			if (Strings.isEmptyOrWhitespace(it))
+				return@observe
+			model.loadingQr.value = false
+			binding.imgQrCode.setImageBitmap(model.getQrCodeBitmap(it))
 		}
-		binding.btnCollapseQe.setOnClickListener { showQrPanel(false) }
 	}
 
 	private fun showQrPanel(expand: Boolean) {
@@ -40,6 +47,7 @@ class BondsActivity : PrivateActivity() {
 		if (expand) {
 			binding.layQr.visibility = View.VISIBLE
 			binding.btnAddBond.visibility = View.GONE
+			model.generateNewQRCode()
 		} else {
 			binding.layQr.visibility = View.GONE
 			binding.btnAddBond.visibility = View.VISIBLE

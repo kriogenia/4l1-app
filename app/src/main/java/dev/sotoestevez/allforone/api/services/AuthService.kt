@@ -20,15 +20,19 @@ interface AuthService {
 	 * @return      Response with the authentication data (session and user) or with an error
 	 */
 	@GET("/auth/signin/{token}")
-	suspend fun signIn(@Path("token") token: String): NetworkResponse<SignInResponse, BaseErrorResponse>
+	suspend fun signIn(
+		@Path("token") token: String
+	): NetworkResponse<SignInResponse, BaseErrorResponse>
 
 	/**
 	 * Sends the current session data to the server to renew the tokens
 	 *
-	 * @param session   Current session tokens to renew (auth and refresh token)
-	 * @return          Response with the new session data
+	 * @param body   Current session tokens to renew (auth and refresh token)
+	 * @return       Response with the new session data
 	 */
 	@POST("/auth/refresh")
-	suspend fun refresh(@Body session: RefreshRequest): NetworkResponse<RefreshResponse, BaseErrorResponse>
+	suspend fun refresh(
+		@Body body: RefreshRequest
+	): NetworkResponse<RefreshResponse, BaseErrorResponse>
 
 }

@@ -2,7 +2,6 @@ package dev.sotoestevez.allforone.ui
 
 import android.app.Activity
 import android.content.Intent
-import dev.sotoestevez.allforone.model.ExtendedViewModel
 
 /** Extension to the Activities with common operations to all the application activities */
 interface ExtendedActivity: WithModel {

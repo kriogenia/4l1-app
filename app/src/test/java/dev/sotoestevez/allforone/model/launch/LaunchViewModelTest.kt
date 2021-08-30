@@ -30,17 +30,21 @@ class LaunchViewModelTest {
     @get:Rule
     var instantExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
+    // Mocks
+    private lateinit var mockSessionRepository: SessionRepository
+
     // Test object
     private lateinit var model: LaunchViewModel
 
     @Before
     fun beforeEach() {
         // Mocks
-        mockkObject(SessionRepository)
+        mockSessionRepository = mockk()
         mockkConstructor(SessionManager::class)
         every { anyConstructed<SessionManager>().setSession(any()) } returns Unit
         // Init test object
         model = LaunchViewModel(mockk(), coroutineRule.testDispatcherProvider)
+        model.injectSessionRepository(mockSessionRepository)
     }
 
     @After
@@ -53,20 +57,20 @@ class LaunchViewModelTest {
     fun `should handle the sign in as expected when given a valid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val user = User("id", "valid", User.Role.BLANK, null)
         val signInResponse = SignInResponse(Session("auth", "refresh", 0), user)
-        coEvery { SessionRepository.signIn("valid") } returns signInResponse
+        coEvery { mockSessionRepository.signIn("valid") } returns signInResponse
         // Perform the authentication
         model.handleSignInResult("valid")
         // Check the session was stored
         verify(exactly = 1) { anyConstructed<SessionManager>().setSession(any()) }
         // Check the model data has been updated
-        assertEquals(user, model.user)
+        assertEquals(user, model.user.value)
         assertEquals(SetUpActivity::class.java, model.destiny.value)
     }
 
     @Test
     fun `should throw and manage an error when given an invalid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val errorResponse = APIErrorException("error")
-        coEvery { SessionRepository.signIn("invalid") } throws errorResponse
+        coEvery { mockSessionRepository.signIn("invalid") } throws errorResponse
         // Perform the authentication
         model.handleSignInResult("invalid")
         // Check the error update
@@ -86,7 +90,7 @@ class LaunchViewModelTest {
     private fun checkDestinyByRole(role: User.Role, destiny: Class<out Activity>) {
         val user = User("id", "valid", role, null)
         val signInResponse = SignInResponse(Session("auth", "refresh", 0), user)
-        coEvery { SessionRepository.signIn("valid") } returns signInResponse
+        coEvery { mockSessionRepository.signIn("valid") } returns signInResponse
         model.handleSignInResult("valid")
         assertEquals(destiny, model.destiny.value)
     }

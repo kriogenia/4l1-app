@@ -2,19 +2,19 @@ package dev.sotoestevez.allforone.model.launch
 
 import android.app.Activity
 import androidx.lifecycle.*
-import dev.sotoestevez.allforone.data.Session
-import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.model.ExtendedViewModel
 import dev.sotoestevez.allforone.repositories.SessionRepository
-import dev.sotoestevez.allforone.ui.launch.LaunchActivity
-import dev.sotoestevez.allforone.ui.setup.SetUpActivity
 import dev.sotoestevez.allforone.ui.keeper.KeeperMainActivity
+import dev.sotoestevez.allforone.ui.launch.LaunchActivity
 import dev.sotoestevez.allforone.ui.patient.PatientMainActivity
+import dev.sotoestevez.allforone.ui.setup.SetUpActivity
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.*
+import org.jetbrains.annotations.TestOnly
 
 /**
  * ViewModel of the [LaunchActivity]
@@ -32,6 +32,8 @@ class LaunchViewModel(
 ): ViewModel(), ExtendedViewModel {
 
 	override val sessionManager: SessionManager = SessionManager(savedStateHandle)
+
+	private var sessionRepo: SessionRepository = SessionRepository()
 
 	/** Mutable implementation of the user live data exposed **/
 	private var mUser: MutableLiveData<User> = MutableLiveData<User>()
@@ -60,7 +62,7 @@ class LaunchViewModel(
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
 		// Launch the coroutine with the request
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-			val result = SessionRepository.signIn(googleIdToken)
+			val result = sessionRepo.signIn(googleIdToken)
 			// Store all the session info
 			val ( session, user ) = result
 			logDebug("Authentication validated. User[${user.id}]")
@@ -91,6 +93,11 @@ class LaunchViewModel(
 
 	private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
 		mError.postValue(throwable)
+	}
+
+	@TestOnly
+	internal fun injectSessionRepository(sessionRepository: SessionRepository) {
+		this.sessionRepo = sessionRepository
 	}
 
 }

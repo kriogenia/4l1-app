@@ -16,6 +16,7 @@ import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.annotations.TestOnly
 import java.lang.IllegalStateException
 
 /** Shared ViewModel of the SetUpActivity and its fragments */
@@ -28,6 +29,8 @@ class SetUpViewModel(
 	val destiny: LiveData<Class<out Activity>>
 		get() = mDestiny
 	private var mDestiny = MutableLiveData<Class<out Activity>>()
+
+	private var userRepo = UserRepository()
 
 	/**
 	 * Updates the display name of the user also calling the observers
@@ -98,8 +101,7 @@ class SetUpViewModel(
 		loading.value = true
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
 			val user = user.value ?: throw IllegalStateException("Set-up completed without user object")
-			val result = UserRepository.update(user, authHeader())
-			logDebug("[${user.id}] ${result.message}")
+			userRepo.update(user, authHeader())
 			withContext(dispatchers.main()) {
 				updateDestiny()
 			}
@@ -112,6 +114,11 @@ class SetUpViewModel(
 			User.Role.PATIENT -> PatientMainActivity::class.java
 			else -> throw IllegalStateException("Set-up completed with no role selected")
 		}
+	}
+
+	@TestOnly
+	internal fun injectUserRepository(userRepository: UserRepository) {
+		this.userRepo = userRepository
 	}
 
 }
