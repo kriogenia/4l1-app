@@ -28,7 +28,7 @@ class SetUpConfirmationFragment : BaseExtendedFragment() {
 
 	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
 		_binding = FragmentSetUpConfirmationBinding.inflate(inflater, container, false)
-		binding.profileCard.user = model.user.value
+		binding.model = model
 		return binding.root
 	}
 

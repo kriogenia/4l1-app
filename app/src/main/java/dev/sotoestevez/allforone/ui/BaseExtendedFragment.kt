@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dev.sotoestevez.allforone.ui.interfaces.SteppedCreation
 
 /** Base [Fragment] to use as template for application fragments */
 abstract class BaseExtendedFragment: Fragment(), ExtendedFragment, SteppedCreation {

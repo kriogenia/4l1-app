@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dev.sotoestevez.allforone.data.Address
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.model.PrivateViewModel
+import dev.sotoestevez.allforone.model.interfaces.WithProfileCard
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.ui.keeper.KeeperMainActivity
@@ -26,12 +27,17 @@ class SetUpViewModel(
 	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
 	sessionRepository: SessionRepository = SessionRepository(),
 	private val userRepository: UserRepository = UserRepository()
-): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
+): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
 
 	/** Live data to invoke a change of activity in the related activity **/
 	val destiny: LiveData<Class<out Activity>>
 		get() = mDestiny
 	private var mDestiny = MutableLiveData<Class<out Activity>>()
+
+	// WithProfileCard
+	override val profileCardExpandable: Boolean = false
+	override val profileCardWithBanner: Boolean = true
+	override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(true)
 
 	/**
 	 * Updates the display name of the user also calling the observers

@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.ui
+package dev.sotoestevez.allforone.ui.interfaces
 
 /** Common operations to application UI modules to organize the component creation */
 interface SteppedCreation {

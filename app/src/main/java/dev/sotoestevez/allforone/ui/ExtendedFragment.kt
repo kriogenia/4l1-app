@@ -3,6 +3,7 @@ package dev.sotoestevez.allforone.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dev.sotoestevez.allforone.ui.interfaces.WithModel
 
 /** Common interface to all the fragments of the application */
 interface ExtendedFragment: WithModel {

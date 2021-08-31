@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.ui
+package dev.sotoestevez.allforone.ui.interfaces
 
 import dev.sotoestevez.allforone.model.ExtendedViewModel
 

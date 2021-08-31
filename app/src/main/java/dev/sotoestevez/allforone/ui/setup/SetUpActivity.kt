@@ -2,6 +2,7 @@ package dev.sotoestevez.allforone.ui.setup
 
 import android.app.Activity
 import androidx.activity.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,6 +13,7 @@ import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivitySetUpBinding
 import dev.sotoestevez.allforone.model.setup.SetUpViewModel
 import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
+import dev.sotoestevez.allforone.model.interfaces.WithProfileCard
 import dev.sotoestevez.allforone.ui.PrivateActivity
 import java.util.*
 

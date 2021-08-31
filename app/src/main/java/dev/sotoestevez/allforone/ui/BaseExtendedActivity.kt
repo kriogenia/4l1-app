@@ -6,10 +6,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.ui.interfaces.SteppedCreation
 import dev.sotoestevez.allforone.util.extensions.errorToast
 
 /** Base activity to reduce code duplication and implement the common creation flow */
-abstract class BaseExtendedActivity : AppCompatActivity(), ExtendedActivity, SteppedCreation  {
+abstract class BaseExtendedActivity : AppCompatActivity(), ExtendedActivity, SteppedCreation {
 
 	@Suppress("KDocMissingDocumentation")
 	override fun onCreate(savedInstanceState: Bundle?) {
