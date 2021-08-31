@@ -26,6 +26,8 @@ class RoleSelectionFragment : BaseExtendedFragment() {
 
 	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
 		_binding = FragmentRoleSelectionBinding.inflate(inflater, container, false)
+		binding.model = model
+		binding.lifecycleOwner = this
 		return binding.root
 	}
 
@@ -37,27 +39,16 @@ class RoleSelectionFragment : BaseExtendedFragment() {
 		binding.layButtonsRoleSelection.btnNext.setOnClickListener {
 			findNavController().navigate(R.id.action_RoleSelectionFragment_to_ContactFillFragment)
 		}
-		binding.cardPatient.setOnClickListener { model.setRole(User.Role.PATIENT) }
-		binding.cardKeeper.setOnClickListener { model.setRole(User.Role.KEEPER) }
 	}
 
 	override fun attachObservers() {
 		super.attachObservers()
-		model.user.observe(viewLifecycleOwner) { updateUi() }
+		model.selectedRole.observe(viewLifecycleOwner) { updateUi() }
 	}
 
 	override fun updateUi() {
 		super.updateUi()
-		binding.lblGreetingsName.text = getString(R.string.hello_name, model.user.value?.displayName)
 		binding.layButtonsRoleSelection.btnNext.isEnabled = model.user.value?.role != User.Role.BLANK
-		if (model.user.value?.role == User.Role.PATIENT) {
-			binding.cardPatient.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_dark_background))
-			binding.cardKeeper.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_light_background))
-		}
-		if (model.user.value?.role == User.Role.KEEPER) {
-			binding.cardKeeper.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_dark_background))
-			binding.cardPatient.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.cardview_light_background))
-		}
 	}
 
 }

@@ -18,7 +18,6 @@ import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.annotations.TestOnly
 import java.lang.IllegalStateException
 
 /** Shared ViewModel of the SetUpActivity and its fragments */
@@ -33,6 +32,11 @@ class SetUpViewModel(
 	val destiny: LiveData<Class<out Activity>>
 		get() = mDestiny
 	private var mDestiny = MutableLiveData<Class<out Activity>>()
+
+	/** Live data holding the currently selected role of the user */
+	val selectedRole: LiveData<User.Role>
+		get() = mSelectedRole
+	private var mSelectedRole = MutableLiveData(User.Role.BLANK)
 
 	// WithProfileCard
 	override val profileCardExpandable: Boolean = false
@@ -56,6 +60,7 @@ class SetUpViewModel(
 	 * @param role   New role of the user
 	 */
 	fun setRole(role: User.Role) {
+		mSelectedRole.value = role
 		mUser.value = mUser.value?.also {
 			it.role = role
 		}
