@@ -4,6 +4,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.requests.BondEstablishRequest
 import dev.sotoestevez.allforone.api.responses.BaseErrorResponse
 import dev.sotoestevez.allforone.api.responses.BondGenerateResponse
+import dev.sotoestevez.allforone.api.responses.CaredResponse
 import dev.sotoestevez.allforone.api.responses.MessageResponse
 import dev.sotoestevez.allforone.data.User
 import retrofit2.http.*
@@ -34,6 +35,18 @@ interface UserService {
 	suspend fun bondGenerate(
 		@Header("Authorization") token: String
 	): NetworkResponse<BondGenerateResponse, BaseErrorResponse>
+
+
+	/**
+	 * Requests to the server the data of the cared user if it exists
+	 *
+	 * @param token Authorization token to perform the request
+	 * @return      Response with the cared of the user
+	 */
+	@GET("/user/cared")
+	suspend fun cared(
+		@Header("Authorization") token: String
+	): NetworkResponse<CaredResponse, BaseErrorResponse>
 
 	/**
 	 * Sends the new user data to persist it in the server

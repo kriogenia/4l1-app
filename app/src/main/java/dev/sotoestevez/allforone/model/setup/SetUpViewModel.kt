@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dev.sotoestevez.allforone.data.Address
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.model.PrivateViewModel
+import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.ui.keeper.KeeperMainActivity
 import dev.sotoestevez.allforone.ui.patient.PatientMainActivity
@@ -22,15 +23,15 @@ import java.lang.IllegalStateException
 /** Shared ViewModel of the SetUpActivity and its fragments */
 class SetUpViewModel(
 	savedStateHandle: SavedStateHandle,
-	dispatchers: DispatcherProvider = DefaultDispatcherProvider
-): PrivateViewModel(savedStateHandle, dispatchers) {
+	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
+	sessionRepository: SessionRepository = SessionRepository(),
+	private val userRepository: UserRepository = UserRepository()
+): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
 
 	/** Live data to invoke a change of activity in the related activity **/
 	val destiny: LiveData<Class<out Activity>>
 		get() = mDestiny
 	private var mDestiny = MutableLiveData<Class<out Activity>>()
-
-	private var userRepo = UserRepository()
 
 	/**
 	 * Updates the display name of the user also calling the observers
@@ -101,7 +102,7 @@ class SetUpViewModel(
 		loading.value = true
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
 			val user = user.value ?: throw IllegalStateException("Set-up completed without user object")
-			userRepo.update(user, authHeader())
+			userRepository.update(user, authHeader())
 			withContext(dispatchers.main()) {
 				updateDestiny()
 			}
@@ -114,11 +115,6 @@ class SetUpViewModel(
 			User.Role.PATIENT -> PatientMainActivity::class.java
 			else -> throw IllegalStateException("Set-up completed with no role selected")
 		}
-	}
-
-	@TestOnly
-	internal fun injectUserRepository(userRepository: UserRepository) {
-		this.userRepo = userRepository
 	}
 
 }

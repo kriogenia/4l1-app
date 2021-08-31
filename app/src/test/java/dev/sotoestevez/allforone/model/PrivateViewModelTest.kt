@@ -35,9 +35,8 @@ class PrivateViewModelTest {
 		mockkConstructor(SessionManager::class)
 		every { anyConstructed<SessionManager>().getAuthToken() } returns "token"
 		// Init test object
-		model = object: PrivateViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider) {}
+		model = object: PrivateViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider, mockSessionRepo) {}
 		model.injectUser(User("id", "google", User.Role.BLANK))
-		model.injectSessionRepo(mockSessionRepo)
 	}
 
 	@After

@@ -12,6 +12,7 @@ import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.qr.QRScannerActivity
 import dev.sotoestevez.allforone.model.keeper.KeeperMainViewModel
 import dev.sotoestevez.allforone.ui.PrivateActivity
+import dev.sotoestevez.allforone.util.extensions.step
 import dev.sotoestevez.allforone.util.extensions.toast
 import java.util.*
 
@@ -31,11 +32,14 @@ class KeeperMainActivity : PrivateActivity() {
 
 	override fun bindLayout() {
 		binding = ActivityKeeperMainBinding.inflate(layoutInflater)
+		binding.model = model
+		binding.lifecycleOwner = this
 		setContentView(binding.root)
 	}
 
 	override fun attachListeners() {
 		super.attachListeners()
+		/* No bond listeners */
 		qrScannerLauncher = registerForActivityResult(
 			ActivityResultContracts.StartActivityForResult()
 		) { result ->

@@ -44,10 +44,11 @@ class AuthServiceTest {
 			User(
 				"61198ff240cec3067a66c0b1",
 				"valid",
-				User.Role.BLANK,
-				null)
+				User.Role.BLANK)
 		)
+
 		val actual = api.signIn("valid")
+
 		assertTrue(actual is NetworkResponse.Success)
 		assertEquals(expected, (actual as NetworkResponse.Success).body)
 	}
@@ -55,7 +56,9 @@ class AuthServiceTest {
 	@Test
 	fun `should parse ErrorResponse with no token provided`(): Unit = runBlocking {
 		val expected = BaseErrorResponse("The specified user does not have a valid ID")
+
 		val actual = api.signIn("")
+
 		assertTrue(actual is NetworkResponse.ServerError)
 		assertEquals(expected, (actual as NetworkResponse.ServerError).body)
 	}
@@ -63,7 +66,9 @@ class AuthServiceTest {
 	@Test
 	fun `should parse ErrorResponse with invalid token`(): Unit = runBlocking {
 		val expected = BaseErrorResponse("The specified user does not have a valid ID")
+
 		val actual = api.signIn("invalid")
+
 		assertTrue(actual is NetworkResponse.ServerError)
 		assertEquals(expected, (actual as NetworkResponse.ServerError).body)
 	}

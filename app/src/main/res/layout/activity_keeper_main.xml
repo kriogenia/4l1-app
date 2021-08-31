@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
-            name="user"
-            type="dev.sotoestevez.allforone.data.User" />
+            name="model"
+            type="dev.sotoestevez.allforone.model.keeper.KeeperMainViewModel" />
     </data>
 
     <LinearLayout
@@ -16,21 +17,42 @@
         android:orientation="vertical"
         tools:context=".ui.patient.KeeperMainActivity">
 
-        <!-- No bond warning -->
-
-        <include layout="@layout/content_warning_box"
-            app:message="@{@string/warn_no_bonds}"/>
-
-        <!-- Bond button -->
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnForgeBond"
+        <!-- No bond panel -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/btn_extra"
-            android:layout_marginStart="@dimen/base_margin"
-            android:layout_marginEnd="@dimen/base_margin"
-            android:text="@string/forge_bond"
-            android:textSize="@dimen/txt_btn_extra" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{model.loading || model.cared != null ? View.GONE : View.VISIBLE}" >
+
+            <!-- No bond warning -->
+
+            <include layout="@layout/content_warning_box"
+                app:message="@{@string/warn_no_bonds}"/>
+
+            <!-- Forge bond button -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnForgeBond"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_extra"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
+                android:text="@string/forge_bond"
+                android:textSize="@dimen/txt_btn_extra" />
+
+        </LinearLayout>
+
+        <!-- Cared profile card -->
+
+        <include
+            android:id="@+id/profileCard"
+            layout="@layout/content_profile_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{model.cared != null ? View.VISIBLE : View.GONE}"
+            app:user="@{model.cared}"
+            app:model="@{model}"/>
 
     </LinearLayout>
 

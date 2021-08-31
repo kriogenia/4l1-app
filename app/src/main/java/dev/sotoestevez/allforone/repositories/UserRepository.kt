@@ -31,6 +31,16 @@ class UserRepository(
 	}
 
 	/**
+	 * Retrieves the cared of the current user if it exists, null otherwise
+	 *
+	 * @param token Authentication token
+	 * @return      Patient cared by the current user
+	 */
+	suspend fun getCared(token: String): User? {
+		return ApiRequest(suspend { userService.cared(token) }).performRequest().cared
+	}
+
+	/**
 	 * Updates the user data in the server
 	 *
 	 * @param user      User data

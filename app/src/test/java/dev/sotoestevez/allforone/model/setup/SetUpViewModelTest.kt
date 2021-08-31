@@ -38,9 +38,8 @@ class SetUpViewModelTest {
 		mockkConstructor(SessionManager::class)
 		every { anyConstructed<SessionManager>().getAuthToken() } returns "token"
 		// Init test object
-		model = SetUpViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider)
+		model = SetUpViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider, mockk(), mockUserRepo)
 		model.injectUser(User("id", "google", User.Role.BLANK))
-		model.injectUserRepository(mockUserRepo)
 	}
 
 	@After

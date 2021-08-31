@@ -5,5 +5,7 @@ const val AUTH_SIGNIN_400: String = "{\"message\":\"The specified user does not 
 const val USER_BOND_ESTABLISH_200: String = "{\"message\":\"The bond has been established\"}"
 const val USER_BOND_ESTABLISH_401: String = "{\"message\":\"The provided token is invalid\"}"
 const val USER_BOND_GENERATE_200: String = "{\"code\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\"}"
+const val USER_CARED_DEFINED_200: String = "{\"cared\":{\"_id\":\"61198ff240cec3067a66c0b1\",\"googleId\":\"valid\",\"role\":\"patient\",\"__v\":0}}"
+const val USER_CARED_UNDEFINED_200: String = "{\"cared\":null}"
 const val USER_UPDATE_201: String = "{\"message\":\"The specified user has been updated successfully\"}"
 const val USER_UPDATE_401: String = "{\"message\":\"The provided token is invalid\"}"

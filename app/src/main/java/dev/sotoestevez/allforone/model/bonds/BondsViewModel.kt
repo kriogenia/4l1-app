@@ -10,6 +10,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 import dev.sotoestevez.allforone.model.PrivateViewModel
+import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
@@ -21,8 +22,10 @@ import java.time.Instant
 /** ViewModel of the Bonds Activity */
 class BondsViewModel(
 	savedStateHandle: SavedStateHandle,
-	dispatchers: DispatcherProvider = DefaultDispatcherProvider
-) : PrivateViewModel(savedStateHandle, dispatchers) {
+	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
+	sessionRepository: SessionRepository = SessionRepository(),
+	private val userRepository: UserRepository = UserRepository()
+) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
 
 	/** Current QR Code to create a bond */
 	val qrCode: LiveData<String>
@@ -35,8 +38,6 @@ class BondsViewModel(
 	/** Timestamp in seconds of the QR request*/
 	private var lastQRRequest: Long = 0
 
-	private val userRepo = UserRepository()
-
 	/** Requests a new QR code if the current one is not valid */
 	fun generateNewQRCode() {
 		if (lastQRRequest + 50 > Instant.now().epochSecond)
@@ -44,7 +45,7 @@ class BondsViewModel(
 		loadingQr.value = true
 		lastQRRequest = Instant.now().epochSecond
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-			val code = userRepo.requestBondingCode(authHeader())
+			val code = userRepository.requestBondingCode(authHeader())
 			logDebug("[${user.value?.id}] Generated new bonding token: ${code.substring(0, 6)}...")
 			withContext(dispatchers.main()) {
 				mQrCode.value = code
@@ -60,7 +61,7 @@ class BondsViewModel(
 	 */
 	fun getQrCodeBitmap(code: String): Bitmap {
 		val hints = hashMapOf<EncodeHintType, Int>().also { it[EncodeHintType.MARGIN] = 1 }
-		val size = 512 //pixels
+		val size = 640 //pixels
 		val bits = QRCodeWriter().encode(code, BarcodeFormat.QR_CODE, size, size, hints)
 		return Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565).also {
 			for (x in 0 until size) {

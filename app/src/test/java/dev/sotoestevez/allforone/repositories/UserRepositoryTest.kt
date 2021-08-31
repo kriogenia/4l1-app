@@ -3,16 +3,18 @@ package dev.sotoestevez.allforone.repositories
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.requests.BondEstablishRequest
-import dev.sotoestevez.allforone.api.responses.BaseErrorResponse
 import dev.sotoestevez.allforone.api.responses.BondGenerateResponse
-import dev.sotoestevez.allforone.api.responses.ErrorResponse
+import dev.sotoestevez.allforone.api.responses.CaredResponse
 import dev.sotoestevez.allforone.api.responses.MessageResponse
 import dev.sotoestevez.allforone.api.services.UserService
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.mockkConstructor
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
@@ -64,6 +66,42 @@ class UserRepositoryTest {
 		repo.sendBondingCode("valid", "token")
 
 		coVerify(exactly = 1) { mockUserService.bondEstablish("token", BondEstablishRequest("valid")) }
+	}
+
+	@Test
+	fun `should return the cared patient of the user`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+		val caredResponse = CaredResponse(User("id", "googleId", User.Role.PATIENT))
+		val response: NetworkResponse.Success<CaredResponse> = mockk()
+		coEvery { response.code } returns 200
+		coEvery { response.body } returns caredResponse
+		coEvery { mockUserService.cared(any()) } returns response
+
+		val exists = repo.getCared("token")
+
+		assertEquals(caredResponse.cared, exists)
+
+		coEvery { response.body } returns CaredResponse(null)
+		coEvery { mockUserService.cared(any()) } returns response
+
+		val undefined = repo.getCared("token")
+
+		assertNull(undefined)
+
+		coVerify(exactly = 2) { mockUserService.cared("token") }
+	}
+
+	@Test
+	fun `should send the user update to the server`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+		val updateResponse = MessageResponse("success")
+		val response: NetworkResponse.Success<MessageResponse> = mockk()
+		coEvery { response.code } returns 200
+		coEvery { response.body } returns updateResponse
+		coEvery { mockUserService.update(any(), any()) } returns response
+
+		val user = User("id", "googleId", User.Role.PATIENT)
+		repo.update(user, "token")
+
+		coVerify(exactly = 1) { mockUserService.update("token", user) }
 	}
 
 }

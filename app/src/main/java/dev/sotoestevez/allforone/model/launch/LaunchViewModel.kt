@@ -28,12 +28,11 @@ import org.jetbrains.annotations.TestOnly
  */
 class LaunchViewModel(
 	savedStateHandle: SavedStateHandle,
-	private val dispatchers: DispatcherProvider = DefaultDispatcherProvider
+	private val dispatchers: DispatcherProvider = DefaultDispatcherProvider,
+	private val sessionRepository: SessionRepository = SessionRepository()
 ): ViewModel(), ExtendedViewModel {
 
 	override val sessionManager: SessionManager = SessionManager(savedStateHandle)
-
-	private var sessionRepo: SessionRepository = SessionRepository()
 
 	/** Mutable implementation of the user live data exposed **/
 	private var mUser: MutableLiveData<User> = MutableLiveData<User>()
@@ -62,7 +61,7 @@ class LaunchViewModel(
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
 		// Launch the coroutine with the request
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-			val result = sessionRepo.signIn(googleIdToken)
+			val result = sessionRepository.signIn(googleIdToken)
 			// Store all the session info
 			val ( session, user ) = result
 			logDebug("Authentication validated. User[${user.id}]")
@@ -93,11 +92,6 @@ class LaunchViewModel(
 
 	private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
 		mError.postValue(throwable)
-	}
-
-	@TestOnly
-	internal fun injectSessionRepository(sessionRepository: SessionRepository) {
-		this.sessionRepo = sessionRepository
 	}
 
 }

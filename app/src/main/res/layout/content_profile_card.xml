@@ -10,14 +10,8 @@
             name="user"
             type="dev.sotoestevez.allforone.data.User" />
         <variable
-            name="showBanner"
-            type="Boolean" />
-        <variable
-            name="isExpandable"
-            type="Boolean" />
-        <variable
-            name="isExpanded"
-            type="Boolean" />
+            name="model"
+            type="dev.sotoestevez.allforone.model.interfaces.WithProfileCard" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -44,7 +38,7 @@
                 android:layout_height="@dimen/card_image_height"
                 android:contentDescription="@string/profile_banner_description"
                 android:scaleType="centerCrop"
-                android:visibility="@{showBanner ? View.VISIBLE : View.GONE}"
+                android:visibility="@{model.profileCardWithBanner ? View.VISIBLE : View.GONE}"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <!-- Name section -->
@@ -111,10 +105,11 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/double_base_margin"
                     android:layout_marginBottom="@dimen/base_margin"
-                    android:visibility="@{isExpandable ? View.VISIBLE : View.GONE}"
+                    android:onClick="@{() -> model.onExpandButtonClick()}"
+                    android:visibility="@{model.profileCardExpandable ? View.VISIBLE : View.GONE}"
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/desc_expand_card_view"
-                    android:rotationX="@{isExpanded ? 180f : 0f}"
+                    android:rotationX="@{model.profileCardExpanded ? 180f : 0f}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -136,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="@{isExpanded ? View.VISIBLE : View.GONE}">
+                android:visibility="@{model.profileCardExpanded ? View.VISIBLE : View.GONE}">
 
                 <LinearLayout
                     android:layout_width="match_parent"

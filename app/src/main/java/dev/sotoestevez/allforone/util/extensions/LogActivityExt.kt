@@ -2,6 +2,7 @@ package dev.sotoestevez.allforone.util.extensions
 
 import android.util.Log
 import dev.sotoestevez.allforone.BuildConfig
+import dev.sotoestevez.allforone.ui.SteppedCreation
 
 internal fun Any.logDebug(message: String) {
 	if (BuildConfig.DEBUG) Log.d(this::class.simpleName, message)
@@ -21,4 +22,8 @@ internal fun Any.logError(message: String) {
 
 internal fun Any.logError(message: String, error: Throwable) {
 	Log.e(this::class.simpleName, message, error)
+}
+
+fun SteppedCreation.step() {
+	logDebug("Im stepping")
 }

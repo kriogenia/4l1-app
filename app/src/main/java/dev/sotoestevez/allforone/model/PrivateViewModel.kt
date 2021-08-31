@@ -14,6 +14,8 @@ import org.jetbrains.annotations.TestOnly
  * ViewModel of the the Activities using session (derived from PrivateActivity)
  *
  * @property dispatchers [DispatcherProvider] to inject the dispatchers
+ * @property sessionRepository [SessionRepository] to allow session refresh with the server
+ *
  * @constructor
  * To create the ViewModel
  *
@@ -21,7 +23,8 @@ import org.jetbrains.annotations.TestOnly
  */
 abstract class PrivateViewModel(
 	savedStateHandle: SavedStateHandle,
-	protected val dispatchers: DispatcherProvider
+	protected val dispatchers: DispatcherProvider,
+	protected val sessionRepository: SessionRepository
 ): ViewModel(), ExtendedViewModel {
 
 	companion object {
@@ -29,8 +32,6 @@ abstract class PrivateViewModel(
 	}
 
 	override val sessionManager: SessionManager = SessionManager(savedStateHandle)
-
-	private var sessionRepo = SessionRepository()
 
 	/** Mutable implementation of the user live data exposed **/
 	protected var mUser: MutableLiveData<User> = MutableLiveData<User>(savedStateHandle[USER])
@@ -58,7 +59,7 @@ abstract class PrivateViewModel(
 		// In case it's not, get a new one
 		val tokenJob = viewModelScope.async(dispatchers.io() + coroutineExceptionHandler) {
 			val session = sessionManager.getSession() ?: throw IllegalStateException("Missing session data in private activity")
-			val newSession = sessionRepo.refreshSession(session)
+			val newSession = sessionRepository.refreshSession(session)
 			logDebug("Authentication refreshed. Auth[${newSession.auth}]")
 			sessionManager.setSession(newSession)
 			// Returns the retrieved token
@@ -75,11 +76,6 @@ abstract class PrivateViewModel(
 	@TestOnly
 	internal fun injectUser(user: User) {
 		mUser.value = user
-	}
-
-	@TestOnly
-	internal fun injectSessionRepo(sessionRepository: SessionRepository) {
-		sessionRepo = sessionRepository;
 	}
 
 }

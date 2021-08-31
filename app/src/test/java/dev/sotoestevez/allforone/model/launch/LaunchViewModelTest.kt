@@ -43,15 +43,13 @@ class LaunchViewModelTest {
         mockkConstructor(SessionManager::class)
         every { anyConstructed<SessionManager>().setSession(any()) } returns Unit
         // Init test object
-        model = LaunchViewModel(mockk(), coroutineRule.testDispatcherProvider)
-        model.injectSessionRepository(mockSessionRepository)
+        model = LaunchViewModel(mockk(), coroutineRule.testDispatcherProvider, mockSessionRepository)
     }
 
     @After
     fun afterEach() {
         unmockkAll()            // reset all the mocks
     }
-
 
     @Test
     fun `should handle the sign in as expected when given a valid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {

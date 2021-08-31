@@ -13,6 +13,15 @@ data class MessageResponse(
 )
 
 /**
+ * Model of the response to be received from the /user/cared endpoint
+ *
+ * @property cared  Patient cared by the current user if it exists
+ */
+data class CaredResponse(
+	val cared: User?
+)
+
+/**
  * Model of the response to be received from the /user/bond/generate endpoint
  *
  * @property code    Returned bonding token
