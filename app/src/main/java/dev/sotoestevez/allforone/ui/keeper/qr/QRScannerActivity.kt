@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.ui.qr
+package dev.sotoestevez.allforone.ui.keeper.qr
 
 import android.Manifest
 import android.app.Activity
@@ -7,15 +7,11 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
-import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
-import dev.sotoestevez.allforone.R
-import dev.sotoestevez.allforone.databinding.ActivityKeeperMainBinding
 import dev.sotoestevez.allforone.databinding.ActivityQrScannerBinding
 
 /** Activity using the camera as a QR Scanner to forge the bond between Patient and Keeper  */

@@ -9,10 +9,9 @@ import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivityKeeperMainBinding
 import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
-import dev.sotoestevez.allforone.ui.qr.QRScannerActivity
+import dev.sotoestevez.allforone.ui.keeper.qr.QRScannerActivity
 import dev.sotoestevez.allforone.model.keeper.KeeperMainViewModel
 import dev.sotoestevez.allforone.ui.PrivateActivity
-import dev.sotoestevez.allforone.util.extensions.step
 import dev.sotoestevez.allforone.util.extensions.toast
 import java.util.*
 

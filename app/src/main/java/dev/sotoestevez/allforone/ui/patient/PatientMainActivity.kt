@@ -25,12 +25,15 @@ class PatientMainActivity : PrivateActivity() {
 
 	override fun bindLayout() {
 		binding = ActivityPatientMainBinding.inflate(layoutInflater)
-		binding.user = model.user.value
+		binding.model = model
+		binding.lifecycleOwner = this
 		setContentView(binding.root)
 	}
 
 	override fun attachListeners() {
 		super.attachListeners()
+		binding.btnBonds.setOnClickListener { launchActivity(BondsActivity::class.java) }
+		/* Animating profile cards TODO think about using it again
 		binding.profileCard.btnExpandCard.setOnClickListener {
 			TransitionManager.beginDelayedTransition(binding.layPatientMain, AutoTransition())
 			if (binding.profileCard.layExpandableSection.visibility == View.GONE) {
@@ -41,7 +44,7 @@ class PatientMainActivity : PrivateActivity() {
 				binding.profileCard.btnExpandCard.rotation = 0f
 			}
 		}
-		binding.btnBonds.setOnClickListener { launchActivity(BondsActivity::class.java) }
+		*/
 	}
 
 	private fun launchActivity(next: Class<BondsActivity>) {

@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="user"
-            type="dev.sotoestevez.allforone.data.User" />
+            name="model"
+            type="dev.sotoestevez.allforone.model.patient.PatientMainViewModel" />
     </data>
 
     <LinearLayout
@@ -24,7 +24,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:user="@{user}" />
+            app:model="@{model}"
+            app:user="@{model.user}" />
 
         <!-- No bond warning -->
 

@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.4l1app">
         <activity
-            android:name=".ui.qr.QRScannerActivity"
+            android:name="dev.sotoestevez.allforone.ui.keeper.qr.QRScannerActivity"
             android:exported="true" />
         <activity
             android:name=".ui.bonds.BondsActivity"
