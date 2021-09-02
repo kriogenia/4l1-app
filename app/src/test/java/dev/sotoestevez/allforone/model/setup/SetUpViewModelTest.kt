@@ -12,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -49,7 +50,7 @@ class SetUpViewModelTest {
 
 	@Test
 	fun `should replace the name of the user with setDisplayName`() {
-		assertEquals("", model.user.value?.displayName)
+		assertNull(model.user.value?.displayName)
 		model.setDisplayName("name")
 		assertEquals("name", model.user.value?.displayName)
 	}
@@ -63,28 +64,28 @@ class SetUpViewModelTest {
 
 	@Test
 	fun `should replace the main phone number of the user with setMainPhoneNumber`() {
-		assertEquals("", model.user.value?.mainPhoneNumber)
+		assertNull(model.user.value?.mainPhoneNumber)
 		model.setMainPhoneNumber("123")
 		assertEquals("123", model.user.value?.mainPhoneNumber)
 	}
 
 	@Test
 	fun `should replace the alternative phone number of the user with setAltPhoneNumber`() {
-		assertEquals("", model.user.value?.altPhoneNumber)
+		assertNull(model.user.value?.altPhoneNumber)
 		model.setAltPhoneNumber("123")
 		assertEquals("123", model.user.value?.altPhoneNumber)
 	}
 
 	@Test
 	fun `should replace the email of the user with setEmail`() {
-		assertEquals("", model.user.value?.email)
+		assertNull(model.user.value?.email)
 		model.setEmail("a@a.com")
 		assertEquals("a@a.com", model.user.value?.email)
 	}
 
 	@Test
 	fun `should replace the address of the user with setEmail`() {
-		assertEquals(null, model.user.value?.address)
+		assertNull(model.user.value?.address)
 		model.setAddress("street", "door", "locality", "region")
 		assertEquals(Address("street", "door", "locality", "region"), model.user.value?.address)
 	}

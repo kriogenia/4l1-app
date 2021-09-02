@@ -4,6 +4,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.requests.BondEstablishRequest
 import dev.sotoestevez.allforone.api.responses.BondGenerateResponse
+import dev.sotoestevez.allforone.api.responses.BondListResponse
 import dev.sotoestevez.allforone.api.responses.CaredResponse
 import dev.sotoestevez.allforone.api.responses.MessageResponse
 import dev.sotoestevez.allforone.api.services.UserService
@@ -13,11 +14,10 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.mockkConstructor
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -66,6 +66,26 @@ class UserRepositoryTest {
 		repo.sendBondingCode("valid", "token")
 
 		coVerify(exactly = 1) { mockUserService.bondEstablish("token", BondEstablishRequest("valid")) }
+	}
+
+	@Test
+	fun `should return the list of bonds of the user`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+		val bondListResponse = BondListResponse(arrayOf(
+			User(null, null, User.Role.KEEPER, "First"),
+			User(null, null, User.Role.KEEPER, "Second")
+		))
+		val response: NetworkResponse.Success<BondListResponse> = mockk()
+		coEvery { response.code } returns 200
+		coEvery { response.body } returns bondListResponse
+		coEvery { mockUserService.bondList(any()) } returns response
+
+		val result = repo.getBonds("token")
+
+		coVerify(exactly = 1) { mockUserService.bondList("token") }
+		assertTrue(result is ArrayList)
+		for (i in result.indices) {
+			assertEquals(bondListResponse.bonds[i], result[i])
+		}
 	}
 
 	@Test

@@ -2,10 +2,7 @@ package dev.sotoestevez.allforone.api.services
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.requests.BondEstablishRequest
-import dev.sotoestevez.allforone.api.responses.BaseErrorResponse
-import dev.sotoestevez.allforone.api.responses.BondGenerateResponse
-import dev.sotoestevez.allforone.api.responses.CaredResponse
-import dev.sotoestevez.allforone.api.responses.MessageResponse
+import dev.sotoestevez.allforone.api.responses.*
 import dev.sotoestevez.allforone.data.User
 import retrofit2.http.*
 
@@ -35,6 +32,17 @@ interface UserService {
 	suspend fun bondGenerate(
 		@Header("Authorization") token: String
 	): NetworkResponse<BondGenerateResponse, BaseErrorResponse>
+
+	/**
+	 * Requests to the server the list of bonded Users
+	 *
+	 * @param token Authorization token to perform the request
+	 * @return      Response with the list of Users
+	 */
+	@GET("/user/bond/list")
+	suspend fun bondList(
+		@Header("Authorization") token: String
+	): NetworkResponse<BondListResponse, BaseErrorResponse>
 
 
 	/**

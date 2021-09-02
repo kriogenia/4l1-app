@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
+import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
@@ -18,6 +19,7 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
+import java.util.ArrayList
 
 /** ViewModel of the Bonds Activity */
 class BondsViewModel(
@@ -32,11 +34,28 @@ class BondsViewModel(
 		get() = mQrCode
 	private val mQrCode: MutableLiveData<String> = MutableLiveData("")
 
+	/** List of bonds of the user */
+	val bonds: LiveData<List<User>>
+		get() = mBonds
+	private val mBonds: MutableLiveData<List<User>> = MutableLiveData(ArrayList())
+
 	/** Mutable live data to manage the QR section loading state */
 	val loadingQr: MutableLiveData<Boolean> = MutableLiveData(false)
 
 	/** Timestamp in seconds of the QR request*/
 	private var lastQRRequest: Long = 0
+
+	init {
+		loading.value = true
+		// Load bonds
+		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
+			val response = userRepository.getBonds(authHeader())
+			withContext(dispatchers.main()) {
+				loading.value = false
+				mBonds.value = response     // updates retrieved bonds
+			}
+		}
+	}
 
 	/** Requests a new QR code if the current one is not valid */
 	fun generateNewQRCode() {

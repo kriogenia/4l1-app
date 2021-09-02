@@ -43,7 +43,7 @@ class BondsActivity : PrivateActivity() {
 	}
 
 	private fun showQrPanel(expand: Boolean) {
-		TransitionManager.beginDelayedTransition(binding.root, ChangeBounds())
+		TransitionManager.beginDelayedTransition(binding.layBonds, ChangeBounds())
 		if (expand) {
 			binding.layQr.visibility = View.VISIBLE
 			binding.btnAddBond.visibility = View.GONE
@@ -51,7 +51,6 @@ class BondsActivity : PrivateActivity() {
 		} else {
 			binding.layQr.visibility = View.GONE
 			binding.btnAddBond.visibility = View.VISIBLE
-
 		}
 	}
 

@@ -2,10 +2,7 @@ package dev.sotoestevez.allforone.api.services
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.requests.BondEstablishRequest
-import dev.sotoestevez.allforone.api.responses.BaseErrorResponse
-import dev.sotoestevez.allforone.api.responses.BondGenerateResponse
-import dev.sotoestevez.allforone.api.responses.CaredResponse
-import dev.sotoestevez.allforone.api.responses.MessageResponse
+import dev.sotoestevez.allforone.api.responses.*
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import dev.sotoestevez.allforone.util.rules.WebServerRule
@@ -67,11 +64,24 @@ class UserServiceTest {
 	}
 
 	@Test
+	fun `should retrieve the list of bonded users`(): Unit = runBlocking {
+		val expected = BondListResponse(arrayOf(
+			User(null, null, User.Role.BLANK, "First", "123456789"),
+			User(null, null, User.Role.KEEPER, "Second", "987654321"),
+			))
+
+		val actual = api.bondList("valid")
+
+		assertTrue(actual is NetworkResponse.Success)
+		assertEquals(expected, (actual as NetworkResponse.Success).body)
+	}
+
+	@Test
 	fun `should retrieve the cared user when it exists`(): Unit = runBlocking {
 		val expected = CaredResponse(User(
 			"61198ff240cec3067a66c0b1",
 			"valid",
-			User.Role.BLANK))
+			User.Role.PATIENT))
 
 		val actual = api.cared("defined")
 

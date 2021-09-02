@@ -6,7 +6,6 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.logError
 import dev.sotoestevez.allforone.util.extensions.logWarning
 import java.io.IOException
-import kotlin.properties.Delegates
 
 /**
  * Builds a request to the API and manage the realization of that request

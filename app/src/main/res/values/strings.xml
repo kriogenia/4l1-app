@@ -4,6 +4,7 @@
     <string name="patient">Patient</string>
     <string name="address">Address</string>
     <string name="phone_number">Phone number</string>
+    <string name="bonds">Bonds</string>
     <!-- Activity titles -->
     <string name="title_activity_patient_main">Main</string>
     <string name="title_activity_set_up">Set Up</string>
@@ -41,14 +42,13 @@
     <string name="role_selection">What kind of user are you?</string>
     <string name="title_fragment_set_up_confirmation">Welcome: Confirmation</string>
     <string name="welcome">Welcome to All For One</string>
-    <string name="profile_card_description">This is your profile card. Check that everything is ok. If it\'s not you can go back and fix what is wrong.</string>
-    <string name="profile_card_confirmation">If everything is ok, we can finish the set up</string>
+    <string name="profile_card_description">This is your profile card. Check that everything is OK. If it\'s not you can go back and fix what is wrong.</string>
+    <string name="profile_card_confirmation">If everything is OK, we can finish the set up</string>
     <string name="desc_expand_card_view">Button to expand the card view</string>
-    <string name="bonds">Bonds</string>
-    <string name="warn_no_bonds">Looks like you don\'t have any bond stablished yet, please create one to make full use of the application</string>
+    <string name="warn_no_bonds">Looks like you don\'t have any bond established yet, please create one to make full use of the application</string>
     <string name="desc_warning_icon">Warning icon</string>
     <string name="add_bond">Add bond</string>
-    <string name="desc_qr_code">Vinculation QR Code</string>
+    <string name="desc_qr_code">Bonding QR Code</string>
     <string name="desc_collapse_qr_view">Button to collapse the view of the QR</string>
     <string name="collapse">Collapse</string>
     <string name="scan_instructions">Scan the following QR Code with your new Keeper application to form the bond</string>

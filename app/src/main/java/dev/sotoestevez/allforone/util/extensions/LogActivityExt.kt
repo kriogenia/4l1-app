@@ -23,7 +23,3 @@ internal fun Any.logError(message: String) {
 internal fun Any.logError(message: String, error: Throwable) {
 	Log.e(this::class.simpleName, message, error)
 }
-
-fun SteppedCreation.step() {
-	logDebug("Im stepping")
-}

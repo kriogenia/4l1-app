@@ -12,6 +12,7 @@ object UserDispatcher: Dispatcher() {
 											MockResponse().setResponseCode(200).setBody(USER_BOND_ESTABLISH_200)
 										else MockResponse().setResponseCode(401).setBody(USER_BOND_ESTABLISH_401)
 			"/user/bond/generate"   ->  MockResponse().setResponseCode(200).setBody(USER_BOND_GENERATE_200)
+			"/user/bond/list"       ->  MockResponse().setResponseCode(200).setBody(USER_BOND_LIST_200)
 			"/user/cared"           ->   if (request.headers["Authorization"].equals("defined"))
 											MockResponse().setResponseCode(200).setBody(USER_CARED_DEFINED_200)
 										else MockResponse().setResponseCode(200).setBody(USER_CARED_UNDEFINED_200)

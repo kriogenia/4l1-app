@@ -3,10 +3,10 @@ package dev.sotoestevez.allforone.repositories
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.requests.RefreshRequest
-import dev.sotoestevez.allforone.api.responses.RefreshResponse
 import dev.sotoestevez.allforone.api.responses.SignInResponse
 import dev.sotoestevez.allforone.api.services.AuthService
 import dev.sotoestevez.allforone.data.Session
+import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /** Repository to make all the session related operations */
 class SessionRepository(
@@ -20,6 +20,7 @@ class SessionRepository(
      * @return User credentials returned from the server
      */
     suspend fun signIn(googleIdToken: String): SignInResponse {
+        logDebug("Requesting session with GoogleIdToken: $googleIdToken")
        return ApiRequest(suspend { authService.signIn(googleIdToken) }).performRequest()
     }
 
@@ -31,6 +32,7 @@ class SessionRepository(
      * @return          New session tokens and expiration timestamp
      */
     suspend fun refreshSession(session: Session): Session {
+        logDebug("Refreshing session")
         return ApiRequest(suspend { authService.refresh(RefreshRequest(session.auth, session.refresh)) })
             .performRequest().session
     }

@@ -1,76 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="bottom"
-    tools:context=".ui.bonds.BondsActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name" />
-
-    <!-- New bond section, only for Patients -->
+    <data>
+        <variable
+            name="model"
+            type="dev.sotoestevez.allforone.model.bonds.BondsViewModel" />
+    </data>
 
     <LinearLayout
+        android:id="@+id/layBonds"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="bottom"
         tools:context=".ui.bonds.BondsActivity">
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(model.bonds)}" />
 
-        <!-- Expand button -->
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAddBond"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/btn_extra"
-            android:layout_marginStart="@dimen/base_margin"
-            android:layout_marginEnd="@dimen/base_margin"
-            android:text="@string/add_bond"
-            android:textSize="@dimen/txt_btn_extra" />
-
-        <!-- Expanded content -->
+        <!-- New bond section, only for Patients -->
 
         <LinearLayout
-            android:id="@+id/layQr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:visibility="gone" >
+            android:gravity="bottom"
+            tools:context=".ui.bonds.BondsActivity">
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!-- Expand button -->
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_collapse_qr"
-                android:text="@string/collapse"
-                app:icon="@drawable/expand_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
-
-            <TextView
+                android:id="@+id/btnAddBond"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/scan_instructions"
+                android:layout_height="@dimen/btn_extra"
                 android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginEnd="@dimen/base_margin"/>
+                android:layout_marginEnd="@dimen/base_margin"
+                android:text="@string/add_bond"
+                android:textSize="@dimen/txt_btn_extra" />
 
-            <ImageView
-                android:id="@+id/imgQrCode"
+            <!-- Expanded content -->
+
+            <LinearLayout
+                android:id="@+id/layQr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:src="@tools:sample/backgrounds/scenic"
-                android:contentDescription="@string/desc_qr_code" />
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:visibility="gone" >
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_collapse_qr"
+                    android:text="@string/collapse"
+                    app:icon="@drawable/expand_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/scan_instructions"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginEnd="@dimen/base_margin"/>
+
+                <ImageView
+                    android:id="@+id/imgQrCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:src="@tools:sample/backgrounds/scenic"
+                    android:contentDescription="@string/desc_qr_code" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</layout>
