@@ -17,10 +17,14 @@
         android:gravity="bottom"
         tools:context=".ui.bonds.BondsActivity">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{String.valueOf(model.bonds)}" />
+        <!-- Bonds list -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBonds"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/content_bond_item"/>
 
         <!-- New bond section, only for Patients -->
 

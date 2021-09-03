@@ -4,6 +4,7 @@ import android.transition.ChangeBounds
 import android.transition.TransitionManager
 import android.view.View
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivityBondsBinding
@@ -20,10 +21,18 @@ class BondsActivity : PrivateActivity() {
 	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT, User.Role.KEEPER)
 
 	private lateinit var binding: ActivityBondsBinding
+	private val bondsAdapter by lazy { BondsAdapter() }
 
 	override fun bindLayout() {
 		binding = ActivityBondsBinding.inflate(layoutInflater)
+		binding.model = model
+		binding.lifecycleOwner = this
 		setContentView(binding.root)
+		// RecyclerView
+		binding.rvBonds.apply {
+			layoutManager = LinearLayoutManager(context)
+			adapter = bondsAdapter
+		}
 	}
 
 	override fun attachListeners() {
@@ -34,6 +43,7 @@ class BondsActivity : PrivateActivity() {
 
 	override fun attachObservers() {
 		super.attachObservers()
+		model.bonds.observe(this) { bondsAdapter.submitList(it) }
 		model.qrCode.observe(this) {
 			if (Strings.isEmptyOrWhitespace(it))
 				return@observe
