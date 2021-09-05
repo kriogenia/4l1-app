@@ -26,8 +26,8 @@ class SessionManager(private val state: SavedStateHandle) {
 	 * @param session Session data with the tokens and expiration time
 	 */
 	fun setSession(session: Session) {
-		state[LOGGED_IN] = true;
-		state[SESSION] = session;
+		state[LOGGED_IN] = true
+		state[SESSION] = session
 		logDebug("New session stored Auth[${session.auth}]. Expires at ${session.expiration}")
 	}
 
@@ -58,7 +58,7 @@ class SessionManager(private val state: SavedStateHandle) {
 		val session = getSession() ?: return null
 		val currentTime = Instant.now().epochSecond
 		logDebug("Comparing times. Expiration[${session.expiration}]. Current[$currentTime]")
-		if (session.expiration > currentTime + MARGIN) {// TODO add margin to request a new one
+		if (session.expiration > currentTime + MARGIN) {
 			return session.auth
 		}
 		logDebug("Authentication token expired. A new one should be retrieved.")

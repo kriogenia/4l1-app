@@ -2,18 +2,24 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
+    <data>
+        <import type="dev.sotoestevez.allforone.data.User"/>
+        <variable
+            name="model"
+            type="dev.sotoestevez.allforone.model.setup.SetUpViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <!-- TODO move role to variable -->
         <!-- TODO extract cards to content -->
 
         <TextView
             android:id="@+id/lblGreetingsName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/welcome"
+            android:text="@{String.format(@string/welcome, model.user.displayName)}"
             app:layout_constraintBottom_toTopOf="@id/lblRoleSelection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +44,8 @@
             android:layout_margin="@dimen/card_layout_margin"
             app:strokeWidth="@dimen/card_stroke_width"
             app:strokeColor="@color/stroke_color"
+            android:onClick="@{() -> model.setRole(User.Role.PATIENT)}"
+            android:background="@{model.selectedRole == User.Role.PATIENT ? @color/cardview_dark_background : @color/cardview_light_background}"
             app:layout_constraintBottom_toTopOf="@id/cardKeeper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -86,6 +94,8 @@
             android:layout_margin="@dimen/card_layout_margin"
             app:strokeWidth="@dimen/card_stroke_width"
             app:strokeColor="@color/stroke_color"
+            android:onClick="@{() -> model.setRole(User.Role.KEEPER)}"
+            android:background="@{model.selectedRole == User.Role.KEEPER ? @color/cardview_dark_background : @color/cardview_light_background}"
             app:layout_constraintBottom_toTopOf="@id/layButtonsRoleSelection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,9 +142,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardKeeper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            app:nextText="@{@string/next}" />
+            android:layout_height="wrap_content" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

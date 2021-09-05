@@ -4,17 +4,18 @@ import androidx.lifecycle.*
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.repositories.SessionRepository
-import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
-import java.lang.IllegalStateException
+import org.jetbrains.annotations.TestOnly
 
 /**
  * ViewModel of the the Activities using session (derived from PrivateActivity)
  *
  * @property dispatchers [DispatcherProvider] to inject the dispatchers
+ * @property sessionRepository [SessionRepository] to allow session refresh with the server
+ *
  * @constructor
  * To create the ViewModel
  *
@@ -22,25 +23,27 @@ import java.lang.IllegalStateException
  */
 abstract class PrivateViewModel(
 	savedStateHandle: SavedStateHandle,
-	protected val dispatchers: DispatcherProvider = DefaultDispatcherProvider
-): ViewModel() {
+	protected val dispatchers: DispatcherProvider,
+	protected val sessionRepository: SessionRepository
+): ViewModel(), ExtendedViewModel {
 
 	companion object {
 		private val USER = User::class.java.simpleName
 	}
 
-	/**	Module to manage the tokens currently stored in memory */
-	private val sessionManager: SessionManager = SessionManager(savedStateHandle)
+	override val sessionManager: SessionManager = SessionManager(savedStateHandle)
 
-	/** Live data holding the user information */
-	val user: LiveData<User>
-		get() = _user
-	protected var _user = MutableLiveData<User>(savedStateHandle[USER])
+	/** Mutable implementation of the user live data exposed **/
+	protected var mUser: MutableLiveData<User> = MutableLiveData<User>(savedStateHandle[USER])
+	override val user: LiveData<User>
+		get() = mUser
 
-	/** Live data holding the error to handle in the Activity */
-	val error: LiveData<Throwable>
-		get() = _error
-	private var _error = MutableLiveData<Throwable>()
+	/** Mutable implementation of the error live data exposed **/
+	private var mError = MutableLiveData<Throwable>()
+	override val error: LiveData<Throwable>
+		get() = mError
+
+	override val loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
 	/**
 	 * Retrieves the stored token if it's still valid. If it's not, refresh the current token
@@ -56,7 +59,7 @@ abstract class PrivateViewModel(
 		// In case it's not, get a new one
 		val tokenJob = viewModelScope.async(dispatchers.io() + coroutineExceptionHandler) {
 			val session = sessionManager.getSession() ?: throw IllegalStateException("Missing session data in private activity")
-			val newSession = SessionRepository.refreshSession(session).session
+			val newSession = sessionRepository.refreshSession(session)
 			logDebug("Authentication refreshed. Auth[${newSession.auth}]")
 			sessionManager.setSession(newSession)
 			// Returns the retrieved token
@@ -67,13 +70,12 @@ abstract class PrivateViewModel(
 
 	/** Base coroutine exception handler */
 	protected open val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-		_error.postValue(throwable)
+		mError.postValue(throwable)
 	}
 
-	/************ TDD oriented injections ******************/
-
+	@TestOnly
 	internal fun injectUser(user: User) {
-		_user.value = user
+		mUser.value = user
 	}
 
 }

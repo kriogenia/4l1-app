@@ -8,4 +8,9 @@
     <dimen name="pfp_size">72dp</dimen>
     <dimen name="long_text_width">300dp</dimen>
     <dimen name="double_base_margin">16dp</dimen>
+    <dimen name="btn_extra">64dp</dimen>
+    <dimen name="txt_btn_extra">20sp</dimen>
+    <dimen name="round_corner">4dp</dimen>
+    <dimen name="little_margin">4dp</dimen>
+    <dimen name="card_icon_size">32dp</dimen>
 </resources>

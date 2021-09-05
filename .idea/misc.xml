@@ -3,14 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/drawable/expand_arrow.xml" value="0.24166666666666667" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3651041666666667" />
+        <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/drawable/warning_shape.xml" value="0.31302083333333336" />
+        <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/activity_bonds.xml" value="0.30052083333333335" />
+        <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/activity_keeper_main.xml" value="0.2994791666666667" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/activity_kmain.xml" value="0.284375" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/activity_launch.xml" value="0.1796875" />
+        <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/activity_patient_main.xml" value="0.32395833333333335" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/activity_pmain.xml" value="0.33489583333333334" />
+        <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/activity_qr_scanner.xml" value="0.3072916666666667" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/activity_set_up.xml" value="0.29030797101449274" />
+        <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/content_bond_item.xml" value="0.33" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/content_navigation_buttons.xml" value="0.3307291666666667" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/content_profile_card.xml" value="0.3307291666666667" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/content_set_up.xml" value="0.29030797101449274" />
+        <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/content_warning_box.xml" value="0.296875" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/fragment_contact_fill.xml" value="0.29030797101449274" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/fragment_name_selection.xml" value="0.27629310344827585" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/main/res/layout/fragment_role_selection.xml" value="0.25" />

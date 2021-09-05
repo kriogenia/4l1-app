@@ -10,18 +10,18 @@ import androidx.navigation.fragment.findNavController
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.databinding.FragmentContactFillBinding
 import dev.sotoestevez.allforone.model.setup.SetUpViewModel
-import dev.sotoestevez.allforone.ui.MyFragment
+import dev.sotoestevez.allforone.ui.BaseExtendedFragment
 
 /**
  * [Fragment] of SetUpActivity to set the remaining contact info of the user.
  */
-class ContactFillFragment : MyFragment() {
+class ContactFillFragment : BaseExtendedFragment() {
 
 	private val binding
 		get() = _binding!!
 	private var _binding: FragmentContactFillBinding? = null
 
-	private val model: SetUpViewModel by activityViewModels()
+	override val model: SetUpViewModel by activityViewModels()
 
 	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
 		_binding = FragmentContactFillBinding.inflate(inflater, container, false)
@@ -30,6 +30,7 @@ class ContactFillFragment : MyFragment() {
 	}
 
 	override fun attachListeners() {
+		super.attachListeners()
 		binding.eTxtContactPhone.doAfterTextChanged { model.setMainPhoneNumber(it.toString()) }
 		binding.eTxtContactPhoneAlt.doAfterTextChanged { model.setAltPhoneNumber(it.toString()) }
 		binding.eTxtContactEmail.doAfterTextChanged { model.setEmail(it.toString()) }

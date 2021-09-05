@@ -22,17 +22,20 @@ class PrivateViewModelTest {
 	@get:Rule
 	var instantExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
+	// Mocks
+	private lateinit var mockSessionRepo: SessionRepository
+
 	// Test object
 	private lateinit var model: PrivateViewModel
 
 	@Before
 	fun beforeEach() {
 		// Mocks
-		mockkObject(SessionRepository)
+		mockSessionRepo = mockk()
 		mockkConstructor(SessionManager::class)
 		every { anyConstructed<SessionManager>().getAuthToken() } returns "token"
 		// Init test object
-		model = object: PrivateViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider) {}
+		model = object: PrivateViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider, mockSessionRepo) {}
 		model.injectUser(User("id", "google", User.Role.BLANK))
 	}
 
@@ -45,7 +48,7 @@ class PrivateViewModelTest {
 	fun `authToken() should give the token stored in the SessionManager when present`() {
 		coroutineRule.testDispatcher.runBlockingTest {
 			assertEquals("Bearer token", model.authHeader())
-			coVerify(exactly = 0) { SessionRepository.refreshSession(any()) }
+			coVerify(exactly = 0) { mockSessionRepo.refreshSession(any()) }
 		}
 	}
 
@@ -55,11 +58,11 @@ class PrivateViewModelTest {
 		every { anyConstructed<SessionManager>().getSession() } returns mockk()
 
 		val session = Session("new", "refresh", 0)
-		coEvery { SessionRepository.refreshSession(any()) } returns RefreshResponse(session)
+		coEvery { mockSessionRepo.refreshSession(any()) } returns session
 
 		coroutineRule.testDispatcher.runBlockingTest {
 			assertEquals("Bearer new", model.authHeader())
-			coVerify(exactly = 1) { SessionRepository.refreshSession(any()) }
+			coVerify(exactly = 1) { mockSessionRepo.refreshSession(any()) }
 			verify(exactly = 1) { anyConstructed<SessionManager>().setSession(session) }
 		}
 	}

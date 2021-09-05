@@ -2,18 +2,19 @@ package dev.sotoestevez.allforone.model.launch
 
 import android.app.Activity
 import androidx.lifecycle.*
-import dev.sotoestevez.allforone.data.Session
-import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.entities.SessionManager
+import dev.sotoestevez.allforone.model.ExtendedViewModel
 import dev.sotoestevez.allforone.repositories.SessionRepository
+import dev.sotoestevez.allforone.ui.keeper.KeeperMainActivity
 import dev.sotoestevez.allforone.ui.launch.LaunchActivity
+import dev.sotoestevez.allforone.ui.patient.PatientMainActivity
 import dev.sotoestevez.allforone.ui.setup.SetUpActivity
-import dev.sotoestevez.allforone.ui.keeper.KMainActivity
-import dev.sotoestevez.allforone.ui.patient.PMainActivity
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.*
+import org.jetbrains.annotations.TestOnly
 
 /**
  * ViewModel of the [LaunchActivity]
@@ -27,27 +28,28 @@ import kotlinx.coroutines.*
  */
 class LaunchViewModel(
 	savedStateHandle: SavedStateHandle,
-	private val dispatchers: DispatcherProvider = DefaultDispatcherProvider
-): ViewModel() {
+	private val dispatchers: DispatcherProvider = DefaultDispatcherProvider,
+	private val sessionRepository: SessionRepository = SessionRepository()
+): ViewModel(), ExtendedViewModel {
 
-	private val sessionManager: SessionManager = SessionManager(savedStateHandle)
+	override val sessionManager: SessionManager = SessionManager(savedStateHandle)
 
-	/** Currently stored session data */
-	val session: Session?
-		get() = sessionManager.getSession()
+	/** Mutable implementation of the user live data exposed **/
+	private var mUser: MutableLiveData<User> = MutableLiveData<User>()
+	override val user: LiveData<User>
+		get() = mUser
 
-	/** User data retrieved from the server **/
-	var user: User? = null
+	/** Mutable implementation of the error live data exposed **/
+	private var mError = MutableLiveData<Throwable>()
+	override val error: LiveData<Throwable>
+		get() = mError
 
 	/** Live data holding the class of the next activity to launch from the LaunchActivity **/
 	val destiny: LiveData<Class<out Activity>>
-		get() = _destiny
-	private var _destiny = MutableLiveData<Class<out Activity>>()
+		get() = mDestiny
+	private var mDestiny = MutableLiveData<Class<out Activity>>()
 
-	/** Live data holding the error messages to handle in the Activity **/
-	val error: LiveData<Throwable>
-		get() = _error
-	private var _error = MutableLiveData<Throwable>()
+	override val loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
 
 	/**
@@ -59,7 +61,7 @@ class LaunchViewModel(
 		logDebug("Google-SignIn-Authentication: $googleIdToken")
 		// Launch the coroutine with the request
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-			val result = SessionRepository.signIn(googleIdToken)
+			val result = sessionRepository.signIn(googleIdToken)
 			// Store all the session info
 			val ( session, user ) = result
 			logDebug("Authentication validated. User[${user.id}]")
@@ -79,17 +81,17 @@ class LaunchViewModel(
 	 */
 	private fun updateDestiny(user: User) {
 		// Save the user
-		this.user = user
+		mUser.value = user
 		// Decide the activity to navigate based on the user role (invoking the Activity)
-		_destiny.value = when (user.role) {
-			User.Role.KEEPER -> KMainActivity::class.java
-			User.Role.PATIENT -> PMainActivity::class.java
+		mDestiny.value = when (user.role) {
+			User.Role.KEEPER -> KeeperMainActivity::class.java
+			User.Role.PATIENT -> PatientMainActivity::class.java
 			User.Role.BLANK -> SetUpActivity::class.java
 		}
 	}
 
 	private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-		_error.postValue(throwable)
+		mError.postValue(throwable)
 	}
 
 }

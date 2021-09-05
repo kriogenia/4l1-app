@@ -1,8 +1,8 @@
 package dev.sotoestevez.allforone.util.extensions
 
-import android.app.Activity
 import android.util.Log
 import dev.sotoestevez.allforone.BuildConfig
+import dev.sotoestevez.allforone.ui.interfaces.SteppedCreation
 
 internal fun Any.logDebug(message: String) {
 	if (BuildConfig.DEBUG) Log.d(this::class.simpleName, message)

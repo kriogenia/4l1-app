@@ -18,25 +18,22 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class User(
-	@SerializedName("_id") val id: String,
-	val googleId: String,
+	@SerializedName("_id") val id: String?,
+	val googleId: String?,
 	var role: Role,
-	var displayName: String? = "",
-	var mainPhoneNumber: String? = "",
-	var altPhoneNumber: String? = "",
+	var displayName: String? = null,
+	var mainPhoneNumber: String? = null,
+	var altPhoneNumber: String? = null,
 	var address: Address? = null,
-	var email: String? = ""
+	var email: String? = null
 	): Parcelable {
 
 	/** Different types of users of the application */
 	enum class Role {
-
 		/** Users that didn't select a [Role] yet */
 		@SerializedName("blank") BLANK,
-
 		/** Users helping a patient */
 		@SerializedName("keeper") KEEPER,
-
 		/** Users suffering the disease */
 		@SerializedName("patient") PATIENT
 
@@ -49,12 +46,28 @@ data class User(
 		other as User
 
 		if (id != other.id) return false
+		if (googleId != other.googleId) return false
+		if (role != other.role) return false
+		if (displayName != other.displayName) return false
+		if (mainPhoneNumber != other.mainPhoneNumber) return false
+		if (altPhoneNumber != other.altPhoneNumber) return false
+		if (address != other.address) return false
+		if (email != other.email) return false
 
 		return true
 	}
 
 	override fun hashCode(): Int {
-		return id.hashCode()
+		var result = id?.hashCode() ?: 0
+		result = 31 * result + (googleId?.hashCode() ?: 0)
+		result = 31 * result + role.hashCode()
+		result = 31 * result + (displayName?.hashCode() ?: 0)
+		result = 31 * result + (mainPhoneNumber?.hashCode() ?: 0)
+		result = 31 * result + (altPhoneNumber?.hashCode() ?: 0)
+		result = 31 * result + (address?.hashCode() ?: 0)
+		result = 31 * result + (email?.hashCode() ?: 0)
+		return result
 	}
+
 
 }
