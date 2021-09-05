@@ -32,23 +32,7 @@ class PatientMainActivity : PrivateActivity() {
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.btnBonds.setOnClickListener { launchActivity(BondsActivity::class.java) }
-		/* Animating profile cards TODO think about using it again
-		binding.profileCard.btnExpandCard.setOnClickListener {
-			TransitionManager.beginDelayedTransition(binding.layPatientMain, AutoTransition())
-			if (binding.profileCard.layExpandableSection.visibility == View.GONE) {
-				binding.profileCard.layExpandableSection.visibility = View.VISIBLE
-				binding.profileCard.btnExpandCard.rotation = 180f
-			} else {
-				binding.profileCard.layExpandableSection.visibility = View.GONE
-				binding.profileCard.btnExpandCard.rotation = 0f
-			}
-		}
-		*/
-	}
-
-	private fun launchActivity(next: Class<BondsActivity>) {
-		startActivity(buildIntent(next))
+		binding.btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
 	}
 
 }

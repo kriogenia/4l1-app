@@ -44,15 +44,30 @@
 
         <!-- Cared profile card -->
 
-        <include
-            android:id="@+id/profileCard"
-            layout="@layout/content_profile_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="@{model.cared != null ? View.VISIBLE : View.GONE}"
-            app:user="@{model.cared}"
-            app:model="@{model}"/>
+            android:orientation="vertical">
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/profileCard"
+                layout="@layout/content_profile_card"
+                app:user="@{model.cared}"
+                app:model="@{model}"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBonds"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_extra"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
+                android:text="@string/bonds"
+                android:textSize="@dimen/txt_btn_extra" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

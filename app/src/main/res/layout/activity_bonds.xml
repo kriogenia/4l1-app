@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="model"
             type="dev.sotoestevez.allforone.model.bonds.BondsViewModel" />
@@ -22,7 +23,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBonds"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:layoutManager="LinearLayoutManager"
             tools:listitem="@layout/content_bond_item"/>
 
@@ -33,6 +35,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="bottom"
+            android:visibility="@{model.bonds.size() &lt; 6 ? View.VISIBLE : View.GONE }"
             tools:context=".ui.bonds.BondsActivity">
 
             <com.google.android.material.divider.MaterialDivider
