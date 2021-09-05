@@ -58,4 +58,6 @@
     <string name="desc_user_phone">Phone icon</string>
     <string name="desc_address">Postal address</string>
     <string name="desc_email">Email</string>
+    <string name="title_activity_location">LocationActivity</string>
+    <string name="share_location">Share location</string>
 </resources>

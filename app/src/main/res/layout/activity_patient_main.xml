@@ -43,6 +43,17 @@
             android:text="@string/bonds"
             android:textSize="@dimen/txt_btn_extra" />
 
+        <!-- Share location -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShareLocation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_extra"
+            android:layout_marginStart="@dimen/base_margin"
+            android:layout_marginEnd="@dimen/base_margin"
+            android:text="@string/share_location"
+            android:textSize="@dimen/txt_btn_extra" />
+
 
     </LinearLayout>
 
