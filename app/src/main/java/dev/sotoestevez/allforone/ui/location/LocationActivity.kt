@@ -7,20 +7,25 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import dev.sotoestevez.allforone.BuildConfig
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivityLocationBinding
 import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.model.location.LocationViewModel
 import dev.sotoestevez.allforone.ui.PrivateActivity
+import dev.sotoestevez.allforone.util.extensions.logError
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import java.net.URISyntaxException
 import java.util.*
 
 class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 
-	private lateinit var mMap: GoogleMap
-	private lateinit var binding: ActivityLocationBinding
-
 	override val model: LocationViewModel by viewModels { ExtendedViewModelFactory(this) }
+
+	private lateinit var binding: ActivityLocationBinding
+	private lateinit var mMap: GoogleMap
 
 	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.KEEPER, User.Role.PATIENT)
 

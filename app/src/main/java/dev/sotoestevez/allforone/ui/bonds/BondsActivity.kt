@@ -18,10 +18,10 @@ class BondsActivity : PrivateActivity() {
 
 	override val model: BondsViewModel by viewModels { ExtendedViewModelFactory(this) }
 
-	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT, User.Role.KEEPER)
-
 	private lateinit var binding: ActivityBondsBinding
 	private val bondsAdapter by lazy { BondsAdapter() }
+
+	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT, User.Role.KEEPER)
 
 	override fun bindLayout() {
 		binding = ActivityBondsBinding.inflate(layoutInflater)

@@ -47,7 +47,7 @@ class BondsAdapter : ListAdapter<User, BondsAdapter.BondViewHolder>(BondDiffCall
 		 */
 		fun bind(user: User) {
 			setData(user)
-			setListeners(user)
+			setListeners()
 			// TODO launch phone, email and Maps
 		}
 
@@ -63,7 +63,7 @@ class BondsAdapter : ListAdapter<User, BondsAdapter.BondViewHolder>(BondDiffCall
 			itemView.findViewById<TextView>(R.id.txtBondEmail).text = user.email
 		}
 
-		private fun setListeners(user: User) {
+		private fun setListeners(/*user: User*/) {
 			expandButton.setOnClickListener { swapCardState() }
 		}
 

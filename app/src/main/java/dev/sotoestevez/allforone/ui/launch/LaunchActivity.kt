@@ -21,9 +21,9 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
  */
 class LaunchActivity : BaseExtendedActivity() {
 
-	private lateinit var binding: ActivityLaunchBinding
-
 	override val model: LaunchViewModel by viewModels { ExtendedViewModelFactory(this) }
+
+	private lateinit var binding: ActivityLaunchBinding
 
 	// Module with the logic to perform Google authentications
 	private val googleAuthHelper = GoogleAuthHelper(this)
