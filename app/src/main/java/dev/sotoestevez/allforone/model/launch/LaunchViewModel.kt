@@ -4,7 +4,9 @@ import android.app.Activity
 import androidx.lifecycle.*
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.entities.SessionManager
+import dev.sotoestevez.allforone.entities.SocketManager
 import dev.sotoestevez.allforone.model.ExtendedViewModel
+import dev.sotoestevez.allforone.model.interfaces.WithSocket
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.ui.keeper.KeeperMainActivity
 import dev.sotoestevez.allforone.ui.launch.LaunchActivity
@@ -13,8 +15,8 @@ import dev.sotoestevez.allforone.ui.setup.SetUpActivity
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import io.socket.client.Socket
 import kotlinx.coroutines.*
-import org.jetbrains.annotations.TestOnly
 
 /**
  * ViewModel of the [LaunchActivity]
@@ -50,7 +52,6 @@ class LaunchViewModel(
 	private var mDestiny = MutableLiveData<Class<out Activity>>()
 
 	override val loading: MutableLiveData<Boolean> = MutableLiveData(false)
-
 
 	/**
 	 * Handles the retrieved token in the sign in request.
