@@ -2,7 +2,6 @@ package dev.sotoestevez.allforone.model.patient
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import com.google.gson.Gson
 import dev.sotoestevez.allforone.api.requests.GlobalSubscribe
 import dev.sotoestevez.allforone.entities.SocketManager
 import dev.sotoestevez.allforone.model.PrivateViewModel
@@ -20,7 +19,7 @@ class PatientMainViewModel(
 	sessionRepository: SessionRepository = SessionRepository()
 ): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard, WithSocket {
 
-	/** With Socket **/
+	/** WithSocket **/
 	override val socket: Socket = SocketManager.socket
 
 	/** WithProfileCard */
@@ -30,7 +29,7 @@ class PatientMainViewModel(
 
 	init {
 		socket.on("connect") {
-			socket.emit("global:subscribe", toJson(GlobalSubscribe(user.value?.id!!, user.value!!.id!!)))
+			socket.emit(SocketManager.GLOBAL_SUBSCRIBE, toJson(GlobalSubscribe(user.value?.id!!, user.value!!.id!!)))
 		}
 		SocketManager.start()
 	}
