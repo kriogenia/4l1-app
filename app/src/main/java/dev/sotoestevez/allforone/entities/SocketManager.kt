@@ -9,9 +9,6 @@ import io.socket.engineio.client.transports.WebSocket
 /** Singleton class to hold the socket connection and make it available to any activity */
 object SocketManager {
 
-	/** Subscription to the Global room */
-	const val GLOBAL_SUBSCRIBE: String = "global:subscribe"
-
 	/** Socket.io socket */
 	val socket: Socket
 		get() = mSocket

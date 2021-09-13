@@ -10,6 +10,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.model.ExtendedViewModel
 import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
@@ -45,6 +46,14 @@ class BondsViewModel(
 	/** Timestamp in seconds of the QR request*/
 	private var lastQRRequest: Long = 0
 
+
+	constructor(builder: ExtendedViewModel.Builder): this(
+		builder.savedStateHandle,
+		builder.dispatchers,
+		builder.sessionRepository,
+		builder.userRepository
+	)
+
 	init {
 		loading.value = true
 		// Load bonds
@@ -56,6 +65,7 @@ class BondsViewModel(
 			}
 		}
 	}
+
 
 	/** Requests a new QR code if the current one is not valid */
 	fun generateNewQRCode() {

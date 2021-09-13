@@ -4,28 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import dev.sotoestevez.allforone.api.requests.GlobalSubscribe
 import dev.sotoestevez.allforone.data.User
-import dev.sotoestevez.allforone.entities.SocketManager
+import dev.sotoestevez.allforone.model.ExtendedViewModel
 import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.model.interfaces.WithProfileCard
-import dev.sotoestevez.allforone.model.interfaces.WithSocket
 import dev.sotoestevez.allforone.repositories.SessionRepository
+import dev.sotoestevez.allforone.repositories.SocketRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
-import io.socket.client.Socket
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.NullPointerException
 
 /** ViewModel to handle the logic of the keeper's main activity */
 class KeeperMainViewModel(
     savedStateHandle: SavedStateHandle,
     dispatchers: DispatcherProvider,
     sessionRepository: SessionRepository = SessionRepository(),
-    private val userRepository: UserRepository = UserRepository()
-) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard, WithSocket {
+    private val userRepository: UserRepository = UserRepository(),
+    private val socketRepository: SocketRepository = SocketRepository()
+) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
 
     /** LiveData holding the info about the patient cared by this user */
     val cared: LiveData<User>
@@ -37,8 +35,14 @@ class KeeperMainViewModel(
     override val profileCardWithBanner: Boolean = true
     override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    /** WithSocket **/
-    override val socket: Socket = SocketManager.socket
+
+    constructor(builder: ExtendedViewModel.Builder): this(
+        builder.savedStateHandle,
+        builder.dispatchers,
+        builder.sessionRepository,
+        builder.userRepository,
+        builder.socketRepository
+    )
 
     init {
     	loading.value = true
@@ -47,6 +51,7 @@ class KeeperMainViewModel(
             userRepository.getCared(authHeader())?.let { setCared(it) }
         }
     }
+
 
     /**
      * Sends the scanned code to the server to bond with the user that provided the code
@@ -75,11 +80,7 @@ class KeeperMainViewModel(
             loading.value = false
             mCared.value = cared     // updates the cared user
         }
-        socket.on("connect") {
-            logDebug("Connected to socket, joining global room of cared user")
-            socket.emit(SocketManager.GLOBAL_SUBSCRIBE, toJson(GlobalSubscribe(user.value?.id!!, cared.id!!)))
-        }
-        SocketManager.start()
+        socketRepository.connect(user.value?.id!!, cared.id!!)
     }
 
 }

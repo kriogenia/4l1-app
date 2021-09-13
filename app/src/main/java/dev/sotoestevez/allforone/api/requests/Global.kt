@@ -10,3 +10,14 @@ data class GlobalSubscribe(
 	val id: String,
 	val owner: String
 )
+
+/**
+ * Message sent from the server when an user joins the Global room
+ *
+ * @property message message of the subscription
+ * @property user user subscribed
+ */
+data class GlobalSubscription(
+	val message: String,
+	val user: String
+)

@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dev.sotoestevez.allforone.data.Address
 import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.model.ExtendedViewModel
 import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.model.interfaces.WithProfileCard
 import dev.sotoestevez.allforone.repositories.SessionRepository
@@ -42,6 +43,15 @@ class SetUpViewModel(
 	override val profileCardExpandable: Boolean = false
 	override val profileCardWithBanner: Boolean = true
 	override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(true)
+
+
+	constructor(builder: ExtendedViewModel.Builder): this(
+		builder.savedStateHandle,
+		builder.dispatchers,
+		builder.sessionRepository,
+		builder.userRepository
+	)
+
 
 	/**
 	 * Updates the display name of the user also calling the observers
