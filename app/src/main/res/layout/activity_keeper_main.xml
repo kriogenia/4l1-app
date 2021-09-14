@@ -17,17 +17,22 @@
         android:orientation="vertical"
         tools:context=".ui.patient.KeeperMainActivity">
 
+        <!-- Warning panel -->
+
+        <include
+            layout="@layout/content_warning_box"
+            android:visibility="@{model.warning > 0 ? View.VISIBLE : View.GONE}"
+            app:message='@{model.warning &lt; 0 ? "" : String.format(context.getString(model.warning), model.sharing) }' />
+
         <!-- No bond panel -->
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical"
-            android:visibility="@{model.loading || model.cared != null ? View.GONE : View.VISIBLE}" >
+            android:visibility="@{model.loading || model.cared != null ? View.GONE : View.VISIBLE}">
 
-            <!-- No bond warning -->
-
-            <include layout="@layout/content_warning_box"
-                app:message="@{@string/warn_no_bonds}"/>
 
             <!-- Forge bond button -->
 

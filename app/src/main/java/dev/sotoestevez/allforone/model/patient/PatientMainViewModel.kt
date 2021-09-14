@@ -3,11 +3,10 @@ package dev.sotoestevez.allforone.model.patient
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dev.sotoestevez.allforone.model.ExtendedViewModel
-import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.model.interfaces.WithProfileCard
 import dev.sotoestevez.allforone.repositories.SessionRepository
-import dev.sotoestevez.allforone.repositories.SocketRepository
+import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 
@@ -16,7 +15,7 @@ class PatientMainViewModel(
 	savedStateHandle: SavedStateHandle,
 	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
 	sessionRepository: SessionRepository = SessionRepository(),
-	socketRepository: SocketRepository = SocketRepository()
+	globalRoomRepository: GlobalRoomRepository = GlobalRoomRepository()
 ): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
 
 	/** WithProfileCard */
@@ -29,11 +28,11 @@ class PatientMainViewModel(
 		builder.savedStateHandle,
 		builder.dispatchers,
 		builder.sessionRepository,
-		builder.socketRepository
+		builder.globalRoomRepository
 	)
 
 	init {
-		socketRepository.connect(user.value?.id!!)
+		globalRoomRepository.connect(user.value?.id!!)
 	}
 
 

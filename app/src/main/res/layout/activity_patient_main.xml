@@ -27,10 +27,11 @@
             app:model="@{model}"
             app:user="@{model.user}" />
 
-        <!-- No bond warning -->
+        <!-- No bond warning TODO
 
         <include layout="@layout/content_warning_box"
             app:message="@{@string/warn_no_bonds}"/>
+            -->
 
         <!-- Bond button -->
 

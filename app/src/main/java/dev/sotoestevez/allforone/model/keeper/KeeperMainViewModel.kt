@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.model.ExtendedViewModel
 import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.model.interfaces.WithProfileCard
 import dev.sotoestevez.allforone.repositories.SessionRepository
-import dev.sotoestevez.allforone.repositories.SocketRepository
+import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
@@ -22,13 +23,20 @@ class KeeperMainViewModel(
     dispatchers: DispatcherProvider,
     sessionRepository: SessionRepository = SessionRepository(),
     private val userRepository: UserRepository = UserRepository(),
-    private val socketRepository: SocketRepository = SocketRepository()
+    private val globalRoomRepository: GlobalRoomRepository = GlobalRoomRepository()
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
 
     /** LiveData holding the info about the patient cared by this user */
     val cared: LiveData<User>
         get() = mCared
     private val mCared = MutableLiveData<User>(null)
+
+    val warning: LiveData<Int>
+        get() = mWarning
+    private val mWarning = MutableLiveData(-1)
+
+    /** User sharing its location */
+    var sharing: String = ""
 
     // WithProfileCard
     override val profileCardExpandable: Boolean = true
@@ -41,7 +49,7 @@ class KeeperMainViewModel(
         builder.dispatchers,
         builder.sessionRepository,
         builder.userRepository,
-        builder.socketRepository
+        builder.globalRoomRepository
     )
 
     init {
@@ -78,9 +86,15 @@ class KeeperMainViewModel(
     private suspend fun setCared(cared: User) {
         withContext(dispatchers.main()) {
             loading.value = false
+            if (warning.value == R.string.warn_no_bonds)
+                mWarning.value = -1
             mCared.value = cared     // updates the cared user
         }
-        socketRepository.connect(user.value?.id!!, cared.id!!)
+        globalRoomRepository.onNewRoom() {
+            sharing = it
+            mWarning.postValue(R.string.warn_sharing_location)
+        }
+        globalRoomRepository.connect(user.value?.id!!, cared.id!!)
     }
 
 }

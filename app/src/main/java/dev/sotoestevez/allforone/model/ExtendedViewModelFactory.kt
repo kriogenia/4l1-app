@@ -4,11 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import dev.sotoestevez.allforone.repositories.SessionRepository
-import dev.sotoestevez.allforone.repositories.SocketRepository
-import dev.sotoestevez.allforone.repositories.UserRepository
-import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
-import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 
 /**
  * Factory to generate ViewModels with SavedStateHandles and SharedPreferences

@@ -1,6 +1,7 @@
 package dev.sotoestevez.allforone.model.location
 
 import androidx.lifecycle.SavedStateHandle
+import dev.sotoestevez.allforone.entities.SocketManager
 import dev.sotoestevez.allforone.model.ExtendedViewModel
 import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.repositories.SessionRepository
@@ -17,5 +18,9 @@ class LocationViewModel(
 		builder.dispatchers,
 		builder.sessionRepository
 	)
+
+	init {
+		SocketManager.socket.emit("location:start_sharing", user.value?.id)
+	}
 
 }

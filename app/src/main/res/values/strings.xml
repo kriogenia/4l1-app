@@ -60,4 +60,5 @@
     <string name="desc_email">Email</string>
     <string name="title_activity_location">LocationActivity</string>
     <string name="share_location">Share location</string>
+    <string name="warn_sharing_location">%s is sharing their location, you should probably check it out. Touch here to join.</string>
 </resources>

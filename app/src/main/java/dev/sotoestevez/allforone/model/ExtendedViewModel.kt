@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.repositories.SessionRepository
-import dev.sotoestevez.allforone.repositories.SocketRepository
+import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
@@ -47,7 +47,7 @@ interface ExtendedViewModel {
 			private set
 
 		/** Instance of a socket repository */
-		var socketRepository: SocketRepository = SocketRepository()
+		var globalRoomRepository: GlobalRoomRepository = GlobalRoomRepository()
 			private set
 
 		/**

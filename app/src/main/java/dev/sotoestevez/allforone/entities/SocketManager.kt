@@ -12,7 +12,7 @@ object SocketManager {
 	/** Socket.io socket */
 	val socket: Socket
 		get() = mSocket
-	private lateinit var mSocket: Socket
+	private var mSocket: Socket
 
 	init {
 		val opts = IO.Options()

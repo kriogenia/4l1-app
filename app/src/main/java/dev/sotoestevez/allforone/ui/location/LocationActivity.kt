@@ -20,6 +20,7 @@ import io.socket.client.Socket;
 import java.net.URISyntaxException
 import java.util.*
 
+/** Activity with the map and all the logic related to the location sharing */
 class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 
 	override val model: LocationViewModel by viewModels { ExtendedViewModelFactory(this) }
