@@ -11,6 +11,12 @@ data class GlobalSubscribe(
 	val owner: String
 )
 
+
+data class LocationShare(
+	val id: String,
+	val displayName: String
+)
+
 /**
  * Message sent from the server when an user joins the Global room
  *

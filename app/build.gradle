@@ -73,6 +73,7 @@ dependencies {
     implementation ('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     def navigation = "2.3.5"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"

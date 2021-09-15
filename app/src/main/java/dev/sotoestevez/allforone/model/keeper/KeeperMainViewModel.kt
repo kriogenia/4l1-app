@@ -31,6 +31,7 @@ class KeeperMainViewModel(
         get() = mCared
     private val mCared = MutableLiveData<User>(null)
 
+    /** LiveData holding the identifier of the message to show in the warning panel */
     val warning: LiveData<Int>
         get() = mWarning
     private val mWarning = MutableLiveData(-1)
@@ -90,7 +91,7 @@ class KeeperMainViewModel(
                 mWarning.value = -1
             mCared.value = cared     // updates the cared user
         }
-        globalRoomRepository.onNewRoom() {
+        globalRoomRepository.onSharingLocation() {
             sharing = it
             mWarning.postValue(R.string.warn_sharing_location)
         }

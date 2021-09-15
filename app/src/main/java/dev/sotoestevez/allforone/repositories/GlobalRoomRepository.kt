@@ -38,7 +38,7 @@ class GlobalRoomRepository(
 		}
 		socket.on(Events.SUBSCRIPTION.id) {
 			val received = fromJson(it, RoomSubscription::class.java)
-			logDebug("New subscriber joined the Global Room: id[${received.id}]")
+			logDebug("New subscriber joined the Global Room: ${received.displayName}")
 		}
 		SocketManager.start()
 	}
@@ -48,7 +48,7 @@ class GlobalRoomRepository(
 	 *
 	 * @param callback  Event listener, receives the name of the subscribed user
 	 */
-	fun onNewRoom(callback: (name: String) -> Unit) {
+	fun onSharingLocation(callback: (name: String) -> Unit) {
 		socket.on(Events.SHARING_LOCATION.id) {
 			callback(fromJson(it, RoomSubscription::class.java).displayName)
 		}

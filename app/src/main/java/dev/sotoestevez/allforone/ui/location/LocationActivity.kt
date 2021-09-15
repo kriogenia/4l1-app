@@ -1,13 +1,18 @@
 package dev.sotoestevez.allforone.ui.location
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.location.Location
+import android.os.Looper
 import androidx.activity.viewModels
-import com.google.android.gms.maps.CameraUpdateFactory
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import dev.sotoestevez.allforone.BuildConfig
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivityLocationBinding
@@ -15,45 +20,129 @@ import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.model.location.LocationViewModel
 import dev.sotoestevez.allforone.ui.PrivateActivity
 import dev.sotoestevez.allforone.util.extensions.logError
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import java.net.URISyntaxException
 import java.util.*
+import com.google.android.gms.location.LocationResult
+
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import dev.sotoestevez.allforone.ui.keeper.qr.QRScannerActivity
+import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /** Activity with the map and all the logic related to the location sharing */
+@SuppressLint("MissingPermission")
 class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 
 	override val model: LocationViewModel by viewModels { ExtendedViewModelFactory(this) }
 
 	private lateinit var binding: ActivityLocationBinding
-	private lateinit var mMap: GoogleMap
+
+	private lateinit var map: GoogleMap
+	private lateinit var locationProvider: FusedLocationProviderClient
+
+	companion object {
+		private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION  = 1
+		private const val DEFAULT_PADDING = 20
+	}
 
 	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.KEEPER, User.Role.PATIENT)
+
+	private var mPermissionGranted = false
 
 	override fun bindLayout() {
 		binding = ActivityLocationBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 		// Obtain the SupportMapFragment and get notified when the map is ready to be used.
-		val mapFragment = supportFragmentManager
-			.findFragmentById(R.id.map) as SupportMapFragment
+		val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 		mapFragment.getMapAsync(this)
+	}
+
+	override fun attachObservers() {
+		super.attachObservers()
+		model.lastKnownLocation.observe(this) { it?.let { updateOwnLocation(it) } }
 	}
 
 	/**
 	 * Manipulates the map once available.
 	 * This callback is triggered when the map is ready to be used.
-	 * This is where we can add markers or lines, add listeners or move the camera. In this case,
-	 * we just add a marker near Sydney, Australia.
-	 * If Google Play services is not installed on the device, the user will be prompted to install
-	 * it inside the SupportMapFragment. This method will only be triggered once the user has
-	 * installed Google Play services and returned to the app.
+	 * Requests the permission to get the user fine location
 	 */
 	override fun onMapReady(googleMap: GoogleMap) {
-		mMap = googleMap
+		map = googleMap
+		locationProvider = LocationServices.getFusedLocationProviderClient(this)
 
-		// Add a marker in Sydney and move the camera
-		val sydney = LatLng(-34.0, 151.0)
-		mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-		mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+		getLocationPermission()
+		getDeviceLocation()
 	}
+
+	private fun getLocationPermission() {
+		if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+			mPermissionGranted = true
+			updateLocationUI()
+		} else {
+			ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+				PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+		}
+	}
+
+	@Suppress("KDocMissingDocumentation")
+	override fun onRequestPermissionsResult(
+		requestCode: Int,
+		permissions: Array<String?>,
+		grantResults: IntArray
+	) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+		if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+			mPermissionGranted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+		}
+		updateLocationUI()
+	}
+
+	/**
+	 * Updates the map's UI settings based on whether the user has granted location permission.
+	 */
+	private fun updateLocationUI() {
+		try {
+			if (mPermissionGranted) {
+				map.isMyLocationEnabled = true
+				map.uiSettings.isMyLocationButtonEnabled = true
+			} else {
+				map.isMyLocationEnabled = false
+				map.uiSettings.isMyLocationButtonEnabled = false
+				getLocationPermission()
+			}
+		} catch (e: SecurityException) {
+			logError("Exception: " + e.message, e)
+		}
+	}
+
+	/**
+	 * Gets the current location of the device, and positions the map's camera.
+	 */
+	private fun getDeviceLocation() {
+		try {
+			if (mPermissionGranted) {
+				val request = LocationRequest.create().apply {
+					priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+					smallestDisplacement = 50F
+					interval = 10000
+					fastestInterval = 5000
+				}
+				locationProvider.requestLocationUpdates(request, object : LocationCallback() {
+					override fun onLocationResult(locationResult: LocationResult) {
+						model.updateLocation(locationResult.lastLocation)
+					}
+				}, Looper.getMainLooper())
+			}
+		} catch (e: SecurityException) {
+			logError("Exception: " + e.message, e)
+		}
+	}
+
+	private fun updateOwnLocation(location: Location) {
+		val bounds = LatLngBounds.builder().apply { include(LatLng(location.latitude, location.longitude)) }
+		map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), DEFAULT_PADDING))
+	}
+
 }

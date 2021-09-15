@@ -47,13 +47,15 @@
 
         </LinearLayout>
 
-        <!-- Cared profile card -->
+        <!-- Bonded layout -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="@{model.cared != null ? View.VISIBLE : View.GONE}"
             android:orientation="vertical">
+
+            <!-- Cared profile card -->
 
             <include
                 android:layout_width="match_parent"
@@ -70,6 +72,15 @@
                 android:layout_marginStart="@dimen/base_margin"
                 android:layout_marginEnd="@dimen/base_margin"
                 android:text="@string/bonds"
+                android:textSize="@dimen/txt_btn_extra" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFindLocation"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_extra"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
+                android:text="@{String.format(@string/find, model.cared.displayName)}"
                 android:textSize="@dimen/txt_btn_extra" />
 
         </LinearLayout>

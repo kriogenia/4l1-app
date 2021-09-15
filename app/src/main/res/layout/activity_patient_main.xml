@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="model"
             type="dev.sotoestevez.allforone.model.patient.PatientMainViewModel" />
@@ -16,6 +17,13 @@
         android:orientation="vertical"
         tools:context=".ui.patient.PatientMainActivity">
 
+        <!-- Warning panel TODO no bond warning -->
+
+        <include
+            layout="@layout/content_warning_box"
+            android:visibility="@{model.warning > 0 ? View.VISIBLE : View.GONE}"
+            app:message='@{model.warning &lt; 0 ? "" : String.format(context.getString(model.warning), model.sharing) }' />
+
         <!-- Top profile card -->
 
         <include
@@ -26,12 +34,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:model="@{model}"
             app:user="@{model.user}" />
-
-        <!-- No bond warning TODO
-
-        <include layout="@layout/content_warning_box"
-            app:message="@{@string/warn_no_bonds}"/>
-            -->
 
         <!-- Bond button -->
 
@@ -54,7 +56,6 @@
             android:layout_marginEnd="@dimen/base_margin"
             android:text="@string/share_location"
             android:textSize="@dimen/txt_btn_extra" />
-
 
     </LinearLayout>
 

@@ -1,7 +1,9 @@
 package dev.sotoestevez.allforone.model.patient
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.model.ExtendedViewModel
 import dev.sotoestevez.allforone.model.PrivateViewModel
 import dev.sotoestevez.allforone.model.interfaces.WithProfileCard
@@ -18,6 +20,14 @@ class PatientMainViewModel(
 	globalRoomRepository: GlobalRoomRepository = GlobalRoomRepository()
 ): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
 
+	/** LiveData holding the identifier of the message to show in the warning panel */
+	val warning: LiveData<Int>
+		get() = mWarning
+	private val mWarning = MutableLiveData(-1)
+
+	/** User sharing its location */
+	var sharing: String = ""
+
 	/** WithProfileCard */
 	override val profileCardExpandable: Boolean = true
 	override val profileCardWithBanner: Boolean = true
@@ -32,6 +42,10 @@ class PatientMainViewModel(
 	)
 
 	init {
+		globalRoomRepository.onSharingLocation() {
+			sharing = it
+			mWarning.postValue(R.string.warn_searching)
+		}
 		globalRoomRepository.connect(user.value?.id!!)
 	}
 
