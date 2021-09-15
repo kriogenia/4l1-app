@@ -1,10 +1,10 @@
 package dev.sotoestevez.allforone.api.services
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import dev.sotoestevez.allforone.api.requests.RefreshRequest
-import dev.sotoestevez.allforone.api.responses.BaseErrorResponse
-import dev.sotoestevez.allforone.api.responses.RefreshResponse
-import dev.sotoestevez.allforone.api.responses.SignInResponse
+import dev.sotoestevez.allforone.api.schemas.RefreshRequest
+import dev.sotoestevez.allforone.api.schemas.BaseErrorResponse
+import dev.sotoestevez.allforone.api.schemas.RefreshResponse
+import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

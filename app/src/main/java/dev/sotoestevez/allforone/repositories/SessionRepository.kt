@@ -2,8 +2,8 @@ package dev.sotoestevez.allforone.repositories
 
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.requests.RefreshRequest
-import dev.sotoestevez.allforone.api.responses.SignInResponse
+import dev.sotoestevez.allforone.api.schemas.RefreshRequest
+import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import dev.sotoestevez.allforone.api.services.AuthService
 import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.util.extensions.logDebug

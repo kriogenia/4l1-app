@@ -1,23 +1,23 @@
 package dev.sotoestevez.allforone.repositories
 
 import com.google.gson.Gson
-import dev.sotoestevez.allforone.api.requests.GlobalSubscribe
-import dev.sotoestevez.allforone.api.requests.RoomSubscription
+import dev.sotoestevez.allforone.api.schemas.GlobalSubscribe
+import dev.sotoestevez.allforone.api.schemas.RoomSubscription
 import dev.sotoestevez.allforone.entities.SocketManager
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import io.socket.client.Socket
 import org.json.JSONObject
 
-/** Repository in charge of the Global Room connections and events */
-class GlobalRoomRepository(
-	private val gson: Gson = Gson()
-) {
+/**
+ * Repository in charge of the Global Room connections and events
+ *
+ * @constructor
+ *
+ * @param gson   Gson serializer/deserializer
+ * */
+class GlobalRoomRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 
-	private val socket: Socket = SocketManager.socket
-
-	/**
-	 * Events managed by the Global Room Repository
-	 **/
+	/** Events managed by the Global Room Repository **/
 	enum class Events(internal val id: String) {
 		CONNECT("connect"),
 		SUBSCRIBE("global:subscribe"),
@@ -52,14 +52,6 @@ class GlobalRoomRepository(
 		socket.on(Events.SHARING_LOCATION.id) {
 			callback(fromJson(it, RoomSubscription::class.java).displayName)
 		}
-	}
-
-	private fun toJson(request: Any): JSONObject {
-		return JSONObject(Gson().toJson(request))
-	}
-
-	private fun <T> fromJson(received: Array<out Any>, type: Class<out T>): T {
-		return gson.fromJson(received[0].toString(), type)
 	}
 
 }

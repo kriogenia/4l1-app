@@ -2,7 +2,7 @@ package dev.sotoestevez.allforone.repositories
 
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.requests.BondEstablishRequest
+import dev.sotoestevez.allforone.api.schemas.BondEstablishRequest
 import dev.sotoestevez.allforone.api.services.UserService
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.extensions.logDebug

@@ -44,6 +44,9 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 	companion object {
 		private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION  = 1
 		private const val DEFAULT_PADDING = 20
+		private const val MIN_DISPLACEMENT = 10F
+		private const val INTERVAL = 10000L // 10s
+		private const val MIN_INTERVAL = 5000L // 5s
 	}
 
 	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.KEEPER, User.Role.PATIENT)
@@ -125,9 +128,9 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 			if (mPermissionGranted) {
 				val request = LocationRequest.create().apply {
 					priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-					smallestDisplacement = 50F
-					interval = 10000
-					fastestInterval = 5000
+					smallestDisplacement = MIN_DISPLACEMENT
+					interval = INTERVAL
+					fastestInterval = MIN_INTERVAL
 				}
 				locationProvider.requestLocationUpdates(request, object : LocationCallback() {
 					override fun onLocationResult(locationResult: LocationResult) {

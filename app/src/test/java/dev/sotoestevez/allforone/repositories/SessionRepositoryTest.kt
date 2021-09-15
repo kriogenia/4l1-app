@@ -3,7 +3,7 @@ package dev.sotoestevez.allforone.repositories
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.requests.RefreshRequest
+import dev.sotoestevez.allforone.api.schemas.RefreshRequest
 import dev.sotoestevez.allforone.api.responses.BondGenerateResponse
 import dev.sotoestevez.allforone.api.responses.ErrorResponse
 import dev.sotoestevez.allforone.api.responses.RefreshResponse

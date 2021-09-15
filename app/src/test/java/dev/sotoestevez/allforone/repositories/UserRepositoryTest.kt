@@ -2,7 +2,7 @@ package dev.sotoestevez.allforone.repositories
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.requests.BondEstablishRequest
+import dev.sotoestevez.allforone.api.schemas.BondEstablishRequest
 import dev.sotoestevez.allforone.api.responses.BondGenerateResponse
 import dev.sotoestevez.allforone.api.responses.BondListResponse
 import dev.sotoestevez.allforone.api.responses.CaredResponse
