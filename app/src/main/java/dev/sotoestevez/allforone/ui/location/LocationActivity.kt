@@ -26,9 +26,8 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import dev.sotoestevez.allforone.ui.keeper.qr.QRScannerActivity
-import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.data.UserMarker
+import dev.sotoestevez.allforone.util.extensions.logWarning
 
 /** Activity with the map and all the logic related to the location sharing */
 @SuppressLint("MissingPermission")
@@ -43,8 +42,7 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 
 	companion object {
 		private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION  = 1
-		private const val DEFAULT_PADDING = 20
-		private const val MIN_DISPLACEMENT = 10F
+		private const val ZOOM = 15F
 		private const val INTERVAL = 10000L // 10s
 		private const val MIN_INTERVAL = 5000L // 5s
 	}
@@ -63,7 +61,8 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 
 	override fun attachObservers() {
 		super.attachObservers()
-		model.lastKnownLocation.observe(this) { it?.let { updateOwnLocation(it) } }
+		model.lastKnownLocation.observe(this) { it?.let { updateLocation(it) } }
+		model.newUserMarker.observe(this) { it?.let { addMarker(it) }	}
 	}
 
 	/**
@@ -82,7 +81,7 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 	private fun getLocationPermission() {
 		if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 			mPermissionGranted = true
-			updateLocationUI()
+			setLocationMode()
 		} else {
 			ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
 				PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
@@ -99,13 +98,13 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 		if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
 			mPermissionGranted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
 		}
-		updateLocationUI()
+		setLocationMode()
 	}
 
 	/**
 	 * Updates the map's UI settings based on whether the user has granted location permission.
 	 */
-	private fun updateLocationUI() {
+	private fun setLocationMode() {
 		try {
 			if (mPermissionGranted) {
 				map.isMyLocationEnabled = true
@@ -128,7 +127,6 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 			if (mPermissionGranted) {
 				val request = LocationRequest.create().apply {
 					priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-					smallestDisplacement = MIN_DISPLACEMENT
 					interval = INTERVAL
 					fastestInterval = MIN_INTERVAL
 				}
@@ -143,9 +141,18 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 		}
 	}
 
-	private fun updateOwnLocation(location: Location) {
-		val bounds = LatLngBounds.builder().apply { include(LatLng(location.latitude, location.longitude)) }
-		map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), DEFAULT_PADDING))
+	private fun addMarker(userMarker: UserMarker) {
+		val marker = map.addMarker(userMarker.build())
+		if (marker == null) {
+			logWarning("An error has occurred adding a marker to the map")
+		} else {
+			model.storeMarker(marker.apply { tag = userMarker.id })
+		}
+	}
+
+	private fun updateLocation(location: Location) {
+		// TODO show out of bounds marker?
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude), ZOOM))
 	}
 
 }

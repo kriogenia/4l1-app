@@ -52,7 +52,7 @@ class UserRepositoryTest {
 		val result = repo.requestBondingCode("token")
 
 		coVerify(exactly = 1) { mockUserService.bondGenerate("token") }
-		Assert.assertEquals(result, bondGenerateResponse.code)
+		assertEquals(result, bondGenerateResponse.code)
 	}
 
 	@Test

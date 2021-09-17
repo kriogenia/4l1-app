@@ -46,7 +46,7 @@ class BondsViewModel(
 	/** Timestamp in seconds of the QR request*/
 	private var lastQRRequest: Long = 0
 
-
+	@Suppress("unused") // Used in the factory with a class call
 	constructor(builder: ExtendedViewModel.Builder): this(
 		builder.savedStateHandle,
 		builder.dispatchers,

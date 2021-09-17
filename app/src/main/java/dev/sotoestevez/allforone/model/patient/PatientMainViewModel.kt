@@ -33,7 +33,7 @@ class PatientMainViewModel(
 	override val profileCardWithBanner: Boolean = true
 	override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
 
-
+	@Suppress("unused") // Used in the factory with a class call
 	constructor(builder: ExtendedViewModel.Builder) : this(
 		builder.savedStateHandle,
 		builder.dispatchers,
@@ -42,7 +42,7 @@ class PatientMainViewModel(
 	)
 
 	init {
-		globalRoomRepository.onSharingLocation() {
+		globalRoomRepository.onSharingLocation {
 			sharing = it
 			mWarning.postValue(R.string.warn_searching)
 		}

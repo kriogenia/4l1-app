@@ -44,7 +44,7 @@ class KeeperMainViewModel(
     override val profileCardWithBanner: Boolean = true
     override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
 
-
+    @Suppress("unused") // Used in the factory with a class call
     constructor(builder: ExtendedViewModel.Builder): this(
         builder.savedStateHandle,
         builder.dispatchers,
@@ -91,7 +91,7 @@ class KeeperMainViewModel(
                 mWarning.value = -1
             mCared.value = cared     // updates the cared user
         }
-        globalRoomRepository.onSharingLocation() {
+        globalRoomRepository.onSharingLocation {
             sharing = it
             mWarning.postValue(R.string.warn_sharing_location)
         }

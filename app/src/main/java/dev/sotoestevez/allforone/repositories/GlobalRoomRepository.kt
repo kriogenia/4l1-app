@@ -19,9 +19,13 @@ class GlobalRoomRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 
 	/** Events managed by the Global Room Repository **/
 	enum class Events(internal val id: String) {
+		/** Event sent to the socket when it's successfully connected */
 		CONNECT("connect"),
+		/** Event to subscribe to the global room*/
 		SUBSCRIBE("global:subscribe"),
+		/** Even sent to the socket when a subscription to the global room is confirmed */
 		SUBSCRIPTION("global:subscription"),
+		/** Event sent to the socket when a user of the same global room starts sharing its location */
 		SHARING_LOCATION("global:sharing_location")
 	}
 

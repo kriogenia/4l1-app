@@ -23,18 +23,3 @@ data class LocationShare(
 	val id: String,
 	val displayName: String
 )
-
-/**
- * Object with the needed information to notify a location update
- *
- * @property id unique id of the current user
- * @property displayName display name of the current user
- * @property lat latitude of the new user coordinates
- * @property long longitude of the new user coordinates
- */
-data class LocationUpdate(
-	val id: String,
-	val displayName: String,
-	val lat: Double,
-	val long: Double
-)

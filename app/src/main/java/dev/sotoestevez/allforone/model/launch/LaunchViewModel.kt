@@ -51,7 +51,7 @@ class LaunchViewModel(
 
 	override val loading: MutableLiveData<Boolean> = MutableLiveData(false)
 
-
+	@Suppress("unused") // Used in the factory with a class call
 	constructor(builder: ExtendedViewModel.Builder): this (
 		builder.savedStateHandle,
 		builder.dispatchers,
