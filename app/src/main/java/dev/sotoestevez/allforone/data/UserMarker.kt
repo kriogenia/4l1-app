@@ -2,7 +2,6 @@ package dev.sotoestevez.allforone.data
 
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /**
  * Object representing a marker in the map showing the location of an user
@@ -10,11 +9,13 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
  * @property id unique identifier of the user
  * @property displayName name of the user
  * @property position latitude and longitude of the user
+ * @property color color of the marker
  */
 data class UserMarker(
 	val id: String,
 	val displayName: String,
-	val position: LatLng
+	val position: LatLng,
+	var color: Int? = null
 ) {
 
 	/**

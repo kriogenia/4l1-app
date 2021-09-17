@@ -2,11 +2,7 @@ package dev.sotoestevez.allforone.repositories
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.schemas.BondEstablishRequest
-import dev.sotoestevez.allforone.api.responses.BondGenerateResponse
-import dev.sotoestevez.allforone.api.responses.BondListResponse
-import dev.sotoestevez.allforone.api.responses.CaredResponse
-import dev.sotoestevez.allforone.api.responses.MessageResponse
+import dev.sotoestevez.allforone.api.schemas.*
 import dev.sotoestevez.allforone.api.services.UserService
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
@@ -16,7 +12,6 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule

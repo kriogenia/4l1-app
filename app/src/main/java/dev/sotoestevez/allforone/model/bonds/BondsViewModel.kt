@@ -66,7 +66,6 @@ class BondsViewModel(
 		}
 	}
 
-
 	/** Requests a new QR code if the current one is not valid */
 	fun generateNewQRCode() {
 		if (lastQRRequest + 50 > Instant.now().epochSecond)
@@ -78,25 +77,6 @@ class BondsViewModel(
 			logDebug("[${user.value?.id}] Generated new bonding token: ${code.substring(0, 6)}...")
 			withContext(dispatchers.main()) {
 				mQrCode.value = code
-			}
-		}
-	}
-
-	/**
-	 * Generates the QR bitmap of the given code
-	 *
-	 * @param code  Code to represent as QR
-	 * @return      Bitmap to display the QR Code
-	 */
-	fun getQrCodeBitmap(code: String): Bitmap {
-		val hints = hashMapOf<EncodeHintType, Int>().also { it[EncodeHintType.MARGIN] = 1 }
-		val size = 640 //pixels
-		val bits = QRCodeWriter().encode(code, BarcodeFormat.QR_CODE, size, size, hints)
-		return Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565).also {
-			for (x in 0 until size) {
-				for (y in 0 until size) {
-					it.setPixel(x, y, if (bits[x, y]) Color.BLACK else Color.WHITE)
-				}
 			}
 		}
 	}

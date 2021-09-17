@@ -45,13 +45,7 @@ class LocationViewModel(
 
 	init {
 		locationRepository.startSharing(user.value!!)
-		locationRepository.onExternalUpdate {
-			if (markerManager.exists(it)) {
-				viewModelScope.launch(dispatchers.main()) {
-					markerManager.update(it)
-				}
-			} else mNewMarker.postValue(it)
-		}
+		locationRepository.onExternalUpdate { onExternalUpdate(it) }
 	}
 
 	/**
@@ -71,5 +65,15 @@ class LocationViewModel(
 	 * @param marker    marker to store
 	 */
 	fun storeMarker(marker: Marker): Unit = markerManager.add(marker)
+
+	private fun onExternalUpdate(marker: UserMarker) {
+		if (markerManager.exists(marker)) {
+			viewModelScope.launch(dispatchers.main()) {
+				markerManager.update(marker)
+			}
+		} else {
+			mNewMarker.postValue(marker.also { markerManager.assignColor(it) })
+		}
+	}
 
 }

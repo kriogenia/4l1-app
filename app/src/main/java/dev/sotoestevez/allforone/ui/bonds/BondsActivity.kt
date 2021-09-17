@@ -11,6 +11,7 @@ import dev.sotoestevez.allforone.databinding.ActivityBondsBinding
 import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.model.bonds.BondsViewModel
 import dev.sotoestevez.allforone.ui.PrivateActivity
+import dev.sotoestevez.allforone.util.helpers.BitmapGenerator
 import java.util.*
 
 /** Activity to list the bonds of the user and create new ones in case that the user is a [User.Role.PATIENT]*/
@@ -22,6 +23,10 @@ class BondsActivity : PrivateActivity() {
 	private val bondsAdapter by lazy { BondsAdapter() }
 
 	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT, User.Role.KEEPER)
+
+	companion object {
+		private const val QR_SIZE = 640 // pixels
+	}
 
 	override fun bindLayout() {
 		binding = ActivityBondsBinding.inflate(layoutInflater)
@@ -48,7 +53,7 @@ class BondsActivity : PrivateActivity() {
 			if (Strings.isEmptyOrWhitespace(it))
 				return@observe
 			model.loadingQr.value = false
-			binding.imgQrCode.setImageBitmap(model.getQrCodeBitmap(it))
+			binding.imgQrCode.setImageBitmap(BitmapGenerator.getQrCode(it, QR_SIZE))
 		}
 	}
 

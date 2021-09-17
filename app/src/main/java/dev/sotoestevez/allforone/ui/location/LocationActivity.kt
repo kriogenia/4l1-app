@@ -28,6 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import dev.sotoestevez.allforone.data.UserMarker
 import dev.sotoestevez.allforone.util.extensions.logWarning
+import dev.sotoestevez.allforone.util.helpers.BitmapGenerator
 
 /** Activity with the map and all the logic related to the location sharing */
 @SuppressLint("MissingPermission")
@@ -72,6 +73,7 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 	 */
 	override fun onMapReady(googleMap: GoogleMap) {
 		map = googleMap
+		// TODO add observer to store the zoom and camera position
 		locationProvider = LocationServices.getFusedLocationProviderClient(this)
 
 		getLocationPermission()
@@ -142,7 +144,9 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 	}
 
 	private fun addMarker(userMarker: UserMarker) {
-		val marker = map.addMarker(userMarker.build())
+		val marker = map.addMarker(userMarker.build().also {
+			it.icon(BitmapGenerator.fromDrawable(this, R.drawable.ic_marker_user, userMarker.color!!))
+		})
 		if (marker == null) {
 			logWarning("An error has occurred adding a marker to the map")
 		} else {
