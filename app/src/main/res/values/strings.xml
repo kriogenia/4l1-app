@@ -63,4 +63,5 @@
     <string name="find">Find %s</string>
     <string name="warn_searching">%s is searching for you, you should start sharing your location.</string>
     <string name="warn_sharing_location">%s is sharing their location, you should probably check it out.</string>
+    <string name="user_joined">%s has joined the search</string>
 </resources>

@@ -26,8 +26,11 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import dev.sotoestevez.allforone.data.UserMarker
+import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.logWarning
+import dev.sotoestevez.allforone.util.extensions.toast
 import dev.sotoestevez.allforone.util.helpers.BitmapGenerator
 
 /** Activity with the map and all the logic related to the location sharing */
@@ -40,10 +43,11 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 
 	private lateinit var map: GoogleMap
 	private lateinit var locationProvider: FusedLocationProviderClient
+	private var userControllingMap = false
 
 	companion object {
 		private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION  = 1
-		private const val ZOOM = 15F
+		private const val DEFAULT_ZOOM = 15F
 		private const val INTERVAL = 10000L // 10s
 		private const val MIN_INTERVAL = 5000L // 5s
 	}
@@ -73,7 +77,8 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 	 */
 	override fun onMapReady(googleMap: GoogleMap) {
 		map = googleMap
-		// TODO add observer to store the zoom and camera position
+		map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
+		map.setOnCameraMoveStartedListener { userControllingMap = it == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE }
 		locationProvider = LocationServices.getFusedLocationProviderClient(this)
 
 		getLocationPermission()
@@ -144,6 +149,7 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 	}
 
 	private fun addMarker(userMarker: UserMarker) {
+		if (!this::map.isInitialized) return
 		val marker = map.addMarker(userMarker.build().also {
 			it.icon(BitmapGenerator.fromDrawable(this, R.drawable.ic_marker_user, userMarker.color!!))
 		})
@@ -151,12 +157,15 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 			logWarning("An error has occurred adding a marker to the map")
 		} else {
 			model.storeMarker(marker.apply { tag = userMarker.id })
+			toast(String.format(getString(R.string.user_joined), userMarker.displayName))   // Notify the new joining
 		}
 	}
 
 	private fun updateLocation(location: Location) {
 		// TODO show out of bounds marker?
-		map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude), ZOOM))
+		// TODO save zoom?
+		if (userControllingMap) return
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude), DEFAULT_ZOOM))
 	}
 
 }

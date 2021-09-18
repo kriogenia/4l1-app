@@ -4,6 +4,7 @@ import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import dev.sotoestevez.allforone.api.schemas.LocationShare
+import dev.sotoestevez.allforone.api.schemas.RoomSubscription
 import dev.sotoestevez.allforone.data.UserMarker
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.extensions.logDebug
