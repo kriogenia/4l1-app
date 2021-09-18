@@ -27,6 +27,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
 import dev.sotoestevez.allforone.data.UserMarker
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.logWarning
@@ -43,6 +44,7 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 
 	private lateinit var map: GoogleMap
 	private lateinit var locationProvider: FusedLocationProviderClient
+	private var locationCallback: LocationCallback? = null
 	private var userControllingMap = false
 
 	companion object {
@@ -68,6 +70,15 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 		super.attachObservers()
 		model.lastKnownLocation.observe(this) { it?.let { updateLocation(it) } }
 		model.newUserMarker.observe(this) { it?.let { addMarker(it) }	}
+		model.leavingUserMarker.observe(this) { it?.let { removeMarker(it) }}
+	}
+
+	@Suppress("KDocMissingDocumentation")
+	override fun onDestroy() {
+		model.stop()
+		map.clear()
+		locationCallback?.let { locationProvider.removeLocationUpdates(it) }
+		super.onDestroy()
 	}
 
 	/**
@@ -137,11 +148,12 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 					interval = INTERVAL
 					fastestInterval = MIN_INTERVAL
 				}
-				locationProvider.requestLocationUpdates(request, object : LocationCallback() {
+				locationCallback = object : LocationCallback() {
 					override fun onLocationResult(locationResult: LocationResult) {
 						model.updateLocation(locationResult.lastLocation)
 					}
-				}, Looper.getMainLooper())
+				}
+				locationProvider.requestLocationUpdates(request, locationCallback!!, Looper.getMainLooper())
 			}
 		} catch (e: SecurityException) {
 			logError("Exception: " + e.message, e)
@@ -166,6 +178,11 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 		// TODO save zoom?
 		if (userControllingMap) return
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude), DEFAULT_ZOOM))
+	}
+
+	private fun removeMarker(marker: Marker) {
+		toast("${marker.title} has left the room")
+		marker.remove()
 	}
 
 }

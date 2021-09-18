@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.Marker
+import dev.sotoestevez.allforone.api.schemas.UserInfo
 import dev.sotoestevez.allforone.data.UserMarker
 import dev.sotoestevez.allforone.model.ExtendedViewModel
 import dev.sotoestevez.allforone.model.PrivateViewModel
@@ -33,6 +34,11 @@ class LocationViewModel(
 		get() = mNewMarker
 	private val mNewMarker: MutableLiveData<UserMarker?> = MutableLiveData(null)
 
+	/** LiveData holding a marker that left the location room */
+	val leavingUserMarker: LiveData<Marker?>
+		get() = mLeavingUserMarker
+	private val mLeavingUserMarker: MutableLiveData<Marker?> = MutableLiveData(null)
+
 	private val markerManager by lazy { MarkerManager() }
 
 	@Suppress("unused") // Used in the factory with a class call
@@ -44,8 +50,9 @@ class LocationViewModel(
 	)
 
 	init {
-		locationRepository.startSharing(user.value!!)
+		locationRepository.start(user.value!!)
 		locationRepository.onExternalUpdate { onExternalUpdate(it) }
+		locationRepository.onUserLeaving { mLeavingUserMarker.postValue(markerManager.remove(it.id)) }
 	}
 
 	/**
@@ -65,6 +72,9 @@ class LocationViewModel(
 	 * @param marker    marker to store
 	 */
 	fun storeMarker(marker: Marker): Unit = markerManager.add(marker)
+
+	/** Stops sharing the location */
+	fun stop(): Unit = locationRepository.stop(user.value!!)
 
 	private fun onExternalUpdate(marker: UserMarker) {
 		if (markerManager.exists(marker)) {

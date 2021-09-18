@@ -19,7 +19,7 @@ data class GlobalSubscribe(
  * @property id unique id of the current user
  * @property displayName display name of the current user
  */
-data class LocationShare(
+data class UserInfo(
 	val id: String,
 	val displayName: String
 )

@@ -3,8 +3,7 @@ package dev.sotoestevez.allforone.repositories
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
-import dev.sotoestevez.allforone.api.schemas.LocationShare
-import dev.sotoestevez.allforone.api.schemas.RoomSubscription
+import dev.sotoestevez.allforone.api.schemas.UserInfo
 import dev.sotoestevez.allforone.data.UserMarker
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.extensions.logDebug
@@ -20,8 +19,10 @@ class LocationRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 
 	/** Events managed by the Location Repository **/
 	enum class Events(internal val id: String) {
-		/** Event to notify that the user is sharing its location */
+		/** Event to start sharing the user location */
 		SHARE("location:share"),
+		/** Event to leave the location room */
+		STOP("location:stop"),
 		/** Event with the location update of an user */
 		UPDATE("location:update")
 	}
@@ -31,8 +32,8 @@ class LocationRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	 *
 	 * @param user  current user
 	 */
-	fun startSharing(user: User) {
-		socket.emit(Events.SHARE.id, toJson(LocationShare(user.id!!, user.displayName!!)))
+	fun start(user: User) {
+		socket.emit(Events.SHARE.id, toJson(UserInfo(user.id!!, user.displayName!!)))
 		logDebug("User[${user.id}] has started sharing its location")
 	}
 
@@ -47,14 +48,30 @@ class LocationRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	}
 
 	/**
+	 * Notifies the server that the user will stop sharing its location
+	 *
+	 * @param user current user
+	 */
+	fun stop(user: User) {
+		socket.emit(Events.STOP.id, toJson(UserInfo(user.id!!, user.displayName!!)))
+	}
+
+	/**
 	 * Subscribes the callback to location updates received from users in the same location room
 	 *
 	 * @param callback  Event listener, receives the marker of the user
 	 */
 	fun onExternalUpdate(callback: (userMarker: UserMarker) -> Unit) {
-		socket.on(Events.UPDATE.id) {
-			callback(fromJson(it, UserMarker::class.java))
-		}
+		socket.on(Events.UPDATE.id) { callback(fromJson(it, UserMarker::class.java)) }
+	}
+
+	/**
+	 * Subscribes the callback to notifications of users leaving the location room
+	 *
+	 * @param callback Event listener, receives the data of the user
+	 */
+	fun onUserLeaving(callback: (userInfo: UserInfo) -> Unit) {
+		socket.on(Events.STOP.id) { callback(fromJson(it, UserInfo::class.java)) }
 	}
 
 }

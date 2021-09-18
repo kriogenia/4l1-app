@@ -11,6 +11,7 @@ import kotlin.collections.ArrayDeque
 class MarkerManager {
 
 	private val current: MutableMap<String, Marker> = mutableMapOf()
+	private val colors = Colors()
 
 	/**
 	 * Stores the marker in the map to keep track of it
@@ -37,17 +38,23 @@ class MarkerManager {
 	fun update(userMarker: UserMarker) { current[userMarker.id]!!.position = userMarker.position }
 
 	/**
+	 * Removes a marker from the map and release its color so it can be reused
+	 *
+	 * @param id id of the user
+	 * @return  marker of the user
+	 */
+	fun remove(id: String): Marker? = current.remove(id).also { colors.release(id) }
+
+	/**
 	 * Retrieves an available color and assigns it to the maker
 	 *
 	 * @param marker
 	 */
-	fun assignColor(marker: UserMarker) {
-		marker.color = Colors.pick(marker.id)
-	}
+	fun assignColor(marker: UserMarker) { marker.color = colors.pick(marker.id) }
 
 	// TODO remove when user stops sharing
 
-	internal object Colors {
+	internal class Colors {
 
 		private val available: Stack<Int> = Stack()
 		private val assigned: MutableMap<String, Int> = mutableMapOf()
