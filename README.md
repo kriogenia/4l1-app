@@ -10,4 +10,3 @@ The following third-party resources where used in the development of this applic
 * [Email icon](https://www.flaticon.com/free-icon/email_2250044)
 * [Phone icon](https://www.flaticon.com/free-icon/phone-call_597177)
 * [Postal Address icon](https://www.flaticon.com/free-icon/home_31771)
-* [User marker icon](https://www.flaticon.com/free-icon/profile-user_64572)

@@ -13,6 +13,7 @@ import dev.sotoestevez.allforone.ui.keeper.qr.QRScannerActivity
 import dev.sotoestevez.allforone.model.keeper.KeeperMainViewModel
 import dev.sotoestevez.allforone.ui.PrivateActivity
 import dev.sotoestevez.allforone.ui.bonds.BondsActivity
+import dev.sotoestevez.allforone.ui.feed.FeedActivity
 import dev.sotoestevez.allforone.ui.location.LocationActivity
 import dev.sotoestevez.allforone.util.extensions.toast
 import java.util.*
@@ -43,6 +44,7 @@ class KeeperMainActivity : PrivateActivity() {
 		/* With bond listeners */
 		binding.btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
 		binding.btnFindLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
+		binding.btnFeed.setOnClickListener { startActivity(buildIntent(FeedActivity::class.java)) }
 		/* No bond listeners */
 		qrScannerLauncher = registerForActivityResult(
 			ActivityResultContracts.StartActivityForResult()

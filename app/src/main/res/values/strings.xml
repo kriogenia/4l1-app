@@ -70,4 +70,5 @@
     <string name="title_activity_keeper_main">Keeper Lobby</string>
     <string name="title_activity_launch">Welcome</string>
     <string name="desc_logo">Logo of the app</string>
+    <string name="feed">Feed</string>
 </resources>

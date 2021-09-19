@@ -29,7 +29,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import dev.sotoestevez.allforone.data.UserMarker
-import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.logWarning
 import dev.sotoestevez.allforone.util.extensions.toast
 import dev.sotoestevez.allforone.util.helpers.BitmapGenerator
@@ -163,7 +162,7 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 	private fun addMarker(userMarker: UserMarker) {
 		if (!this::map.isInitialized) return
 		val marker = map.addMarker(userMarker.build().also {
-			it.icon(BitmapGenerator.fromDrawable(this, R.drawable.ic_marker_user, userMarker.color!!))
+			it.icon(BitmapGenerator.getMarker(this, R.drawable.ic_patient_marker, userMarker.color!!))
 		})
 		if (marker == null) {
 			logWarning("An error has occurred adding a marker to the map")

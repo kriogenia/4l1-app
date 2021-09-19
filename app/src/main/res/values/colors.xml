@@ -10,6 +10,12 @@
     <color name="secondaryTextColor">#212121</color>
     <color name="surfaceColor">#eaf4f6</color>
     <!-- Markers colors -->
-    <color name="orange">#ff5500</color>
+    <color name="patient_marker">#F5EC11</color>
+    <color name="blue_marker">#0C77A8</color>
+    <color name="red_marker">#F5425A</color>
+    <color name="green_marker">#A8A214</color>
+    <color name="orange_marker">#F5982A</color>
+    <color name="magenta_marker">#E842F5</color>
+    <color name="brown_marker">#A85C00</color>
 
 </resources>

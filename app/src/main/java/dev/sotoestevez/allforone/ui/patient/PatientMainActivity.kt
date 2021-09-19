@@ -7,6 +7,7 @@ import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.model.patient.PatientMainViewModel
 import dev.sotoestevez.allforone.ui.PrivateActivity
 import dev.sotoestevez.allforone.ui.bonds.BondsActivity
+import dev.sotoestevez.allforone.ui.feed.FeedActivity
 import dev.sotoestevez.allforone.ui.location.LocationActivity
 import java.util.*
 
@@ -32,6 +33,7 @@ class PatientMainActivity : PrivateActivity() {
 		super.attachListeners()
 		binding.btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
 		binding.btnShareLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
+		binding.btnFeed.setOnClickListener { startActivity(buildIntent(FeedActivity::class.java)) }
 	}
 
 }

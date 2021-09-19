@@ -1,11 +1,9 @@
 package dev.sotoestevez.allforone.model.location
 
-import android.graphics.Color
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
+import dev.sotoestevez.allforone.R.color.*
 import dev.sotoestevez.allforone.data.UserMarker
 import java.util.*
-import kotlin.collections.ArrayDeque
 
 /** Class to manage the list of markers in the location map */
 class MarkerManager {
@@ -59,8 +57,7 @@ class MarkerManager {
 		private val available: Stack<Int> = Stack()
 		private val assigned: MutableMap<String, Int> = mutableMapOf()
 
-		// TODO use my own selection of colors
-		init { available.addAll(arrayOf(Color.YELLOW, Color.CYAN, Color.RED, Color.MAGENTA, Color.BLUE, Color.GREEN)) }
+		init { available.addAll(arrayOf(brown_marker, magenta_marker, orange_marker, green_marker, red_marker, blue_marker)) }
 
 		fun pick(id: String): Int = available.pop().also { assigned[id] = it }
 
