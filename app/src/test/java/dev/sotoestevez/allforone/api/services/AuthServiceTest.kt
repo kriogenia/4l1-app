@@ -1,8 +1,8 @@
 package dev.sotoestevez.allforone.api.services
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import dev.sotoestevez.allforone.api.responses.BaseErrorResponse
-import dev.sotoestevez.allforone.api.responses.SignInResponse
+import dev.sotoestevez.allforone.api.schemas.BaseErrorResponse
+import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule

@@ -17,17 +17,22 @@
         android:orientation="vertical"
         tools:context=".ui.patient.KeeperMainActivity">
 
+        <!-- Warning panel -->
+
+        <include
+            layout="@layout/content_warning_box"
+            android:visibility="@{model.warning > 0 ? View.VISIBLE : View.GONE}"
+            app:message='@{model.warning &lt; 0 ? "" : String.format(context.getString(model.warning), model.sharing) }' />
+
         <!-- No bond panel -->
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical"
-            android:visibility="@{model.loading || model.cared != null ? View.GONE : View.VISIBLE}" >
+            android:visibility="@{model.loading || model.cared != null ? View.GONE : View.VISIBLE}">
 
-            <!-- No bond warning -->
-
-            <include layout="@layout/content_warning_box"
-                app:message="@{@string/warn_no_bonds}"/>
 
             <!-- Forge bond button -->
 
@@ -42,13 +47,15 @@
 
         </LinearLayout>
 
-        <!-- Cared profile card -->
+        <!-- Bonded layout -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="@{model.cared != null ? View.VISIBLE : View.GONE}"
             android:orientation="vertical">
+
+            <!-- Cared profile card -->
 
             <include
                 android:layout_width="match_parent"
@@ -65,6 +72,15 @@
                 android:layout_marginStart="@dimen/base_margin"
                 android:layout_marginEnd="@dimen/base_margin"
                 android:text="@string/bonds"
+                android:textSize="@dimen/txt_btn_extra" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFindLocation"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_extra"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginEnd="@dimen/base_margin"
+                android:text="@{String.format(@string/find, model.cared.displayName)}"
                 android:textSize="@dimen/txt_btn_extra" />
 
         </LinearLayout>

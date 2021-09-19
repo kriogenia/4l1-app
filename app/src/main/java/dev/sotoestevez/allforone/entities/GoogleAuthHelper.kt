@@ -9,17 +9,19 @@ import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.common.api.ApiException
 import dev.sotoestevez.allforone.R
+import dev.sotoestevez.allforone.ui.launch.LaunchActivity
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.logError
 import dev.sotoestevez.allforone.util.extensions.logWarning
 import dev.sotoestevez.allforone.util.extensions.toast
+import java.lang.IllegalStateException
 
 /**
  * Helper class to manage all the logic related to the Google Authentication
  *
  * @property activity invoking the authentication
  */
-class GoogleAuthHelper (private val activity: ComponentActivity) {
+class GoogleAuthHelper (private val activity: LaunchActivity) {
 
 	private lateinit var authenticationLauncher: ActivityResultLauncher<IntentSenderRequest>
 
@@ -27,6 +29,7 @@ class GoogleAuthHelper (private val activity: ComponentActivity) {
 	 * Launches an intent to call the Google Sign In API to perform the authentication
 	 */
 	fun invokeSignInAPI() {
+		if (!this::authenticationLauncher.isInitialized) throw IllegalStateException("Authentication callback not set")
 		// Build the sign-in request
 		val request = GetSignInIntentRequest.builder()
 			.setServerClientId(activity.getString(R.string.server_client_id))
@@ -49,6 +52,7 @@ class GoogleAuthHelper (private val activity: ComponentActivity) {
 	 * @param processToken callback to process the retrieved GoogleIdToken
 	 */
 	fun setCallback(
+		processFailure: () -> Unit,
 		processToken: (String) -> Unit
 	) {
 		authenticationLauncher = activity.registerForActivityResult(
@@ -64,11 +68,11 @@ class GoogleAuthHelper (private val activity: ComponentActivity) {
 						activity.toast(activity.getString(R.string.error_invalid_google_account))
 				} catch (e: ApiException) {
 					activity.logError("Error retrieving user data from intent", e)
-					activity.toast(activity.getString(R.string.error_google_auth))
+					processFailure()
 				}
 			} else {
-				activity.logWarning("Google Sign-In intent failed and returned ${result.resultCode}")
-				activity.toast(activity.getString(R.string.error_google_auth))
+				logWarning("Google Sign-In intent failed and returned ${result.resultCode}")
+				processFailure()
 			}
 		}
 	}

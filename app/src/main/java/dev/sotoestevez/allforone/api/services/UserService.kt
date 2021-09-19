@@ -1,8 +1,7 @@
 package dev.sotoestevez.allforone.api.services
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import dev.sotoestevez.allforone.api.requests.BondEstablishRequest
-import dev.sotoestevez.allforone.api.responses.*
+import dev.sotoestevez.allforone.api.schemas.*
 import dev.sotoestevez.allforone.data.User
 import retrofit2.http.*
 

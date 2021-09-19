@@ -28,10 +28,10 @@ class SetUpActivity : PrivateActivity() {
 
 	override val model: SetUpViewModel by viewModels { ExtendedViewModelFactory(this) }
 
-	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.BLANK)
-
-	private lateinit var appBarConfiguration: AppBarConfiguration
 	private lateinit var binding: ActivitySetUpBinding
+	private lateinit var appBarConfiguration: AppBarConfiguration
+
+	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.BLANK)
 
 	@Suppress("KDocMissingDocumentation")
 	override fun onSupportNavigateUp(): Boolean {

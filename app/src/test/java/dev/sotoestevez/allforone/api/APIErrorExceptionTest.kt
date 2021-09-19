@@ -1,6 +1,6 @@
 package dev.sotoestevez.allforone.api
 
-import dev.sotoestevez.allforone.api.responses.BaseErrorResponse
+import dev.sotoestevez.allforone.api.schemas.BaseErrorResponse
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

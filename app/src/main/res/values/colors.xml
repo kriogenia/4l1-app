@@ -9,4 +9,7 @@
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#212121</color>
     <color name="surfaceColor">#eaf4f6</color>
+    <!-- Markers colors -->
+    <color name="orange">#ff5500</color>
+
 </resources>

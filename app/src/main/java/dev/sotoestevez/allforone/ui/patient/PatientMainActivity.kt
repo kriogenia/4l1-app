@@ -1,15 +1,13 @@
 package dev.sotoestevez.allforone.ui.patient
 
-import android.view.View
 import androidx.activity.viewModels
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.databinding.ActivityPatientMainBinding
 import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.model.patient.PatientMainViewModel
 import dev.sotoestevez.allforone.ui.PrivateActivity
 import dev.sotoestevez.allforone.ui.bonds.BondsActivity
+import dev.sotoestevez.allforone.ui.location.LocationActivity
 import java.util.*
 
 /**
@@ -33,6 +31,7 @@ class PatientMainActivity : PrivateActivity() {
 	override fun attachListeners() {
 		super.attachListeners()
 		binding.btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
+		binding.btnShareLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
 	}
 
 }

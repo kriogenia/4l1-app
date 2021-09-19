@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.activity.viewModels
+import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.databinding.ActivityLaunchBinding
 import dev.sotoestevez.allforone.entities.GoogleAuthHelper
 import dev.sotoestevez.allforone.model.ExtendedViewModelFactory
@@ -13,6 +14,8 @@ import dev.sotoestevez.allforone.ui.keeper.KeeperMainActivity
 import dev.sotoestevez.allforone.ui.patient.PatientMainActivity
 import dev.sotoestevez.allforone.ui.setup.SetUpActivity
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.util.extensions.logWarning
+import dev.sotoestevez.allforone.util.extensions.toast
 
 /**
  * Launching activity of the project. It is in charge of managing the authentication of the user in the app.
@@ -21,9 +24,9 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
  */
 class LaunchActivity : BaseExtendedActivity() {
 
-	private lateinit var binding: ActivityLaunchBinding
-
 	override val model: LaunchViewModel by viewModels { ExtendedViewModelFactory(this) }
+
+	private lateinit var binding: ActivityLaunchBinding
 
 	// Module with the logic to perform Google authentications
 	private val googleAuthHelper = GoogleAuthHelper(this)
@@ -41,8 +44,8 @@ class LaunchActivity : BaseExtendedActivity() {
 	}
 
 	override fun attachListeners() {
-		googleAuthHelper.setCallback { token -> model.handleSignInResult(token) }
-		binding.signInButton.setOnClickListener {
+		googleAuthHelper.setCallback({ onFailedAuthentication() }) { token -> model.handleSignInResult(token) }
+		binding.btnSignIn.setOnClickListener {
 			model.loading.value = true
 			googleAuthHelper.invokeSignInAPI()
 		}
@@ -65,8 +68,13 @@ class LaunchActivity : BaseExtendedActivity() {
 	}
 
 	private fun uiLoading(loading: Boolean) {
-		binding.signInButton.visibility = if (loading) GONE else VISIBLE
+		binding.btnSignIn.visibility = if (loading) GONE else VISIBLE
 		binding.loadCircleLaunch.visibility = if (loading) VISIBLE else GONE
+	}
+
+	private fun onFailedAuthentication () {
+		uiLoading(false)
+		toast(getString(R.string.error_google_auth))
 	}
 
 }

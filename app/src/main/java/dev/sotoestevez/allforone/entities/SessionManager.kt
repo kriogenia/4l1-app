@@ -3,7 +3,6 @@ package dev.sotoestevez.allforone.entities
 import androidx.lifecycle.SavedStateHandle
 import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.util.extensions.logDebug
-import java.lang.IllegalStateException
 import java.time.Instant
 
 /**
