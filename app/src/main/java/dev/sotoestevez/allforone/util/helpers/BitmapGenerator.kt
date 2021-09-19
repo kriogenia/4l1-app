@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
+import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.util.extensions.logError
 
 object BitmapGenerator {
@@ -24,6 +25,7 @@ object BitmapGenerator {
 	 */
 	fun fromDrawable(context: Context, @DrawableRes id: Int, @ColorInt color: Int): BitmapDescriptor {
 		val drawable = ResourcesCompat.getDrawable(context.resources, id, null)
+		val drawable2 = ResourcesCompat.getDrawable(context.resources, R.drawable.ic_default_user, null)
 		if (drawable == null) {
 			logError("Error loading resource with id[${id}]")
 			return BitmapDescriptorFactory.defaultMarker()
@@ -32,6 +34,10 @@ object BitmapGenerator {
 		val canvas = Canvas(bitmap)
 		DrawableCompat.setTint(drawable, color)
 		drawable.apply {
+			setBounds(0, 0, canvas.width, canvas.height)
+			draw(canvas)
+		}
+		drawable2?.apply {
 			setBounds(0, 0, canvas.width, canvas.height)
 			draw(canvas)
 		}

@@ -1,12 +1,11 @@
 package dev.sotoestevez.allforone.repositories
 
 import com.google.gson.Gson
-import dev.sotoestevez.allforone.api.schemas.GlobalSubscribe
-import dev.sotoestevez.allforone.api.schemas.RoomSubscription
+import dev.sotoestevez.allforone.api.schemas.GlobalSubscribeMsg
+import dev.sotoestevez.allforone.api.schemas.GlobalSubscriptionMsg
+import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.entities.SocketManager
 import dev.sotoestevez.allforone.util.extensions.logDebug
-import io.socket.client.Socket
-import org.json.JSONObject
 
 /**
  * Repository in charge of the Global Room connections and events
@@ -38,11 +37,11 @@ class GlobalRoomRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	fun connect(userId: String, caredId: String = userId) {
 		socket.on(Events.CONNECT.id) {
 			logDebug("Socket connected to the server with id[${socket.id()}]")
-			socket.emit(Events.SUBSCRIBE.id, toJson(GlobalSubscribe(userId, caredId)))
+			socket.emit(Events.SUBSCRIBE.id, toJson(GlobalSubscribeMsg(userId, caredId)))
 		}
 		socket.on(Events.SUBSCRIPTION.id) {
-			val received = fromJson(it, RoomSubscription::class.java)
-			logDebug("New subscriber joined the Global Room: ${received.displayName}")
+			val received = fromJson(it, GlobalSubscriptionMsg::class.java)
+			logDebug("New subscriber joined the Global Room: ${received.room}")
 		}
 		SocketManager.start()
 	}
@@ -54,7 +53,7 @@ class GlobalRoomRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	 */
 	fun onSharingLocation(callback: (name: String) -> Unit) {
 		socket.on(Events.SHARING_LOCATION.id) {
-			callback(fromJson(it, RoomSubscription::class.java).displayName)
+			callback(fromJson(it, UserInfoMsg::class.java).displayName)
 		}
 	}
 

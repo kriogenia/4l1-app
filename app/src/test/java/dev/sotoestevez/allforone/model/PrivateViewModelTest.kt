@@ -1,7 +1,7 @@
 package dev.sotoestevez.allforone.model
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import dev.sotoestevez.allforone.api.responses.RefreshResponse
+import dev.sotoestevez.allforone.api.schemas.RefreshResponse
 import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.entities.SessionManager

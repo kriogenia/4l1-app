@@ -58,10 +58,16 @@
     <string name="desc_user_phone">Phone icon</string>
     <string name="desc_address">Postal address</string>
     <string name="desc_email">Email</string>
-    <string name="title_activity_location">LocationActivity</string>
+    <string name="title_activity_location">Find</string>
     <string name="share_location">Share location</string>
     <string name="find">Find %s</string>
     <string name="warn_searching">%s is searching for you, you should start sharing your location.</string>
     <string name="warn_sharing_location">%s is sharing their location, you should probably check it out.</string>
     <string name="user_joined">%s has joined the search</string>
+    <string name="app_name_full">All For One</string>
+    <string name="title_activity_qr">Bond user</string>
+    <string name="title_activity_bonds">Bonds</string>
+    <string name="title_activity_keeper_main">Keeper Lobby</string>
+    <string name="title_activity_launch">Welcome</string>
+    <string name="desc_logo">Logo of the app</string>
 </resources>

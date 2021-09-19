@@ -3,7 +3,7 @@ package dev.sotoestevez.allforone.model.launch
 import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dev.sotoestevez.allforone.api.APIErrorException
-import dev.sotoestevez.allforone.api.responses.SignInResponse
+import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import dev.sotoestevez.allforone.data.Session
 import dev.sotoestevez.allforone.entities.SessionManager
 import dev.sotoestevez.allforone.data.User

@@ -3,7 +3,7 @@ package dev.sotoestevez.allforone.repositories
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
-import dev.sotoestevez.allforone.api.schemas.UserInfo
+import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.data.UserMarker
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.util.extensions.logDebug
@@ -33,7 +33,7 @@ class LocationRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	 * @param user  current user
 	 */
 	fun start(user: User) {
-		socket.emit(Events.SHARE.id, toJson(UserInfo(user.id!!, user.displayName!!)))
+		socket.emit(Events.SHARE.id, toJson(UserInfoMsg(user.id!!, user.displayName!!)))
 		logDebug("User[${user.id}] has started sharing its location")
 	}
 
@@ -53,7 +53,7 @@ class LocationRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	 * @param user current user
 	 */
 	fun stop(user: User) {
-		socket.emit(Events.STOP.id, toJson(UserInfo(user.id!!, user.displayName!!)))
+		socket.emit(Events.STOP.id, toJson(UserInfoMsg(user.id!!, user.displayName!!)))
 	}
 
 	/**
@@ -70,8 +70,8 @@ class LocationRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	 *
 	 * @param callback Event listener, receives the data of the user
 	 */
-	fun onUserLeaving(callback: (userInfo: UserInfo) -> Unit) {
-		socket.on(Events.STOP.id) { callback(fromJson(it, UserInfo::class.java)) }
+	fun onUserLeaving(callback: (userInfo: UserInfoMsg) -> Unit) {
+		socket.on(Events.STOP.id) { callback(fromJson(it, UserInfoMsg::class.java)) }
 	}
 
 }
