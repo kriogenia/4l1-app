@@ -6,10 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dev.sotoestevez.allforone.data.User
 import dev.sotoestevez.allforone.entities.SessionManager
-import dev.sotoestevez.allforone.repositories.SessionRepository
-import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
-import dev.sotoestevez.allforone.repositories.LocationRepository
-import dev.sotoestevez.allforone.repositories.UserRepository
+import dev.sotoestevez.allforone.repositories.*
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 
@@ -53,6 +50,10 @@ interface ExtendedViewModel {
 
 		/** Instance of a location repository */
 		var locationRepository: LocationRepository = LocationRepository()
+			private set
+
+		/** Instance of feed repository */
+		var feedRepository: FeedRepository = FeedRepository()
 			private set
 
 		/**

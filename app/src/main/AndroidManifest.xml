@@ -15,56 +15,52 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.4l1app">
-        <activity
-            android:name=".ui.feed.FeedActivity"
-            android:exported="true" />
+        android:theme="@style/Theme.4l1app.NoActionBar">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
         <activity
-            android:name=".ui.location.LocationActivity"
-            android:exported="true"
-            android:label="@string/title_activity_location"
-            android:theme="@style/Theme.4l1app.NoActionBar" />
-        <activity
-            android:name=".ui.keeper.qr.QRScannerActivity"
-            android:exported="true"
-            android:label="@string/title_activity_qr"
-            android:theme="@style/Theme.4l1app.NoActionBar" />
-        <activity
-            android:name=".ui.bonds.BondsActivity"
-            android:exported="true"
-            android:label="@string/title_activity_bonds"
-            android:theme="@style/Theme.4l1app.NoActionBar" />
-        <activity
-            android:name=".ui.setup.SetUpActivity"
-            android:exported="true"
-            android:label="@string/title_activity_set_up"
-            android:theme="@style/Theme.4l1app.NoActionBar" />
-        <activity
-            android:name=".ui.keeper.KeeperMainActivity"
-            android:exported="true"
-            android:label="@string/title_activity_keeper_main"
-            android:theme="@style/Theme.4l1app.NoActionBar" />
-        <activity
-            android:name=".ui.patient.PatientMainActivity"
-            android:exported="true"
-            android:label="@string/title_activity_patient_main"
-            android:theme="@style/Theme.4l1app.NoActionBar" />
-        <activity
             android:name=".ui.launch.LaunchActivity"
             android:exported="true"
-            android:label="@string/title_activity_launch"
-            android:theme="@style/Theme.4l1app.NoActionBar">
+            android:label="@string/title_activity_launch">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.bonds.BondsActivity"
+            android:exported="true"
+            android:label="@string/title_activity_bonds" />
+        <activity
+            android:name=".ui.feed.FeedActivity"
+            android:exported="true"
+            android:label="@string/title_activity_feed" />
+        <activity
+            android:name=".ui.keeper.KeeperMainActivity"
+            android:exported="true"
+            android:label="@string/title_activity_keeper_main" />
+        <activity
+            android:name=".ui.location.LocationActivity"
+            android:exported="true"
+            android:label="@string/title_activity_location" />
+        <activity
+            android:name=".ui.patient.PatientMainActivity"
+            android:exported="true"
+            android:label="@string/title_activity_patient_main" />
+        <activity
+            android:name=".ui.keeper.qr.QRScannerActivity"
+            android:exported="true"
+            android:label="@string/title_activity_qr" />
+        <activity
+            android:name=".ui.setup.SetUpActivity"
+            android:exported="true"
+            android:label="@string/title_activity_set_up" />
+
     </application>
 
 </manifest>

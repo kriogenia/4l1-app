@@ -26,5 +26,4 @@ class FeedActivity : PrivateActivity() {
 		setContentView(binding.root)
 	}
 
-
 }

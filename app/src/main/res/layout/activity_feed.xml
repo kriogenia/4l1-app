@@ -15,6 +15,67 @@
         android:layout_height="match_parent"
         tools:context=".ui.feed.FeedActivity">
 
+        <!-- Feed list -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFeed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="16dp"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toTopOf="@+id/lblFeedNotification"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lblFeedNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/double_base_margin"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/dvdFeed"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dvdFeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/laySendingBox" />
+
+        <!-- Sending box -->
+
+        <RelativeLayout
+            android:id="@+id/laySendingBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <EditText
+                android:id="@+id/txtWriteMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/double_base_margin"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/btnSendMsg"
+                android:background="@android:color/transparent"
+                android:hint="@string/enter_message"
+                android:inputType="text"
+                android:maxLines="6"
+                tools:ignore="Autofill" />
+
+            <Button
+                android:id="@+id/btnSendMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackground"
+                android:text="@string/send"
+                android:textColor="@color/primaryColor" />
+
+        </RelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

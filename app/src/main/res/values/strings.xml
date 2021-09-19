@@ -71,4 +71,7 @@
     <string name="title_activity_launch">Welcome</string>
     <string name="desc_logo">Logo of the app</string>
     <string name="feed">Feed</string>
+    <string name="enter_message">Enter Message...</string>
+    <string name="send">Send</string>
+    <string name="title_activity_feed">Feed</string>
 </resources>
