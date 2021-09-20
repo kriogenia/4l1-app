@@ -11,17 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
  * @param heldItems	List of items to display
  */
 @BindingAdapter("heldItems")
-fun <T> bindItemViewModels(recyclerView: RecyclerView, heldItems: List<ViewHolderWrapper<T>>?) {
+fun <T> bindItemViewModels(recyclerView: RecyclerView, heldItems: List<BindedItemView>?) {
 	val adapter = getOrCreateAdapter<T>(recyclerView)
 	adapter.updateItems(heldItems)
 }
 
-@Suppress("UNCHECKED_CAST")	// Generics are uncheckable in compile time
-private fun <T> getOrCreateAdapter(recyclerView: RecyclerView): BindableRecyclerViewAdapter<T> {
-	return if (recyclerView.adapter != null && recyclerView.adapter is BindableRecyclerViewAdapter<*>) {
-		recyclerView.adapter as BindableRecyclerViewAdapter<T>
+private fun <T> getOrCreateAdapter(recyclerView: RecyclerView): BindableRecyclerViewAdapter {
+	return if (recyclerView.adapter != null && recyclerView.adapter is BindableRecyclerViewAdapter) {
+		recyclerView.adapter as BindableRecyclerViewAdapter
 	} else {
-		val bindableRecyclerAdapter = BindableRecyclerViewAdapter<T>()
+		val bindableRecyclerAdapter = BindableRecyclerViewAdapter()
 		recyclerView.adapter = bindableRecyclerAdapter
 		bindableRecyclerAdapter
 	}

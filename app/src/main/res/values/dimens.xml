@@ -21,4 +21,5 @@
     <dimen name="max_msg_size">260dp</dimen>
     <dimen name="msg_font_size">16sp</dimen>
     <dimen name="timestamp_msg_font_size">10sp</dimen>
+    <dimen name="no_elevation">0dp</dimen>
 </resources>

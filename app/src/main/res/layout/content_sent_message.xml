@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="messageViewItem"
-            type="dev.sotoestevez.allforone.ui.components.recyclerview.messages.SentMessageViewHolder" />
+            name="item"
+            type="dev.sotoestevez.allforone.ui.components.recyclerview.messages.MessageView" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/primaryDarkColor"
             app:cardCornerRadius="@dimen/extra_round_corner"
-            app:cardElevation="0dp"
+            app:cardElevation="@dimen/no_elevation"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,7 @@
                 android:maxWidth="@dimen/max_msg_size"
                 android:paddingHorizontal="@dimen/double_base_margin"
                 android:paddingTop="@dimen/base_margin"
-                android:text="@{messageViewItem.data.message}"
+                android:text="@{item.data.message}"
                 android:textColor="@color/onDarkPrimary"
                 android:textSize="@dimen/msg_font_size" />
 

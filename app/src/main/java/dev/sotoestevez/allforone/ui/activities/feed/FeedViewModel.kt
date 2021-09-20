@@ -7,10 +7,11 @@ import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
-import dev.sotoestevez.allforone.ui.components.recyclerview.messages.SentMessageViewHolder
+import dev.sotoestevez.allforone.ui.components.recyclerview.messages.SentMessageTextView
 import dev.sotoestevez.allforone.repositories.FeedRepository
 import dev.sotoestevez.allforone.repositories.SessionRepository
-import dev.sotoestevez.allforone.ui.components.recyclerview.ViewHolderWrapper
+import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
+import dev.sotoestevez.allforone.ui.components.recyclerview.messages.ReceivedTextMessageView
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import java.time.Instant
@@ -24,9 +25,9 @@ class FeedViewModel(
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
 
 	/** LiveData holding the list of messages of the feed */
-	val feedList: LiveData<MutableList<ViewHolderWrapper<Message>>>
+	val feedList: LiveData<MutableList<BindedItemView>>
 		get() = mFeedList
-	private val mFeedList: MutableLiveData<MutableList<ViewHolderWrapper<Message>>> = MutableLiveData(mutableListOf())
+	private val mFeedList: MutableLiveData<MutableList<BindedItemView>> = MutableLiveData(mutableListOf())
 
 	@Suppress("unused") // Used in the factory with a class call
 	constructor(builder: ExtendedViewModel.Builder): this(
@@ -39,8 +40,8 @@ class FeedViewModel(
 	init {
 		// TODO retrieve messages from API
 		val items = createViewItems(listOf(
-			Message(1, "a", User(user.value!!.id, "", User.Role.PATIENT), Instant.now().toEpochMilli()),
-			Message(2, "b", User(user.value!!.id, "", User.Role.KEEPER), Instant.now().toEpochMilli())
+			Message(1, "Boas", User(user.value!!.id, "", User.Role.PATIENT), Instant.now().toEpochMilli()),
+			Message(2, "Hola", User("b", "", User.Role.KEEPER, "Pepe"), Instant.now().toEpochMilli())
 		))
 		mFeedList.postValue(items.toMutableList())
 		feedRepository.join(user.value!!)
@@ -55,9 +56,9 @@ class FeedViewModel(
 		feedRepository.send(user.value!!, message)
 	}
 
-	private fun createViewItems(messages: List<Message>): List<ViewHolderWrapper<Message>> {
+	private fun createViewItems(messages: List<Message>): List<BindedItemView> {
 		return messages.map {
-			if (it.user.id == user.value!!.id) SentMessageViewHolder(it) else SentMessageViewHolder(it)
+			if (it.user.id == user.value!!.id) SentMessageTextView(it) else ReceivedTextMessageView(it)
 		}
 	}
 
