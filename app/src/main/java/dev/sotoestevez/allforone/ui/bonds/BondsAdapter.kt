@@ -46,12 +46,12 @@ class BondsAdapter : ListAdapter<User, BondsAdapter.BondViewHolder>(BondDiffCall
 		 * @param user  User of the bond
 		 */
 		fun bind(user: User) {
-			setData(user)
+			buildUI(user)
 			setListeners()
 			// TODO launch phone, email and Maps
 		}
 
-		private fun setData(user: User) {
+		private fun buildUI(user: User) {
 			// TODO layout visibility
 			itemView.findViewById<TextView>(R.id.txtBondName).text = user.displayName
 			itemView.findViewById<TextView>(R.id.txtBondMainPhone).text = user.mainPhoneNumber

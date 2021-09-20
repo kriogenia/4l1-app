@@ -17,5 +17,6 @@
     <color name="orange_marker">#F5982A</color>
     <color name="magenta_marker">#E842F5</color>
     <color name="brown_marker">#A85C00</color>
+    <color name="onDarkPrimary">#ffffff</color>
 
 </resources>

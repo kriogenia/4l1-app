@@ -50,7 +50,6 @@ class MarkerManager {
 	 */
 	fun assignColor(marker: UserMarker) { marker.color = colors.pick(marker.id) }
 
-	// TODO remove when user stops sharing
 
 	internal class Colors {
 
