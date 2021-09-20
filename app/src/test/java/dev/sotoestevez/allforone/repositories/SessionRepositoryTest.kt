@@ -6,8 +6,8 @@ import dev.sotoestevez.allforone.api.schemas.RefreshRequest
 import dev.sotoestevez.allforone.api.schemas.RefreshResponse
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import dev.sotoestevez.allforone.api.services.AuthService
-import dev.sotoestevez.allforone.data.Session
-import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.vo.Session
+import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import io.mockk.coEvery
 import io.mockk.coVerify

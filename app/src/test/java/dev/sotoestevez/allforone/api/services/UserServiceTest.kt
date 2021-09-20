@@ -3,7 +3,7 @@ package dev.sotoestevez.allforone.api.services
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.schemas.BondEstablishRequest
 import dev.sotoestevez.allforone.api.schemas.*
-import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import dev.sotoestevez.allforone.util.rules.WebServerRule
 import dev.sotoestevez.allforone.util.webserver.UserDispatcher

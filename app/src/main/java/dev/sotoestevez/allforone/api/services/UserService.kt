@@ -2,7 +2,7 @@ package dev.sotoestevez.allforone.api.services
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.schemas.*
-import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.vo.User
 import retrofit2.http.*
 
 

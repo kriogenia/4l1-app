@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="model"
-            type="dev.sotoestevez.allforone.model.patient.PatientMainViewModel" />
+            type="dev.sotoestevez.allforone.ui.activities.patient.PatientMainViewModel" />
     </data>
 
     <LinearLayout
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.patient.PatientMainActivity">
+        tools:context=".ui.activities.patient.PatientMainActivity">
 
         <!-- Warning panel TODO no bond warning -->
 

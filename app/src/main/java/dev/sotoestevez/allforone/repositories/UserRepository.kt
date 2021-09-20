@@ -4,7 +4,7 @@ import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.schemas.BondEstablishRequest
 import dev.sotoestevez.allforone.api.services.UserService
-import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /** Repository to make all the user related operations */

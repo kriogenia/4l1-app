@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="model"
-            type="dev.sotoestevez.allforone.model.bonds.BondsViewModel" />
+            type="dev.sotoestevez.allforone.ui.activities.bonds.BondsViewModel" />
     </data>
 
     <LinearLayout
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="bottom"
-        tools:context=".ui.bonds.BondsActivity">
+        tools:context=".ui.activities.bonds.BondsActivity">
 
         <!-- Bonds list -->
 
@@ -36,7 +36,7 @@
             android:orientation="vertical"
             android:gravity="bottom"
             android:visibility="@{model.bonds.size() &lt; 6 ? View.VISIBLE : View.GONE }"
-            tools:context=".ui.bonds.BondsActivity">
+            tools:context=".ui.activities.bonds.BondsActivity">
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"

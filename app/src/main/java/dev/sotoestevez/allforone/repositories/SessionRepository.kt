@@ -5,7 +5,7 @@ import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.schemas.RefreshRequest
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import dev.sotoestevez.allforone.api.services.AuthService
-import dev.sotoestevez.allforone.data.Session
+import dev.sotoestevez.allforone.vo.Session
 import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /** Repository to make all the session related operations */

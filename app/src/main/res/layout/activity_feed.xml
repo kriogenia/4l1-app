@@ -7,13 +7,13 @@
         <import type="android.view.View"/>
         <variable
             name="model"
-            type="dev.sotoestevez.allforone.model.feed.FeedViewModel" />
+            type="dev.sotoestevez.allforone.ui.activities.feed.FeedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.feed.FeedActivity">
+        tools:context=".ui.activities.feed.FeedActivity">
 
         <!-- Feed list -->
 
@@ -26,7 +26,7 @@
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@+id/lblFeedNotification"
             app:layout_constraintTop_toTopOf="parent"
-            app:itemViewModels="@{model.feedList}"
+            app:heldItems="@{model.feedList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <TextView

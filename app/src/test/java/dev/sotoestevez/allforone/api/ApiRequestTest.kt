@@ -3,8 +3,8 @@ package dev.sotoestevez.allforone.api
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.schemas.BaseErrorResponse
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
-import dev.sotoestevez.allforone.data.Session
-import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.vo.Session
+import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest

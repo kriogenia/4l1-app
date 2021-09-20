@@ -1,7 +1,7 @@
 package dev.sotoestevez.allforone.api.schemas
 
-import dev.sotoestevez.allforone.data.Session
-import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.vo.Session
+import dev.sotoestevez.allforone.vo.User
 
 /**
  * Base properties of error responses

@@ -4,7 +4,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.schemas.*
 import dev.sotoestevez.allforone.api.services.UserService
-import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import io.mockk.coEvery
 import io.mockk.coVerify

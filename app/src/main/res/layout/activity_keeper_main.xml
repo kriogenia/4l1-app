@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="model"
-            type="dev.sotoestevez.allforone.model.keeper.KeeperMainViewModel" />
+            type="dev.sotoestevez.allforone.ui.activities.keeper.KeeperMainViewModel" />
     </data>
 
     <LinearLayout
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.patient.KeeperMainActivity">
+        tools:context=".ui.activities.patient.KeeperMainActivity">
 
         <!-- Warning panel -->
 

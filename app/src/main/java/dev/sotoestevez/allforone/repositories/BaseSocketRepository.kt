@@ -1,7 +1,7 @@
 package dev.sotoestevez.allforone.repositories
 
 import com.google.gson.Gson
-import dev.sotoestevez.allforone.entities.SocketManager
+import dev.sotoestevez.allforone.api.SocketManager
 import io.socket.client.Socket
 import org.json.JSONObject
 

@@ -1,7 +1,5 @@
 package dev.sotoestevez.allforone.api.schemas
 
-import com.google.gson.annotations.SerializedName
-import dev.sotoestevez.allforone.data.User
 import java.time.Instant
 
 // Schemas of the different messages to send and receive in socket event emissions

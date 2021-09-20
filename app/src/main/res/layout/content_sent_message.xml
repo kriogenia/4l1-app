@@ -6,7 +6,7 @@
     <data>
         <variable
             name="messageViewItem"
-            type="dev.sotoestevez.allforone.model.feed.viewitems.SentMessageViewItem" />
+            type="dev.sotoestevez.allforone.ui.components.recyclerview.messages.SentMessageViewHolder" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +33,7 @@
                 android:maxWidth="@dimen/max_msg_size"
                 android:paddingHorizontal="@dimen/double_base_margin"
                 android:paddingTop="@dimen/base_margin"
-                android:text="@{messageViewItem.message.message}"
+                android:text="@{messageViewItem.data.message}"
                 android:textColor="@color/onDarkPrimary"
                 android:textSize="@dimen/msg_font_size" />
 

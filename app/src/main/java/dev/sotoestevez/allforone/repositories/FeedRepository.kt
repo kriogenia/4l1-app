@@ -3,7 +3,7 @@ package dev.sotoestevez.allforone.repositories
 import com.google.gson.Gson
 import dev.sotoestevez.allforone.api.schemas.FeedMsg
 import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
-import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.vo.User
 
 /**
  * Repository to manage all the feed and messaging related operations

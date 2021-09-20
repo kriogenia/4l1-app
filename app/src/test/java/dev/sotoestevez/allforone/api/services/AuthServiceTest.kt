@@ -3,8 +3,8 @@ package dev.sotoestevez.allforone.api.services
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.schemas.BaseErrorResponse
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
-import dev.sotoestevez.allforone.data.Session
-import dev.sotoestevez.allforone.data.User
+import dev.sotoestevez.allforone.vo.Session
+import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import dev.sotoestevez.allforone.util.rules.WebServerRule
 import dev.sotoestevez.allforone.util.webserver.AuthDispatcher
