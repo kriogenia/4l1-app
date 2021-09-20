@@ -1,5 +1,9 @@
 package dev.sotoestevez.allforone.api.schemas
 
+import com.google.gson.annotations.SerializedName
+import dev.sotoestevez.allforone.data.User
+import java.time.Instant
+
 // Schemas of the different messages to send and receive in socket event emissions
 
 /**
@@ -33,4 +37,17 @@ data class GlobalSubscriptionMsg(
 data class UserInfoMsg(
 	val id: String,
 	val displayName: String
+)
+
+/**
+ * Message with the info to send a new feed message
+ *
+ * @property message content of the message
+ * @property user author of the message
+ * @property timestamp creation timestamp of the message
+ */
+data class FeedMsg(
+	val message: String,
+	val user: UserInfoMsg,
+	val timestamp: Long = Instant.now().toEpochMilli()
 )

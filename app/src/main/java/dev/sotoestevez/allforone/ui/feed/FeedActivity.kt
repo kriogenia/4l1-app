@@ -26,4 +26,9 @@ class FeedActivity : PrivateActivity() {
 		setContentView(binding.root)
 	}
 
+	override fun attachListeners() {
+		super.attachListeners()
+		binding.btnSendMsg.setOnClickListener { model.sendMessage(binding.txtWriteMessage.text.toString()) }
+	}
+
 }

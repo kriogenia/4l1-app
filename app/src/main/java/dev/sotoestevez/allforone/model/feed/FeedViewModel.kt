@@ -29,4 +29,13 @@ class FeedViewModel(
 		feedRepository.join(user.value!!)
 	}
 
+	/**
+	 * Sends the message
+	 *
+	 * @param message content of the message
+	 */
+	fun sendMessage(message: String) {
+		feedRepository.send(user.value!!, message)
+	}
+
 }
