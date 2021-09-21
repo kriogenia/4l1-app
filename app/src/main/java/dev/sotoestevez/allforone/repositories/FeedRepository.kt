@@ -3,6 +3,7 @@ package dev.sotoestevez.allforone.repositories
 import com.google.gson.Gson
 import dev.sotoestevez.allforone.api.schemas.FeedMsg
 import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
+import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.vo.User
 
 /**
@@ -37,11 +38,10 @@ class FeedRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	/**
 	 * Sends a new message through the Feed
 	 *
-	 * @param user current user
-	 * @param message content of the message
+	 * @param msg content of the message
 	 */
-	fun send(user: User, message: String) {
-		socket.emit(Events.SEND.id, toJson(FeedMsg(message, UserInfoMsg(user.id!!, user.displayName!!))))
+	fun send(msg: Message) {
+		socket.emit(Events.SEND.id, toJson(FeedMsg(msg.message, UserInfoMsg(msg.user.id!!, msg.user.displayName!!))))
 	}
 
 }

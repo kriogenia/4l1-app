@@ -25,9 +25,10 @@ class FeedViewModel(
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
 
 	/** LiveData holding the list of messages of the feed */
-	val feedList: LiveData<MutableList<BindedItemView>>
+	val feedList: LiveData<List<BindedItemView>>
 		get() = mFeedList
-	private val mFeedList: MutableLiveData<MutableList<BindedItemView>> = MutableLiveData(mutableListOf())
+	private val mList: MutableList<BindedItemView> = mutableListOf()
+	private val mFeedList: MutableLiveData<List<BindedItemView>> = MutableLiveData(mList)
 
 	@Suppress("unused") // Used in the factory with a class call
 	constructor(builder: ExtendedViewModel.Builder): this(
@@ -39,27 +40,27 @@ class FeedViewModel(
 
 	init {
 		// TODO retrieve messages from API
-		val items = createViewItems(listOf(
+		mList.addAll(listOf(
 			Message(1, "Boas", User(user.value!!.id, "", User.Role.PATIENT), Instant.now().toEpochMilli()),
 			Message(2, "Hola", User("b", "", User.Role.KEEPER, "Pepe"), Instant.now().toEpochMilli())
-		))
-		mFeedList.postValue(items.toMutableList())
+		).map { wrapItem(it) })
+		//mFeedList.postValue(mList.toMutableList())
 		feedRepository.join(user.value!!)
 	}
 
 	/**
 	 * Sends the message
 	 *
-	 * @param message content of the message
+	 * @param text content of the message to send
 	 */
-	fun sendMessage(message: String) {
-		feedRepository.send(user.value!!, message)
+	fun sendMessage(text: String) {
+		val message = Message(message = text, user = user.value!!)					// Build the message
+		feedRepository.send(message)												// Send it to the other users
+		mList.add(wrapItem(message)).also { mFeedList.value = mFeedList.value }		// And show it in the activity
 	}
 
-	private fun createViewItems(messages: List<Message>): List<BindedItemView> {
-		return messages.map {
-			if (it.user.id == user.value!!.id) SentMessageTextView(it) else ReceivedTextMessageView(it)
-		}
+	private fun wrapItem(message: Message): BindedItemView {
+		return if (message.user.id == user.value!!.id) SentMessageTextView(message) else ReceivedTextMessageView(message)
 	}
 
 }
