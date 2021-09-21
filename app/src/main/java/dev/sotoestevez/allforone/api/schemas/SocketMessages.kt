@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.api.schemas
 
+import com.google.gson.annotations.SerializedName
 import java.time.Instant
 
 // Schemas of the different messages to send and receive in socket event emissions
@@ -33,7 +34,7 @@ data class GlobalSubscriptionMsg(
  * @property displayName display name of the current user
  */
 data class UserInfoMsg(
-	val id: String,
+	@SerializedName("_id") val id: String,
 	val displayName: String
 )
 

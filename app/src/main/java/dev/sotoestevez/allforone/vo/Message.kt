@@ -12,15 +12,8 @@ import java.time.Instant
  * @property timestamp timestamp of the message creation
  */
 data class Message(
-	@SerializedName("_id") val id: Long = UNSET,
+	@SerializedName("_id") val id: String = "",
 	val message: String,
 	val user: User,
 	val timestamp: Long = Instant.now().toEpochMilli()
-) {
-
-	companion object {
-		/** Default id for newly generated messages without id */
-		const val UNSET = -1L
-	}
-
-}
+)

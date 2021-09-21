@@ -2,6 +2,7 @@ package dev.sotoestevez.allforone.vo
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -36,7 +37,10 @@ data class User(
 		@SerializedName("keeper") KEEPER,
 		/** Users suffering the disease */
 		@SerializedName("patient") PATIENT
-
 	}
+
+	/** Minimum info of the user, to send with socket messages */
+	val minInfo: UserInfoMsg
+		get() = UserInfoMsg(id!!, displayName!!)
 
 }

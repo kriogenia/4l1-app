@@ -39,10 +39,12 @@ class FeedViewModel(
 	)
 
 	init {
+		feedRepository.onNewMessage { mList.add(wrapItem(it)).also { mFeedList.apply { postValue(value) } } }
+
 		// TODO retrieve messages from API
 		mList.addAll(listOf(
-			Message(1, "Boas", User(user.value!!.id, "", User.Role.PATIENT), Instant.now().toEpochMilli()),
-			Message(2, "Hola", User("b", "", User.Role.KEEPER, "Pepe"), Instant.now().toEpochMilli())
+			Message("a", "Boas", User(user.value!!.id, "", User.Role.PATIENT), Instant.now().toEpochMilli()),
+			Message("b", "Hola", User("b", "", User.Role.KEEPER, "Pepe"), Instant.now().toEpochMilli())
 		).map { wrapItem(it) })
 		//mFeedList.postValue(mList.toMutableList())
 		feedRepository.join(user.value!!)
@@ -54,9 +56,7 @@ class FeedViewModel(
 	 * @param text content of the message to send
 	 */
 	fun sendMessage(text: String) {
-		val message = Message(message = text, user = user.value!!)					// Build the message
-		feedRepository.send(message)												// Send it to the other users
-		mList.add(wrapItem(message)).also { mFeedList.value = mFeedList.value }		// And show it in the activity
+		feedRepository.send(Message(message = text, user = user.value!!))
 	}
 
 	private fun wrapItem(message: Message): BindedItemView {

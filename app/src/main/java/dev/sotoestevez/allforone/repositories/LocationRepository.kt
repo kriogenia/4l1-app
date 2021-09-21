@@ -33,7 +33,7 @@ class LocationRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	 * @param user  current user
 	 */
 	fun start(user: User) {
-		socket.emit(Events.SHARE.id, toJson(UserInfoMsg(user.id!!, user.displayName!!)))
+		socket.emit(Events.SHARE.id, toJson(user.minInfo))
 		logDebug("User[${user.id}] has started sharing its location")
 	}
 
@@ -43,6 +43,7 @@ class LocationRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	 * @param location  new location of the user
 	 */
 	fun update(user: User, location: Location) {
+		// TODO convert UserMarker to use user instead of the spread properties
 		val locationUpdate = UserMarker(user.id!!, user.displayName!!, LatLng(location.latitude, location.longitude))
 		socket.emit(Events.UPDATE.id, toJson(locationUpdate))
 	}
@@ -53,7 +54,7 @@ class LocationRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	 * @param user current user
 	 */
 	fun stop(user: User) {
-		socket.emit(Events.STOP.id, toJson(UserInfoMsg(user.id!!, user.displayName!!)))
+		socket.emit(Events.STOP.id, toJson(user.minInfo))
 	}
 
 	/**
