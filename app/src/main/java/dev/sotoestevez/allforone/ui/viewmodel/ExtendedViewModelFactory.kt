@@ -30,7 +30,7 @@ class ExtendedViewModelFactory(
 		modelClass: Class<T>,
 		handle: SavedStateHandle
 	): T {
-		return ExtendedViewModel.Builder(handle).build(modelClass)
+		return ExtendedViewModel.Injector(handle).build(modelClass)
 	}
 
 }

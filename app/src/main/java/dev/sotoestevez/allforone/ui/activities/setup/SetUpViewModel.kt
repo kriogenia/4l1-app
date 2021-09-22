@@ -45,11 +45,11 @@ class SetUpViewModel(
 	override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(true)
 
 
-	constructor(builder: ExtendedViewModel.Builder): this(
-		builder.savedStateHandle,
-		builder.dispatchers,
-		builder.sessionRepository,
-		builder.userRepository
+	constructor(injector: ExtendedViewModel.Injector): this(
+		injector.savedStateHandle,
+		injector.dispatchers,
+		injector.sessionRepository,
+		injector.userRepository
 	)
 
 

@@ -31,11 +31,11 @@ class FeedViewModel(
 	private val mFeedList: MutableLiveData<List<BindedItemView>> = MutableLiveData(mList)
 
 	@Suppress("unused") // Used in the factory with a class call
-	constructor(builder: ExtendedViewModel.Builder): this(
-		builder.savedStateHandle,
-		builder.dispatchers,
-		builder.sessionRepository,
-		builder.feedRepository
+	constructor(injector: ExtendedViewModel.Injector): this(
+		injector.savedStateHandle,
+		injector.dispatchers,
+		injector.sessionRepository,
+		injector.feedRepository
 	)
 
 	init {

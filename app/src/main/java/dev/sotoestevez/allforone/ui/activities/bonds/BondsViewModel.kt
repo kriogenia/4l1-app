@@ -42,11 +42,11 @@ class BondsViewModel(
 	private var lastQRRequest: Long = 0
 
 	@Suppress("unused") // Used in the factory with a class call
-	constructor(builder: ExtendedViewModel.Builder): this(
-		builder.savedStateHandle,
-		builder.dispatchers,
-		builder.sessionRepository,
-		builder.userRepository
+	constructor(injector: ExtendedViewModel.Injector): this(
+		injector.savedStateHandle,
+		injector.dispatchers,
+		injector.sessionRepository,
+		injector.userRepository
 	)
 
 	init {

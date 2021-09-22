@@ -26,35 +26,35 @@ interface ExtendedViewModel {
 	val loading: MutableLiveData<Boolean>
 
 	/**
-	 * Builder class to serve and inject the dependencies of the ExtendedViewModels when building them on the Factory
+	 * Building class to serve and inject the dependencies of the ExtendedViewModels when building them on the Factory
 	 *
 	 * @property savedStateHandle   activity saved state handle
 	 * @property dispatchers        instance of the provider of coroutine dispatchers
 	 */
-	data class Builder(
+	data class Injector(
 		val savedStateHandle: SavedStateHandle,
 		val dispatchers: DispatcherProvider = DefaultDispatcherProvider
 	) {
 
 		/** Instance of a session repository */
-		var sessionRepository: SessionRepository = SessionRepository()
-			private set
+		val sessionRepository: SessionRepository
+			get() = SessionRepository()
 
 		/** Instance of a user repository */
-		var userRepository: UserRepository = UserRepository()
-			private set
+		val userRepository: UserRepository
+			get() = UserRepository()
 
 		/** Instance of a socket repository */
-		var globalRoomRepository: GlobalRoomRepository = GlobalRoomRepository()
-			private set
+		val globalRoomRepository: GlobalRoomRepository
+			get() = GlobalRoomRepository()
 
 		/** Instance of a location repository */
-		var locationRepository: LocationRepository = LocationRepository()
-			private set
+		val locationRepository: LocationRepository
+			get() = LocationRepository()
 
 		/** Instance of feed repository */
-		var feedRepository: FeedRepository = FeedRepository()
-			private set
+		val feedRepository: FeedRepository
+			get() = FeedRepository()
 
 		/**
 		 * Builds the specified ViewModel

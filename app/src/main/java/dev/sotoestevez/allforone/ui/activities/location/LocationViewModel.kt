@@ -41,11 +41,11 @@ class LocationViewModel(
 	private val markerManager by lazy { MarkerManager() }
 
 	@Suppress("unused") // Used in the factory with a class call
-	constructor(builder: ExtendedViewModel.Builder): this(
-		builder.savedStateHandle,
-		builder.dispatchers,
-		builder.sessionRepository,
-		builder.locationRepository
+	constructor(injector: ExtendedViewModel.Injector): this(
+		injector.savedStateHandle,
+		injector.dispatchers,
+		injector.sessionRepository,
+		injector.locationRepository
 	)
 
 	init {

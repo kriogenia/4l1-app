@@ -34,11 +34,11 @@ class PatientMainViewModel(
 	override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
 
 	@Suppress("unused") // Used in the factory with a class call
-	constructor(builder: ExtendedViewModel.Builder) : this(
-		builder.savedStateHandle,
-		builder.dispatchers,
-		builder.sessionRepository,
-		builder.globalRoomRepository
+	constructor(injector: ExtendedViewModel.Injector) : this(
+		injector.savedStateHandle,
+		injector.dispatchers,
+		injector.sessionRepository,
+		injector.globalRoomRepository
 	)
 
 	init {
