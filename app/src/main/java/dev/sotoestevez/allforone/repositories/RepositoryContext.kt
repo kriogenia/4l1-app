@@ -18,7 +18,7 @@ object RepositoryContext {
 
     /** Feed repository instance */
     val feedRepository: FeedRepository
-        get() = (context[FEED] ?: FeedRepositoryImpl().also { context[FEED] = it }) as FeedRepository
+        get() = (context[FEED] ?: FeedRepositoryImpl(ApiFactory.getFeedService()).also { context[FEED] = it }) as FeedRepository
 
     /** Global room repository instance */
     val globalRoomRepository: GlobalRoomRepository

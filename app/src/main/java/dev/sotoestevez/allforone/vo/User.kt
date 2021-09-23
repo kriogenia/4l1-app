@@ -20,8 +20,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class User(
 	@SerializedName("_id") val id: String?,
-	val googleId: String?,
-	var role: Role,
+	val googleId: String? = null,
+	var role: Role? = null,
 	var displayName: String? = null,
 	var mainPhoneNumber: String? = null,
 	var altPhoneNumber: String? = null,

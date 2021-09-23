@@ -43,8 +43,8 @@ class FeedViewModel(
 
 		// TODO retrieve messages from API
 		mList.addAll(listOf(
-			Message("a", "Boas", User(user.value!!.id, "", User.Role.PATIENT), Instant.now().toEpochMilli()),
-			Message("b", "Hola", User("b", "", User.Role.KEEPER, "Pepe"), Instant.now().toEpochMilli())
+			Message("a", "Boas", User(user.value!!.id, "", User.Role.PATIENT), Message.Type.TEXT),
+			Message("b", "Hola", User("b", "", User.Role.KEEPER, "Pepe"), Message.Type.TEXT)
 		).map { wrapItem(it) })
 		//mFeedList.postValue(mList.toMutableList())
 		feedRepository.join(user.value!!)
@@ -56,7 +56,7 @@ class FeedViewModel(
 	 * @param text content of the message to send
 	 */
 	fun sendMessage(text: String) {
-		feedRepository.send(Message(message = text, user = user.value!!))
+		feedRepository.send(Message(message = text, user = user.value!!, type = Message.Type.TEXT))
 	}
 
 	private fun wrapItem(message: Message): BindedItemView {

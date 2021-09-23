@@ -21,16 +21,24 @@ interface FeedRepository {
 	/**
 	 * Connects the user to the Feed Room
 	 *
-	 * @param user  current user
+	 * @param user  Current user
 	 */
 	fun join(user: User)
 
 	/**
 	 * Sends a new message through the Feed
 	 *
-	 * @param msg content of the message
+	 * @param msg Content of the message
 	 */
 	fun send(msg: Message)
+
+	/**
+	 * Retrieves a new page of messages
+	 *
+	 * @param page	Page to retrieve
+	 * @param token Authentication token
+	 */
+	suspend fun getMessages(page: Int, token: String): List<Message>
 
 	/**
 	 * Subscribes the callback to new messages updates on the feed room

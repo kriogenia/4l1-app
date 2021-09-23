@@ -10,17 +10,17 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /** Repository to make all the session related operations */
 class SessionRepositoryImpl(
-    private val authService: AuthService
+    private val service: AuthService
 ): SessionRepository {
 
     override suspend fun signIn(googleIdToken: String): SignInResponse {
         logDebug("Requesting session with GoogleIdToken: $googleIdToken")
-       return ApiRequest(suspend { authService.signIn(googleIdToken) }).performRequest()
+       return ApiRequest(suspend { service.signIn(googleIdToken) }).performRequest()
     }
 
     override suspend fun refreshSession(session: Session): Session {
         logDebug("Refreshing session")
-        return ApiRequest(suspend { authService.refresh(RefreshRequest(session.auth, session.refresh)) })
+        return ApiRequest(suspend { service.refresh(RefreshRequest(session.auth, session.refresh)) })
             .performRequest().session
     }
 

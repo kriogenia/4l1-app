@@ -7,15 +7,17 @@ import java.util.*
 /**
  * Represents a message that can be sent through the Feed
  *
- * @property id unique identifier of the message
- * @property message content of the message
- * @property user author of the message
- * @property timestamp timestamp of the message creation
+ * @property id Unique identifier of the message
+ * @property message Content of the message
+ * @property user Author of the message
+ * @property timestamp Timestamp of the message creation
+ * @property type Type of message (task or text)
  */
 data class Message(
 	@SerializedName("_id") val id: String = "",
 	val message: String,
 	val user: User,
+	val type: Type,
 	val timestamp: Long = Instant.now().toEpochMilli()
 ) {
 

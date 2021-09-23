@@ -35,8 +35,8 @@ class FeedServiceTest {
     @Test
     fun `should parse FeedMessageResponse with no page provided`(): Unit = runBlocking {
         val expected = FeedMessageResponse(arrayOf(
-            PlainMessage("message", "id", "name", 0, Message.Type.TEXT),
-            PlainMessage("message1", "id1", "name1", 1, Message.Type.TASK)
+            PlainMessage("id","message", "id", "name", 0, Message.Type.TEXT),
+            PlainMessage("id1","message1", "id1", "name1", 1, Message.Type.TASK)
         ))
 
         val actual = api.messages("valid", 1)

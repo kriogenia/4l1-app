@@ -54,6 +54,7 @@ data class FeedMessageResponse(
 /**
  * Model of the messages to be received from the /feed/messages endpoint
  *
+ * @property _id        ID of the message
  * @property message	Content of the message
  * @property user		ID of the message submitter
  * @property username	Username of the message submitter
@@ -61,6 +62,7 @@ data class FeedMessageResponse(
  * @property type		Type of message
  */
 data class PlainMessage(
+    val _id: String,
     val message: String,
     val user: String,
     val username: String,

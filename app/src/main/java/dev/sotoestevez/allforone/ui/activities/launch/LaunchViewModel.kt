@@ -13,6 +13,7 @@ import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.*
+import java.lang.IllegalStateException
 
 /**
  * ViewModel of the [LaunchActivity]
@@ -92,6 +93,7 @@ class LaunchViewModel(
 			User.Role.KEEPER -> KeeperMainActivity::class.java
 			User.Role.PATIENT -> PatientMainActivity::class.java
 			User.Role.BLANK -> SetUpActivity::class.java
+			else -> throw IllegalStateException("Missing role after user creation")
 		}
 	}
 
