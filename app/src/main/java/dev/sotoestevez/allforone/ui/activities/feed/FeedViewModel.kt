@@ -3,8 +3,8 @@ package dev.sotoestevez.allforone.ui.activities.feed
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import dev.sotoestevez.allforone.vo.Message
-import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.ui.components.recyclerview.messages.SentMessageTextView
@@ -14,7 +14,10 @@ import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.ui.components.recyclerview.messages.ReceivedTextMessageView
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
-import java.time.Instant
+import dev.sotoestevez.allforone.util.extensions.invoke
+import dev.sotoestevez.allforone.util.extensions.logDebug
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /** ViewModel of the Feed Activity */
 class FeedViewModel(
@@ -30,6 +33,8 @@ class FeedViewModel(
 	private val mList: MutableList<BindedItemView> = mutableListOf()
 	private val mFeedList: MutableLiveData<List<BindedItemView>> = MutableLiveData(mList)
 
+	private var page = 1
+
 	@Suppress("unused") // Used in the factory with a class call
 	constructor(builder: ExtendedViewModel.Builder): this(
 		builder.savedStateHandle,
@@ -39,16 +44,19 @@ class FeedViewModel(
 	)
 
 	init {
+		viewModelScope.launch(dispatchers.io()) {
+			val messages = feedRepository.getMessages(page++, authHeader()).sortedBy { it.timestamp }	// TODO get messages sorted?
+			withContext(dispatchers.main()) {
+				mList.addAll(messages.map { wrapItem(it) }).also { mFeedList.invoke() }
+			}
+		}
 		feedRepository.onNewMessage { mList.add(wrapItem(it)).also { mFeedList.apply { postValue(value) } } }
-
-		// TODO retrieve messages from API
-		mList.addAll(listOf(
-			Message("a", "Boas", User(user.value!!.id, "", User.Role.PATIENT), Message.Type.TEXT),
-			Message("b", "Hola", User("b", "", User.Role.KEEPER, "Pepe"), Message.Type.TEXT)
-		).map { wrapItem(it) })
-		//mFeedList.postValue(mList.toMutableList())
 		feedRepository.join(user.value!!)
 	}
+
+	// TODO manage loading
+	// TODO load more messages
+	// TODO time on messages
 
 	/**
 	 * Sends the message
