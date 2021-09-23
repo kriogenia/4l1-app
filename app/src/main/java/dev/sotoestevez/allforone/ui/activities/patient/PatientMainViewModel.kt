@@ -16,8 +16,8 @@ import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 class PatientMainViewModel(
 	savedStateHandle: SavedStateHandle,
 	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
-	sessionRepository: SessionRepository = SessionRepository(),
-	globalRoomRepository: GlobalRoomRepository = GlobalRoomRepository()
+	sessionRepository: SessionRepository,
+	globalRoomRepository: GlobalRoomRepository
 ): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
 
 	/** LiveData holding the identifier of the message to show in the warning panel */

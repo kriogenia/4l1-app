@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.repositories
+package dev.sotoestevez.allforone.repositories.impl
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiRequest
@@ -6,6 +6,7 @@ import dev.sotoestevez.allforone.api.schemas.RefreshRequest
 import dev.sotoestevez.allforone.api.schemas.RefreshResponse
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import dev.sotoestevez.allforone.api.services.AuthService
+import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.vo.Session
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
@@ -21,7 +22,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class SessionRepositoryTest {
+class SessionRepositoryImplTest {
 
     @get:Rule
     var coroutineRule: CoroutineRule = CoroutineRule()
@@ -36,7 +37,7 @@ class SessionRepositoryTest {
     fun beforeEach() {
         mockAuthService = mockk()
         mockkConstructor(ApiRequest::class)
-        sessionRepository = SessionRepository(mockAuthService)
+        sessionRepository = SessionRepositoryImpl(mockAuthService)
     }
 
     @Test

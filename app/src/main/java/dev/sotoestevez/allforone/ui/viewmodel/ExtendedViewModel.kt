@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.helpers.SessionManager
 import dev.sotoestevez.allforone.repositories.*
+import dev.sotoestevez.allforone.repositories.impl.*
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 
@@ -38,23 +39,23 @@ interface ExtendedViewModel {
 
 		/** Instance of a session repository */
 		val sessionRepository: SessionRepository
-			get() = SessionRepository()
+			get() = SessionRepositoryImpl()
 
 		/** Instance of a user repository */
 		val userRepository: UserRepository
-			get() = UserRepository()
+			get() = UserRepositoryImpl()
 
 		/** Instance of a socket repository */
 		val globalRoomRepository: GlobalRoomRepository
-			get() = GlobalRoomRepository()
+			get() = GlobalRoomRepositoryImpl()
 
 		/** Instance of a location repository */
 		val locationRepository: LocationRepository
-			get() = LocationRepository()
+			get() = LocationRepositoryImpl()
 
 		/** Instance of feed repository */
 		val feedRepository: FeedRepository
-			get() = FeedRepository()
+			get() = FeedRepositoryImpl()
 
 		/**
 		 * Builds the specified ViewModel

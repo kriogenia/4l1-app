@@ -25,8 +25,8 @@ import java.lang.IllegalStateException
 class SetUpViewModel(
 	savedStateHandle: SavedStateHandle,
 	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
-	sessionRepository: SessionRepository = SessionRepository(),
-	private val userRepository: UserRepository = UserRepository()
+	sessionRepository: SessionRepository,
+	private val userRepository: UserRepository
 ): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
 
 	/** Live data to invoke a change of activity in the related activity **/

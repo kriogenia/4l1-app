@@ -20,8 +20,8 @@ import java.time.Instant
 class FeedViewModel(
 	savedStateHandle: SavedStateHandle,
 	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
-	sessionRepository: SessionRepository = SessionRepository(),
-	private val feedRepository: FeedRepository = FeedRepository()
+	sessionRepository: SessionRepository,
+	private val feedRepository: FeedRepository
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
 
 	/** LiveData holding the list of messages of the feed */

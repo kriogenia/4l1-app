@@ -21,9 +21,9 @@ import kotlinx.coroutines.withContext
 class KeeperMainViewModel(
     savedStateHandle: SavedStateHandle,
     dispatchers: DispatcherProvider,
-    sessionRepository: SessionRepository = SessionRepository(),
-    private val userRepository: UserRepository = UserRepository(),
-    private val globalRoomRepository: GlobalRoomRepository = GlobalRoomRepository()
+    sessionRepository: SessionRepository,
+    private val userRepository: UserRepository,
+    private val globalRoomRepository: GlobalRoomRepository
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
 
     /** LiveData holding the info about the patient cared by this user */
@@ -95,7 +95,7 @@ class KeeperMainViewModel(
             sharing = it
             mWarning.postValue(R.string.warn_sharing_location)
         }
-        globalRoomRepository.connect(user.value?.id!!, cared.id!!)
+        globalRoomRepository.connect(user.value?.id!!)
     }
 
 }

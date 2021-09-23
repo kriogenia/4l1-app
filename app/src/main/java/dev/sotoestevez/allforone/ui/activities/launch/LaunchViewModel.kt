@@ -27,7 +27,7 @@ import kotlinx.coroutines.*
 class LaunchViewModel(
 	savedStateHandle: SavedStateHandle,
 	private val dispatchers: DispatcherProvider = DefaultDispatcherProvider,
-	private val sessionRepository: SessionRepository = SessionRepository()
+	private val sessionRepository: SessionRepository
 ): ViewModel(), ExtendedViewModel {
 
 	override val sessionManager: SessionManager = SessionManager(savedStateHandle)

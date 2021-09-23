@@ -1,19 +1,10 @@
 package dev.sotoestevez.allforone.repositories
 
-import com.google.gson.Gson
-import dev.sotoestevez.allforone.api.schemas.FeedMsg
-import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.vo.User
 
-/**
- * Repository to manage all the feed and messaging related operations
- *
- * @constructor
- *
- * @param gson   Gson serializer/deserializer
- */
-class FeedRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
+/** Repository to manage all the feed and messaging related operations */
+interface FeedRepository {
 
 	/** Events managed by the Feed Repository **/
 	enum class Events(internal val id: String) {
@@ -32,28 +23,20 @@ class FeedRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	 *
 	 * @param user  current user
 	 */
-	fun join(user: User) {
-		// do something else on JOINED notification?
-		socket.emit(Events.JOIN.id, toJson(user.minInfo))
-	}
+	fun join(user: User)
 
 	/**
 	 * Sends a new message through the Feed
 	 *
 	 * @param msg content of the message
 	 */
-	fun send(msg: Message) {
-		socket.emit(Events.SEND.id, toJson(FeedMsg(msg.message, msg.user.minInfo)))
-	}
+	fun send(msg: Message)
 
 	/**
 	 * Subscribes the callback to new messages updates on the feed room
 	 *
 	 * @param callback  Event listener, receives the message
 	 */
-	fun onNewMessage(callback: (Message) -> Unit) {
-		socket.on(Events.NEW.id) { callback(fromJson(it, Message::class.java)) }
-	}
-
+	fun onNewMessage(callback: (Message) -> Unit)
 
 }

@@ -21,8 +21,8 @@ import java.util.ArrayList
 class BondsViewModel(
 	savedStateHandle: SavedStateHandle,
 	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
-	sessionRepository: SessionRepository = SessionRepository(),
-	private val userRepository: UserRepository = UserRepository()
+	sessionRepository: SessionRepository,
+	private val userRepository: UserRepository
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
 
 	/** Current QR Code to create a bond */

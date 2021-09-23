@@ -39,7 +39,7 @@ class KeeperMainViewModelTest {
 		mockkConstructor(SessionManager::class)
 		every { anyConstructed<SessionManager>().getAuthToken() } returns "token"
 		// Init test object
-		model = KeeperMainViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider, mockk(), mockUserRepository)
+		model = KeeperMainViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider, mockk(), mockUserRepository, mockk())
 		model.injectUser(User("id", "google", User.Role.BLANK))
 	}
 

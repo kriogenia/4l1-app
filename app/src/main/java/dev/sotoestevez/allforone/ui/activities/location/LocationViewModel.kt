@@ -19,8 +19,8 @@ import kotlinx.coroutines.launch
 class LocationViewModel(
 	savedStateHandle: SavedStateHandle,
 	dispatchers: DispatcherProvider,
-	sessionRepository: SessionRepository = SessionRepository(),
-	private val locationRepository: LocationRepository = LocationRepository()
+	sessionRepository: SessionRepository,
+	private val locationRepository: LocationRepository
 ): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
 
 	/** Last user location */

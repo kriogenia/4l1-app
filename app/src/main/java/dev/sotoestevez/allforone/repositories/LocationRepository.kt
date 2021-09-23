@@ -8,14 +8,8 @@ import dev.sotoestevez.allforone.vo.UserMarker
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.extensions.logDebug
 
-/**
- * Repository to manage all the location sharing related operations
- *
- * @constructor
- *
- * @param gson   Gson serializer/deserializer
- */
-class LocationRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
+/** Repository to manage all the location sharing related operations */
+interface LocationRepository {
 
 	/** Events managed by the Location Repository **/
 	enum class Events(internal val id: String) {
@@ -32,47 +26,34 @@ class LocationRepository(gson: Gson = Gson()): BaseSocketRepository(gson) {
 	 *
 	 * @param user  current user
 	 */
-	fun start(user: User) {
-		socket.emit(Events.SHARE.id, toJson(user.minInfo))
-		logDebug("User[${user.id}] has started sharing its location")
-	}
+	fun start(user: User)
 
 	/**
 	 * Sends the new location of the user to the server
 	 *
 	 * @param location  new location of the user
 	 */
-	fun update(user: User, location: Location) {
-		// TODO convert UserMarker to use user instead of the spread properties
-		val locationUpdate = UserMarker(user.id!!, user.displayName!!, LatLng(location.latitude, location.longitude))
-		socket.emit(Events.UPDATE.id, toJson(locationUpdate))
-	}
+	fun update(user: User, location: Location)
 
 	/**
 	 * Notifies the server that the user will stop sharing its location
 	 *
 	 * @param user current user
 	 */
-	fun stop(user: User) {
-		socket.emit(Events.STOP.id, toJson(user.minInfo))
-	}
+	fun stop(user: User)
 
 	/**
 	 * Subscribes the callback to location updates received from users in the same location room
 	 *
 	 * @param callback  Event listener, receives the marker of the user
 	 */
-	fun onExternalUpdate(callback: (userMarker: UserMarker) -> Unit) {
-		socket.on(Events.UPDATE.id) { callback(fromJson(it, UserMarker::class.java)) }
-	}
+	fun onExternalUpdate(callback: (userMarker: UserMarker) -> Unit)
 
 	/**
 	 * Subscribes the callback to notifications of users leaving the location room
 	 *
 	 * @param callback Event listener, receives the data of the user
 	 */
-	fun onUserLeaving(callback: (userInfo: UserInfoMsg) -> Unit) {
-		socket.on(Events.STOP.id) { callback(fromJson(it, UserInfoMsg::class.java)) }
-	}
+	fun onUserLeaving(callback: (userInfo: UserInfoMsg) -> Unit)
 
 }

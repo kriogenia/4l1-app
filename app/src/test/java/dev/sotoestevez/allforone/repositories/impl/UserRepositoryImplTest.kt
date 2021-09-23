@@ -1,9 +1,10 @@
-package dev.sotoestevez.allforone.repositories
+package dev.sotoestevez.allforone.repositories.impl
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.schemas.*
 import dev.sotoestevez.allforone.api.services.UserService
+import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import io.mockk.coEvery
@@ -18,7 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class UserRepositoryTest {
+class UserRepositoryImplTest {
 
 	@get:Rule
 	var coroutineRule: CoroutineRule = CoroutineRule()
@@ -33,7 +34,7 @@ class UserRepositoryTest {
 	fun beforeEach() {
 		mockUserService = mockk()
 		mockkConstructor(ApiRequest::class)
-		repo = UserRepository(mockUserService)
+		repo = UserRepositoryImpl(mockUserService)
 	}
 
 	@Test
