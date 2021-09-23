@@ -2,7 +2,6 @@ package dev.sotoestevez.allforone.repositories.impl
 
 import com.google.gson.Gson
 import dev.sotoestevez.allforone.api.SocketManager
-import dev.sotoestevez.allforone.api.schemas.GlobalSubscribeMsg
 import dev.sotoestevez.allforone.api.schemas.GlobalSubscriptionMsg
 import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository

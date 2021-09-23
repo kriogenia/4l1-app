@@ -26,36 +26,29 @@ interface ExtendedViewModel {
 	/** Mutable live data to set the activity loading state from the model or the ui */
 	val loading: MutableLiveData<Boolean>
 
-	/**
-	 * Building class to serve and inject the dependencies of the ExtendedViewModels when building them on the Factory
-	 *
-	 * @property savedStateHandle   activity saved state handle
-	 * @property dispatchers        instance of the provider of coroutine dispatchers
-	 */
-	data class Injector(
-		val savedStateHandle: SavedStateHandle,
+	/** Building class to serve and inject the dependencies of the ExtendedViewModels when building them on the Factory */
+	class Builder() {
+
+		/** Activity saved state handle */
+		lateinit var savedStateHandle: SavedStateHandle
+
+		 /** Instance of the provider of coroutine dispatchers */
 		val dispatchers: DispatcherProvider = DefaultDispatcherProvider
-	) {
 
-		/** Instance of a session repository */
-		val sessionRepository: SessionRepository
-			get() = SessionRepositoryImpl()
+		/** Context instance of [FeedRepository] */
+		val feedRepository: FeedRepository by lazy { RepositoryContext.feedRepository }
 
-		/** Instance of a user repository */
-		val userRepository: UserRepository
-			get() = UserRepositoryImpl()
+		/** Context instance of [GlobalRoomRepository] */
+		val globalRoomRepository: GlobalRoomRepository by lazy { RepositoryContext.globalRoomRepository }
 
-		/** Instance of a socket repository */
-		val globalRoomRepository: GlobalRoomRepository
-			get() = GlobalRoomRepositoryImpl()
+		/** Context instance of [LocationRepository] */
+		val locationRepository: LocationRepository by lazy { RepositoryContext.locationRepository }
 
-		/** Instance of a location repository */
-		val locationRepository: LocationRepository
-			get() = LocationRepositoryImpl()
+		/** Context instance of [SessionRepository] */
+		val sessionRepository: SessionRepository by lazy { RepositoryContext.sessionRepository }
 
-		/** Instance of feed repository */
-		val feedRepository: FeedRepository
-			get() = FeedRepositoryImpl()
+		/** Context instance of [UserRepository] */
+		val userRepository: UserRepository by lazy { RepositoryContext.userRepository }
 
 		/**
 		 * Builds the specified ViewModel
@@ -64,9 +57,7 @@ interface ExtendedViewModel {
 		 * @param modelClass class of the ViewModel to build
 		 * @return instance of the ViewModel built
 		 */
-		fun <T: ViewModel?> build(modelClass: Class<T>): T {
-			return modelClass.getConstructor(this::class.java).newInstance(this)
-		}
+		fun <T: ViewModel?> build(modelClass: Class<T>): T = modelClass.getConstructor(this::class.java).newInstance(this)
 
 	}
 

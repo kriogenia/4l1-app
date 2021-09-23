@@ -2,7 +2,6 @@ package dev.sotoestevez.allforone.repositories.impl
 
 import com.google.gson.Gson
 import dev.sotoestevez.allforone.api.schemas.FeedMsg
-import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.repositories.FeedRepository
 import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.vo.User
