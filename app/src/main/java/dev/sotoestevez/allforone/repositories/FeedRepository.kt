@@ -7,7 +7,7 @@ import dev.sotoestevez.allforone.vo.User
 interface FeedRepository {
 
 	/** Events managed by the Feed Repository **/
-	enum class Events(internal val id: String) {
+	enum class Events(internal val path: String) {
 		/** Event to notify clients about new messages on the feed */
 		NEW("feed:new"),
 		/** Event to notify that the user joined the feed room */

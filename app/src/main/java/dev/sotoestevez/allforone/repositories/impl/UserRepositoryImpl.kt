@@ -10,7 +10,7 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /** Repository to make all the user related operations */
 class UserRepositoryImpl(
-	private val userService: UserService = ApiFactory.getUserService()
+	private val userService: UserService
 ) : UserRepository {
 
 	override suspend fun requestBondingCode(token: String): String {

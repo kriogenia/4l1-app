@@ -4,7 +4,7 @@ package dev.sotoestevez.allforone.repositories
 interface GlobalRoomRepository {
 
 	/** Events managed by the Global Room Repository **/
-	enum class Events(internal val id: String) {
+	enum class Events(internal val path: String) {
 		/** Event sent to the socket when it's successfully connected */
 		CONNECT("connect"),
 		/** Event to subscribe to the global room*/

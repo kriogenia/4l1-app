@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.repositories
 
+import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.repositories.impl.*
 
 /**
@@ -29,10 +30,10 @@ object RepositoryContext {
 
     /** Session repository instance */
     val sessionRepository: SessionRepository
-        get() = (context[SESSION] ?: SessionRepositoryImpl().also { context[SESSION] = it }) as SessionRepository
+        get() = (context[SESSION] ?: SessionRepositoryImpl(ApiFactory.getAuthService()).also { context[SESSION] = it }) as SessionRepository
 
     /** User repository instance */
     val userRepository: UserRepository
-        get() = (context[USER] ?: UserRepositoryImpl().also { context[USER] = it }) as UserRepository
+        get() = (context[USER] ?: UserRepositoryImpl(ApiFactory.getUserService()).also { context[USER] = it }) as UserRepository
 
 }

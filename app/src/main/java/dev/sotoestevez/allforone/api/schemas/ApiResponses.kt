@@ -1,7 +1,9 @@
 package dev.sotoestevez.allforone.api.schemas
 
+import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.vo.Session
 import dev.sotoestevez.allforone.vo.User
+import java.sql.Timestamp
 
 /**
  * Base properties of error responses
@@ -29,15 +31,6 @@ data class MessageResponse(
 )
 
 /**
- * Model of the response to be received from the /user/cared endpoint
- *
- * @property cared  Patient cared by the current user if it exists
- */
-data class CaredResponse(
-	val cared: User?
-)
-
-/**
  * Model of the response to be received from the /user/bond/generate endpoint
  *
  * @property code    Returned bonding token
@@ -47,28 +40,14 @@ data class BondGenerateResponse(
 )
 
 /**
- * Model of the response to be received from the /user/bond/generate endpoint
+ * Model of the response to be received from the /user/cared endpoint
  *
- * @property bonds    List of bonded users
+ * @property cared  Patient cared by the current user if it exists
  */
-data class BondListResponse(
-	val bonds: Array<User>
-) {
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (javaClass != other?.javaClass) return false
+data class CaredResponse(
+	val cared: User?
+)
 
-		other as BondListResponse
-
-		if (!bonds.contentEquals(other.bonds)) return false
-
-		return true
-	}
-
-	override fun hashCode(): Int {
-		return bonds.contentHashCode()
-	}
-}
 
 /**
  * Model of the response to be received from the /auth/refresh endpoint

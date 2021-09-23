@@ -1,6 +1,5 @@
 package dev.sotoestevez.allforone.repositories.impl
 
-import dev.sotoestevez.allforone.api.ApiFactory
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.schemas.RefreshRequest
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
@@ -11,7 +10,7 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /** Repository to make all the session related operations */
 class SessionRepositoryImpl(
-    private val authService: AuthService = ApiFactory.getAuthService()
+    private val authService: AuthService
 ): SessionRepository {
 
     override suspend fun signIn(googleIdToken: String): SignInResponse {

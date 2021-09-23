@@ -12,7 +12,7 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
 interface LocationRepository {
 
 	/** Events managed by the Location Repository **/
-	enum class Events(internal val id: String) {
+	enum class Events(internal val path: String) {
 		/** Event to start sharing the user location */
 		SHARE("location:share"),
 		/** Event to leave the location room */

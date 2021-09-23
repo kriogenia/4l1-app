@@ -17,15 +17,15 @@ class FeedRepositoryImpl(gson: Gson = Gson()): BaseSocketRepository(gson), FeedR
 
 	override fun join(user: User) {
 		// do something else on JOINED notification?
-		socket.emit(FeedRepository.Events.JOIN.id, toJson(user.minInfo))
+		socket.emit(FeedRepository.Events.JOIN.path, toJson(user.minInfo))
 	}
 
 	override fun send(msg: Message) {
-		socket.emit(FeedRepository.Events.SEND.id, toJson(FeedMsg(msg.message, msg.user.minInfo)))
+		socket.emit(FeedRepository.Events.SEND.path, toJson(FeedMsg(msg.message, msg.user.minInfo)))
 	}
 
 	override fun onNewMessage(callback: (Message) -> Unit) {
-		socket.on(FeedRepository.Events.NEW.id) { callback(fromJson(it, Message::class.java)) }
+		socket.on(FeedRepository.Events.NEW.path) { callback(fromJson(it, Message::class.java)) }
 	}
 
 }

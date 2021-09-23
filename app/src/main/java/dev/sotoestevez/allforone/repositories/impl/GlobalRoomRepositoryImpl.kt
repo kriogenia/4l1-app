@@ -17,11 +17,11 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
 class GlobalRoomRepositoryImpl(gson: Gson = Gson()): BaseSocketRepository(gson), GlobalRoomRepository {
 
 	override fun connect(userId: String) {
-		socket.on(GlobalRoomRepository.Events.CONNECT.id) {
+		socket.on(GlobalRoomRepository.Events.CONNECT.path) {
 			logDebug("Socket connected to the server with id[${socket.id()}]")
-			socket.emit(GlobalRoomRepository.Events.SUBSCRIBE.id, userId)
+			socket.emit(GlobalRoomRepository.Events.SUBSCRIBE.path, userId)
 		}
-		socket.on(GlobalRoomRepository.Events.SUBSCRIPTION.id) {
+		socket.on(GlobalRoomRepository.Events.SUBSCRIPTION.path) {
 			val received = fromJson(it, GlobalSubscriptionMsg::class.java)
 			logDebug("New subscriber joined the Global Room: ${received.room}")
 		}
@@ -29,7 +29,7 @@ class GlobalRoomRepositoryImpl(gson: Gson = Gson()): BaseSocketRepository(gson),
 	}
 
 	override fun onSharingLocation(callback: (name: String) -> Unit) {
-		socket.on(GlobalRoomRepository.Events.SHARING_LOCATION.id) {
+		socket.on(GlobalRoomRepository.Events.SHARING_LOCATION.path) {
 			callback(fromJson(it, UserInfoMsg::class.java).displayName)
 		}
 	}
