@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.ui.activities.bonds
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -54,6 +55,7 @@ class BondsViewModel(
 		// Load bonds
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
 			val response = userRepository.getBonds(authHeader())
+			logDebug("Retrieved ${response.size} bonds")
 			withContext(dispatchers.main()) {
 				loading.value = false
 				mBonds.value = response     // updates retrieved bonds
@@ -65,11 +67,12 @@ class BondsViewModel(
 	fun generateNewQRCode() {
 		if (lastQRRequest + 50 > Instant.now().epochSecond)
 			return  // Don't request a new QR if the current one is still valid
+		logDebug("Requesting a new QR code")
 		loadingQr.value = true
 		lastQRRequest = Instant.now().epochSecond
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
 			val code = userRepository.requestBondingCode(authHeader())
-			logDebug("[${user.value?.id}] Generated new bonding token: ${code.substring(0, 6)}...")
+			Log.d(BondsViewModel::class.simpleName, "[${user.value?.id}] Generated new bonding token: ${code.substring(0, 6)}...")
 			withContext(dispatchers.main()) {
 				mQrCode.value = code
 			}

@@ -14,6 +14,7 @@ import dev.sotoestevez.allforone.ui.view.PrivateActivity
 import dev.sotoestevez.allforone.ui.activities.bonds.BondsActivity
 import dev.sotoestevez.allforone.ui.activities.feed.FeedActivity
 import dev.sotoestevez.allforone.ui.activities.location.LocationActivity
+import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.toast
 import java.util.*
 
@@ -57,7 +58,10 @@ class KeeperMainActivity : PrivateActivity() {
 			else
 				toast(getString(R.string.error_qr_scanner))
 		}
-		binding.btnForgeBond.setOnClickListener { qrScannerLauncher.launch(Intent(this, QRScannerActivity::class.java)) }
+		binding.btnForgeBond.setOnClickListener {
+			logDebug("Launching QR Scanner")
+			qrScannerLauncher.launch(Intent(this, QRScannerActivity::class.java))
+		}
 	}
 
 }

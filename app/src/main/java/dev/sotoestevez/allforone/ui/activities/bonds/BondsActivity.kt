@@ -10,6 +10,7 @@ import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.databinding.ActivityBondsBinding
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.view.PrivateActivity
+import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.BitmapGenerator
 import java.util.*
 
@@ -52,11 +53,13 @@ class BondsActivity : PrivateActivity() {
 			if (Strings.isEmptyOrWhitespace(it))
 				return@observe
 			model.loadingQr.value = false
+			logDebug("Setting QR Panel")
 			binding.imgQrCode.setImageBitmap(BitmapGenerator.getQrCode(it, QR_SIZE))
 		}
 	}
 
 	private fun showQrPanel(expand: Boolean) {
+		logDebug("Opening QR panel")
 		TransitionManager.beginDelayedTransition(binding.layBonds, ChangeBounds())
 		if (expand) {
 			binding.layQr.visibility = View.VISIBLE

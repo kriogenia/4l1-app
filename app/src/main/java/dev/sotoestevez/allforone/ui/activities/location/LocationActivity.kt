@@ -27,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
+import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.vo.UserMarker
 import dev.sotoestevez.allforone.util.extensions.logWarning
 import dev.sotoestevez.allforone.util.extensions.toast
@@ -85,6 +86,7 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 	 * Requests the permission to get the user fine location
 	 */
 	override fun onMapReady(googleMap: GoogleMap) {
+		logDebug("Map loaded")
 		map = googleMap
 		map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
 		map.setOnCameraMoveStartedListener { userControllingMap = it == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE }
@@ -96,9 +98,11 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 
 	private fun getLocationPermission() {
 		if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+			logDebug("Location permission granted")
 			mPermissionGranted = true
 			setLocationMode()
 		} else {
+			logDebug("Location permission not granted. Requesting...")
 			ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
 				PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
 		}
@@ -112,6 +116,7 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 	) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 		if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+			logDebug("Location permission obtained")
 			mPermissionGranted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
 		}
 		setLocationMode()
@@ -159,6 +164,7 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 	}
 
 	private fun addMarker(userMarker: UserMarker) {
+		logDebug("Adding new user maker")
 		if (!this::map.isInitialized) return
 		val marker = map.addMarker(userMarker.build().also {
 			it.icon(BitmapGenerator.getMarker(this, R.drawable.ic_patient_marker, userMarker.color!!))
@@ -179,6 +185,7 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 	}
 
 	private fun removeMarker(marker: Marker) {
+		logDebug("Removing a marker")
 		toast("${marker.title} has left the room")
 		marker.remove()
 	}

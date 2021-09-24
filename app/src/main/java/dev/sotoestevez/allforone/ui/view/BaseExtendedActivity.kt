@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.sotoestevez.allforone.vo.Session
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.extensions.errorToast
+import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /** Base activity to reduce code duplication and implement the common creation flow */
 abstract class BaseExtendedActivity : AppCompatActivity(), ExtendedActivity, SteppedCreation {
@@ -17,9 +18,11 @@ abstract class BaseExtendedActivity : AppCompatActivity(), ExtendedActivity, Ste
 		bindLayout()
 		attachListeners()
 		attachObservers()
+		logDebug("Launching ${this::class.simpleName}")
 	}
 
 	override fun buildIntent(next: Class<out Activity>): Intent {
+		logDebug("Building Intent for $next")
 		val intent = Intent(this, next)
 		intent.putExtra(Session::class.simpleName, model.sessionManager.getSession())
 		intent.putExtra(User::class.simpleName, model.user.value)

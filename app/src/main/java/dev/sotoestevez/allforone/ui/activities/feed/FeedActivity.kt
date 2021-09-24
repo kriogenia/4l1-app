@@ -2,9 +2,11 @@ package dev.sotoestevez.allforone.ui.activities.feed
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.databinding.ActivityFeedBinding
+import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.view.PrivateActivity
 import dev.sotoestevez.allforone.util.extensions.logDebug
@@ -24,6 +26,9 @@ class FeedActivity : PrivateActivity() {
 
 	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT, User.Role.KEEPER)
 
+	/** Flag indicating if the scroll is being manual or automatic */
+	private var autoScrolling: Boolean = true
+
 	@Suppress("KDocMissingDocumentation")	// override method
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -41,17 +46,40 @@ class FeedActivity : PrivateActivity() {
 	override fun attachListeners() {
 		super.attachListeners()
 		binding.btnSendMsg.setOnClickListener { sendMessage() }
+		binding.rvFeed.addOnScrollListener(onScrollListener)
 	}
 
 	override fun attachObservers() {
 		super.attachObservers()
-		model.feedList.observe(this) {
-			binding.rvFeed.post { binding.rvFeed.smoothScrollToPosition((it.size - 1).coerceAtLeast(0)) }
-		}
+		model.feedList.observe(this) { autoscroll(it) }
 	}
 
 	private fun sendMessage() {
 		model.sendMessage(binding.eTxtWriteMessage.text.toString())
+	}
+
+	private fun autoscroll(list: List<BindedItemView>) {
+		if (!autoScrolling) return	// Only move scroll when auto scrolling
+		binding.rvFeed.post { binding.rvFeed.smoothScrollToPosition((list.size - 1).coerceAtLeast(0)) }
+	}
+
+	/** on reaching top of the list, request to load more messages */
+	private val onScrollListener = object : RecyclerView.OnScrollListener() {
+
+		private var isFirst = true	// flag to discern call on loading
+
+		override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+			if (isFirst) {
+				isFirst = false
+				return
+			}
+			autoScrolling = false
+			// Message loading if reaching top
+			if (!recyclerView.canScrollVertically(-1)) model.addMessages()
+			// reaching bottom resets autoscroll
+			if (!recyclerView.canScrollVertically(1)) autoScrolling = true
+		}
+
 	}
 
 }
