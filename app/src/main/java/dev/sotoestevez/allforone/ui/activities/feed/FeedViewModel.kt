@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
@@ -44,17 +45,18 @@ class FeedViewModel(
 	)
 
 	init {
+		loading.value = true
 		viewModelScope.launch(dispatchers.io()) {
 			val messages = feedRepository.getMessages(page++, authHeader()).sortedBy { it.timestamp }	// TODO get messages sorted?
 			withContext(dispatchers.main()) {
 				mList.addAll(messages.map { wrapItem(it) }).also { mFeedList.invoke() }
+				loading.value = false
 			}
 		}
 		feedRepository.onNewMessage { mList.add(wrapItem(it)).also { mFeedList.apply { postValue(value) } } }
 		feedRepository.join(user.value!!)
 	}
 
-	// TODO manage loading
 	// TODO load more messages
 	// TODO time on messages
 
@@ -64,6 +66,7 @@ class FeedViewModel(
 	 * @param text content of the message to send
 	 */
 	fun sendMessage(text: String) {
+		if (Strings.isEmptyOrWhitespace(text)) return
 		feedRepository.send(Message(message = text, user = user.value!!, type = Message.Type.TEXT))
 	}
 

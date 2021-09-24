@@ -29,6 +29,17 @@
             app:heldItems="@{model.feedList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+        <!-- Loading bar -->
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{model.loading? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <!-- Notification label -->
+
         <TextView
             android:id="@+id/lblFeedNotification"
             android:layout_width="wrap_content"
@@ -73,7 +84,8 @@
                 android:layout_alignParentEnd="true"
                 android:background="?attr/selectableItemBackground"
                 android:text="@string/send"
-                android:textColor="@color/primaryColor" />
+                android:textColor="@color/primaryColor"
+                android:clickable="@{!model.loading}" />
 
         </RelativeLayout>
 

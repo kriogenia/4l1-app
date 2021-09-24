@@ -39,7 +39,8 @@
         <activity
             android:name="dev.sotoestevez.allforone.ui.activities.feed.FeedActivity"
             android:exported="true"
-            android:label="@string/title_activity_feed" />
+            android:label="@string/title_activity_feed"
+            android:theme="@style/Theme.4l1app" />
         <activity
             android:name="dev.sotoestevez.allforone.ui.activities.keeper.KeeperMainActivity"
             android:exported="true"
