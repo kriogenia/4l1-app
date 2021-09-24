@@ -47,7 +47,7 @@ class FeedViewModel(
 	init {
 		loading.value = true
 		viewModelScope.launch(dispatchers.io()) {
-			val messages = feedRepository.getMessages(page++, authHeader()).sortedBy { it.timestamp }	// TODO get messages sorted?
+			val messages = feedRepository.getMessages(page++, authHeader()).sortedBy { it.timestamp }
 			withContext(dispatchers.main()) {
 				mList.addAll(messages.map { wrapItem(it) }).also { mFeedList.invoke() }
 				loading.value = false
@@ -57,8 +57,9 @@ class FeedViewModel(
 		feedRepository.join(user.value!!)
 	}
 
+	// TODO show users joining/leaving the room
 	// TODO load more messages
-	// TODO time on messages
+	// TODO clear keyboard after sending message
 
 	/**
 	 * Sends the message

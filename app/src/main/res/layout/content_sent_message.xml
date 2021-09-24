@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -10,8 +11,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/half_base_margin">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardSentMessage"
@@ -35,7 +38,8 @@
                 android:paddingTop="@dimen/base_margin"
                 android:text="@{item.data.message}"
                 android:textColor="@color/onDarkPrimary"
-                android:textSize="@dimen/msg_font_size" />
+                android:textSize="@dimen/msg_font_size"
+                tool:text="Message"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -43,7 +47,7 @@
             android:id="@+id/lblTimestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/default_timestamp"
+            android:text="@{item.data.time}"
             android:textColor="@color/material_on_background_disabled"
             android:textSize="@dimen/timestamp_msg_font_size"
             app:layout_constraintBottom_toBottomOf="@+id/cardSentMessage"

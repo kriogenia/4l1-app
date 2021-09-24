@@ -1,8 +1,13 @@
 package dev.sotoestevez.allforone.vo
 
+import android.content.res.Resources
+import androidx.core.os.ConfigurationCompat
 import com.google.gson.annotations.SerializedName
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.*
+import kotlin.system.measureTimeMillis
 
 /**
  * Represents a message that can be sent through the Feed
@@ -28,5 +33,10 @@ data class Message(
 		/** Basic and plain text messages */
 		@SerializedName("text") TEXT
 	}
+
+	/** Formatted local time of the message */
+	val time: String
+		get() = SimpleDateFormat("HH:mm", ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0])
+			.format(Date(timestamp))
 
 }

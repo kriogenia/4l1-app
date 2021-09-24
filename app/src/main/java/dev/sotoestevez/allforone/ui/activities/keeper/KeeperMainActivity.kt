@@ -43,7 +43,11 @@ class KeeperMainActivity : PrivateActivity() {
 		/* With bond listeners */
 		binding.btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
 		binding.btnFindLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
-		binding.btnFeed.setOnClickListener { startActivity(buildIntent(FeedActivity::class.java)) }
+		binding.btnFeed.setOnClickListener {
+			startActivity(buildIntent(FeedActivity::class.java).apply {
+				putExtra(FeedActivity.OWNER, model.cared.value!!.displayName)
+			})
+		}
 		/* No bond listeners */
 		qrScannerLauncher = registerForActivityResult(
 			ActivityResultContracts.StartActivityForResult()
