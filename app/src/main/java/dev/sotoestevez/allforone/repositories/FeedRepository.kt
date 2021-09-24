@@ -4,33 +4,14 @@ import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.vo.User
 
 /** Repository to manage all the feed and messaging related operations */
-interface FeedRepository {
-
-	/** Events managed by the Feed Repository **/
-	enum class Events(internal val path: String) {
-		/** Event to notify clients about new messages on the feed */
-		NEW("feed:new"),
-		/** Event to notify that the user joined the feed room */
-		JOIN("feed:join"),
-		/** Event to send a message through the feed */
-		SEND("feed:send")
-	}
-
-	// TODO extract join and leave to SocketInterface
+interface FeedRepository: SocketRepository {
 
 	/**
-	 * Connects the user to the Feed Room
+	 * Sends a message from the repository
 	 *
-	 * @param user  Current user
+	 * @param message	Message to send
 	 */
-	fun join(user: User)
-
-	/**
-	 * Sends a new message through the Feed
-	 *
-	 * @param msg Content of the message
-	 */
-	fun send(msg: Message)
+	fun send(message: Message)
 
 	/**
 	 * Retrieves a new page of messages

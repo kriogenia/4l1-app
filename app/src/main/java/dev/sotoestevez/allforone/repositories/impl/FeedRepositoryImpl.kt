@@ -21,13 +21,27 @@ class FeedRepositoryImpl(
 	gson: Gson = Gson()
 ): BaseSocketRepository(gson), FeedRepository {
 
-	override fun join(user: User) {
-		// do something else on JOINED notification?
-		socket.emit(FeedRepository.Events.JOIN.path, toJson(user.minInfo))
+	/** Events managed by the Feed Repository **/
+	private enum class Events(val path: String) {
+		/** Event to notify clients about new messages on the feed */
+		NEW("feed:new"),
+		/** Event to notify that the user joined the feed room */
+		JOIN("feed:join"),
+		/** Event to send a message through the feed */
+		SEND("feed:send")
 	}
 
-	override fun send(msg: Message) {
-		socket.emit(FeedRepository.Events.SEND.path, toJson(FeedMsg(msg.message, msg.user.minInfo)))
+	override fun join(user: User) {
+		// do something else on JOINED notification?
+		socket.emit(Events.JOIN.path, toJson(user.minInfo))
+	}
+
+	override fun leave(user: User) {
+		throw NotImplementedError()	// TODO
+	}
+
+	override fun send(message: Message) {
+		socket.emit(Events.SEND.path, toJson(FeedMsg(message.message, message.user.minInfo)))
 	}
 
 	override suspend fun getMessages(page: Int, token: String): List<Message> {
@@ -36,7 +50,7 @@ class FeedRepositoryImpl(
 	}
 
 	override fun onNewMessage(callback: (Message) -> Unit) {
-		socket.on(FeedRepository.Events.NEW.path) { callback(fromJson(it, Message::class.java)) }
+		socket.on(Events.NEW.path) { callback(fromJson(it, Message::class.java)) }
 	}
 
 }

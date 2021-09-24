@@ -49,7 +49,7 @@ class LocationViewModel(
 	)
 
 	init {
-		locationRepository.start(user.value!!)
+		locationRepository.join(user.value!!)
 		locationRepository.onExternalUpdate { onExternalUpdate(it) }
 		locationRepository.onUserLeaving { mLeavingUserMarker.postValue(markerManager.remove(it.id)) }
 	}
@@ -73,7 +73,7 @@ class LocationViewModel(
 	fun storeMarker(marker: Marker): Unit = markerManager.add(marker)
 
 	/** Stops sharing the location */
-	fun stop(): Unit = locationRepository.stop(user.value!!)
+	fun stop(): Unit = locationRepository.leave(user.value!!)
 
 	private fun onExternalUpdate(marker: UserMarker) {
 		if (markerManager.exists(marker)) {

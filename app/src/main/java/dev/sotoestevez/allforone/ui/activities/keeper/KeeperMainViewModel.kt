@@ -101,7 +101,7 @@ class KeeperMainViewModel(
             sharing = it
             mWarning.postValue(R.string.warn_sharing_location)
         }
-        globalRoomRepository.connect(user.value?.id!!)
+        globalRoomRepository.join(user.value!!)
     }
 
 }

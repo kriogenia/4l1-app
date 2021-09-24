@@ -46,7 +46,7 @@ class PatientMainViewModel(
 			sharing = it
 			mWarning.postValue(R.string.warn_searching)
 		}
-		globalRoomRepository.connect(user.value?.id!!)
+		globalRoomRepository.join(user.value!!)
 	}
 
 
