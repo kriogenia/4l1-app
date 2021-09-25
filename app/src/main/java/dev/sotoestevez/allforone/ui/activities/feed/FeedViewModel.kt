@@ -55,7 +55,7 @@ class FeedViewModel(
 		retrieveMessages()
 		feedRepository.onUserJoining { mNotification.postValue(UserJoiningNotification(it)) }
 		feedRepository.onUserLeaving { mNotification.postValue(UserLeavingNotification(it)) }
-		feedRepository.onNewMessage { mList.add(wrapItem(it)).also { mFeedList.apply { postValue(value) } } }
+		feedRepository.onNewMessage { onNewMessage(it) }
 		feedRepository.join(user.value!!)
 	}
 
@@ -99,6 +99,11 @@ class FeedViewModel(
 				Log.d(FeedViewModel::class.simpleName, "Retrieved list of ${messages.size} messages")
 			}
 		}
+	}
+
+	private fun onNewMessage(message: Message) {
+		mList.add(wrapItem(message)).also { mFeedList.apply { postValue(value) } }
+		mNotification.postValue(NewMessageNotification(message.user.displayName!!))
 	}
 
 	private fun wrapItem(message: Message): BindedItemView {

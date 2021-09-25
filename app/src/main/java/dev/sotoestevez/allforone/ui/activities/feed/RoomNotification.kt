@@ -30,7 +30,6 @@ data class UserLeavingNotification(override val extraArg: String): RoomNotificat
 }
 
 /** [RoomNotification] for new messages incoming */
-class NewMessageNotification: RoomNotification {
+class NewMessageNotification(override val extraArg: String): RoomNotification {
     override val message: Int = R.string.new_message
-    override val extraArg: String = ""
 }

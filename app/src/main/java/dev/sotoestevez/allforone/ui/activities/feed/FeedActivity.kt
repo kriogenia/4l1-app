@@ -65,6 +65,7 @@ class FeedActivity : PrivateActivity() {
 	}
 
 	private fun updateNotification(notification: RoomNotification) {
+		if (notification is NewMessageNotification && autoScrolling) return	// Don't notify new messages when scrolled down
 		val string = notification.getString(this)
 		binding.lblFeedNotification.text = string
 		Timer().schedule(NOTIFICATION_DURATION) {
