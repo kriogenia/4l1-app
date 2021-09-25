@@ -74,7 +74,6 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 
 	@Suppress("KDocMissingDocumentation")
 	override fun onDestroy() {
-		model.stop()
 		map.clear()
 		locationCallback?.let { locationProvider.removeLocationUpdates(it) }
 		super.onDestroy()

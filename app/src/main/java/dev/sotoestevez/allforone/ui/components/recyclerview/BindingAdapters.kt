@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
  */
 @BindingAdapter("heldItems")
 fun <T> bindItemViewModels(recyclerView: RecyclerView, heldItems: List<BindedItemView>?) {
-	val adapter = getOrCreateAdapter<T>(recyclerView)
+	val adapter = getOrCreateAdapter(recyclerView)
 	adapter.updateItems(heldItems)
 }
 
-private fun <T> getOrCreateAdapter(recyclerView: RecyclerView): BindableRecyclerViewAdapter {
+private fun getOrCreateAdapter(recyclerView: RecyclerView): BindableRecyclerViewAdapter {
 	return if (recyclerView.adapter != null && recyclerView.adapter is BindableRecyclerViewAdapter) {
 		recyclerView.adapter as BindableRecyclerViewAdapter
 	} else {

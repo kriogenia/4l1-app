@@ -1,9 +1,7 @@
 package dev.sotoestevez.allforone.api.schemas
 
-import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.vo.Session
 import dev.sotoestevez.allforone.vo.User
-import java.sql.Timestamp
 
 /**
  * Base properties of error responses

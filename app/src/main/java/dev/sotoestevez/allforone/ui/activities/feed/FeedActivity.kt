@@ -65,7 +65,7 @@ class FeedActivity : PrivateActivity() {
 	}
 
 	private fun updateNotification(notification: RoomNotification) {
-		val string = getString(notification.message, notification.extraArg)
+		val string = notification.getString(this)
 		binding.lblFeedNotification.text = string
 		Timer().schedule(NOTIFICATION_DURATION) {
 			runOnUiThread { if (binding.lblFeedNotification.text == string) binding.lblFeedNotification.text = "" }

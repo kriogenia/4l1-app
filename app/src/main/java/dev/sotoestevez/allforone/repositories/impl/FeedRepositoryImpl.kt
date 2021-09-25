@@ -23,21 +23,22 @@ class FeedRepositoryImpl(
 
 	/** Events managed by the Feed Repository **/
 	private enum class Events(val path: String) {
+		/** Event to leave the room and get notifications of users leaving */
+		LEAVE("feed:leave"),
 		/** Event to notify clients about new messages on the feed */
 		NEW("feed:new"),
-		/** Event to notify that the user joined the feed room */
+		/** Event to join the room and get notifications of users joining */
 		JOIN("feed:join"),
 		/** Event to send a message through the feed */
 		SEND("feed:send")
 	}
 
 	override fun join(user: User) {
-		// do something else on JOINED notification?
 		socket.emit(Events.JOIN.path, toJson(user.minInfo))
 	}
 
 	override fun leave(user: User) {
-		throw NotImplementedError()	// TODO
+		socket.emit(Events.LEAVE.path, toJson(user.minInfo))
 	}
 
 	override fun send(message: Message) {
@@ -55,6 +56,10 @@ class FeedRepositoryImpl(
 
 	override fun onUserJoining(callback: (String) -> Unit) {
 		socket.on(Events.JOIN.path) { callback(fromJson(it, UserInfoMsg::class.java).displayName)}
+	}
+
+	override fun onUserLeaving(callback: (String) -> Unit) {
+		socket.on(Events.LEAVE.path) { callback(fromJson(it, UserInfoMsg::class.java).displayName)}
 	}
 
 }

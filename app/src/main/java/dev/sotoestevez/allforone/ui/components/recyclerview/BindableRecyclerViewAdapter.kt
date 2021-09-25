@@ -13,7 +13,7 @@ import androidx.databinding.library.baseAdapters.BR
 class BindableRecyclerViewAdapter : RecyclerView.Adapter<BindableRecyclerViewAdapter.BindableViewHolder>() {
 
 	/** List of binded items to display in the recycler view */
-	var items: List<BindedItemView> = emptyList()
+	private var items: List<BindedItemView> = emptyList()
 	private val viewTypeToLayoutId: MutableMap<Int, Int> = mutableMapOf()
 
 	@Suppress("KDocMissingDocumentation")

@@ -1,12 +1,9 @@
 package dev.sotoestevez.allforone.repositories
 
 import android.location.Location
-import com.google.android.gms.maps.model.LatLng
-import com.google.gson.Gson
 import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
-import dev.sotoestevez.allforone.vo.UserMarker
 import dev.sotoestevez.allforone.vo.User
-import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.vo.UserMarker
 
 /** Repository to manage all the location sharing related operations */
 interface LocationRepository: SocketRepository {

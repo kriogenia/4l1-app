@@ -27,7 +27,7 @@ interface ExtendedViewModel {
 	val loading: MutableLiveData<Boolean>
 
 	/** Building class to serve and inject the dependencies of the ExtendedViewModels when building them on the Factory */
-	class Builder() {
+	class Builder {
 
 		/** Activity saved state handle */
 		lateinit var savedStateHandle: SavedStateHandle

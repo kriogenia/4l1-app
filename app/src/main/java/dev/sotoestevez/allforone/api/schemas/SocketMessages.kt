@@ -6,17 +6,6 @@ import java.time.Instant
 // Schemas of the different messages to send and receive in socket event emissions
 
 /**
- * Message with the needed information to subscribe to the Global room
- *
- * @property id unique id of the current user
- * @property owner id of the owner of the room, the Patient
- */
-data class GlobalSubscribeMsg(
-	val id: String,
-	val owner: String
-)
-
-/**
  * Message sent from the server when an user joins the Global room
  *
  * @property id id of the user subscribed

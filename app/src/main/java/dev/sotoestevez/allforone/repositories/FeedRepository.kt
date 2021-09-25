@@ -1,7 +1,6 @@
 package dev.sotoestevez.allforone.repositories
 
 import dev.sotoestevez.allforone.vo.Message
-import dev.sotoestevez.allforone.vo.User
 
 /** Repository to manage all the feed and messaging related operations */
 interface FeedRepository: SocketRepository {
@@ -34,5 +33,12 @@ interface FeedRepository: SocketRepository {
 	 * @param callback  Event listener, receives the message
 	 */
 	fun onUserJoining(callback: (String) -> Unit)
+
+	/**
+	 * Subscribes the callback to updates of users leaving the room
+	 *
+	 * @param callback  Event listener, receives the message
+	 */
+	fun onUserLeaving(callback: (String) -> Unit)
 
 }

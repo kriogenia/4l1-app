@@ -54,6 +54,12 @@ class LocationViewModel(
 		locationRepository.onUserLeaving { mLeavingUserMarker.postValue(markerManager.remove(it.id)) }
 	}
 
+	@Suppress("KDocMissingDocumentation")
+	override fun onCleared() {
+		locationRepository.leave(user.value!!)
+		super.onCleared()
+	}
+
 	/**
 	 * Updates the location of the user, sending it through the socket and calling the observers
 	 *
@@ -71,9 +77,6 @@ class LocationViewModel(
 	 * @param marker    marker to store
 	 */
 	fun storeMarker(marker: Marker): Unit = markerManager.add(marker)
-
-	/** Stops sharing the location */
-	fun stop(): Unit = locationRepository.leave(user.value!!)
 
 	private fun onExternalUpdate(marker: UserMarker) {
 		if (markerManager.exists(marker)) {

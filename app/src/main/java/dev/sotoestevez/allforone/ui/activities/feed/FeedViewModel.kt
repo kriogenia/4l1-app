@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.util.Strings
-import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
@@ -54,12 +53,18 @@ class FeedViewModel(
 
 	init {
 		retrieveMessages()
-		feedRepository.onUserJoining { mNotification.postValue(NewUserJoiningNotification(it)) }
+		feedRepository.onUserJoining { mNotification.postValue(UserJoiningNotification(it)) }
+		feedRepository.onUserLeaving { mNotification.postValue(UserLeavingNotification(it)) }
 		feedRepository.onNewMessage { mList.add(wrapItem(it)).also { mFeedList.apply { postValue(value) } } }
 		feedRepository.join(user.value!!)
 	}
 
-	// TODO show users joining/leaving the room
+	@Suppress("KDocMissingDocumentation")
+	override fun onCleared() {
+		feedRepository.leave(user.value!!)
+		super.onCleared()
+	}
+
 	// TODO clear keyboard after sending message
 
 	/**
