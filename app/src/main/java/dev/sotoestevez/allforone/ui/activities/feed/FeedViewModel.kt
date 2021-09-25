@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.util.Strings
+import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
@@ -35,6 +36,11 @@ class FeedViewModel(
 	private val mList: MutableList<BindedItemView> = mutableListOf()
 	private val mFeedList: MutableLiveData<List<BindedItemView>> = MutableLiveData(mList)
 
+	/** LiveData holding the last notification to display in the notification label */
+	val notification: LiveData<RoomNotification?>
+		get() = mNotification
+	private val mNotification: MutableLiveData<RoomNotification?> = MutableLiveData(null)
+
 	private var page = 1
 	private var loadedAll = false
 
@@ -48,6 +54,7 @@ class FeedViewModel(
 
 	init {
 		retrieveMessages()
+		feedRepository.onUserJoining { mNotification.postValue(NewUserJoiningNotification(it)) }
 		feedRepository.onNewMessage { mList.add(wrapItem(it)).also { mFeedList.apply { postValue(value) } } }
 		feedRepository.join(user.value!!)
 	}

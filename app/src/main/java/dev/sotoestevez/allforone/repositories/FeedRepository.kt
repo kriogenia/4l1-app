@@ -28,4 +28,11 @@ interface FeedRepository: SocketRepository {
 	 */
 	fun onNewMessage(callback: (Message) -> Unit)
 
+	/**
+	 * Subscribes the callback to updates of users joining the room
+	 *
+	 * @param callback  Event listener, receives the message
+	 */
+	fun onUserJoining(callback: (String) -> Unit)
+
 }

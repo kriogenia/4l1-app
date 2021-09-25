@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <data>
         <import type="android.view.View"/>
@@ -43,9 +43,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/double_base_margin"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/laySendingBox"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Notification" />
 
         <!-- Sending box -->
 
@@ -53,6 +54,8 @@
             android:id="@+id/laySendingBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/double_base_margin"
+            android:layout_marginVertical="@dimen/double_base_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -60,8 +63,6 @@
                 android:id="@+id/txtWriteMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/double_base_margin"
-                android:layout_marginVertical="@dimen/double_base_margin"
                 android:layout_toStartOf="@+id/btnSendMsg"
                 app:boxCornerRadiusBottomEnd="@dimen/extra_round_corner"
                 app:boxCornerRadiusBottomStart="@dimen/extra_round_corner"
@@ -76,7 +77,6 @@
                     android:layout_centerVertical="true"
                     android:inputType="text"
                     android:maxLines="6"
-                    android:hint="@string/enter_message"
                     tools:ignore="Autofill" />
 
             </com.google.android.material.textfield.TextInputLayout>

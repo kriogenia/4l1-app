@@ -9,13 +9,14 @@ import dev.sotoestevez.allforone.databinding.ActivityFeedBinding
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.view.PrivateActivity
-import dev.sotoestevez.allforone.util.extensions.logDebug
 import java.util.*
+import kotlin.concurrent.schedule
 
 /** Activity with the message Feed */
 class FeedActivity : PrivateActivity() {
 
 	companion object {
+		private const val NOTIFICATION_DURATION = 2000L
 		/** Key for owner intent property */
 		const val OWNER = "owner"
 	}
@@ -26,7 +27,6 @@ class FeedActivity : PrivateActivity() {
 
 	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT, User.Role.KEEPER)
 
-	/** Flag indicating if the scroll is being manual or automatic */
 	private var autoScrolling: Boolean = true
 
 	@Suppress("KDocMissingDocumentation")	// override method
@@ -52,6 +52,7 @@ class FeedActivity : PrivateActivity() {
 	override fun attachObservers() {
 		super.attachObservers()
 		model.feedList.observe(this) { autoscroll(it) }
+		model.notification.observe(this) { it?.let { updateNotification(it) } }
 	}
 
 	private fun sendMessage() {
@@ -61,6 +62,14 @@ class FeedActivity : PrivateActivity() {
 	private fun autoscroll(list: List<BindedItemView>) {
 		if (!autoScrolling) return	// Only move scroll when auto scrolling
 		binding.rvFeed.post { binding.rvFeed.smoothScrollToPosition((list.size - 1).coerceAtLeast(0)) }
+	}
+
+	private fun updateNotification(notification: RoomNotification) {
+		val string = getString(notification.message, notification.extraArg)
+		binding.lblFeedNotification.text = string
+		Timer().schedule(NOTIFICATION_DURATION) {
+			runOnUiThread { if (binding.lblFeedNotification.text == string) binding.lblFeedNotification.text = "" }
+		}
 	}
 
 	/** on reaching top of the list, request to load more messages */

@@ -53,4 +53,8 @@ class FeedRepositoryImpl(
 		socket.on(Events.NEW.path) { callback(fromJson(it, Message::class.java)) }
 	}
 
+	override fun onUserJoining(callback: (String) -> Unit) {
+		socket.on(Events.JOIN.path) { callback(fromJson(it, UserInfoMsg::class.java).displayName)}
+	}
+
 }

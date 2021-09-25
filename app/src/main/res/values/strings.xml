@@ -63,7 +63,8 @@
     <string name="find">Find %s</string>
     <string name="warn_searching">%s is searching for you, you should start sharing your location.</string>
     <string name="warn_sharing_location">%s is sharing their location, you should probably check it out.</string>
-    <string name="user_joined">%s has joined the search</string>
+    <string name="user_joined_search">%s has joined the search</string>
+    <string name="user_joined_room">%s has joined the room</string>
     <string name="app_name_full">All For One</string>
     <string name="title_activity_qr">Bond user</string>
     <string name="title_activity_bonds">Bonds</string>
@@ -75,4 +76,5 @@
     <string name="send">Send</string>
     <string name="title_activity_feed">%s Room</string>
     <string name="default_timestamp">10:00</string>
+    <string name="new_message">New message</string>
 </resources>

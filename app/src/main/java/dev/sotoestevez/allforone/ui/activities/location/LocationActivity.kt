@@ -173,7 +173,7 @@ class LocationActivity : PrivateActivity(), OnMapReadyCallback {
 			logWarning("An error has occurred adding a marker to the map")
 		} else {
 			model.storeMarker(marker.apply { tag = userMarker.id })
-			toast(String.format(getString(R.string.user_joined), userMarker.displayName))   // Notify the new joining
+			toast(String.format(getString(R.string.user_joined_search), userMarker.displayName))   // Notify the new joining
 		}
 	}
 
