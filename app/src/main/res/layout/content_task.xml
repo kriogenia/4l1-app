@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="item"
+            type="dev.sotoestevez.allforone.ui.components.recyclerview.tasks.TaskView" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/half_base_margin">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@{item.done ? @color/primaryLightColor : @color/primaryColor }"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/AppTheme.Card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Title -->
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/btnTaskDone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/base_margin"
+                        android:layout_marginVertical="6dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/desc_complete_task"
+                        android:minWidth="@dimen/task_icon_size"
+                        android:minHeight="@dimen/task_icon_size"
+                        app:tint="@color/secondaryTextColor"
+                        android:src="@{item.data.done ? @drawable/ic_check_box : @drawable/ic_blank_check_box }"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tool:src="@drawable/ic_check_box"/>
+
+                    <TextView
+                        android:id="@+id/lblMessage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/base_margin"
+                        android:paddingVertical="@dimen/base_margin"
+                        android:text="@{item.data.title}"
+                        android:textColor="@{item.done ? @color/material_on_background_disabled : @color/secondaryTextColor}"
+                        app:layout_constraintEnd_toStartOf="@id/btnExpandTask"
+                        app:layout_constraintStart_toEndOf="@id/btnTaskDone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        tool:text="Message that it is too long to fit" />
+
+                    <ImageButton
+                        android:id="@+id/btnExpandTask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/desc_expand_task"
+                        android:minWidth="@dimen/task_icon_size"
+                        android:minHeight="@dimen/task_icon_size"
+                        android:src="@drawable/expand_arrow"
+                        android:onClickListener="@{() -> item.onExpandButtonClick()}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Collapsable -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="48dp"
+                    android:orientation="vertical"
+                    android:visibility="@{item.collapsed ? View.GONE : View.VISIBLE }">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{item.data.description}"
+                        tool:text="ok, this is a really really long description but I need to check"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/half_base_margin"
+                        android:text="@{String.format(@string/created_by, item.data.submitter.displayName)}"
+                        android:gravity="end"
+                        tool:text="Created by: Daniel" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{item.data.time}"
+                    android:layout_marginHorizontal="48dp"
+                    android:layout_marginVertical="@dimen/base_margin"
+                    android:layout_marginTop="@dimen/base_margin"
+                    tool:text="Mie 2 de julio de 2021, 14:32 PM"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

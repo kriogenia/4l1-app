@@ -43,20 +43,28 @@
             android:text="@string/bonds"
             style="@style/AppTheme.MainButton" />
 
-        <!-- Share location -->
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnShareLocation"
-            android:layout_width="match_parent"
-            android:text="@string/share_location"
-            style="@style/AppTheme.MainButton" />
-
         <!-- Feed -->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnFeed"
             android:layout_width="match_parent"
             android:text="@string/feed"
+            style="@style/AppTheme.MainButton" />
+
+        <!-- Tasks -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTask"
+            android:layout_width="match_parent"
+            android:text="@string/tasks"
+            style="@style/AppTheme.MainButton" />
+
+        <!-- Share location -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShareLocation"
+            android:layout_width="match_parent"
+            android:text="@string/share_location"
             style="@style/AppTheme.MainButton" />
 
     </LinearLayout>

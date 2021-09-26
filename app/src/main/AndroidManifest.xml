@@ -61,6 +61,11 @@
             android:name="dev.sotoestevez.allforone.ui.activities.setup.SetUpActivity"
             android:exported="true"
             android:label="@string/title_activity_set_up" />
+        <activity
+            android:name="dev.sotoestevez.allforone.ui.activities.tasks.TasksActivity"
+            android:exported="true"
+            android:label="@string/title_activity_tasks"
+            android:theme="@style/Theme.4l1app" />
 
     </application>
 
