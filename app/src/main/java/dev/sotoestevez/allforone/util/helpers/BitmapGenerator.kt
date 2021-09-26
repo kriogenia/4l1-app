@@ -16,29 +16,38 @@ import com.google.zxing.qrcode.QRCodeWriter
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.util.extensions.logError
 
+/** Helper object to generate bitmaps */
 object BitmapGenerator {
 
 	/**
-	 * Generates a bitmap with the specified drawable and color
-	 * Based on from ApiDemos on GitHub:
-	 * https://github.com/googlemaps/android-samples/blob/main/ApiDemos/kotlin/app/src/main/java/com/example/kotlindemos/MarkerDemoActivity.kt
+	 * Generates a bitmap of the specified marker
+	 * @param context Activity context to get the resources
+	 * @param id icon to print in the marker
+	 * @param color color of the marker
 	 */
-	fun fromDrawable(context: Context, @DrawableRes id: Int, @ColorInt color: Int): BitmapDescriptor {
-		val drawable = ResourcesCompat.getDrawable(context.resources, id, null)
-		val drawable2 = ResourcesCompat.getDrawable(context.resources, R.drawable.ic_default_user, null)
-		if (drawable == null) {
+	fun getMarker(context: Context, @DrawableRes id: Int, @ColorInt color: Int): BitmapDescriptor {
+		val base = ResourcesCompat.getDrawable(context.resources, R.drawable.ic_base_marker, null)
+		val inner = ResourcesCompat.getDrawable(context.resources, R.drawable.ic_inner_marker, null)
+		val role = ResourcesCompat.getDrawable(context.resources, id, null)
+		if (base == null || inner == null || role == null) {
 			logError("Error loading resource with id[${id}]")
 			return BitmapDescriptorFactory.defaultMarker()
 		}
-		val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+		val bitmap = Bitmap.createBitmap(base.intrinsicWidth, base.intrinsicHeight, Bitmap.Config.ARGB_8888)
 		val canvas = Canvas(bitmap)
-		DrawableCompat.setTint(drawable, color)
-		drawable.apply {
+		base.apply {
+			alpha = 125
 			setBounds(0, 0, canvas.width, canvas.height)
 			draw(canvas)
 		}
-		drawable2?.apply {
+		inner.apply {
 			setBounds(0, 0, canvas.width, canvas.height)
+			DrawableCompat.setTint(this, color)
+			draw(canvas)
+		}
+		role.apply {
+			setBounds(0, 0, canvas.width, canvas.height)
+			DrawableCompat.setTint(this, context.getColor(R.color.primaryColor))
 			draw(canvas)
 		}
 		return BitmapDescriptorFactory.fromBitmap(bitmap)

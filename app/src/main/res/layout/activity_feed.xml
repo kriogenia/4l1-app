@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="model"
+            type="dev.sotoestevez.allforone.ui.activities.feed.FeedViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activities.feed.FeedActivity">
+
+        <!-- Feed list -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFeed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toTopOf="@+id/lblFeedNotification"
+            app:layout_constraintTop_toTopOf="parent"
+            app:heldItems="@{model.feedList}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <!-- Loading bar -->
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{model.loading? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <!-- Notification label -->
+
+        <TextView
+            android:id="@+id/lblFeedNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/double_base_margin"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/laySendingBox"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Notification" />
+
+        <!-- Sending box -->
+
+        <RelativeLayout
+            android:id="@+id/laySendingBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/double_base_margin"
+            android:layout_marginVertical="@dimen/double_base_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtWriteMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/btnSendMsg"
+                app:boxCornerRadiusBottomEnd="@dimen/extra_round_corner"
+                app:boxCornerRadiusBottomStart="@dimen/extra_round_corner"
+                app:boxCornerRadiusTopEnd="@dimen/extra_round_corner"
+                app:boxCornerRadiusTopStart="@dimen/extra_round_corner"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eTxtWriteMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:inputType="text"
+                    android:maxLines="6"
+                    tools:ignore="Autofill" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnSendMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="@{!model.loading}"
+                android:text="@string/send"
+                android:textColor="@color/primaryColor" />
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

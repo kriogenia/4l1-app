@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <data>
-        <import type="dev.sotoestevez.allforone.data.User"/>
+        <import type="dev.sotoestevez.allforone.vo.User"/>
         <variable
             name="model"
-            type="dev.sotoestevez.allforone.model.setup.SetUpViewModel" />
+            type="dev.sotoestevez.allforone.ui.activities.setup.SetUpViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

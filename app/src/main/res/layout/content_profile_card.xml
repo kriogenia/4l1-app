@@ -8,10 +8,10 @@
         <import type="android.view.View"/>
         <variable
             name="user"
-            type="dev.sotoestevez.allforone.data.User" />
+            type="dev.sotoestevez.allforone.vo.User" />
         <variable
             name="model"
-            type="dev.sotoestevez.allforone.model.interfaces.WithProfileCard" />
+            type="dev.sotoestevez.allforone.ui.viewmodel.WithProfileCard" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

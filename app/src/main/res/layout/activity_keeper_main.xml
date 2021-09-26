@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="model"
-            type="dev.sotoestevez.allforone.model.keeper.KeeperMainViewModel" />
+            type="dev.sotoestevez.allforone.ui.activities.keeper.KeeperMainViewModel" />
     </data>
 
     <LinearLayout
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.patient.KeeperMainActivity">
+        tools:context=".ui.activities.patient.KeeperMainActivity">
 
         <!-- Warning panel -->
 
@@ -39,11 +39,8 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnForgeBond"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btn_extra"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginEnd="@dimen/base_margin"
                 android:text="@string/forge_bond"
-                android:textSize="@dimen/txt_btn_extra" />
+                style="@style/AppTheme.MainButton" />
 
         </LinearLayout>
 
@@ -60,6 +57,8 @@
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:id="@+id/profileCard"
                 layout="@layout/content_profile_card"
                 app:user="@{model.cared}"
@@ -68,20 +67,20 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnBonds"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btn_extra"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginEnd="@dimen/base_margin"
                 android:text="@string/bonds"
-                android:textSize="@dimen/txt_btn_extra" />
+                style="@style/AppTheme.MainButton" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFindLocation"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btn_extra"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginEnd="@dimen/base_margin"
                 android:text="@{String.format(@string/find, model.cared.displayName)}"
-                android:textSize="@dimen/txt_btn_extra" />
+                style="@style/AppTheme.MainButton" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFeed"
+                android:layout_width="match_parent"
+                android:text="@string/feed"
+                style="@style/AppTheme.MainButton" />
 
         </LinearLayout>
 
