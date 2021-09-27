@@ -7,7 +7,6 @@ import dev.sotoestevez.allforone.api.schemas.RefreshResponse
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Path
 
 /** Service to handle the operations related to the /auth endpoints of the API */
@@ -30,7 +29,7 @@ interface AuthService {
 	 * @param body   Current session tokens to renew (auth and refresh token)
 	 * @return       Response with the new session data
 	 */
-	@POST("/auth/refresh")
+	@GET("/auth/refresh")
 	suspend fun refresh(
 		@Body body: RefreshRequest
 	): NetworkResponse<RefreshResponse, BaseErrorResponse>

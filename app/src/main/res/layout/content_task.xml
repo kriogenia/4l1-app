@@ -111,7 +111,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{item.data.time}"
+                    android:text="@{item.data.datetime}"
                     android:layout_marginHorizontal="48dp"
                     android:layout_marginVertical="@dimen/base_margin"
                     android:layout_marginTop="@dimen/base_margin"

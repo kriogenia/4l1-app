@@ -6,6 +6,7 @@ import dev.sotoestevez.allforone.api.schemas.FeedMessageResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /** Service to handle the operations related to the /feed endpoints of the API */
 interface FeedService {
@@ -17,10 +18,10 @@ interface FeedService {
      * @param page  Page of messages to retrieve
      * @return      Response with the list of messages of the batch
      */
-    @GET("/feed/messages/{page}")
+    @GET("/feed/messages")
     suspend fun messages(
         @Header("Authorization") token: String,
-        @Path("page") page: Int?
+        @Query("page") page: Int?
     ): NetworkResponse<FeedMessageResponse, BaseErrorResponse>
 
 }

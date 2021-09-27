@@ -1,6 +1,28 @@
 package dev.sotoestevez.allforone.api.schemas
 
+import dev.sotoestevez.allforone.vo.Address
+import dev.sotoestevez.allforone.vo.User
+
 // Schemas of the different body requests to communicate with the API
+
+/**
+ * Updatable fields of an user
+ *
+ * @property role
+ * @property displayName
+ * @property mainPhoneNumber
+ * @property altPhoneNumber
+ * @property address
+ * @property email
+ */
+data class UserUpdateRequest(
+	var role: User.Role? = null,
+	var displayName: String? = null,
+	var mainPhoneNumber: String? = null,
+	var altPhoneNumber: String? = null,
+	var address: Address? = null,
+	var email: String? = null
+)
 
 /**
  * Model of the request body for the auth/refresh endpoint

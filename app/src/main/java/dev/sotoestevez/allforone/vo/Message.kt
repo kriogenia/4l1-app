@@ -3,6 +3,7 @@ package dev.sotoestevez.allforone.vo
 import android.content.res.Resources
 import androidx.core.os.ConfigurationCompat
 import com.google.gson.annotations.SerializedName
+import dev.sotoestevez.allforone.util.helpers.TimeFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -36,7 +37,6 @@ data class Message(
 
 	/** Formatted local time of the message */
 	val time: String
-		get() = SimpleDateFormat("HH:mm", ConfigurationCompat.getLocales(Resources.getSystem().configuration)[0])
-			.format(Date(timestamp))
+		get() = TimeFormatter.getTime(timestamp)
 
 }

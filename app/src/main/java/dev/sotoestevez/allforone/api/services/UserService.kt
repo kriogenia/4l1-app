@@ -10,6 +10,43 @@ import retrofit2.http.*
 interface UserService {
 
 	/**
+	 * Sends the new user data to persist it in the server
+	 *
+	 * @param token Authorization token to perform the request
+	 * @param body  New data of the user
+	 * @return      Response with the confirmation or denial message
+	 */
+	@PUT("/user/{id}")
+	suspend fun update(
+		@Header("Authorization") token: String,
+		@Path("id") id: String,
+		@Body body: UserUpdateRequest
+	): NetworkResponse<MessageResponse, BaseErrorResponse>
+
+	/**
+	 * Requests to the server the data of the cared user if it exists
+	 *
+	 * @param token Authorization token to perform the request
+	 * @return      Response with the cared of the user
+	 */
+	@GET("/user/{id}/cared")
+	suspend fun cared(
+		@Header("Authorization") token: String,
+		@Path("id") id: String
+	): NetworkResponse<CaredResponse, BaseErrorResponse>
+
+	/**
+	 * Requests to the server the list of bonded Users
+	 *
+	 * @param token Authorization token to perform the request
+	 * @return      Response with the list of Users
+	 */
+	@GET("/user/bond")
+	suspend fun bondList(
+		@Header("Authorization") token: String
+	): NetworkResponse<BondListResponse, BaseErrorResponse>
+
+	/**
 	 * Requests to the server to establish a bond
 	 *
 	 * @param token Authorization token to perform the request
@@ -31,41 +68,5 @@ interface UserService {
 	suspend fun bondGenerate(
 		@Header("Authorization") token: String
 	): NetworkResponse<BondGenerateResponse, BaseErrorResponse>
-
-	/**
-	 * Requests to the server the list of bonded Users
-	 *
-	 * @param token Authorization token to perform the request
-	 * @return      Response with the list of Users
-	 */
-	@GET("/user/bond/list")
-	suspend fun bondList(
-		@Header("Authorization") token: String
-	): NetworkResponse<BondListResponse, BaseErrorResponse>
-
-
-	/**
-	 * Requests to the server the data of the cared user if it exists
-	 *
-	 * @param token Authorization token to perform the request
-	 * @return      Response with the cared of the user
-	 */
-	@GET("/user/cared")
-	suspend fun cared(
-		@Header("Authorization") token: String
-	): NetworkResponse<CaredResponse, BaseErrorResponse>
-
-	/**
-	 * Sends the new user data to persist it in the server
-	 *
-	 * @param token Authorization token to perform the request
-	 * @param body  User object with all the new data
-	 * @return      Response with the confirmation or denial message
-	 */
-	@PUT("/user/update")
-	suspend fun update(
-		@Header("Authorization") token: String,
-		@Body body: User
-	): NetworkResponse<MessageResponse, BaseErrorResponse>
 
 }

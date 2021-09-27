@@ -11,6 +11,5 @@ interface BindedItemView {
 
 	/** ViewType to work with the RecyclerView lifecycle */
 	val viewType: Int
-		get() = 0
 
 }

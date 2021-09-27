@@ -30,41 +30,42 @@ class KeeperMainViewModelTest {
 	// Test object
 	private lateinit var model: KeeperMainViewModel
 	private val code = "qrcode"
+	private val user = User("id", "google", User.Role.BLANK)
 
 	@Before
 	fun beforeEach() {
 		// Mocks
 		mockUserRepository = mockk(relaxed = true)
-		coEvery { mockUserRepository.getCared(any()) } returns null
+		coEvery { mockUserRepository.getCared(any(), any()) } returns null
 		mockkConstructor(SessionManager::class)
 		every { anyConstructed<SessionManager>().getAuthToken() } returns "token"
 		// Init test object
 		model = KeeperMainViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider, mockk(), mockUserRepository, mockk())
-		model.injectUser(User("id", "google", User.Role.BLANK))
+		model.injectUser(user)
 	}
 
 	@Test
 	fun `should set the cared when the bonding is successful`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
 		val cared = User("cared", "gCared", User.Role.PATIENT)
-		coEvery { mockUserRepository.getCared(any()) } returns cared
+		coEvery { mockUserRepository.getCared(any(), any()) } returns cared
 
 		model.bond(code)
 
 		coVerify(exactly = 1) { mockUserRepository.sendBondingCode(code, "Bearer token") }
-		coVerify(exactly = 2) { mockUserRepository.getCared("Bearer token") }
+		coVerify(exactly = 1) { mockUserRepository.getCared(user,"Bearer token") }
 		assertEquals(cared, model.cared.value)
 	}
 
 	@Test
-	fun `should thrown an error when the cared recovered is null`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
-		coEvery { mockUserRepository.getCared(any()) } returns null
+	fun `should thrown an error when the cared user recovered is null`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
+		coEvery { mockUserRepository.getCared(any(), any()) } returns null
 		try {
 			model.bond(code)
 		} catch (error: NullPointerException) {
 			assertEquals("Unable to forge the bond, please try again", error.message)
 		} finally {
 			coVerify(exactly = 1) { mockUserRepository.sendBondingCode(code, "Bearer token") }
-			coVerify(exactly = 2) { mockUserRepository.getCared("Bearer token") }
+			coVerify(exactly = 1) { mockUserRepository.getCared(user, "Bearer token") }
 			assertNull(model.cared.value)
 		}
 	}

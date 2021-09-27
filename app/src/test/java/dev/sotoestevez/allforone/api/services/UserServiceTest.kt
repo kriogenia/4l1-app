@@ -83,7 +83,7 @@ class UserServiceTest {
 			"valid",
 			User.Role.PATIENT))
 
-		val actual = api.cared("defined")
+		val actual = api.cared("defined", "id")
 
 		assertTrue(actual is NetworkResponse.Success)
 		assertEquals(expected, (actual as NetworkResponse.Success).body)
@@ -93,7 +93,7 @@ class UserServiceTest {
 	fun `should retrieve a null cared user when it does not exist`(): Unit = runBlocking {
 		val expected = CaredResponse(null)
 
-		val actual = api.cared("undefined")
+		val actual = api.cared("undefined", "id")
 
 		assertTrue(actual is NetworkResponse.Success)
 		assertEquals(expected, (actual as NetworkResponse.Success).body)
@@ -103,7 +103,7 @@ class UserServiceTest {
 	fun `should manage the update with a valid request`(): Unit = runBlocking {
 		val expected = MessageResponse("The specified user has been updated successfully")
 
-		val actual = api.update("valid", User("id", "googleId", User.Role.PATIENT))
+		val actual = api.update("valid","id", UserUpdateRequest(User.Role.PATIENT))
 
 		assertTrue(actual is NetworkResponse.Success)
 		assertEquals(expected, (actual as NetworkResponse.Success).body)
@@ -113,7 +113,7 @@ class UserServiceTest {
 	fun `should parse ErrorResponse when requested Update with invalid authorization`(): Unit = runBlocking {
 		val expected = BaseErrorResponse("The provided token is invalid")
 
-		val actual = api.update("invalid", User("id", "googleId", User.Role.PATIENT))
+		val actual = api.update("invalid", "id", UserUpdateRequest(User.Role.PATIENT))
 
 		assertTrue(actual is NetworkResponse.ServerError)
 		assertEquals(expected, (actual as NetworkResponse.ServerError).body)

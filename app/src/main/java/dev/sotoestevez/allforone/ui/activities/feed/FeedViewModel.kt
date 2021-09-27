@@ -9,17 +9,20 @@ import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
-import dev.sotoestevez.allforone.ui.components.recyclerview.messages.SentMessageTextView
+import dev.sotoestevez.allforone.ui.components.recyclerview.feed.SentTextMessageView
 import dev.sotoestevez.allforone.repositories.FeedRepository
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
-import dev.sotoestevez.allforone.ui.components.recyclerview.messages.ReceivedTextMessageView
+import dev.sotoestevez.allforone.ui.components.recyclerview.feed.DateHeaderView
+import dev.sotoestevez.allforone.ui.components.recyclerview.feed.ReceivedTextMessageView
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.invoke
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.util.helpers.TimeFormatter
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 /** ViewModel of the Feed Activity */
 class FeedViewModel(
@@ -32,7 +35,7 @@ class FeedViewModel(
 	/** LiveData holding the list of messages of the feed */
 	val feedList: LiveData<List<BindedItemView>>
 		get() = mFeedList
-	private val mList: MutableList<BindedItemView> = mutableListOf()
+	private val mList: LinkedList<BindedItemView> = LinkedList()
 	private val mFeedList: MutableLiveData<List<BindedItemView>> = MutableLiveData(mList)
 
 	/** LiveData holding the last notification to display in the notification label */
@@ -66,6 +69,7 @@ class FeedViewModel(
 	}
 
 	// TODO clear keyboard after sending message
+	// TODO add day header -> group by -> create bonditemview
 
 	/**
 	 * Sends the message
@@ -94,7 +98,7 @@ class FeedViewModel(
 				Log.d(FeedViewModel::class.simpleName, "All the room messages already loaded")
 			}
 			withContext(dispatchers.main()) {
-				mList.addAll(messages.map { wrapItem(it) }).also { mFeedList.invoke() }
+				mList.addAll(0, wrapList(messages)).also { mFeedList.invoke() }
 				loading.value = false
 				Log.d(FeedViewModel::class.simpleName, "Retrieved list of ${messages.size} messages")
 			}
@@ -106,8 +110,20 @@ class FeedViewModel(
 		mNotification.postValue(NewMessageNotification(message.user.displayName!!))
 	}
 
+	// TODO remove duplicated date headers
+
+	private fun wrapList(messages: List<Message>): List<BindedItemView> {
+		val items: MutableList<BindedItemView> = mutableListOf()
+		val messagesByDate = messages.groupBy { TimeFormatter.getDate(it.timestamp) }
+		messagesByDate.keys.forEach { it ->
+			items.add(DateHeaderView(it))
+			messagesByDate[it]?.map { m -> wrapItem(m) }?.let { i -> items.addAll(i) }
+		}
+		return items
+	}
+
 	private fun wrapItem(message: Message): BindedItemView {
-		return if (message.user.id == user.value!!.id) SentMessageTextView(message) else ReceivedTextMessageView(message)
+		return if (message.user.id == user.value!!.id) SentTextMessageView(message) else ReceivedTextMessageView(message)
 	}
 
 }

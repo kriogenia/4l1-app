@@ -90,20 +90,20 @@ class UserRepositoryImplTest {
 		val response: NetworkResponse.Success<CaredResponse> = mockk()
 		coEvery { response.code } returns 200
 		coEvery { response.body } returns caredResponse
-		coEvery { mockUserService.cared(any()) } returns response
+		coEvery { mockUserService.cared(any(), any()) } returns response
 
-		val exists = repo.getCared("token")
+		val exists = repo.getCared(User("id"),"token")
 
 		assertEquals(caredResponse.cared, exists)
 
 		coEvery { response.body } returns CaredResponse(null)
-		coEvery { mockUserService.cared(any()) } returns response
+		coEvery { mockUserService.cared(any(), any()) } returns response
 
-		val undefined = repo.getCared("token")
+		val undefined = repo.getCared(User("id"),"token")
 
 		assertNull(undefined)
 
-		coVerify(exactly = 2) { mockUserService.cared("token") }
+		coVerify(exactly = 2) { mockUserService.cared("token", "id") }
 	}
 
 	@Test
@@ -112,12 +112,12 @@ class UserRepositoryImplTest {
 		val response: NetworkResponse.Success<MessageResponse> = mockk()
 		coEvery { response.code } returns 200
 		coEvery { response.body } returns updateResponse
-		coEvery { mockUserService.update(any(), any()) } returns response
+		coEvery { mockUserService.update(any(), any(), any()) } returns response
 
 		val user = User("id", "googleId", User.Role.PATIENT)
 		repo.update(user, "token")
 
-		coVerify(exactly = 1) { mockUserService.update("token", user) }
+		coVerify(exactly = 1) { mockUserService.update("token", "id", UserUpdateRequest(user.role)) }
 	}
 
 }

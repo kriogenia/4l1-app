@@ -7,7 +7,7 @@
     <data>
         <variable
             name="item"
-            type="dev.sotoestevez.allforone.ui.components.recyclerview.messages.ReceivedTextMessageView" />
+            type="dev.sotoestevez.allforone.ui.components.recyclerview.feed.ReceivedTextMessageView" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/base_margin"
-            android:text="@{item.data.user.displayName}"
+            android:text="@{item.author}"
             android:textSize="@dimen/msg_font_size"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
                 android:maxWidth="@dimen/max_msg_size"
                 android:paddingHorizontal="@dimen/double_base_margin"
                 android:paddingTop="@dimen/base_margin"
-                android:text="@{item.data.message}"
+                android:text="@{item.text}"
                 android:textColor="@color/secondaryTextColor"
                 android:textSize="@dimen/msg_font_size"
                 tool:text="Message"/>
@@ -68,7 +68,7 @@
             android:id="@+id/lblTimestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.data.time}"
+            android:text="@{item.time}"
             android:textColor="@color/material_on_background_disabled"
             android:textSize="@dimen/timestamp_msg_font_size"
             app:layout_constraintBottom_toBottomOf="@+id/cardReceivedMessage"

@@ -3,6 +3,7 @@ package dev.sotoestevez.allforone.vo
 import android.content.res.Resources
 import androidx.core.os.ConfigurationCompat
 import com.google.gson.annotations.SerializedName
+import dev.sotoestevez.allforone.util.helpers.TimeFormatter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -32,8 +33,7 @@ data class Task(
 ) {
 
     /** Formatted local data time of the message */
-    val time: String
-        get() = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault()).
-            format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
+    val datetime: String
+        get() = TimeFormatter.getDateTime(timestamp)
 
 }
