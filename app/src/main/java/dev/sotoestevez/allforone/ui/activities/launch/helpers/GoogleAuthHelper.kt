@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.ui.activities.launch
+package dev.sotoestevez.allforone.ui.activities.launch.helpers
 
 import android.app.Activity
 import androidx.activity.result.ActivityResultLauncher
@@ -8,6 +8,7 @@ import com.google.android.gms.auth.api.identity.GetSignInIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.common.api.ApiException
 import dev.sotoestevez.allforone.R
+import dev.sotoestevez.allforone.ui.activities.launch.LaunchActivity
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.logError
 import dev.sotoestevez.allforone.util.extensions.logWarning

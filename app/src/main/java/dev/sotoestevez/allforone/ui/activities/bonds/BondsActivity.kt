@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.databinding.ActivityBondsBinding
+import dev.sotoestevez.allforone.ui.activities.bonds.adapters.BondsAdapter
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.view.PrivateActivity
 import dev.sotoestevez.allforone.util.extensions.logDebug

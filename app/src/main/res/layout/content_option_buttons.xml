@@ -4,7 +4,10 @@
 
     <data>
         <variable
-            name="nextText"
+            name="negativeText"
+            type="String" />
+        <variable
+            name="positiveText"
             type="String" />
     </data>
 
@@ -13,23 +16,24 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btnPrevious"
+            android:id="@+id/btnNegative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/previous"
+            android:text="@{negativeText ?? @string/previous}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnNext"
+            app:layout_constraintEnd_toStartOf="@id/btnPositive"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
 
         <Button
-            android:id="@+id/btnNext"
+            android:id="@+id/btnPositive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{nextText ?? @string/next}"
+            android:text="@{positiveText ?? @string/next}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnPrevious"
+            app:layout_constraintStart_toEndOf="@id/btnNegative"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

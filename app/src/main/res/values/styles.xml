@@ -14,4 +14,10 @@
         <item name="cardPreventCornerOverlap">false</item>
     </style>
 
+    <style name="AppTheme.FullDialog" parent="Theme.4l1app">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
 </resources>

@@ -32,10 +32,10 @@ class RoleSelectionFragment : BaseExtendedFragment() {
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.layButtonsRoleSelection.btnPrevious.setOnClickListener {
+		binding.layButtonsRoleSelection.btnNegative.setOnClickListener {
 			findNavController().navigate(R.id.action_RoleSelectionFragment_to_NameSelectionFragment)
 		}
-		binding.layButtonsRoleSelection.btnNext.setOnClickListener {
+		binding.layButtonsRoleSelection.btnPositive.setOnClickListener {
 			findNavController().navigate(R.id.action_RoleSelectionFragment_to_ContactFillFragment)
 		}
 	}
@@ -47,7 +47,7 @@ class RoleSelectionFragment : BaseExtendedFragment() {
 
 	override fun updateUi() {
 		super.updateUi()
-		binding.layButtonsRoleSelection.btnNext.isEnabled = model.user.value?.role != User.Role.BLANK
+		binding.layButtonsRoleSelection.btnPositive.isEnabled = model.user.value?.role != User.Role.BLANK
 	}
 
 }

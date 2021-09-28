@@ -84,4 +84,10 @@
     <string name="desc_complete_task">Mark task as done or undone</string>
     <string name="desc_expand_task">Show or hide all the task info</string>
     <string name="created_by">Created by %s</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+    <string name="create_task">Create task</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="mandatory">Mandatory</string>
 </resources>

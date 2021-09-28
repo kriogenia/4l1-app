@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.ui.activities.bonds
+package dev.sotoestevez.allforone.ui.activities.bonds.adapters
 
 import android.transition.AutoTransition
 import android.transition.TransitionManager

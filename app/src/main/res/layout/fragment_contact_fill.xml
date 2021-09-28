@@ -212,7 +212,7 @@
 
         <!-- Buttons -->
 
-        <include layout="@layout/content_navigation_buttons"
+        <include layout="@layout/content_option_buttons"
             android:id="@+id/layButtonsContactFill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

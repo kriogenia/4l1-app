@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.ui.activities.feed
+package dev.sotoestevez.allforone.ui.activities.feed.communication
 
 import android.content.Context
 import dev.sotoestevez.allforone.R

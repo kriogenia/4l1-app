@@ -20,7 +20,7 @@ class SessionRepositoryImpl(
 
     override suspend fun refreshSession(session: Session): Session {
         logDebug("Refreshing session")
-        return ApiRequest(suspend { service.refresh(RefreshRequest(session.auth, session.refresh)) })
+        return ApiRequest(suspend { service.refresh("Bearer ${session.auth}", session.refresh) })
             .performRequest().session
     }
 

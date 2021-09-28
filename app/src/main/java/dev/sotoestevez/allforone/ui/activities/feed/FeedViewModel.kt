@@ -12,6 +12,10 @@ import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.ui.components.recyclerview.feed.SentTextMessageView
 import dev.sotoestevez.allforone.repositories.FeedRepository
 import dev.sotoestevez.allforone.repositories.SessionRepository
+import dev.sotoestevez.allforone.ui.activities.feed.communication.NewMessageNotification
+import dev.sotoestevez.allforone.ui.activities.feed.communication.RoomNotification
+import dev.sotoestevez.allforone.ui.activities.feed.communication.UserJoiningNotification
+import dev.sotoestevez.allforone.ui.activities.feed.communication.UserLeavingNotification
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.ui.components.recyclerview.feed.DateHeaderView
 import dev.sotoestevez.allforone.ui.components.recyclerview.feed.ReceivedTextMessageView

@@ -65,12 +65,12 @@ class SessionRepositoryImplTest {
         val response: NetworkResponse.Success<RefreshResponse> = mockk()
         coEvery { response.code } returns 200
         coEvery { response.body } returns refreshResponse
-        coEvery { mockAuthService.refresh(any()) } returns response
+        coEvery { mockAuthService.refresh(any(), any()) } returns response
 
         val result = sessionRepository.refreshSession(Session("auth", "refresh", 0))
 
         assertEquals(result, refreshResponse.session)
-        coVerify(exactly = 1) { mockAuthService.refresh(RefreshRequest("auth", "refresh")) }
+        coVerify(exactly = 1) { mockAuthService.refresh("Bearer auth", "refresh") }
     }
 
 }

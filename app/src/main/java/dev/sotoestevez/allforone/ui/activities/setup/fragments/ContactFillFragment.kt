@@ -40,10 +40,10 @@ class ContactFillFragment : BaseExtendedFragment() {
 		binding.eTxtContactAddressLocality.doAfterTextChanged { updateAddress() }
 		binding.eTxtContactAddressRegion.doAfterTextChanged { updateAddress() }
 
-		binding.layButtonsContactFill.btnPrevious.setOnClickListener {
+		binding.layButtonsContactFill.btnNegative.setOnClickListener {
 			findNavController().navigate(R.id.action_ContactFillFragment_to_RoleSelectionFragment)
 		}
-		binding.layButtonsContactFill.btnNext.setOnClickListener {
+		binding.layButtonsContactFill.btnPositive.setOnClickListener {
 			findNavController().navigate(R.id.action_ContactFillFragment_to_SetUpConfirmationFragment)
 		}
 	}

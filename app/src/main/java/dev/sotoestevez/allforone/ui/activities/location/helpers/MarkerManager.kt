@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.ui.activities.location
+package dev.sotoestevez.allforone.ui.activities.location.helpers
 
 import com.google.android.gms.maps.model.Marker
 import dev.sotoestevez.allforone.R.color.*

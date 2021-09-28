@@ -60,7 +60,7 @@
 
         <!-- Buttons -->
 
-        <include layout="@layout/content_navigation_buttons"
+        <include layout="@layout/content_option_buttons"
             android:id="@+id/layButtonsSetUpConfirmation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileCard"
 
-            app:nextText="@{@string/finish}"/>
+            app:positiveText="@{@string/finish}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

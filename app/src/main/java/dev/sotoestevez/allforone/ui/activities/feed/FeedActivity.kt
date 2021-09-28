@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.databinding.ActivityFeedBinding
+import dev.sotoestevez.allforone.ui.activities.feed.communication.NewMessageNotification
+import dev.sotoestevez.allforone.ui.activities.feed.communication.RoomNotification
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.view.PrivateActivity
