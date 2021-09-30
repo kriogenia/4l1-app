@@ -47,8 +47,10 @@ class FeedActivity : PrivateActivity() {
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.btnSendMsg.setOnClickListener { sendMessage() }
-		binding.rvFeed.addOnScrollListener(onScrollListener)
+		binding.run {
+			btnSendMsg.setOnClickListener { sendMessage() }
+			rvFeed.addOnScrollListener(onScrollListener)
+		}
 	}
 
 	override fun attachObservers() {
@@ -59,6 +61,7 @@ class FeedActivity : PrivateActivity() {
 
 	private fun sendMessage() {
 		model.sendMessage(binding.eTxtWriteMessage.text.toString())
+		binding.eTxtWriteMessage.text?.clear()
 	}
 
 	private fun autoscroll(list: List<BindedItemView>) {

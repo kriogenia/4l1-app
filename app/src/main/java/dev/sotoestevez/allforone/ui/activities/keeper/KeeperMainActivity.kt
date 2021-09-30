@@ -42,17 +42,18 @@ class KeeperMainActivity : PrivateActivity() {
 	override fun attachListeners() {
 		super.attachListeners()
 		/* With bond listeners */
-		binding.btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
-		binding.btnFindLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
-		binding.btnFeed.setOnClickListener {
-			startActivity(buildIntent(FeedActivity::class.java).apply {
-				putExtra(FeedActivity.OWNER, model.cared.value!!.displayName)
-			})
+		binding.run {
+			btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
+			btnFindLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
+			btnFeed.setOnClickListener {
+				startActivity(buildIntent(FeedActivity::class.java).apply {
+					putExtra(FeedActivity.OWNER, model!!.cared.value!!.displayName)
+				})
+			}
 		}
 		/* No bond listeners */
-		qrScannerLauncher = registerForActivityResult(
-			ActivityResultContracts.StartActivityForResult()
-		) { result ->
+		qrScannerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+		{ result ->
 			if (result.resultCode == Activity.RESULT_OK)
 				model.bond(result.data?.data.toString())
 			else

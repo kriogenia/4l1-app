@@ -1,17 +1,8 @@
 package dev.sotoestevez.allforone.vo
 
-import android.content.res.Resources
-import androidx.core.os.ConfigurationCompat
 import com.google.gson.annotations.SerializedName
 import dev.sotoestevez.allforone.util.helpers.TimeFormatter
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.*
 
 /**
  * Class representing the tasks to Patients

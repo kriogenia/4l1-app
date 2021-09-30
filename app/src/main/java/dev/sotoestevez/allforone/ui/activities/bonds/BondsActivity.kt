@@ -30,21 +30,24 @@ class BondsActivity : PrivateActivity() {
 	}
 
 	override fun bindLayout() {
-		binding = ActivityBondsBinding.inflate(layoutInflater)
+		binding = ActivityBondsBinding.inflate(layoutInflater).apply {
+			model = model
+			rvBonds.run {
+				layoutManager = LinearLayoutManager(context)
+				adapter = bondsAdapter
+			}
+		}
 		binding.model = model
 		binding.lifecycleOwner = this
 		setContentView(binding.root)
-		// RecyclerView
-		binding.rvBonds.apply {
-			layoutManager = LinearLayoutManager(context)
-			adapter = bondsAdapter
-		}
 	}
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.btnAddBond.setOnClickListener { showQrPanel(true) }
-		binding.btnCollapseQr.setOnClickListener { showQrPanel(false) }
+		binding.run {
+			btnAddBond.setOnClickListener { showQrPanel(true) }
+			btnCollapseQr.setOnClickListener { showQrPanel(false) }
+		}
 	}
 
 	override fun attachObservers() {
@@ -63,12 +66,16 @@ class BondsActivity : PrivateActivity() {
 		logDebug("Opening QR panel")
 		TransitionManager.beginDelayedTransition(binding.layBonds, ChangeBounds())
 		if (expand) {
-			binding.layQr.visibility = View.VISIBLE
-			binding.btnAddBond.visibility = View.GONE
+			binding.run {
+				layQr.visibility = View.VISIBLE
+				btnAddBond.visibility = View.GONE
+			}
 			model.generateNewQRCode()
 		} else {
-			binding.layQr.visibility = View.GONE
-			binding.btnAddBond.visibility = View.VISIBLE
+			binding.run {
+				layQr.visibility = View.GONE
+				btnAddBond.visibility = View.VISIBLE
+			}
 		}
 	}
 

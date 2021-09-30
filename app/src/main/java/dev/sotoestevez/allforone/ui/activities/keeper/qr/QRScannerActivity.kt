@@ -77,13 +77,14 @@ class QRScannerActivity : AppCompatActivity() {
 
 	private fun initScanner() {
 		logDebug("Initializing QR code scanner")
-		codeScanner = CodeScanner(this, binding.scannerView)
-		codeScanner.camera = CodeScanner.CAMERA_BACK
-		codeScanner.formats = CodeScanner.TWO_DIMENSIONAL_FORMATS
-		codeScanner.autoFocusMode = AutoFocusMode.SAFE
-		codeScanner.scanMode = ScanMode.SINGLE
-		codeScanner.isAutoFocusEnabled = true
-		codeScanner.isFlashEnabled = false
+		codeScanner = CodeScanner(this, binding.scannerView).apply {
+			camera = CodeScanner.CAMERA_BACK
+			formats = CodeScanner.TWO_DIMENSIONAL_FORMATS
+			autoFocusMode = AutoFocusMode.SAFE
+			scanMode = ScanMode.SINGLE
+			isAutoFocusEnabled = true
+			isFlashEnabled = false
+		}
 	}
 
 	private fun setCallbacks() {

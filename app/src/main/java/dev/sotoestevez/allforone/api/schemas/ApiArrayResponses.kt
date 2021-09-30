@@ -56,7 +56,7 @@ data class FeedMessageResponse(
  *
  * @property _id        ID of the message
  * @property message	Content of the message
- * @property user		ID of the message submitter
+ * @property submitter  ID of the message submitter
  * @property username	Username of the message submitter
  * @property timestamp	Creation timestamp of the message
  * @property type		Type of message
@@ -64,7 +64,7 @@ data class FeedMessageResponse(
 data class PlainMessage(
     val _id: String,
     val message: String,
-    val user: String,
+    val submitter: String,
     val username: String,
     val timestamp: Long,
     val type: Message.Type

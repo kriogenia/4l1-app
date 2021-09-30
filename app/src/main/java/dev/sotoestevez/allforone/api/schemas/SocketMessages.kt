@@ -31,11 +31,11 @@ data class UserInfoMsg(
  * Message with the info to send a new feed message
  *
  * @property message content of the message
- * @property user author of the message
+ * @property submitter author of the message
  * @property timestamp creation timestamp of the message
  */
 data class FeedMsg(
 	val message: String,
-	val user: UserInfoMsg,
+	val submitter: UserInfoMsg,
 	val timestamp: Long = Instant.now().toEpochMilli()
 )

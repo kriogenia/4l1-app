@@ -2,12 +2,9 @@ package dev.sotoestevez.allforone.repositories.impl
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.schemas.BondGenerateResponse
 import dev.sotoestevez.allforone.api.schemas.FeedMessageResponse
 import dev.sotoestevez.allforone.api.schemas.PlainMessage
 import dev.sotoestevez.allforone.api.services.FeedService
-import dev.sotoestevez.allforone.api.services.UserService
-import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.vo.User
@@ -47,8 +44,8 @@ class FeedRepositoryImplTest {
         val msg2 = Message("2","message2", User(id = "id2", displayName = "name2"), Message.Type.TEXT)
 
         val feedMessageResponse = FeedMessageResponse(arrayOf(
-            PlainMessage(msg1.id, msg1.message, msg1.user.id!!, msg1.user.displayName!!, msg1.timestamp, msg1.type),
-            PlainMessage(msg2.id, msg2.message, msg2.user.id!!, msg2.user.displayName!!, msg2.timestamp, msg2.type)
+            PlainMessage(msg1.id, msg1.message, msg1.submitter.id!!, msg1.submitter.displayName!!, msg1.timestamp, msg1.type),
+            PlainMessage(msg2.id, msg2.message, msg2.submitter.id!!, msg2.submitter.displayName!!, msg2.timestamp, msg2.type)
         ))
         val response: NetworkResponse.Success<FeedMessageResponse> = mockk()
         coEvery { response.code } returns 200

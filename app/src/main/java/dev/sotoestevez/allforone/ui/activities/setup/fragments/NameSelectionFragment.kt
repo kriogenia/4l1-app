@@ -26,15 +26,17 @@ class NameSelectionFragment : BaseExtendedFragment() {
 
 	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
 		_binding = FragmentNameSelectionBinding.inflate(inflater, container, false)
-		binding.name = model.user.value?.displayName
+			.apply { name = model.user.value?.displayName }
 		return binding.root
 	}
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.txtNameSelection.doAfterTextChanged { model.setDisplayName(it.toString()) }
-		binding.btnNextNameSelection.setOnClickListener {
-			findNavController().navigate(R.id.action_NameSelectionFragment_to_RoleSelectionFragment)
+		binding.run {
+			txtNameSelection.doAfterTextChanged { model.setDisplayName(it.toString()) }
+			btnNextNameSelection.setOnClickListener {
+				findNavController().navigate(R.id.action_NameSelectionFragment_to_RoleSelectionFragment)
+			}
 		}
 	}
 

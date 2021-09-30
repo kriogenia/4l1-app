@@ -42,12 +42,12 @@ class FeedRepositoryImpl(
 	}
 
 	override fun send(message: Message) {
-		socket.emit(Events.SEND.path, toJson(FeedMsg(message.message, message.user.minInfo)))
+		socket.emit(Events.SEND.path, toJson(FeedMsg(message.message, message.submitter.minInfo)))
 	}
 
 	override suspend fun getMessages(page: Int, token: String): List<Message> {
 		val messages = ApiRequest(suspend { service.messages(token, page) }).performRequest().messages
-		return messages.map { Message(it._id, it.message, User(id = it.user, displayName = it.username), it.type, it.timestamp) }
+		return messages.map { Message(it._id, it.message, User(id = it.submitter, displayName = it.username), it.type, it.timestamp) }
 	}
 
 	override fun onNewMessage(callback: (Message) -> Unit) {

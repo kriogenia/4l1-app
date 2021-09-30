@@ -17,6 +17,6 @@ class ReceivedTextMessageView(data: Message) : FeedView {
     val time: String = data.time
 
     /** Author of the message */
-    val author: String = data.user.displayName!!
+    val author: String = data.submitter.displayName!!
 
 }

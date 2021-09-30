@@ -24,19 +24,20 @@ class RoleSelectionFragment : BaseExtendedFragment() {
 	override val model: SetUpViewModel by activityViewModels()
 
 	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
-		_binding = FragmentRoleSelectionBinding.inflate(inflater, container, false)
-		binding.model = model
+		_binding = FragmentRoleSelectionBinding.inflate(inflater, container, false).apply { model = model }
 		binding.lifecycleOwner = this
 		return binding.root
 	}
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.layButtonsRoleSelection.btnNegative.setOnClickListener {
-			findNavController().navigate(R.id.action_RoleSelectionFragment_to_NameSelectionFragment)
-		}
-		binding.layButtonsRoleSelection.btnPositive.setOnClickListener {
-			findNavController().navigate(R.id.action_RoleSelectionFragment_to_ContactFillFragment)
+		binding.layButtonsRoleSelection.run {
+			btnNegative.setOnClickListener {
+				findNavController().navigate(R.id.action_RoleSelectionFragment_to_NameSelectionFragment)
+			}
+			btnPositive.setOnClickListener {
+				findNavController().navigate(R.id.action_RoleSelectionFragment_to_ContactFillFragment)
+			}
 		}
 	}
 

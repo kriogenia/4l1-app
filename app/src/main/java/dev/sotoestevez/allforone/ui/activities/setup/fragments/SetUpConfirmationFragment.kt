@@ -26,17 +26,18 @@ class SetUpConfirmationFragment : BaseExtendedFragment() {
 	override val model: SetUpViewModel by activityViewModels()
 
 	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
-		_binding = FragmentSetUpConfirmationBinding.inflate(inflater, container, false)
-		binding.model = model
+		_binding = FragmentSetUpConfirmationBinding.inflate(inflater, container, false).apply { model = model }
 		return binding.root
 	}
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.layButtonsSetUpConfirmation.btnNegative.setOnClickListener {
-			findNavController().navigate(R.id.action_SetUpConfirmationFragment_to_ContactFillFragment)
+		binding.layButtonsSetUpConfirmation.run {
+			btnNegative.setOnClickListener {
+				findNavController().navigate(R.id.action_SetUpConfirmationFragment_to_ContactFillFragment)
+			}
+			btnPositive.setOnClickListener { model.sendUpdate() }
 		}
-		binding.layButtonsSetUpConfirmation.btnPositive.setOnClickListener { model.sendUpdate() }
 	}
 
 	override fun attachObservers() {
@@ -45,9 +46,13 @@ class SetUpConfirmationFragment : BaseExtendedFragment() {
 	}
 
 	private fun uiLoading(loading: Boolean) {
-		binding.loadBarSetUp.visibility = if (loading) View.VISIBLE else View.GONE
-		binding.layButtonsSetUpConfirmation.btnNegative.isEnabled = !loading
-		binding.layButtonsSetUpConfirmation.btnPositive.isEnabled = !loading
+		binding.run {
+			loadBarSetUp.visibility = if (loading) View.VISIBLE else View.GONE
+			layButtonsSetUpConfirmation.run {
+				btnNegative.isEnabled = !loading
+				btnPositive.isEnabled = !loading
+			}
+		}
 	}
 
 }

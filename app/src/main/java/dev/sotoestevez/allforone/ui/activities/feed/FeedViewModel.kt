@@ -82,7 +82,7 @@ class FeedViewModel(
 	 */
 	fun sendMessage(text: String) {
 		if (Strings.isEmptyOrWhitespace(text)) return
-		feedRepository.send(Message(message = text, user = user.value!!, type = Message.Type.TEXT))
+		feedRepository.send(Message(message = text, submitter = user.value!!, type = Message.Type.TEXT))
 		logDebug("Sent message $text")
 	}
 
@@ -111,7 +111,7 @@ class FeedViewModel(
 
 	private fun onNewMessage(message: Message) {
 		mList.add(wrapItem(message)).also { mFeedList.apply { postValue(value) } }
-		mNotification.postValue(NewMessageNotification(message.user.displayName!!))
+		mNotification.postValue(NewMessageNotification(message.submitter.displayName!!))
 	}
 
 	// TODO remove duplicated date headers
@@ -127,7 +127,7 @@ class FeedViewModel(
 	}
 
 	private fun wrapItem(message: Message): BindedItemView {
-		return if (message.user.id == user.value!!.id) SentTextMessageView(message) else ReceivedTextMessageView(message)
+		return if (message.submitter.id == user.value!!.id) SentTextMessageView(message) else ReceivedTextMessageView(message)
 	}
 
 }
