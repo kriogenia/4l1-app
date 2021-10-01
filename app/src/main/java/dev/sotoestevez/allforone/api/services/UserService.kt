@@ -5,7 +5,6 @@ import dev.sotoestevez.allforone.api.schemas.*
 import dev.sotoestevez.allforone.vo.User
 import retrofit2.http.*
 
-
 /** Service to handle the operations related to the /user endpoints of the API */
 interface UserService {
 
@@ -16,12 +15,12 @@ interface UserService {
 	 * @param body  New data of the user
 	 * @return      Response with the confirmation or denial message
 	 */
-	@PUT("/user/{id}")
+	@PATCH("/user/{id}")
 	suspend fun update(
 		@Header("Authorization") token: String,
 		@Path("id") id: String,
 		@Body body: UserUpdateRequest
-	): NetworkResponse<MessageResponse, BaseErrorResponse>
+	): NetworkResponse<User, BaseErrorResponse>
 
 	/**
 	 * Requests to the server the data of the cared user if it exists
@@ -41,7 +40,7 @@ interface UserService {
 	 * @param token Authorization token to perform the request
 	 * @return      Response with the list of Users
 	 */
-	@GET("/user/bond")
+	@GET("/user/bonds")
 	suspend fun bondList(
 		@Header("Authorization") token: String
 	): NetworkResponse<BondListResponse, BaseErrorResponse>
@@ -52,7 +51,7 @@ interface UserService {
 	 * @param token Authorization token to perform the request
 	 * @return      Response with the confirmation or denial message
 	 */
-	@POST("/user/bond/establish")
+	@POST("/user/bonds/establish")
 	suspend fun bondEstablish(
 		@Header("Authorization") token: String,
 		@Body body: BondEstablishRequest
@@ -64,7 +63,7 @@ interface UserService {
 	 * @param token Authorization token to perform the request
 	 * @return      Response with the bonding token
 	 */
-	@GET("/user/bond/generate")
+	@GET("/user/bonds/generate")
 	suspend fun bondGenerate(
 		@Header("Authorization") token: String
 	): NetworkResponse<BondGenerateResponse, BaseErrorResponse>

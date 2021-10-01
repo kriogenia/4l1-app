@@ -25,7 +25,7 @@ class ApiRequestTest {
     fun `should return the body of successful requests`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val response = SignInResponse(
             Session("auth", "refresh", 0),
-            User("id", "googleId", User.Role.BLANK, "name")
+            User("id", User.Role.BLANK, "name")
         )
         val networkResponse = NetworkResponse.Success(response, null, 200)
         val req = ApiRequest(suspend { networkResponse }).performRequest()

@@ -24,6 +24,15 @@ data class UserUpdateRequest(
 	var email: String? = null
 )
 
+/**
+ * Properties of a request to create a new task
+ *
+ * @property title
+ * @property description
+ * @property submitter
+ * @property done
+ * @property timestamp
+ */
 data class TaskRequest(
 	val title: String,
 	val description: String?,

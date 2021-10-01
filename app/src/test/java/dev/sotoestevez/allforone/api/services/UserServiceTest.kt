@@ -66,8 +66,8 @@ class UserServiceTest {
 	@Test
 	fun `should retrieve the list of bonded users`(): Unit = runBlocking {
 		val expected = BondListResponse(arrayOf(
-			User(null, null, User.Role.BLANK, "First", "123456789"),
-			User(null, null, User.Role.KEEPER, "Second", "987654321"),
+			User(null, User.Role.BLANK, "First", "123456789"),
+			User(null, User.Role.KEEPER, "Second", "987654321"),
 			))
 
 		val actual = api.bondList("valid")
@@ -78,10 +78,7 @@ class UserServiceTest {
 
 	@Test
 	fun `should retrieve the cared user when it exists`(): Unit = runBlocking {
-		val expected = CaredResponse(User(
-			"61198ff240cec3067a66c0b1",
-			"valid",
-			User.Role.PATIENT))
+		val expected = CaredResponse(User("61198ff240cec3067a66c0b1", User.Role.PATIENT))
 
 		val actual = api.cared("defined", "id")
 
@@ -101,9 +98,9 @@ class UserServiceTest {
 
 	@Test
 	fun `should manage the update with a valid request`(): Unit = runBlocking {
-		val expected = MessageResponse("The specified user has been updated successfully")
+		val expected = User("update", User.Role.PATIENT)
 
-		val actual = api.update("valid","id", UserUpdateRequest(User.Role.PATIENT))
+		val actual = api.update("valid","update", UserUpdateRequest(User.Role.PATIENT))
 
 		assertTrue(actual is NetworkResponse.Success)
 		assertEquals(expected, (actual as NetworkResponse.Success).body)
@@ -113,7 +110,7 @@ class UserServiceTest {
 	fun `should parse ErrorResponse when requested Update with invalid authorization`(): Unit = runBlocking {
 		val expected = BaseErrorResponse("The provided token is invalid")
 
-		val actual = api.update("invalid", "id", UserUpdateRequest(User.Role.PATIENT))
+		val actual = api.update("invalid", "update", UserUpdateRequest(User.Role.PATIENT))
 
 		assertTrue(actual is NetworkResponse.ServerError)
 		assertEquals(expected, (actual as NetworkResponse.ServerError).body)

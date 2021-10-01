@@ -68,6 +68,17 @@ data class SignInResponse(
 	val user: User
 )
 
+/**
+ * Model of the response to be received from the /tasks endpoint with the created task info
+ *
+ * @property _id
+ * @property title
+ * @property description
+ * @property submitter
+ * @property done
+ * @property timestamp
+ * @property type
+ */
 data class TaskResponse(
 	val _id: String,
 	val title: String,

@@ -2,7 +2,6 @@ package dev.sotoestevez.allforone.repositories.impl
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.schemas.RefreshRequest
 import dev.sotoestevez.allforone.api.schemas.RefreshResponse
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import dev.sotoestevez.allforone.api.services.AuthService
@@ -44,7 +43,7 @@ class SessionRepositoryImplTest {
     fun `should return the sign in response when provided a valid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val signInResponse = SignInResponse(
             Session("auth", "refresh", 0),
-            User("id", "googleId", User.Role.BLANK)
+            User("id", User.Role.BLANK)
         )
         val response: NetworkResponse.Success<SignInResponse> = mockk()
         coEvery { response.code } returns 200

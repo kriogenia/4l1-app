@@ -67,8 +67,8 @@ class UserRepositoryImplTest {
 	@Test
 	fun `should return the list of bonds of the user`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
 		val bondListResponse = BondListResponse(arrayOf(
-			User(null, null, User.Role.KEEPER, "First"),
-			User(null, null, User.Role.KEEPER, "Second")
+			User(null, User.Role.KEEPER, "First"),
+			User(null, User.Role.KEEPER, "Second")
 		))
 		val response: NetworkResponse.Success<BondListResponse> = mockk()
 		coEvery { response.code } returns 200
@@ -86,7 +86,7 @@ class UserRepositoryImplTest {
 
 	@Test
 	fun `should return the cared patient of the user`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
-		val caredResponse = CaredResponse(User("id", "googleId", User.Role.PATIENT))
+		val caredResponse = CaredResponse(User("id", User.Role.PATIENT))
 		val response: NetworkResponse.Success<CaredResponse> = mockk()
 		coEvery { response.code } returns 200
 		coEvery { response.body } returns caredResponse
@@ -108,13 +108,13 @@ class UserRepositoryImplTest {
 
 	@Test
 	fun `should send the user update to the server`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
-		val updateResponse = MessageResponse("success")
-		val response: NetworkResponse.Success<MessageResponse> = mockk()
+		val updateResponse = User("id", User.Role.PATIENT)
+		val response: NetworkResponse.Success<User> = mockk()
 		coEvery { response.code } returns 200
 		coEvery { response.body } returns updateResponse
 		coEvery { mockUserService.update(any(), any(), any()) } returns response
 
-		val user = User("id", "googleId", User.Role.PATIENT)
+		val user = User("id", User.Role.PATIENT)
 		repo.update(user, "token")
 
 		coVerify(exactly = 1) { mockUserService.update("token", "id", UserUpdateRequest(user.role)) }

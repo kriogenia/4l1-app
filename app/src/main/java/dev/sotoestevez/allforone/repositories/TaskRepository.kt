@@ -6,7 +6,7 @@ import dev.sotoestevez.allforone.vo.Task
 interface TaskRepository {
 
 	/**
-	 * Sends a new task to create
+	 * Save a new task in the server
 	 *
 	 * @param task	Task to create
 	 * @param token	Authentication token

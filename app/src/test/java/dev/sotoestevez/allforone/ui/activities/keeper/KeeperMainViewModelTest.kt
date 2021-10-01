@@ -30,7 +30,7 @@ class KeeperMainViewModelTest {
 	// Test object
 	private lateinit var model: KeeperMainViewModel
 	private val code = "qrcode"
-	private val user = User("id", "google", User.Role.BLANK)
+	private val user = User("id", User.Role.BLANK)
 
 	@Before
 	fun beforeEach() {
@@ -46,7 +46,7 @@ class KeeperMainViewModelTest {
 
 	@Test
 	fun `should set the cared when the bonding is successful`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
-		val cared = User("cared", "gCared", User.Role.PATIENT)
+		val cared = User("cared", User.Role.PATIENT)
 		coEvery { mockUserRepository.getCared(any(), any()) } returns cared
 
 		model.bond(code)
