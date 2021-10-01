@@ -3,7 +3,9 @@ package dev.sotoestevez.allforone.ui.activities.tasks
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import dev.sotoestevez.allforone.repositories.SessionRepository
+import dev.sotoestevez.allforone.repositories.TaskRepository
 import dev.sotoestevez.allforone.ui.components.recyclerview.tasks.TaskView
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
@@ -11,12 +13,14 @@ import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.vo.Task
+import kotlinx.coroutines.launch
 
 /** ViewModel of the TasksActivity */
 class TasksViewModel(
     savedStateHandle: SavedStateHandle,
     dispatchers: DispatcherProvider = DefaultDispatcherProvider,
-    sessionRepository: SessionRepository
+    sessionRepository: SessionRepository,
+    private val taskRepository: TaskRepository
 ): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
 
     /** LiveData holding the list of pending tasks */
@@ -29,7 +33,8 @@ class TasksViewModel(
     constructor(builder: ExtendedViewModel.Builder): this(
         builder.savedStateHandle,
         builder.dispatchers,
-        builder.sessionRepository
+        builder.sessionRepository,
+        builder.taskRepository
     )
 
     init {
@@ -48,7 +53,10 @@ class TasksViewModel(
      */
     fun createTask(title: String, description: String) {
         logDebug("Created new task: $title")
-        //val task = Task(title = title, description = description, submitter = user.value!!)
+        viewModelScope.launch(dispatchers.io()) {
+            val task = taskRepository.save(Task(title = title, description = description, submitter = user.value!!), authHeader())
+            logDebug(task.toString())
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.api.schemas
 
+import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.vo.Session
 import dev.sotoestevez.allforone.vo.User
 
@@ -65,4 +66,14 @@ data class RefreshResponse(
 data class SignInResponse(
 	val session: Session,
 	val user: User
+)
+
+data class TaskResponse(
+	val _id: String,
+	val title: String,
+	val description: String?,
+	val submitter: UserInfoMsg,
+	val done: Boolean,
+	val timestamp: Long,
+	val type: Message.Type
 )

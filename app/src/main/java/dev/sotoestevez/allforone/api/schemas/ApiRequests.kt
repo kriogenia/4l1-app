@@ -24,15 +24,12 @@ data class UserUpdateRequest(
 	var email: String? = null
 )
 
-/**
- * Model of the request body for the auth/refresh endpoint
- *
- * @property auth       Old authentication token to renew
- * @property refresh    Current refresh token
- */
-data class RefreshRequest(
-	val auth: String,
-	val refresh: String
+data class TaskRequest(
+	val title: String,
+	val description: String?,
+	val submitter: UserInfoMsg,
+	val done: Boolean,
+	val timestamp: Long
 )
 
 /**

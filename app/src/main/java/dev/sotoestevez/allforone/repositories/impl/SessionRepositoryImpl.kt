@@ -1,7 +1,6 @@
 package dev.sotoestevez.allforone.repositories.impl
 
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.schemas.RefreshRequest
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import dev.sotoestevez.allforone.api.services.AuthService
 import dev.sotoestevez.allforone.repositories.SessionRepository
