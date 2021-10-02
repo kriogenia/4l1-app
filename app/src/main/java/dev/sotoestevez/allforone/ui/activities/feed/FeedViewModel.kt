@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.util.Strings
-import dev.sotoestevez.allforone.vo.Message
+import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.ui.components.recyclerview.feed.SentTextMessageView
@@ -24,6 +24,7 @@ import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.invoke
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.TimeFormatter
+import dev.sotoestevez.allforone.vo.feed.Message
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -82,9 +83,11 @@ class FeedViewModel(
 	 */
 	fun sendMessage(text: String) {
 		if (Strings.isEmptyOrWhitespace(text)) return
-		feedRepository.send(Message(message = text, submitter = user.value!!, type = Message.Type.TEXT))
+		feedRepository.send(TextMessage(message = text, submitter = user.value!!))
 		logDebug("Sent message $text")
 	}
+
+	// TODO sendTask
 
 	/** Loads more messages into the list*/
 	fun addMessages() {
@@ -127,7 +130,10 @@ class FeedViewModel(
 	}
 
 	private fun wrapItem(message: Message): BindedItemView {
-		return if (message.submitter.id == user.value!!.id) SentTextMessageView(message) else ReceivedTextMessageView(message)
+		return 	if (message is TextMessage)
+					if (message.submitter.id == user.value!!.id) SentTextMessageView(message)
+					else ReceivedTextMessageView(message)
+				else throw NotImplementedError()
 	}
 
 }

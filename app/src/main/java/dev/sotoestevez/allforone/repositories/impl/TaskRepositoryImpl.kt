@@ -1,15 +1,10 @@
 package dev.sotoestevez.allforone.repositories.impl
 
-import com.google.gson.Gson
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.schemas.FeedMsg
 import dev.sotoestevez.allforone.api.schemas.TaskRequest
 import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
-import dev.sotoestevez.allforone.api.services.FeedService
 import dev.sotoestevez.allforone.api.services.TaskService
-import dev.sotoestevez.allforone.repositories.FeedRepository
 import dev.sotoestevez.allforone.repositories.TaskRepository
-import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.User
 

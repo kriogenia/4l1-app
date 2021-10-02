@@ -6,8 +6,9 @@ import dev.sotoestevez.allforone.api.schemas.FeedMsg
 import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.api.services.FeedService
 import dev.sotoestevez.allforone.repositories.FeedRepository
-import dev.sotoestevez.allforone.vo.Message
+import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.vo.User
+import dev.sotoestevez.allforone.vo.feed.Message
 
 /**
  * Implementation of [FeedRepository]
@@ -41,17 +42,19 @@ class FeedRepositoryImpl(
 		socket.emit(Events.LEAVE.path, toJson(user.minInfo))
 	}
 
-	override fun send(message: Message) {
-		socket.emit(Events.SEND.path, toJson(FeedMsg(message.message, message.submitter.minInfo)))
+	override fun send(message: Message) {	// TODO needs change
+		socket.emit(Events.SEND.path, toJson(FeedMsg(message.content, message.submitter.minInfo)))
 	}
 
 	override suspend fun getMessages(page: Int, token: String): List<Message> {
 		val messages = ApiRequest(suspend { service.messages(token, page) }).performRequest().messages
-		return messages.map { Message(it._id, it.message, User(id = it.submitter, displayName = it.username), it.type, it.timestamp) }
+		return messages.map {
+			TextMessage(it._id, it.message!!, User(id = it.submitter, displayName = it.username), it.timestamp)
+		}
 	}
 
-	override fun onNewMessage(callback: (Message) -> Unit) {
-		socket.on(Events.NEW.path) { callback(fromJson(it, Message::class.java)) }
+	override fun onNewMessage(callback: (Message) -> Unit) {	// TODO needs change
+		socket.on(Events.NEW.path) { callback(fromJson(it, TextMessage::class.java)) }
 	}
 
 	override fun onUserJoining(callback: (String) -> Unit) {

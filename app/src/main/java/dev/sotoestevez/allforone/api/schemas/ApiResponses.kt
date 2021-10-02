@@ -1,8 +1,9 @@
 package dev.sotoestevez.allforone.api.schemas
 
-import dev.sotoestevez.allforone.vo.Message
+import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.vo.Session
 import dev.sotoestevez.allforone.vo.User
+import dev.sotoestevez.allforone.vo.feed.Message
 
 /**
  * Base properties of error responses

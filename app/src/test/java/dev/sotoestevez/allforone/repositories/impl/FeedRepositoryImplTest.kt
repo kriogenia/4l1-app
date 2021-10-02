@@ -6,8 +6,9 @@ import dev.sotoestevez.allforone.api.schemas.FeedMessageResponse
 import dev.sotoestevez.allforone.api.schemas.PlainMessage
 import dev.sotoestevez.allforone.api.services.FeedService
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
-import dev.sotoestevez.allforone.vo.Message
+import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.vo.User
+import dev.sotoestevez.allforone.vo.feed.Message
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -40,12 +41,14 @@ class FeedRepositoryImplTest {
 
     @Test
     fun `should return the correct list of messages`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
-        val msg1 = Message("1","message1", User(id = "id1", displayName = "name1"), Message.Type.TEXT)
-        val msg2 = Message("2","message2", User(id = "id2", displayName = "name2"), Message.Type.TEXT)
+        val msg1 = TextMessage("1","message1", User(id = "id1", displayName = "name1"))
+        val msg2 = TextMessage("2","message2", User(id = "id2", displayName = "name2"))
 
         val feedMessageResponse = FeedMessageResponse(arrayOf(
-            PlainMessage(msg1.id, msg1.message, msg1.submitter.id!!, msg1.submitter.displayName!!, msg1.timestamp, msg1.type),
-            PlainMessage(msg2.id, msg2.message, msg2.submitter.id!!, msg2.submitter.displayName!!, msg2.timestamp, msg2.type)
+            PlainMessage(_id = msg1.id, message = msg1.message, submitter = msg1.submitter.id!!, username = msg1.submitter.displayName!!,
+                timestamp = msg1.timestamp, type = Message.Type.TEXT),
+            PlainMessage(_id = msg2.id, message = msg2.message, submitter = msg2.submitter.id!!, username = msg2.submitter.displayName!!,
+                timestamp = msg2.timestamp, type = Message.Type.TEXT)
         ))
         val response: NetworkResponse.Success<FeedMessageResponse> = mockk()
         coEvery { response.code } returns 200

@@ -1,7 +1,6 @@
 package dev.sotoestevez.allforone.ui.components.recyclerview.feed
 
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
-import dev.sotoestevez.allforone.vo.Message
 
 /** View of Feed components to display on BindableRecyclerView */
 interface FeedView: BindedItemView {

@@ -1,7 +1,8 @@
 package dev.sotoestevez.allforone.api.schemas
 
-import dev.sotoestevez.allforone.vo.Message
+import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.vo.User
+import dev.sotoestevez.allforone.vo.feed.Message
 
 /**
  * Model of the response to be received from the /user/bond/generate endpoint
@@ -52,20 +53,26 @@ data class FeedMessageResponse(
 }
 
 /**
- * Model of the messages to be received from the /feed/messages endpoint
+ * Model with the property joining of the messages to be received from the /feed/messages endpoint
  *
- * @property _id        ID of the message
- * @property message	Content of the message
- * @property submitter  ID of the message submitter
- * @property username	Username of the message submitter
- * @property timestamp	Creation timestamp of the message
- * @property type		Type of message
+ * @property _id            ID of the message
+ * @property message	    Content of the TextMessages
+ * @property title	        Title of the TaskMessages
+ * @property description	Description of the TaskMessages
+ * @property done	        State of the TaskMessages
+ * @property submitter      ID of the message submitter
+ * @property username	    Username of the message submitter
+ * @property timestamp	    Creation timestamp of the message
+ * @property type		    Type of message
  */
 data class PlainMessage(
     val _id: String,
-    val message: String,
     val submitter: String,
     val username: String,
     val timestamp: Long,
-    val type: Message.Type
+    val type: Message.Type,
+    val message: String? = null,
+    val title: String? = null,
+    val description: String? = null,
+    val done: Boolean? = null
 )

@@ -1,10 +1,10 @@
 package dev.sotoestevez.allforone.ui.components.recyclerview.feed
 
 import dev.sotoestevez.allforone.R
-import dev.sotoestevez.allforone.vo.Message
+import dev.sotoestevez.allforone.vo.feed.TextMessage
 
 /** ViewHolder for messages sent by the user */
-class SentTextMessageView(data: Message): FeedView {
+class SentTextMessageView(data: TextMessage): FeedView {
 
 	override val layoutId: Int = R.layout.content_sent_message
 
