@@ -6,9 +6,11 @@ import dev.sotoestevez.allforone.api.schemas.FeedMsg
 import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.api.services.FeedService
 import dev.sotoestevez.allforone.repositories.FeedRepository
+import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.vo.feed.Message
+import dev.sotoestevez.allforone.vo.feed.TaskMessage
 
 /**
  * Implementation of [FeedRepository]
@@ -48,9 +50,7 @@ class FeedRepositoryImpl(
 
 	override suspend fun getMessages(page: Int, token: String): List<Message> {
 		val messages = ApiRequest(suspend { service.messages(token, page) }).performRequest().messages
-		return messages.map {
-			TextMessage(it._id, it.message!!, User(id = it.submitter, displayName = it.username), it.timestamp)
-		}
+		return messages.map { Message.Builder().apply { data = it }.build() }
 	}
 
 	override fun onNewMessage(callback: (Message) -> Unit) {	// TODO needs change

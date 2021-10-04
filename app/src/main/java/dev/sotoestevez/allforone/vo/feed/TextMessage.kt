@@ -20,4 +20,11 @@ data class TextMessage(
 	override val content: String
 		get() = message
 
+	constructor(builder: Message.Builder): this(
+		builder.data!!._id,
+		builder.data!!.message!!,
+		User(id = builder.data!!.submitter, displayName = builder.data!!.username),
+		builder.data!!.timestamp
+	)
+
 }

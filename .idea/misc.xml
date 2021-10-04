@@ -49,6 +49,12 @@
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/test/res/drawable/ic_default_user.xml" value="0.1" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/test/res/drawable/ic_inner_marker.xml" value="0.33645833333333336" />
         <entry key="..\:/Users/esekr/Desktop/TFG/APP/app/src/test/res/drawable/ic_patient_marker.xml" value="0.33645833333333336" />
+        <entry key="app/src/main/res/layout/content_profile_card.xml" value="0.2682291666666667" />
+        <entry key="app/src/main/res/layout/content_received_task.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/content_sent_message.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/content_sent_task.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/content_task.xml" value="0.2682291666666667" />
+        <entry key="app/src/main/res/layout/fragment_role_selection.xml" value="0.225" />
       </map>
     </option>
   </component>

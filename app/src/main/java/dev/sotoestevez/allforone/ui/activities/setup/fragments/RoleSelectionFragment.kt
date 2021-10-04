@@ -11,6 +11,7 @@ import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.databinding.FragmentRoleSelectionBinding
 import dev.sotoestevez.allforone.ui.activities.setup.SetUpViewModel
 import dev.sotoestevez.allforone.ui.components.fragments.BaseExtendedFragment
+import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /**
  * [Fragment] of SetUpActivity to select the [User.Role].
@@ -24,7 +25,8 @@ class RoleSelectionFragment : BaseExtendedFragment() {
 	override val model: SetUpViewModel by activityViewModels()
 
 	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
-		_binding = FragmentRoleSelectionBinding.inflate(inflater, container, false).apply { model = model }
+		_binding = FragmentRoleSelectionBinding.inflate(inflater, container, false)
+		binding.model = model
 		binding.lifecycleOwner = this
 		return binding.root
 	}

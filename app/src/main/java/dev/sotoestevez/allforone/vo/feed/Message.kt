@@ -1,12 +1,14 @@
 package dev.sotoestevez.allforone.vo.feed
 
 import com.google.gson.annotations.SerializedName
+import dev.sotoestevez.allforone.api.schemas.PlainMessage
 import dev.sotoestevez.allforone.util.helpers.TimeFormatter
 import dev.sotoestevez.allforone.vo.User
+import java.lang.IllegalStateException
 import java.time.Instant
 
 /** Interface of messages displayable in the feed */
-interface Message {
+sealed interface Message {
 
 	/** Different types of messages of the application */
 	enum class Type {
@@ -31,5 +33,19 @@ interface Message {
 	/** Formatted local time of the message */
 	val time: String
 		get() = TimeFormatter.getTime(timestamp)
+
+	class Builder() {
+
+		var data: PlainMessage? = null
+
+		fun build(): Message {
+			if (data == null) throw IllegalStateException("Can't build a message with no data")
+			return when (data!!.type) {
+				Type.TEXT -> TextMessage(this)
+				Type.TASK -> TaskMessage(this)
+			}
+		}
+
+	}
 
 }

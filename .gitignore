@@ -67,4 +67,4 @@ outTmp/
 /kotlin-native/dist
 credentials.json
 **/*/res/values/secrets.xml
-**/*/res/raw/*.pem
+*.pem

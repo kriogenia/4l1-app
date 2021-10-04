@@ -77,6 +77,7 @@
                         android:minWidth="@dimen/task_icon_size"
                         android:minHeight="@dimen/task_icon_size"
                         android:src="@drawable/expand_arrow"
+                        android:rotationX="@{item.collapsed ? 0f : 180f}"
                         android:onClickListener="@{() -> item.onExpandButtonClick()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />

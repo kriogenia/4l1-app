@@ -9,7 +9,6 @@ import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
-import dev.sotoestevez.allforone.ui.components.recyclerview.feed.SentTextMessageView
 import dev.sotoestevez.allforone.repositories.FeedRepository
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.ui.activities.feed.communication.NewMessageNotification
@@ -17,16 +16,17 @@ import dev.sotoestevez.allforone.ui.activities.feed.communication.RoomNotificati
 import dev.sotoestevez.allforone.ui.activities.feed.communication.UserJoiningNotification
 import dev.sotoestevez.allforone.ui.activities.feed.communication.UserLeavingNotification
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
-import dev.sotoestevez.allforone.ui.components.recyclerview.feed.DateHeaderView
-import dev.sotoestevez.allforone.ui.components.recyclerview.feed.ReceivedTextMessageView
+import dev.sotoestevez.allforone.ui.components.recyclerview.feed.*
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.invoke
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.TimeFormatter
 import dev.sotoestevez.allforone.vo.feed.Message
+import dev.sotoestevez.allforone.vo.feed.TaskMessage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.IllegalStateException
 import java.util.*
 
 /** ViewModel of the Feed Activity */
@@ -130,10 +130,12 @@ class FeedViewModel(
 	}
 
 	private fun wrapItem(message: Message): BindedItemView {
+		val sent = (message.submitter.id == user.value!!.id)
 		return 	if (message is TextMessage)
-					if (message.submitter.id == user.value!!.id) SentTextMessageView(message)
-					else ReceivedTextMessageView(message)
-				else throw NotImplementedError()
+					if (sent) SentTextMessageView(message) else ReceivedTextMessageView(message)
+				else if (message is TaskMessage)
+					if (sent) SentTaskMessageView(message) else ReceivedTaskMessageView(message)
+				else throw IllegalStateException("Invalid message type")
 	}
 
 }

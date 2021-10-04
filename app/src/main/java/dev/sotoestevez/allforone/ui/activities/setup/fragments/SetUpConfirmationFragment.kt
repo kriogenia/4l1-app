@@ -26,7 +26,8 @@ class SetUpConfirmationFragment : BaseExtendedFragment() {
 	override val model: SetUpViewModel by activityViewModels()
 
 	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
-		_binding = FragmentSetUpConfirmationBinding.inflate(inflater, container, false).apply { model = model }
+		_binding = FragmentSetUpConfirmationBinding.inflate(inflater, container, false)
+		binding.model = model
 		return binding.root
 	}
 

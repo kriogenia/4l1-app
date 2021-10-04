@@ -9,10 +9,14 @@ interface FeedView: BindedItemView {
     enum class Type {
         /** Date header */
         HEADER,
+        /** Task message sent by the user */
+        TASK_SENT,
+        /** Task message received by the user */
+        TASK_RECEIVED,
         /** Text message sent by the user */
-        SENT,
+        TEXT_SENT,
         /** Text message received by the user */
-        RECEIVED
+        TEXT_RECEIVED
     }
 
 }

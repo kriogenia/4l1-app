@@ -8,10 +8,10 @@ class SentTextMessageView(data: TextMessage): FeedView {
 
 	override val layoutId: Int = R.layout.content_sent_message
 
-	override val viewType: Int = FeedView.Type.SENT.ordinal
+	override val viewType: Int = FeedView.Type.TEXT_SENT.ordinal
 
 	/** Body of the message */
-	val text: String = data.message
+	val text: String = data.content
 
 	/** Sending time of the message */
 	val time: String = data.time

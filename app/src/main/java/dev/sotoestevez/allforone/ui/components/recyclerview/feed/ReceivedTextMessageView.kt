@@ -8,10 +8,10 @@ class ReceivedTextMessageView(data: TextMessage) : FeedView {
 
     override val layoutId: Int = R.layout.content_received_message
 
-    override val viewType: Int = FeedView.Type.RECEIVED.ordinal
+    override val viewType: Int = FeedView.Type.TEXT_RECEIVED.ordinal
 
     /** Body of the message */          // TODO extract abstract textmessageview
-    val text: String = data.message
+    val text: String = data.content
 
     /** Sending time of the message */
     val time: String = data.time
