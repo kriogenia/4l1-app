@@ -47,18 +47,12 @@
             style="@style/AppTheme.Card">
             <!--app:layout_constraintStart_toEndOf="@+id/image_gchat_profile_other"-->
 
-            <TextView
-                android:id="@+id/lblMessage"
+            <include
+                layout="@layout/content_task_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/base_margin"
-                android:maxWidth="@dimen/max_msg_size"
-                android:paddingHorizontal="@dimen/double_base_margin"
-                android:paddingTop="@dimen/base_margin"
-                android:text="@{item.text}"
-                android:textColor="@color/secondaryTextColor"
-                android:textSize="@dimen/msg_font_size"
-                tool:text="Message"/>
+                app:item="@{item}"
+                app:dark="@{true}" />
 
         </androidx.cardview.widget.CardView>
 

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.graphics.Typeface" />
+        <import type="android.view.View"/>
+        <variable
+            name="item"
+            type="dev.sotoestevez.allforone.ui.components.recyclerview.feed.TaskMessageView" />
+        <variable
+            name="dark"
+            type="Boolean" />
+    </data>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btnTaskDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/base_margin"
+                android:layout_marginVertical="@dimen/half_base_margin"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/desc_complete_task"
+                android:minWidth="@dimen/task_icon_size"
+                android:minHeight="@dimen/task_icon_size"
+                android:tint="@{dark ? @color/secondaryTextColor : @color/darkPrimaryTextColor}"
+                android:src="@{item.done ? @drawable/ic_check_box : @drawable/ic_blank_check_box }"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tool:tint="@color/secondaryTextColor"
+                tool:src="@drawable/ic_check_box"
+                tool:ignore="UseAppTint" />
+
+            <TextView
+                android:id="@+id/lblMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/base_margin"
+                android:maxWidth="@dimen/max_msg_size"
+                android:paddingHorizontal="@dimen/double_base_margin"
+                android:text="@{item.text}"
+                android:textColor="@{dark ? @color/secondaryTextColor : @color/darkPrimaryTextColor}"
+                android:textSize="@dimen/msg_font_size"
+                android:typeface="@{Typeface.defaultFromStyle(item.done ? Typeface.NORMAL : Typeface.BOLD)}"
+                android:alpha="@{item.done ? 0.8f : 1.0f }"
+                app:layout_constraintBottom_toTopOf="@id/lblTaskDescription"
+                app:layout_constraintStart_toEndOf="@id/btnTaskDone"
+                app:layout_constraintEnd_toStartOf="@id/btnTaskMore"
+                app:layout_constraintTop_toTopOf="parent"
+                tool:alpha="0.8"
+                tool:textColor="@color/secondaryTextColor"
+                tool:text="Message too long to fit just one line"
+                app:layout_goneMarginBottom="@dimen/base_margin"/>
+
+            <ImageButton
+                android:id="@+id/btnTaskMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/base_margin"
+                android:layout_marginVertical="@dimen/half_base_margin"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/desc_complete_task"
+                android:minWidth="@dimen/task_icon_size"
+                android:minHeight="@dimen/task_icon_size"
+                android:tint="@{dark ? @color/secondaryTextColor : @color/darkPrimaryTextColor}"
+                android:src="@drawable/expand_arrow"
+                android:rotationX="@{item.collapsed ? 0f : 180f}"
+                android:onClickListener="@{() -> item.onExpandButtonClick()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tool:tint="@color/secondaryTextColor"
+                tool:ignore="UseAppTint" />
+
+            <TextView
+                android:id="@+id/lblTaskDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/base_margin"
+                android:layout_marginStart="@dimen/base_margin"
+                android:layout_marginEnd="48dp"
+                android:text="@{item.description}"
+                android:textColor="@{dark ? @color/secondaryTextColor : @color/darkPrimaryTextColor}"
+                android:maxWidth="@dimen/max_msg_size"
+                android:alpha="@{item.done ? 0.8f : 1.0f }"
+                android:visibility="@{item.collapsed ? View.GONE : View.VISIBLE }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblMessage"
+                tool:textColor="@color/secondaryTextColor"
+                tool:text="ok, this is a really really long description but I need to check"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
