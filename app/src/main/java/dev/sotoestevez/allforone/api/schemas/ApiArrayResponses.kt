@@ -1,6 +1,5 @@
 package dev.sotoestevez.allforone.api.schemas
 
-import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.vo.feed.Message
 
@@ -25,6 +24,25 @@ data class BondListResponse(
 
     override fun hashCode(): Int {
         return bonds.contentHashCode()
+    }
+}
+
+data class TaskListResponse (
+    val tasks: Array<TaskResponse>
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TaskListResponse
+
+        if (!tasks.contentEquals(other.tasks)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return tasks.contentHashCode()
     }
 }
 

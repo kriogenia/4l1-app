@@ -1,19 +1,23 @@
 package dev.sotoestevez.allforone.ui.activities.tasks
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.TaskRepository
+import dev.sotoestevez.allforone.ui.activities.feed.FeedViewModel
 import dev.sotoestevez.allforone.ui.components.recyclerview.tasks.TaskView
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
+import dev.sotoestevez.allforone.util.extensions.invoke
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.vo.Task
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /** ViewModel of the TasksActivity */
 class TasksViewModel(
@@ -38,11 +42,7 @@ class TasksViewModel(
     )
 
     init {
-        mList.add(TaskView(Task("", "New", user.value!!)))
-        mList.add(TaskView(Task("", "This one has a longer title", user.value!!,
-        "This it the description of this task, the others don't have, what a losers", true)))
-        mList.add(TaskView(Task("", "This one has a title that needs two rows", user.value!!,
-        "Ok, this one also has a description, it seems")))
+        retrieveTasks()
     }
 
     /**
@@ -52,11 +52,28 @@ class TasksViewModel(
      * @param description   Description of the task
      */
     fun createTask(title: String, description: String) {
-        logDebug("Created new task: $title")
+        logDebug("Requested creation of new task: $title")
         viewModelScope.launch(dispatchers.io()) {
             val task = taskRepository.save(Task(title = title, description = description, submitter = user.value!!), authHeader())
-            logDebug(task.toString())
+            withContext(dispatchers.main()) {
+                mList.add(TaskView((task))).also { mTaskList.apply { postValue(value) } }
+            }
+            logDebug("New task created with id = [${task.id}] and title ${task.title}")
         }
     }
+
+    private fun retrieveTasks() {
+        if (loading.value!!) return
+        loading.value = true
+        viewModelScope.launch(dispatchers.io()) {
+            val tasks = taskRepository.getTasks(authHeader())//.sortedBy { it.timestamp }
+            withContext(dispatchers.main()) {
+                mList.addAll(0, tasks.map { TaskView(it) }).also { mTaskList.invoke() }
+                loading.value = false
+                Log.d(TasksViewModel::class.simpleName, "Retrieved list of tasks")
+            }
+        }
+    }
+
 
 }

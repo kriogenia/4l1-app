@@ -6,6 +6,14 @@ import dev.sotoestevez.allforone.vo.Task
 interface TaskRepository {
 
 	/**
+	 * Retrieves the relevant tasks of the user
+	 *
+	 * @param token Authentication token
+	 * @return		List of relevant tasks
+	 */
+	suspend fun getTasks(token: String): List<Task>
+
+	/**
 	 * Save a new task in the server
 	 *
 	 * @param task	Task to create
