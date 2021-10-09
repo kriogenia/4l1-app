@@ -2,11 +2,10 @@ package dev.sotoestevez.allforone.repositories.impl
 
 import com.google.gson.Gson
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.schemas.FeedMsg
+import dev.sotoestevez.allforone.api.schemas.PlainMessage
 import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.api.services.FeedService
 import dev.sotoestevez.allforone.repositories.FeedRepository
-import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.vo.feed.Message
 
@@ -42,8 +41,8 @@ class FeedRepositoryImpl(
 		socket.emit(Events.LEAVE.path, toJson(user.minInfo))
 	}
 
-	override fun send(message: Message) {	// TODO needs change
-		socket.emit(Events.SEND.path, toJson(FeedMsg(message.content, message.submitter.minInfo)))
+	override fun send(message: Message) {
+		socket.emit(Events.SEND.path, toJson(message.toDto()))
 	}
 
 	override suspend fun getMessages(page: Int, token: String): List<Message> {
@@ -52,7 +51,10 @@ class FeedRepositoryImpl(
 	}
 
 	override fun onNewMessage(callback: (Message) -> Unit) {	// TODO needs change
-		socket.on(Events.NEW.path) { callback(fromJson(it, TextMessage::class.java)) }
+		socket.on(Events.NEW.path) {
+			val message = fromJson(it, PlainMessage::class.java)
+			callback(Message.Builder().apply { data = message }.build())
+		}
 	}
 
 	override fun onUserJoining(callback: (String) -> Unit) {

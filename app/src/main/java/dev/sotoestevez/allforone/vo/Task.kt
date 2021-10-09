@@ -23,8 +23,21 @@ data class Task(
     val timestamp: Long = Instant.now().toEpochMilli()
 ) {
 
+    /** Timestamp of the last task update */
+    var lastUpdate: Long? = null
+
     /** Formatted local data time of the message */
-    val datetime: String
+    val dateTime: String
         get() = TimeFormatter.getDateTime(timestamp)
+
+    /** Formatted local data time of the message */
+    val updateTime: String?
+        get() = lastUpdate?.let { TimeFormatter.getDateTime(it) }
+
+    /** Swaps the done state of the task*/
+    fun swapState() {
+        done = !done
+        this.lastUpdate = Instant.now().toEpochMilli()
+    }
 
 }

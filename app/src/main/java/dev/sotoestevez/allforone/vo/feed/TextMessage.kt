@@ -1,7 +1,7 @@
 package dev.sotoestevez.allforone.vo.feed
 
 import com.google.gson.annotations.SerializedName
-import dev.sotoestevez.allforone.util.helpers.TimeFormatter
+import dev.sotoestevez.allforone.api.schemas.PlainMessage
 import dev.sotoestevez.allforone.vo.User
 import java.time.Instant
 
@@ -20,8 +20,16 @@ data class TextMessage(
 	override val content: String
 		get() = message
 
+	override fun toDto(): PlainMessage = PlainMessage(
+		message = content,
+		submitter = submitter.id!!,
+		username = submitter.displayName!!,
+		timestamp = timestamp,
+		type = Message.Type.TEXT
+	)
+
 	constructor(builder: Message.Builder): this(
-		builder.data!!._id,
+		builder.data!!._id!!,
 		builder.data!!.message!!,
 		User(id = builder.data!!.submitter, displayName = builder.data!!.username),
 		builder.data!!.timestamp

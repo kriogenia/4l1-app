@@ -73,22 +73,22 @@ data class FeedMessageResponse(
 /**
  * Model with the property joining of the messages to be received from the /feed/messages endpoint
  *
+ * @property submitter      ID of the message submitter
+ * @property username	    Username of the message submitter
+ * @property timestamp	    Creation timestamp of the message
+ * @property type		    Type of message
  * @property _id            ID of the message
  * @property message	    Content of the TextMessages
  * @property title	        Title of the TaskMessages
  * @property description	Description of the TaskMessages
  * @property done	        State of the TaskMessages
- * @property submitter      ID of the message submitter
- * @property username	    Username of the message submitter
- * @property timestamp	    Creation timestamp of the message
- * @property type		    Type of message
  */
 data class PlainMessage(
-    val _id: String,
     val submitter: String,
     val username: String,
     val timestamp: Long,
     val type: Message.Type,
+    val _id: String? = null,
     val message: String? = null,
     val title: String? = null,
     val description: String? = null,

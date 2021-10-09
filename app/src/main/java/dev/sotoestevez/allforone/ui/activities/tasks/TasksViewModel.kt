@@ -68,7 +68,7 @@ class TasksViewModel(
         }
     }
 
-    private fun wrapTask(task: Task) = TaskView(task) { confirmChange(it) }
+    private fun wrapTask(task: Task) = TaskView(task) { mChangedTask.value = it }
 
     private fun retrieveTasks() {
         if (loading.value!!) return
@@ -83,14 +83,14 @@ class TasksViewModel(
         }
     }
 
-    private fun confirmChange(task: TaskView) {
-        mChangedTask.value = task
-    }
-
+    /**
+     * Changes the task state
+     *
+     * @param task  Task to update
+     */
     fun setTaskDone(task: TaskView) {
         task.swapState()
-        // TODO uncomment
-        //viewModelScope.launch(dispatchers.io()) { taskRepository.updateDone(task.data, authHeader()) }
+        viewModelScope.launch(dispatchers.io()) { taskRepository.updateDone(task.data, authHeader()) }
         logDebug("Changed the state of Task[${task.data.id}] to ${task.done}")
     }
 

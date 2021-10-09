@@ -5,7 +5,6 @@ import dev.sotoestevez.allforone.api.schemas.PlainMessage
 import dev.sotoestevez.allforone.util.helpers.TimeFormatter
 import dev.sotoestevez.allforone.vo.User
 import java.lang.IllegalStateException
-import java.time.Instant
 
 /** Interface of messages displayable in the feed */
 sealed interface Message {
@@ -33,6 +32,11 @@ sealed interface Message {
 	/** Formatted local time of the message */
 	val time: String
 		get() = TimeFormatter.getTime(timestamp)
+
+	/**
+	 * Returns the dto of the message to send
+	 */
+	fun toDto(): PlainMessage
 
 	class Builder() {
 

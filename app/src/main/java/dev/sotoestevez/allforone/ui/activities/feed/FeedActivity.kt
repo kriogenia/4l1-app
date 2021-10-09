@@ -3,6 +3,7 @@ package dev.sotoestevez.allforone.ui.activities.feed
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.databinding.ActivityFeedBinding
@@ -49,8 +50,10 @@ class FeedActivity : PrivateActivity() {
 		super.attachListeners()
 		binding.run {
 			btnSendMsg.setOnClickListener { sendMessage() }
+			btnTask.setOnClickListener { swapTaskMode() }
 			rvFeed.addOnScrollListener(onScrollListener)
 		}
+		// TODO only send if text is present
 	}
 
 	override fun attachObservers() {
@@ -60,8 +63,19 @@ class FeedActivity : PrivateActivity() {
 	}
 
 	private fun sendMessage() {
-		model.sendMessage(binding.eTxtWriteMessage.text.toString())
+		if (model.taskMode.value == true) {
+			val title = binding.eTxtWriteMessage.text.toString()
+			if (Strings.isEmptyOrWhitespace(title)) return	// TODO show error of title needed
+			model.sendTaskMessage(title, binding.eTxtTaskDescription.text.toString())
+			binding.eTxtTaskDescription.text?.clear()
+		} else {
+			model.sendTextMessage(binding.eTxtWriteMessage.text.toString())
+		}
 		binding.eTxtWriteMessage.text?.clear()
+	}
+
+	private fun swapTaskMode() {
+		model.taskMode.value = !model.taskMode.value!!
 	}
 
 	private fun autoscroll(list: List<BindedItemView>) {

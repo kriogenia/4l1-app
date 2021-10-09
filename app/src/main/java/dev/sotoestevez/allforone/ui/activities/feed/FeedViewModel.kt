@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.ui.activities.feed
 
+import android.mtp.MtpConstants
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +23,7 @@ import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.invoke
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.TimeFormatter
+import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.feed.Message
 import dev.sotoestevez.allforone.vo.feed.TaskMessage
 import kotlinx.coroutines.launch
@@ -47,6 +49,9 @@ class FeedViewModel(
 	val notification: LiveData<RoomNotification?>
 		get() = mNotification
 	private val mNotification: MutableLiveData<RoomNotification?> = MutableLiveData(null)
+
+	/** LiveData with the flag indicating if the activity is in task mode **/
+	val taskMode: MutableLiveData<Boolean> = MutableLiveData(false)
 
 	private var page = 1
 	private var loadedAll = false
@@ -77,17 +82,26 @@ class FeedViewModel(
 	// TODO add day header -> group by -> create bonditemview
 
 	/**
-	 * Sends the message
+	 * Sends a text message
 	 *
 	 * @param text content of the message to send
 	 */
-	fun sendMessage(text: String) {
+	fun sendTextMessage(text: String) {
 		if (Strings.isEmptyOrWhitespace(text)) return
 		feedRepository.send(TextMessage(message = text, submitter = user.value!!))
 		logDebug("Sent message $text")
 	}
 
-	// TODO sendTask
+	/**
+	 * Sends a task message
+	 *
+	 * @param title 		Title of the task
+	 * @param description	Description of the task
+	 */
+	fun sendTaskMessage(title: String, description: String) {
+		feedRepository.send(TaskMessage(Task(title = title, description = description, submitter = user.value!!)))
+		logDebug("Sent task $title")
+	}
 
 	/** Loads more messages into the list*/
 	fun addMessages() {

@@ -84,6 +84,7 @@
     <string name="desc_complete_task">Mark task as done or undone</string>
     <string name="desc_expand_task">Show or hide all the task info</string>
     <string name="created_by">Created by %s</string>
+    <string name="last_update">Last update: %s</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
     <string name="create_task">Create task</string>
@@ -95,4 +96,5 @@
     <string name="complete_task_msg">Are you you want to set %s as completed?</string>
     <string name="revert_task_msg">Are you you want to change %s to not completed?</string>
     <string name="confirm">Confirm</string>
+    <string name="task">Task</string>
 </resources>

@@ -104,16 +104,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/half_base_margin"
+                        android:visibility="@{item.lastUpdate == null ? View.GONE : View.VISIBLE}"
+                        android:text="@{String.format(@string/last_update, item.lastUpdate)}"
+                        tool:text="Last update: Mie 3 de julio de 2021, 14:32 PM"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/half_base_margin"
                         android:text="@{String.format(@string/created_by, item.data.submitter.displayName)}"
                         android:gravity="end"
                         tool:text="Created by: Daniel" />
+
 
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{item.data.datetime}"
+                    android:text="@{item.data.dateTime}"
                     android:layout_marginHorizontal="48dp"
                     android:layout_marginVertical="@dimen/base_margin"
                     android:layout_marginTop="@dimen/base_margin"
