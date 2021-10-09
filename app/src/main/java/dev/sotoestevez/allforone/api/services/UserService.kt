@@ -16,7 +16,7 @@ interface UserService {
 	 * @return      Response with the confirmation or denial message
 	 */
 	@PATCH("/user/{id}")
-	suspend fun update(
+	suspend fun patchUser(
 		@Header("Authorization") token: String,
 		@Path("id") id: String,
 		@Body body: UserUpdateRequest
@@ -29,7 +29,7 @@ interface UserService {
 	 * @return      Response with the cared of the user
 	 */
 	@GET("/user/{id}/cared")
-	suspend fun cared(
+	suspend fun getCared(
 		@Header("Authorization") token: String,
 		@Path("id") id: String
 	): NetworkResponse<CaredResponse, BaseErrorResponse>
@@ -41,7 +41,7 @@ interface UserService {
 	 * @return      Response with the list of Users
 	 */
 	@GET("/user/bonds")
-	suspend fun bondList(
+	suspend fun getBonds(
 		@Header("Authorization") token: String
 	): NetworkResponse<BondListResponse, BaseErrorResponse>
 
@@ -52,7 +52,7 @@ interface UserService {
 	 * @return      Response with the confirmation or denial message
 	 */
 	@POST("/user/bonds/establish")
-	suspend fun bondEstablish(
+	suspend fun postNewBond(
 		@Header("Authorization") token: String,
 		@Body body: BondEstablishRequest
 	): NetworkResponse<MessageResponse, BaseErrorResponse>
@@ -64,7 +64,7 @@ interface UserService {
 	 * @return      Response with the bonding token
 	 */
 	@GET("/user/bonds/generate")
-	suspend fun bondGenerate(
+	suspend fun getBondCode(
 		@Header("Authorization") token: String
 	): NetworkResponse<BondGenerateResponse, BaseErrorResponse>
 

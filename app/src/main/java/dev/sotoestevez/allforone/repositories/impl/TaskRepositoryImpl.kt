@@ -6,6 +6,7 @@ import dev.sotoestevez.allforone.api.schemas.TaskResponse
 import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.api.services.TaskService
 import dev.sotoestevez.allforone.repositories.TaskRepository
+import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.User
 
@@ -19,15 +20,21 @@ class TaskRepositoryImpl(
 ): TaskRepository {
 
 	override suspend fun getTasks(token: String): List<Task> {
-		val response = ApiRequest(suspend { service.get(token) }).performRequest()
+		logDebug("Requested the retrieval of tasks")
+		val response = ApiRequest(suspend { service.getTasks(token) }).performRequest()
 		return response.tasks.map { buildTask(it) }
 	}
 
 	override suspend fun save(task: Task, token: String): Task {
 		val data = TaskRequest(task.title, task.description, UserInfoMsg(task.submitter.id!!, task.submitter.displayName!!),
 			task.done, task.timestamp)
-		val response = ApiRequest(suspend { service.new(token, data) }).performRequest()
+		val response = ApiRequest(suspend { service.postTask(token, data) }).performRequest()
 		return buildTask(response)
+	}
+
+	override suspend fun updateDone(task: Task, token: String) {
+		if (task.done) service.postTaskDone(token, task.id)
+		else service.deleteTaskDone(token, task.id)
 	}
 
 	private fun buildTask(response: TaskResponse) = Task(

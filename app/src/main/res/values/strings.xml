@@ -90,4 +90,9 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="mandatory">Mandatory</string>
+    <string name="complete_task_title">Complete task</string>
+    <string name="revert_task_title">Revert task</string>
+    <string name="complete_task_msg">Are you you want to set %s as completed?</string>
+    <string name="revert_task_msg">Are you you want to change %s to not completed?</string>
+    <string name="confirm">Confirm</string>
 </resources>

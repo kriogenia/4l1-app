@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.TaskRepository
 import dev.sotoestevez.allforone.ui.activities.feed.FeedViewModel
@@ -33,6 +34,11 @@ class TasksViewModel(
     private val mList: MutableList<TaskView> = mutableListOf()
     private val mTaskList: MutableLiveData<List<TaskView>> = MutableLiveData(mList)
 
+    val changedTask: LiveData<TaskView>
+        get() = mChangedTask
+    private val mChangedTask: MutableLiveData<TaskView> = MutableLiveData()
+
+
     @Suppress("unused") // Used in the factory with a class call
     constructor(builder: ExtendedViewModel.Builder): this(
         builder.savedStateHandle,
@@ -56,11 +62,13 @@ class TasksViewModel(
         viewModelScope.launch(dispatchers.io()) {
             val task = taskRepository.save(Task(title = title, description = description, submitter = user.value!!), authHeader())
             withContext(dispatchers.main()) {
-                mList.add(TaskView((task))).also { mTaskList.apply { postValue(value) } }
+                mList.add(wrapTask(task)).also { mTaskList.apply { postValue(value) } }
             }
             logDebug("New task created with id = [${task.id}] and title ${task.title}")
         }
     }
+
+    private fun wrapTask(task: Task) = TaskView(task) { confirmChange(it) }
 
     private fun retrieveTasks() {
         if (loading.value!!) return
@@ -68,12 +76,22 @@ class TasksViewModel(
         viewModelScope.launch(dispatchers.io()) {
             val tasks = taskRepository.getTasks(authHeader())//.sortedBy { it.timestamp }
             withContext(dispatchers.main()) {
-                mList.addAll(0, tasks.map { TaskView(it) }).also { mTaskList.invoke() }
+                mList.addAll(0, tasks.map { wrapTask(it) }).also { mTaskList.invoke() }
                 loading.value = false
                 Log.d(TasksViewModel::class.simpleName, "Retrieved list of tasks")
             }
         }
     }
 
+    private fun confirmChange(task: TaskView) {
+        mChangedTask.value = task
+    }
+
+    fun setTaskDone(task: TaskView) {
+        task.swapState()
+        // TODO uncomment
+        //viewModelScope.launch(dispatchers.io()) { taskRepository.updateDone(task.data, authHeader()) }
+        logDebug("Changed the state of Task[${task.data.id}] to ${task.done}")
+    }
 
 }

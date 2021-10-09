@@ -11,8 +11,12 @@ import dev.sotoestevez.allforone.vo.Task
  * ViewHolder for task cards
  *
  * @property data Data of the task to display
- * */
-class TaskView(val data: Task) : BaseObservable(), BindedItemView {
+ * @property onDoneButtonClick Callback to change task state
+ */
+class TaskView(
+    val data: Task,
+    val onDoneButtonClick: (TaskView) -> Unit
+) : BaseObservable(), BindedItemView {
 
     override val layoutId: Int = R.layout.content_task
 
@@ -26,6 +30,7 @@ class TaskView(val data: Task) : BaseObservable(), BindedItemView {
     @get:Bindable var collapsed: Boolean = data.done
         private set
 
+    /** Changes the state of the task */
     fun swapState() {
         data.done = !data.done
         notifyPropertyChanged(BR.done)

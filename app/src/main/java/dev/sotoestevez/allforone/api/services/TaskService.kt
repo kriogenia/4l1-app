@@ -17,7 +17,7 @@ interface TaskService {
      * @return      Response with the list of tasks
      */
     @GET("/tasks")
-    suspend fun get(
+    suspend fun getTasks(
         @Header("Authorization") token: String
     ): NetworkResponse<TaskListResponse, BaseErrorResponse>
 
@@ -29,9 +29,35 @@ interface TaskService {
      * @return      Response with the list of messages of the batch
      */
     @POST("/tasks")
-    suspend fun new(
+    suspend fun postTask(
         @Header("Authorization") token: String,
         @Body task: TaskRequest
     ): NetworkResponse<TaskResponse, BaseErrorResponse>
+
+    /**
+     * Sets a task as done
+     *
+     * @param token Authorization token to perform the request
+     * @param id    Unique identifier of the task
+     * @return      Response of the request
+     */
+    @POST("/tasks/{id}/done")
+    suspend fun postTaskDone(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): NetworkResponse<Unit, BaseErrorResponse>
+
+    /**
+     * Sets a task as not done
+     *
+     * @param token Authorization token to perform the request
+     * @param id    Unique identifier of the task
+     * @return      Response of the request
+     */
+    @DELETE("/tasks/{id}/done")
+    suspend fun deleteTaskDone(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): NetworkResponse<Unit, BaseErrorResponse>
 
 }

@@ -48,12 +48,12 @@ class SessionRepositoryImplTest {
         val response: NetworkResponse.Success<SignInResponse> = mockk()
         coEvery { response.code } returns 200
         coEvery { response.body } returns signInResponse
-        coEvery { mockAuthService.signIn(any()) } returns response
+        coEvery { mockAuthService.getSignIn(any()) } returns response
 
         val result = sessionRepository.signIn("valid")
 
         assertEquals(result, signInResponse)
-        coVerify(exactly = 1) { mockAuthService.signIn("valid") }
+        coVerify(exactly = 1) { mockAuthService.getSignIn("valid") }
     }
 
     @Test
@@ -64,12 +64,12 @@ class SessionRepositoryImplTest {
         val response: NetworkResponse.Success<RefreshResponse> = mockk()
         coEvery { response.code } returns 200
         coEvery { response.body } returns refreshResponse
-        coEvery { mockAuthService.refresh(any(), any()) } returns response
+        coEvery { mockAuthService.getRefresh(any(), any()) } returns response
 
         val result = sessionRepository.refreshSession(Session("auth", "refresh", 0))
 
         assertEquals(result, refreshResponse.session)
-        coVerify(exactly = 1) { mockAuthService.refresh("Bearer auth", "refresh") }
+        coVerify(exactly = 1) { mockAuthService.getRefresh("Bearer auth", "refresh") }
     }
 
 }

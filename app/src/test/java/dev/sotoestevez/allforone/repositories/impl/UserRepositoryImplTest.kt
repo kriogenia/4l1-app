@@ -43,11 +43,11 @@ class UserRepositoryImplTest {
 		val response: NetworkResponse.Success<BondGenerateResponse> = mockk()
 		coEvery { response.code } returns 200
 		coEvery { response.body } returns bondGenerateResponse
-		coEvery { mockUserService.bondGenerate(any()) } returns response
+		coEvery { mockUserService.getBondCode(any()) } returns response
 
 		val result = repo.requestBondingCode("token")
 
-		coVerify(exactly = 1) { mockUserService.bondGenerate("token") }
+		coVerify(exactly = 1) { mockUserService.getBondCode("token") }
 		assertEquals(result, bondGenerateResponse.code)
 	}
 
@@ -57,11 +57,11 @@ class UserRepositoryImplTest {
 		val response: NetworkResponse.Success<MessageResponse> = mockk()
 		coEvery { response.code } returns 200
 		coEvery { response.body } returns bondEstablishResponse
-		coEvery { mockUserService.bondEstablish(any(), any()) } returns response
+		coEvery { mockUserService.postNewBond(any(), any()) } returns response
 
 		repo.sendBondingCode("valid", "token")
 
-		coVerify(exactly = 1) { mockUserService.bondEstablish("token", BondEstablishRequest("valid")) }
+		coVerify(exactly = 1) { mockUserService.postNewBond("token", BondEstablishRequest("valid")) }
 	}
 
 	@Test
@@ -73,11 +73,11 @@ class UserRepositoryImplTest {
 		val response: NetworkResponse.Success<BondListResponse> = mockk()
 		coEvery { response.code } returns 200
 		coEvery { response.body } returns bondListResponse
-		coEvery { mockUserService.bondList(any()) } returns response
+		coEvery { mockUserService.getBonds(any()) } returns response
 
 		val result = repo.getBonds("token")
 
-		coVerify(exactly = 1) { mockUserService.bondList("token") }
+		coVerify(exactly = 1) { mockUserService.getBonds("token") }
 		assertTrue(result is ArrayList)
 		for (i in result.indices) {
 			assertEquals(bondListResponse.bonds[i], result[i])
@@ -90,20 +90,20 @@ class UserRepositoryImplTest {
 		val response: NetworkResponse.Success<CaredResponse> = mockk()
 		coEvery { response.code } returns 200
 		coEvery { response.body } returns caredResponse
-		coEvery { mockUserService.cared(any(), any()) } returns response
+		coEvery { mockUserService.getCared(any(), any()) } returns response
 
 		val exists = repo.getCared(User("id"),"token")
 
 		assertEquals(caredResponse.cared, exists)
 
 		coEvery { response.body } returns CaredResponse(null)
-		coEvery { mockUserService.cared(any(), any()) } returns response
+		coEvery { mockUserService.getCared(any(), any()) } returns response
 
 		val undefined = repo.getCared(User("id"),"token")
 
 		assertNull(undefined)
 
-		coVerify(exactly = 2) { mockUserService.cared("token", "id") }
+		coVerify(exactly = 2) { mockUserService.getCared("token", "id") }
 	}
 
 	@Test
@@ -112,12 +112,12 @@ class UserRepositoryImplTest {
 		val response: NetworkResponse.Success<User> = mockk()
 		coEvery { response.code } returns 200
 		coEvery { response.body } returns updateResponse
-		coEvery { mockUserService.update(any(), any(), any()) } returns response
+		coEvery { mockUserService.patchUser(any(), any(), any()) } returns response
 
 		val user = User("id", User.Role.PATIENT)
 		repo.update(user, "token")
 
-		coVerify(exactly = 1) { mockUserService.update("token", "id", UserUpdateRequest(user.role)) }
+		coVerify(exactly = 1) { mockUserService.patchUser("token", "id", UserUpdateRequest(user.role)) }
 	}
 
 }

@@ -14,12 +14,12 @@ class SessionRepositoryImpl(
 
     override suspend fun signIn(googleIdToken: String): SignInResponse {
         logDebug("Requesting session with GoogleIdToken: $googleIdToken")
-       return ApiRequest(suspend { service.signIn(googleIdToken) }).performRequest()
+       return ApiRequest(suspend { service.getSignIn(googleIdToken) }).performRequest()
     }
 
     override suspend fun refreshSession(session: Session): Session {
         logDebug("Refreshing session")
-        return ApiRequest(suspend { service.refresh("Bearer ${session.auth}", session.refresh) })
+        return ApiRequest(suspend { service.getRefresh("Bearer ${session.auth}", session.refresh) })
             .performRequest().session
     }
 

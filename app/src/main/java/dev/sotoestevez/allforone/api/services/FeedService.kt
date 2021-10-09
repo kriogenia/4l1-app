@@ -19,7 +19,7 @@ interface FeedService {
      * @return      Response with the list of messages of the batch
      */
     @GET("/feed/messages")
-    suspend fun messages(
+    suspend fun getMessages(
         @Header("Authorization") token: String,
         @Query("page") page: Int?
     ): NetworkResponse<FeedMessageResponse, BaseErrorResponse>

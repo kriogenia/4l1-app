@@ -48,8 +48,9 @@
                         android:contentDescription="@string/desc_complete_task"
                         android:minWidth="@dimen/task_icon_size"
                         android:minHeight="@dimen/task_icon_size"
+                        android:src="@{item.done ? @drawable/ic_check_box : @drawable/ic_blank_check_box }"
+                        android:onClick="@{() -> item.onDoneButtonClick()}"
                         app:tint="@color/secondaryTextColor"
-                        android:src="@{item.data.done ? @drawable/ic_check_box : @drawable/ic_blank_check_box }"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tool:src="@drawable/ic_check_box"/>

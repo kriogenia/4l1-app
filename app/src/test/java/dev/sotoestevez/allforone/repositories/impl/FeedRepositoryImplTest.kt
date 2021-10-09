@@ -53,11 +53,11 @@ class FeedRepositoryImplTest {
         val response: NetworkResponse.Success<FeedMessageResponse> = mockk()
         coEvery { response.code } returns 200
         coEvery { response.body } returns feedMessageResponse
-        coEvery { mockFeedService.messages(any(), any()) } returns response
+        coEvery { mockFeedService.getMessages(any(), any()) } returns response
 
         val result = repo.getMessages(1, "token")
 
-        coVerify(exactly = 1) { mockFeedService.messages("token", 1) }
+        coVerify(exactly = 1) { mockFeedService.getMessages("token", 1) }
         Assert.assertEquals(result.size, 2)
         Assert.assertEquals(result[0], msg1)
         Assert.assertEquals(result[1], msg2)    // Most recent first

@@ -18,7 +18,16 @@ interface TaskRepository {
 	 *
 	 * @param task	Task to create
 	 * @param token	Authentication token
+	 * @return		Saved task
 	 */
 	suspend fun save(task: Task, token: String): Task
+
+	/**
+	 * Updates a task with a new done value
+	 *
+	 * @param task	Task to update
+	 * @param token	Authentication token
+	 */
+	suspend fun updateDone(task: Task, token: String): Unit
 
 }

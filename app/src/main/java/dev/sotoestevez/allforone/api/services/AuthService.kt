@@ -18,7 +18,7 @@ interface AuthService {
 	 * @return      Response with the authentication data (session and user) or with an error
 	 */
 	@GET("/auth/signin/{token}")
-	suspend fun signIn(
+	suspend fun getSignIn(
 		@Path("token") token: String
 	): NetworkResponse<SignInResponse, BaseErrorResponse>
 
@@ -29,7 +29,7 @@ interface AuthService {
 	 * @return       Response with the new session data
 	 */
 	@GET("/auth/refresh/{token}")
-	suspend fun refresh(
+	suspend fun getRefresh(
 		@Header("Authorization") auth: String,
 		@Path("token") refresh: String
 	): NetworkResponse<RefreshResponse, BaseErrorResponse>

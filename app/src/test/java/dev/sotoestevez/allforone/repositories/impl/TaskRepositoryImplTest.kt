@@ -3,13 +3,11 @@ package dev.sotoestevez.allforone.repositories.impl
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.schemas.*
-import dev.sotoestevez.allforone.api.services.FeedService
 import dev.sotoestevez.allforone.api.services.TaskService
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.vo.feed.Message
-import dev.sotoestevez.allforone.vo.feed.TextMessage
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -57,11 +55,11 @@ class TaskRepositoryImplTest {
         val response: NetworkResponse.Success<TaskListResponse> = mockk()
         coEvery { response.code } returns 200
         coEvery { response.body } returns taskListResponse
-        coEvery { mockTaskService.get(any()) } returns response
+        coEvery { mockTaskService.getTasks(any()) } returns response
 
         val result = repo.getTasks("token")
 
-        coVerify(exactly = 1) { mockTaskService.get("token") }
+        coVerify(exactly = 1) { mockTaskService.getTasks("token") }
         Assert.assertEquals(result.size, 3)
         Assert.assertEquals(result, taskList)
     }
@@ -76,12 +74,12 @@ class TaskRepositoryImplTest {
         val response: NetworkResponse.Success<TaskResponse> = mockk()
         coEvery { response.code } returns 200
         coEvery { response.body } returns taskResponse
-        coEvery { mockTaskService.new(any(), any()) } returns response
+        coEvery { mockTaskService.postTask(any(), any()) } returns response
 
         val result = repo.save(Task(title = savedTask.title, submitter = savedTask.submitter,
             description = savedTask.description, done = savedTask.done, timestamp = savedTask.timestamp), "token")
 
-        coVerify(exactly = 1) { mockTaskService.new("token", TaskRequest(savedTask.title,
+        coVerify(exactly = 1) { mockTaskService.postTask("token", TaskRequest(savedTask.title,
             savedTask.description, UserInfoMsg(savedTask.submitter.id!!, savedTask.submitter.displayName!!),
             savedTask.done, savedTask.timestamp)) }
         Assert.assertEquals(result, savedTask)
