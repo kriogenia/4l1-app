@@ -41,5 +41,6 @@ class TaskRepositoryImpl(
 		response._id, response.title,
 		User(id = response.submitter.id, displayName = response.submitter.displayName),
 		response.description, response.done, response.timestamp)
+		.apply { lastUpdate = response.lastUpdate }
 
 }

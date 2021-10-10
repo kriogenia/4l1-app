@@ -78,6 +78,7 @@ data class SignInResponse(
  * @property submitter
  * @property done
  * @property timestamp
+ * @property lastUpdate
  * @property type
  */
 data class TaskResponse(
@@ -87,5 +88,6 @@ data class TaskResponse(
 	val submitter: UserInfoMsg,
 	val done: Boolean,
 	val timestamp: Long,
+	val lastUpdate: Long,
 	val type: Message.Type
 )
