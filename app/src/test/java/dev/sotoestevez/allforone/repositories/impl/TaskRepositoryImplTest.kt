@@ -49,7 +49,7 @@ class TaskRepositoryImplTest {
         val taskListResponse = TaskListResponse(taskList.map {
             TaskResponse(it.id, it.title, it.description,
                 UserInfoMsg(it.submitter.id!!, it.submitter.displayName!!),
-                it.done, it.timestamp, Message.Type.TASK)
+                it.done, it.timestamp, it.lastUpdate, Message.Type.TASK)
         }.toTypedArray())
 
         val response: NetworkResponse.Success<TaskListResponse> = mockk()
@@ -70,7 +70,7 @@ class TaskRepositoryImplTest {
 
         val taskResponse = TaskResponse(savedTask.id, savedTask.title, savedTask.description,
             UserInfoMsg(savedTask.submitter.id!!, savedTask.submitter.displayName!!), savedTask.done,
-            savedTask.timestamp, Message.Type.TASK)
+            savedTask.timestamp, savedTask.lastUpdate, Message.Type.TASK)
         val response: NetworkResponse.Success<TaskResponse> = mockk()
         coEvery { response.code } returns 200
         coEvery { response.body } returns taskResponse
@@ -81,7 +81,7 @@ class TaskRepositoryImplTest {
 
         coVerify(exactly = 1) { mockTaskService.postTask("token", TaskRequest(savedTask.title,
             savedTask.description, UserInfoMsg(savedTask.submitter.id!!, savedTask.submitter.displayName!!),
-            savedTask.done, savedTask.timestamp)) }
+            savedTask.done, savedTask.timestamp, savedTask.lastUpdate)) }
         Assert.assertEquals(result, savedTask)
     }
 

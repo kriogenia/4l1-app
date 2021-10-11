@@ -17,6 +17,9 @@ data class TextMessage(
 	override val timestamp: Long = Instant.now().toEpochMilli()
 ) : Message {
 
+	/** Timestamp of the last task update */
+	var lastUpdate: Long = timestamp
+
 	override val content: String
 		get() = message
 
@@ -25,6 +28,7 @@ data class TextMessage(
 		submitter = submitter.id!!,
 		username = submitter.displayName!!,
 		timestamp = timestamp,
+		lastUpdate = lastUpdate,
 		type = Message.Type.TEXT
 	)
 
@@ -33,6 +37,6 @@ data class TextMessage(
 		builder.data!!.message!!,
 		User(id = builder.data!!.submitter, displayName = builder.data!!.username),
 		builder.data!!.timestamp
-	)
+	) { lastUpdate = builder.data!!.lastUpdate }
 
 }

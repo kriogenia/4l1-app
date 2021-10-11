@@ -28,8 +28,8 @@ class TaskView(
         get() = data.done
 
     /** Bindable last update time of the task */
-    @get:Bindable val lastUpdate: String?
-        get() = data.updateTime
+    @get:Bindable val lastUpdate: Long
+        get() = data.lastUpdate
 
     /** Bindable state of the card */
     @get:Bindable var collapsed: Boolean = data.done

@@ -24,15 +24,15 @@ data class Task(
 ) {
 
     /** Timestamp of the last task update */
-    var lastUpdate: Long? = null
+    var lastUpdate: Long = timestamp
 
     /** Formatted local data time of the message */
     val dateTime: String
         get() = TimeFormatter.getDateTime(timestamp)
 
     /** Formatted local data time of the message */
-    val updateTime: String?
-        get() = lastUpdate?.let { TimeFormatter.getDateTime(it) }
+    val updateTime: String
+        get() = TimeFormatter.getDateTime(lastUpdate)
 
     /** Swaps the done state of the task*/
     fun swapState() {

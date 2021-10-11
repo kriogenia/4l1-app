@@ -104,8 +104,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/half_base_margin"
-                        android:visibility="@{item.lastUpdate == null ? View.GONE : View.VISIBLE}"
-                        android:text="@{String.format(@string/last_update, item.lastUpdate)}"
+                        android:visibility="@{item.lastUpdate == item.data.timestamp ? View.GONE : View.VISIBLE}"
+                        android:text="@{String.format(@string/last_update, item.data.updateTime)}"
                         tool:text="Last update: Mie 3 de julio de 2021, 14:32 PM"/>
 
                     <TextView

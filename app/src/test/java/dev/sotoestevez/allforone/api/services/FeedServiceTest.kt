@@ -35,9 +35,10 @@ class FeedServiceTest {
     @Test
     fun `should parse FeedMessageResponse`(): Unit = runBlocking {
         val expected = FeedMessageResponse(arrayOf(
-            PlainMessage(_id = "id", message = "message", submitter = "id", username = "name", timestamp = 0, type = Message.Type.TEXT),
+            PlainMessage(_id = "id", message = "message", submitter = "id", username = "name", timestamp = 0,
+                type = Message.Type.TEXT, lastUpdate = 0),
             PlainMessage(_id = "id1", title = "title", description = "description", done = true, submitter = "id1",
-                username = "name1", timestamp = 1, type = Message.Type.TASK)
+                username = "name1", timestamp = 1, type = Message.Type.TASK, lastUpdate = 0)
         ))
 
         val actual = api.getMessages("valid", 1)

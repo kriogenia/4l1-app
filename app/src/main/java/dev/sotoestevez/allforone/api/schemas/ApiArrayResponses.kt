@@ -76,6 +76,7 @@ data class FeedMessageResponse(
  * @property submitter      ID of the message submitter
  * @property username	    Username of the message submitter
  * @property timestamp	    Creation timestamp of the message
+ * @property lastUpdate	    Last update timestamp of the message
  * @property type		    Type of message
  * @property _id            ID of the message
  * @property message	    Content of the TextMessages
@@ -87,6 +88,7 @@ data class PlainMessage(
     val submitter: String,
     val username: String,
     val timestamp: Long,
+    val lastUpdate: Long,
     val type: Message.Type,
     val _id: String? = null,
     val message: String? = null,

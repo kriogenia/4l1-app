@@ -32,13 +32,15 @@ data class UserUpdateRequest(
  * @property submitter
  * @property done
  * @property timestamp
+ * @property lastUpdate
  */
 data class TaskRequest(
 	val title: String,
 	val description: String?,
 	val submitter: UserInfoMsg,
 	val done: Boolean,
-	val timestamp: Long
+	val timestamp: Long,
+	val lastUpdate: Long
 )
 
 /**

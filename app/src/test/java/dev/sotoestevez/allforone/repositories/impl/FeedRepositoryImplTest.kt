@@ -46,9 +46,9 @@ class FeedRepositoryImplTest {
 
         val feedMessageResponse = FeedMessageResponse(arrayOf(
             PlainMessage(_id = msg1.id, message = msg1.message, submitter = msg1.submitter.id!!, username = msg1.submitter.displayName!!,
-                timestamp = msg1.timestamp, type = Message.Type.TEXT),
+                timestamp = msg1.timestamp, type = Message.Type.TEXT, lastUpdate = msg1.lastUpdate),
             PlainMessage(_id = msg2.id, message = msg2.message, submitter = msg2.submitter.id!!, username = msg2.submitter.displayName!!,
-                timestamp = msg2.timestamp, type = Message.Type.TEXT)
+                timestamp = msg2.timestamp, type = Message.Type.TEXT, lastUpdate = msg2.lastUpdate)
         ))
         val response: NetworkResponse.Success<FeedMessageResponse> = mockk()
         coEvery { response.code } returns 200

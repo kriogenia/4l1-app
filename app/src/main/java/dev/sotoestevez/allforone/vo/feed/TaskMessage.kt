@@ -32,6 +32,7 @@ data class TaskMessage(
 		submitter = submitter.id!!,
 		username = submitter.displayName!!,
 		timestamp = timestamp,
+		lastUpdate = task.lastUpdate,
 		type = Message.Type.TASK
 	)
 
@@ -42,7 +43,7 @@ data class TaskMessage(
 		builder.data!!.description,
 		builder.data!!.done!!,
 		builder.data!!.timestamp
-	))
+	).apply { lastUpdate = builder.data!!.lastUpdate })
 
 
 }

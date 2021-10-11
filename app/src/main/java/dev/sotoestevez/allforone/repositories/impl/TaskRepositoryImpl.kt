@@ -27,7 +27,7 @@ class TaskRepositoryImpl(
 
 	override suspend fun save(task: Task, token: String): Task {
 		val data = TaskRequest(task.title, task.description, UserInfoMsg(task.submitter.id!!, task.submitter.displayName!!),
-			task.done, task.timestamp)
+			task.done, task.timestamp, task.lastUpdate)
 		val response = ApiRequest(suspend { service.postTask(token, data) }).performRequest()
 		return buildTask(response)
 	}
