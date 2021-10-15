@@ -29,8 +29,8 @@ android {
                 'proguard/okhttp3.pro'
         }
         debug {
-            buildConfigField("String", "SERVER_IP", '"https://4l1service.azurewebsites.net"')
-            //buildConfigField("String", "SERVER_IP", '"http://10.0.2.2:3000"')
+            //buildConfigField("String", "SERVER_IP", '"https://4l1service.azurewebsites.net"')
+            buildConfigField("String", "SERVER_IP", '"http://10.0.2.2:3000"')
         }
     }
     compileOptions {

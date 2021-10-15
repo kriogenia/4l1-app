@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="dev.sotoestevez.allforone.ui.components.recyclerview.feed.DateHeaderView" />
+            type="dev.sotoestevez.allforone.ui.components.recyclerview.feed.TextHeaderView" />
     </data>
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/half_base_margin"
-        android:text="@{item.date}"
+        android:text="@{item.text}"
         android:textSize="@dimen/msg_font_size"
         android:gravity="center_horizontal"
         tool:text="Wed 26"/>

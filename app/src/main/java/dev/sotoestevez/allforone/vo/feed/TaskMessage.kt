@@ -13,6 +13,15 @@ data class TaskMessage(
 	val task: Task
 ) : Message {
 
+	constructor(builder: Message.Builder): this(Task(
+		builder.data!!._id!!,
+		builder.data!!.title!!,
+		User(id = builder.data!!.submitter, displayName = builder.data!!.username),
+		builder.data!!.description,
+		builder.data!!.done!!,
+		builder.data!!.timestamp
+	).apply { lastUpdate = builder.data!!.lastUpdate })
+
 	override val id: String
 		get() = task.id
 
@@ -35,15 +44,5 @@ data class TaskMessage(
 		lastUpdate = task.lastUpdate,
 		type = Message.Type.TASK
 	)
-
-	constructor(builder: Message.Builder): this(Task(
-		builder.data!!._id!!,
-		builder.data!!.title!!,
-		User(id = builder.data!!.submitter, displayName = builder.data!!.username),
-		builder.data!!.description,
-		builder.data!!.done!!,
-		builder.data!!.timestamp
-	).apply { lastUpdate = builder.data!!.lastUpdate })
-
 
 }

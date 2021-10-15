@@ -6,6 +6,8 @@ import dev.sotoestevez.allforone.vo.feed.TextMessage
 /** ViewHolder for messages received by the user */
 class ReceivedTextMessageView(data: TextMessage) : FeedView {
 
+    override val id: String = data.id
+
     override val layoutId: Int = R.layout.content_received_message
 
     override val viewType: Int = FeedView.Type.TEXT_RECEIVED.ordinal

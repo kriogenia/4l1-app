@@ -7,6 +7,8 @@ interface FeedView: BindedItemView {
 
     /** Types of views of feed messages*/
     enum class Type {
+        /** Action message */
+        ACTION,
         /** Date header */
         HEADER,
         /** Task message sent by the user */

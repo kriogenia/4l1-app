@@ -21,6 +21,8 @@ class TaskView(
     val listener: TaskListener
 ) : BaseObservable(), BindedItemView {
 
+    override val id: String = data.id
+
     override val layoutId: Int = R.layout.content_task
 
     override val viewType: Int = 0

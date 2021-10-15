@@ -38,10 +38,18 @@ sealed interface Message {
 	 */
 	fun toDto(): PlainMessage
 
+	/** Message dedicated builder */
 	class Builder() {
 
+		/** Data to use in the message construction */
 		var data: PlainMessage? = null
 
+		/**
+		 * Builds the message with the specified data
+		 *
+		 * @return	Message built
+		 * @throws	IllegalStateException if no data has been set
+		 */
 		fun build(): Message {
 			if (data == null) throw IllegalStateException("Can't build a message with no data")
 			return when (data!!.type) {

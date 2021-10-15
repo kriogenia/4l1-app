@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.util.Strings
+import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
@@ -41,7 +42,7 @@ class FeedViewModel(
 	/** LiveData holding the list of messages of the feed */
 	val feedList: LiveData<List<BindedItemView>>
 		get() = mFeedList
-	private val mList: LinkedList<BindedItemView> = LinkedList()
+	private val mList: LinkedList<FeedView> = LinkedList()
 	private val mFeedList: MutableLiveData<List<BindedItemView>> = MutableLiveData(mList)
 
 	/** LiveData holding the last notification to display in the notification label */
@@ -68,6 +69,7 @@ class FeedViewModel(
 		feedRepository.onUserJoining { mNotification.postValue(UserJoiningNotification(it)) }
 		feedRepository.onUserLeaving { mNotification.postValue(UserLeavingNotification(it)) }
 		feedRepository.onNewMessage { onNewMessage(it) }
+		feedRepository.onTaskStateUpdate { onTaskStateUpdate(it) }
 		feedRepository.join(user.value!!)
 	}
 
@@ -77,7 +79,6 @@ class FeedViewModel(
 		super.onCleared()
 	}
 
-	// TODO clear keyboard after sending message
 	// TODO add day header -> group by -> create bonditemview
 
 	/**
@@ -130,19 +131,33 @@ class FeedViewModel(
 		mNotification.postValue(NewMessageNotification(message.submitter.displayName!!))
 	}
 
+	private fun onTaskStateUpdate(message: Message) {
+		if (message !is TaskMessage) throw IllegalStateException("Task updated is not a Task")
+		// Update task view
+		mList.find { it.id == message.id }.run {
+			if (this !is TaskMessageView) return@run
+			this.data = message
+		}
+		// Add advise
+		val template = if (message.task.done) R.string.user_set_task_done else R.string.user_set_task_not_done
+		mList.add(UserActionView(template, message.task.title, ""))
+		// Update list
+		mFeedList.apply { postValue(value) }
+	}
+
 	// TODO remove duplicated date headers
 
-	private fun wrapList(messages: List<Message>): List<BindedItemView> {
-		val items: MutableList<BindedItemView> = mutableListOf()
+	private fun wrapList(messages: List<Message>): List<FeedView> {
+		val items: MutableList<FeedView> = mutableListOf()
 		val messagesByDate = messages.groupBy { TimeFormatter.getDate(it.timestamp) }
-		messagesByDate.keys.forEach { it ->
-			items.add(DateHeaderView(it))
+		messagesByDate.keys.forEach {
+			items.add(TextHeaderView(it))
 			messagesByDate[it]?.map { m -> wrapItem(m) }?.let { i -> items.addAll(i) }
 		}
 		return items
 	}
 
-	private fun wrapItem(message: Message): BindedItemView {
+	private fun wrapItem(message: Message): FeedView {
 		val sent = (message.submitter.id == user.value!!.id)
 		return 	if (message is TextMessage)
 					if (sent) SentTextMessageView(message) else ReceivedTextMessageView(message)

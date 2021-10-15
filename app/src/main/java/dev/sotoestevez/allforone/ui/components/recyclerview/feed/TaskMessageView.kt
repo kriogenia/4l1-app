@@ -5,7 +5,14 @@ import androidx.databinding.Bindable
 import dev.sotoestevez.allforone.BR
 import dev.sotoestevez.allforone.vo.feed.TaskMessage
 
-abstract class TaskMessageView(private val data: TaskMessage): BaseObservable(), FeedView {
+/**
+ * Base class for Task Messages view
+ *
+ * @property data   Nested TaskMessage
+ */
+abstract class TaskMessageView(var data: TaskMessage): BaseObservable(), FeedView {
+
+    override val id: String = data.task.id
 
     /** Body of the message */
     val text: String = data.content

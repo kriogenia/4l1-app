@@ -101,4 +101,7 @@
     <string name="desc_remove_task">Remove task</string>
     <string name="delete_task_title">Delete task</string>
     <string name="delete_task_msg">Are you sure you want to delete %s? If you do, the rest of users won\'t be able to see the task. You don\'t need to delete a completed task to hide, it will do itself after a few days</string>
+    <string name="empty_template">%s</string>
+    <string name="user_set_task_done">Task %s has been completed</string>
+    <string name="user_set_task_not_done">Task %s has ben set as not done</string>
 </resources>
