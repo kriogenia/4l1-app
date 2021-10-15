@@ -35,6 +35,19 @@ interface TaskService {
     ): NetworkResponse<TaskResponse, BaseErrorResponse>
 
     /**
+     * Sets a task as not done
+     *
+     * @param token Authorization token to perform the request
+     * @param id    Unique identifier of the task
+     * @return      Response of the request
+     */
+    @DELETE("/tasks/{id}")
+    suspend fun deleteTask(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): NetworkResponse<Unit, BaseErrorResponse>
+
+    /**
      * Sets a task as done
      *
      * @param token Authorization token to perform the request

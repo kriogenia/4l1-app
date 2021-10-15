@@ -3,14 +3,19 @@
     <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
             <certificates src="system"/>
-        </trust-anchors>
+        </trust-anchors>S
     </base-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
         <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">20.50.2.57</domain>
+        <domain includeSubdomains="true">4l1service.azurewebsites.net/</domain>
         <domain includeSubdomains="true">192.168.1.160</domain>
-        <trust-anchors>
-            <certificates src="@raw/my_cert"/>
-        </trust-anchors>
+        <domain includeSubdomains="true">20.86.248.192</domain>
+        <domain includeSubdomains="true">20.86.248.131</domain>
+        <domain includeSubdomains="true">20.86.248.29</domain>
+        <domain includeSubdomains="true">20.76.239.209</domain>
+        <domain includeSubdomains="true">20.76.239.198</domain>
+        <domain includeSubdomains="true">20.76.239.188</domain>
     </domain-config>
 </network-security-config>

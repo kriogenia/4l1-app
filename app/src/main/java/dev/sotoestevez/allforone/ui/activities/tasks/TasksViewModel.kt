@@ -5,11 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.TaskRepository
-import dev.sotoestevez.allforone.ui.activities.feed.FeedViewModel
+import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteTaskConfirmation
+import dev.sotoestevez.allforone.ui.components.exchange.dialog.DialogConfirmationRequest
+import dev.sotoestevez.allforone.ui.components.exchange.dialog.SetTaskDoneConfirmation
 import dev.sotoestevez.allforone.ui.components.recyclerview.tasks.TaskView
+import dev.sotoestevez.allforone.ui.components.recyclerview.tasks.listeners.TaskListener
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
@@ -17,6 +19,7 @@ import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.invoke
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.vo.Task
+import dev.sotoestevez.allforone.vo.User
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -34,10 +37,15 @@ class TasksViewModel(
     private val mList: MutableList<TaskView> = mutableListOf()
     private val mTaskList: MutableLiveData<List<TaskView>> = MutableLiveData(mList)
 
-    val changedTask: LiveData<TaskView>
-        get() = mChangedTask
-    private val mChangedTask: MutableLiveData<TaskView> = MutableLiveData()
+    /** LiveData holding the last task changed */
+    val actionTaskToConfirm: LiveData<DialogConfirmationRequest>
+        get() = mActionTaskToConfirm
+    private val mActionTaskToConfirm: MutableLiveData<DialogConfirmationRequest> = MutableLiveData()
 
+    /** Mutable implementation of the error live data exposed **/
+    private var mError = MutableLiveData<Throwable>()
+    override val error: LiveData<Throwable>
+        get() = mError
 
     @Suppress("unused") // Used in the factory with a class call
     constructor(builder: ExtendedViewModel.Builder): this(
@@ -68,7 +76,20 @@ class TasksViewModel(
         }
     }
 
-    private fun wrapTask(task: Task) = TaskView(task) { mChangedTask.value = it }
+    private fun wrapTask(task: Task) = TaskView(task, object : TaskListener {
+        override fun onChangeDone(view: TaskView) {
+            mActionTaskToConfirm.value = SetTaskDoneConfirmation(view) { setTaskDone(it) }
+        }
+
+        override fun onDelete(view: TaskView) {
+            if (user.value!!.role != User.Role.PATIENT || view.data.submitter != user.value) {
+                mError.value = IllegalAccessException("Only the task submitter or the patient can delete this task")
+                return
+            }
+            mActionTaskToConfirm.value = DeleteTaskConfirmation(view) { deleteTask(it) }
+        }
+
+    })
 
     private fun retrieveTasks() {
         if (loading.value!!) return
@@ -83,15 +104,16 @@ class TasksViewModel(
         }
     }
 
-    /**
-     * Changes the task state
-     *
-     * @param task  Task to update
-     */
-    fun setTaskDone(task: TaskView) {
+    private fun setTaskDone(task: TaskView) {
         task.swapState()
         viewModelScope.launch(dispatchers.io()) { taskRepository.updateDone(task.data, authHeader()) }
         logDebug("Changed the state of Task[${task.data.id}] to ${task.done}")
+    }
+
+    private fun deleteTask(task: TaskView) {
+        viewModelScope.launch(dispatchers.io()) { taskRepository.delete(task.data, authHeader()) }
+        mList.remove(task).also { mTaskList.invoke() }
+        logDebug("Deleted the Task[${task.data.id}]")
     }
 
 }

@@ -23,6 +23,14 @@ interface TaskRepository {
 	suspend fun save(task: Task, token: String): Task
 
 	/**
+	 * Save a new task in the server
+	 *
+	 * @param task	Task to delete
+	 * @param token	Authentication token
+	 */
+	suspend fun delete(task: Task, token: String): Unit
+
+	/**
 	 * Updates a task with a new done value
 	 *
 	 * @param task	Task to update

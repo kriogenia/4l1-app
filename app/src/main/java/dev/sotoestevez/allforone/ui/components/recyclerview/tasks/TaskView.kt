@@ -5,6 +5,8 @@ import androidx.databinding.Bindable
 import dev.sotoestevez.allforone.BR
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
+import dev.sotoestevez.allforone.ui.components.recyclerview.tasks.listeners.TaskListener
+import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.User
 
@@ -12,11 +14,11 @@ import dev.sotoestevez.allforone.vo.User
  * ViewHolder for task cards
  *
  * @property data           Data of the task to display
- * @property onChangeDone   Callback to change task state
+ * @property listener       Button's action listener
  */
 class TaskView(
     val data: Task,
-    val onChangeDone: (TaskView) -> Unit
+    val listener: TaskListener
 ) : BaseObservable(), BindedItemView {
 
     override val layoutId: Int = R.layout.content_task
@@ -42,13 +44,16 @@ class TaskView(
         notifyPropertyChanged(BR.lastUpdate)
     }
 
-    /** Invokes the done state change logic */
-    fun onDoneButtonClick() = onChangeDone(this)
+    /** Invokes the done state update logic */
+    fun onDoneButtonClick() = listener.onChangeDone(this)
 
     /** Collapses expanded profile cards and expands collapse profile cards */
     fun onExpandButtonClick() {
         collapsed = !collapsed
         notifyPropertyChanged(BR.collapsed)
     }
+
+    /** Invokes the task deletion logic */
+    fun onRemoveButtonClick() = listener.onDelete(this)
 
 }

@@ -32,6 +32,11 @@ class TaskRepositoryImpl(
 		return buildTask(response)
 	}
 
+	override suspend fun delete(task: Task, token: String) {
+		logDebug("Requested deletion of Task[${task.id}]")
+		ApiRequest(suspend { service.deleteTask(token, task.id) }).performRequest()
+	}
+
 	override suspend fun updateDone(task: Task, token: String) {
 		if (task.done) service.postTaskDone(token, task.id)
 		else service.deleteTaskDone(token, task.id)

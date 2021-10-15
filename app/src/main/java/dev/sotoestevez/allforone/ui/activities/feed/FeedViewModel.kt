@@ -1,6 +1,5 @@
 package dev.sotoestevez.allforone.ui.activities.feed
 
-import android.mtp.MtpConstants
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,10 +11,10 @@ import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.repositories.FeedRepository
 import dev.sotoestevez.allforone.repositories.SessionRepository
-import dev.sotoestevez.allforone.ui.activities.feed.communication.NewMessageNotification
-import dev.sotoestevez.allforone.ui.activities.feed.communication.RoomNotification
-import dev.sotoestevez.allforone.ui.activities.feed.communication.UserJoiningNotification
-import dev.sotoestevez.allforone.ui.activities.feed.communication.UserLeavingNotification
+import dev.sotoestevez.allforone.ui.components.exchange.notification.NewMessageNotification
+import dev.sotoestevez.allforone.ui.components.exchange.notification.TextNotification
+import dev.sotoestevez.allforone.ui.components.exchange.notification.UserJoiningNotification
+import dev.sotoestevez.allforone.ui.components.exchange.notification.UserLeavingNotification
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.ui.components.recyclerview.feed.*
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
@@ -46,9 +45,9 @@ class FeedViewModel(
 	private val mFeedList: MutableLiveData<List<BindedItemView>> = MutableLiveData(mList)
 
 	/** LiveData holding the last notification to display in the notification label */
-	val notification: LiveData<RoomNotification?>
+	val notification: LiveData<TextNotification?>
 		get() = mNotification
-	private val mNotification: MutableLiveData<RoomNotification?> = MutableLiveData(null)
+	private val mNotification: MutableLiveData<TextNotification?> = MutableLiveData(null)
 
 	/** LiveData with the flag indicating if the activity is in task mode **/
 	val taskMode: MutableLiveData<Boolean> = MutableLiveData(false)

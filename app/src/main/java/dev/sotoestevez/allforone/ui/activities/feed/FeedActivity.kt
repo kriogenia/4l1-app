@@ -7,8 +7,8 @@ import com.google.android.gms.common.util.Strings
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.databinding.ActivityFeedBinding
-import dev.sotoestevez.allforone.ui.activities.feed.communication.NewMessageNotification
-import dev.sotoestevez.allforone.ui.activities.feed.communication.RoomNotification
+import dev.sotoestevez.allforone.ui.components.exchange.notification.NewMessageNotification
+import dev.sotoestevez.allforone.ui.components.exchange.notification.TextNotification
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.view.PrivateActivity
@@ -83,7 +83,7 @@ class FeedActivity : PrivateActivity() {
 		binding.rvFeed.post { binding.rvFeed.smoothScrollToPosition((list.size - 1).coerceAtLeast(0)) }
 	}
 
-	private fun updateNotification(notification: RoomNotification) {
+	private fun updateNotification(notification: TextNotification) {
 		if (notification is NewMessageNotification && autoScrolling) return	// Don't notify new messages when scrolled down
 		val string = notification.getString(this)
 		binding.lblFeedNotification.text = string
