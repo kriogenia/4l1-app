@@ -151,6 +151,7 @@ class FeedViewModel(
 		val items: MutableList<FeedView> = mutableListOf()
 		val messagesByDate = messages.groupBy { TimeFormatter.getDate(it.timestamp) }
 		messagesByDate.keys.forEach {
+			mList.removeIf { v -> v.id == it  }
 			items.add(TextHeaderView(it))
 			messagesByDate[it]?.map { m -> wrapItem(m) }?.let { i -> items.addAll(i) }
 		}
