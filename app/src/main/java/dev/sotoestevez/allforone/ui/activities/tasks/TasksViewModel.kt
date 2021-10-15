@@ -82,7 +82,7 @@ class TasksViewModel(
         }
 
         override fun onDelete(view: TaskView) {
-            if (user.value!!.role != User.Role.PATIENT || view.data.submitter != user.value) {
+            if (user.value!!.role != User.Role.PATIENT && view.data.submitter != user.value) {
                 mError.value = IllegalAccessException("Only the task submitter or the patient can delete this task")
                 return
             }

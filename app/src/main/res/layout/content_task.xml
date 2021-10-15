@@ -116,37 +116,36 @@
                         android:gravity="end"
                         tool:text="Created by: Daniel" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end">
-
-                        <ImageButton
-                            android:id="@+id/btnDeleteTask"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/desc_remove_task"
-                            android:minWidth="@dimen/task_icon_size"
-                            android:minHeight="@dimen/task_icon_size"
-                            android:src="@drawable/ic_baseline_delete"
-                            android:onClickListener="@{() -> item.onRemoveButtonClick()}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent" />
-
-                    </LinearLayout>
-
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{item.data.dateTime}"
-                    android:layout_marginHorizontal="48dp"
-                    android:layout_marginVertical="@dimen/base_margin"
-                    android:layout_marginTop="@dimen/base_margin"
-                    tool:text="Mie 2 de julio de 2021, 14:32 PM"/>
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@{item.data.dateTime}"
+                        android:layout_marginHorizontal="48dp"
+                        android:layout_marginVertical="@dimen/base_margin"
+                        android:layout_marginTop="@dimen/base_margin"
+                        tool:text="Mie 2 de julio de 2021, 14:32 PM"/>
+
+                    <ImageButton
+                        android:id="@+id/btnDeleteTask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/desc_remove_task"
+                        android:minWidth="@dimen/task_icon_size"
+                        android:minHeight="@dimen/task_icon_size"
+                        android:src="@drawable/ic_baseline_delete"
+                        android:visibility="@{item.collapsed ? View.GONE : View.VISIBLE}"
+                        android:onClickListener="@{() -> item.onRemoveButtonClick()}"  />
+
+                </LinearLayout>
 
             </LinearLayout>
 

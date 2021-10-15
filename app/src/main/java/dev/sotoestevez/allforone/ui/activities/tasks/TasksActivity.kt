@@ -19,7 +19,7 @@ class TasksActivity : PrivateActivity() {
 
     private lateinit var binding: ActivityTasksBinding
 
-    override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT)
+    override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT, User.Role.KEEPER)
 
     override fun bindLayout() {
         binding = ActivityTasksBinding.inflate(layoutInflater)

@@ -14,6 +14,7 @@ import dev.sotoestevez.allforone.ui.view.PrivateActivity
 import dev.sotoestevez.allforone.ui.activities.bonds.BondsActivity
 import dev.sotoestevez.allforone.ui.activities.feed.FeedActivity
 import dev.sotoestevez.allforone.ui.activities.location.LocationActivity
+import dev.sotoestevez.allforone.ui.activities.tasks.TasksActivity
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.toast
 import java.util.*
@@ -45,6 +46,7 @@ class KeeperMainActivity : PrivateActivity() {
 		binding.run {
 			btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
 			btnFindLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
+			btnTasks.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
 			btnFeed.setOnClickListener {
 				startActivity(buildIntent(FeedActivity::class.java).apply {
 					putExtra(FeedActivity.OWNER, model!!.cared.value!!.displayName)

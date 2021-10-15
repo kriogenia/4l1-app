@@ -82,6 +82,12 @@
                 android:text="@string/feed"
                 style="@style/AppTheme.MainButton" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTasks"
+                android:layout_width="match_parent"
+                android:text="@{String.format(@string/cared_tasks, model.cared.displayName)}"
+                style="@style/AppTheme.MainButton" />
+
         </LinearLayout>
 
     </LinearLayout>
