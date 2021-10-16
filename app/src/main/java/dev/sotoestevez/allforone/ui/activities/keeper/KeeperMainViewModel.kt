@@ -59,7 +59,8 @@ class KeeperMainViewModel(
         // Load cared user
         logDebug("Requesting info of cared user")
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-            userRepository.getCared(authHeader())?.let { setCared(it) }
+            userRepository.getCared(user.value!!, authHeader())?.let { setCared(it) }
+            loading.postValue(false)
         }
     }
 
@@ -77,7 +78,8 @@ class KeeperMainViewModel(
                 Log.d(KeeperMainViewModel::class.simpleName, "Sending bonding code")
                 userRepository.sendBondingCode(code, authHeader())
             }.join()    // Wait until the send request finishes to know the outcome, if no error was thrown it was a success
-            val response = userRepository.getCared(authHeader()) ?: throw NullPointerException("Unable to forge the bond, please try again")
+            val response = userRepository.getCared(user.value!!, authHeader())
+                ?: throw NullPointerException("Unable to forge the bond, please try again")
             Log.d(KeeperMainViewModel::class.simpleName, "Bond accepted")
             setCared(response)
         }
@@ -91,7 +93,6 @@ class KeeperMainViewModel(
     private suspend fun setCared(cared: User) {
         logDebug("Retrieved cared user ${cared.displayName}")
         withContext(dispatchers.main()) {
-            loading.value = false
             if (warning.value == R.string.warn_no_bonds)
                 mWarning.value = -1
             mCared.value = cared     // update the cared user

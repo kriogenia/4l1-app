@@ -303,11 +303,25 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="clipartAsset">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="url" value="jar:file:/D:/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/delete/baseline_delete_24.xml" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_patient_marker" />
-                            <entry key="sourceFile" value="E:\Descargas\Markers\patient_marker.svg" />
+                            <entry key="outputName" value="ic_baseline_delete" />
+                            <entry key="sourceFile" value="C:\Users\esekr\E:\Descargas\check-box.svg" />
                           </map>
                         </option>
                       </PersistentState>

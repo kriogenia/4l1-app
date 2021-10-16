@@ -1,7 +1,6 @@
 package dev.sotoestevez.allforone.repositories.impl
 
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.schemas.RefreshRequest
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import dev.sotoestevez.allforone.api.services.AuthService
 import dev.sotoestevez.allforone.repositories.SessionRepository
@@ -15,12 +14,12 @@ class SessionRepositoryImpl(
 
     override suspend fun signIn(googleIdToken: String): SignInResponse {
         logDebug("Requesting session with GoogleIdToken: $googleIdToken")
-       return ApiRequest(suspend { service.signIn(googleIdToken) }).performRequest()
+       return ApiRequest(suspend { service.getSignIn(googleIdToken) }).performRequest()
     }
 
     override suspend fun refreshSession(session: Session): Session {
         logDebug("Refreshing session")
-        return ApiRequest(suspend { service.refresh(RefreshRequest(session.auth, session.refresh)) })
+        return ApiRequest(suspend { service.getRefresh("Bearer ${session.auth}", session.refresh) })
             .performRequest().session
     }
 

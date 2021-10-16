@@ -14,6 +14,7 @@ import dev.sotoestevez.allforone.ui.view.PrivateActivity
 import dev.sotoestevez.allforone.ui.activities.bonds.BondsActivity
 import dev.sotoestevez.allforone.ui.activities.feed.FeedActivity
 import dev.sotoestevez.allforone.ui.activities.location.LocationActivity
+import dev.sotoestevez.allforone.ui.activities.tasks.TasksActivity
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.toast
 import java.util.*
@@ -42,17 +43,19 @@ class KeeperMainActivity : PrivateActivity() {
 	override fun attachListeners() {
 		super.attachListeners()
 		/* With bond listeners */
-		binding.btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
-		binding.btnFindLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
-		binding.btnFeed.setOnClickListener {
-			startActivity(buildIntent(FeedActivity::class.java).apply {
-				putExtra(FeedActivity.OWNER, model.cared.value!!.displayName)
-			})
+		binding.run {
+			btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
+			btnFindLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
+			btnTasks.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
+			btnFeed.setOnClickListener {
+				startActivity(buildIntent(FeedActivity::class.java).apply {
+					putExtra(FeedActivity.OWNER, model!!.cared.value!!.displayName)
+				})
+			}
 		}
 		/* No bond listeners */
-		qrScannerLauncher = registerForActivityResult(
-			ActivityResultContracts.StartActivityForResult()
-		) { result ->
+		qrScannerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+		{ result ->
 			if (result.resultCode == Activity.RESULT_OK)
 				model.bond(result.data?.data.toString())
 			else

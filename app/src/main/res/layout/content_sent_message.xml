@@ -7,7 +7,7 @@
     <data>
         <variable
             name="item"
-            type="dev.sotoestevez.allforone.ui.components.recyclerview.messages.MessageView" />
+            type="dev.sotoestevez.allforone.ui.components.recyclerview.feed.SentTextMessageView" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,12 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/primaryDarkColor"
-            app:cardCornerRadius="@dimen/extra_round_corner"
-            app:cardElevation="@dimen/no_elevation"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/AppTheme.Card">
 
             <TextView
                 android:id="@+id/lblMessage"
@@ -36,8 +33,8 @@
                 android:maxWidth="@dimen/max_msg_size"
                 android:paddingHorizontal="@dimen/double_base_margin"
                 android:paddingTop="@dimen/base_margin"
-                android:text="@{item.data.message}"
-                android:textColor="@color/onDarkPrimary"
+                android:text="@{item.text}"
+                android:textColor="@color/darkPrimaryTextColor"
                 android:textSize="@dimen/msg_font_size"
                 tool:text="Message"/>
 
@@ -47,7 +44,7 @@
             android:id="@+id/lblTimestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.data.time}"
+            android:text="@{item.time}"
             android:textColor="@color/material_on_background_disabled"
             android:textSize="@dimen/timestamp_msg_font_size"
             app:layout_constraintBottom_toBottomOf="@+id/cardSentMessage"

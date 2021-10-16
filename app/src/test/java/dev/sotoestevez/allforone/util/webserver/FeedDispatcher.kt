@@ -11,7 +11,7 @@ object FeedDispatcher: Dispatcher() {
 
 	override fun dispatch(request: RecordedRequest): MockResponse {
 		return when(request.path) {
-			"/feed/messages/1" -> MockResponse().setResponseCode(200).setBody(FEED_MESSAGES_EMPTY_200)
+			"/feed/messages?page=1" -> MockResponse().setResponseCode(200).setBody(FEED_MESSAGES_EMPTY_200)
 			else -> MockResponse().setResponseCode(404)
 		}
 	}

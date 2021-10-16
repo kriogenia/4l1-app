@@ -36,7 +36,7 @@ class PrivateViewModelTest {
 		every { anyConstructed<SessionManager>().getAuthToken() } returns "token"
 		// Init test object
 		model = object: PrivateViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider, mockSessionRepo) {}
-		model.injectUser(User("id", "google", User.Role.BLANK))
+		model.injectUser(User("id", User.Role.BLANK))
 	}
 
 	@After

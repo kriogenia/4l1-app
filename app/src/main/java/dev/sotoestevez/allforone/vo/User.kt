@@ -9,7 +9,6 @@ import kotlinx.parcelize.Parcelize
  * Properties of an user
  *
  * @property id Unique identifier of the user
- * @property googleId Unique Google identifier of the user
  * @property role Type of user
  * @property displayName Name of the user to display
  * @property mainPhoneNumber Main phone number of the user
@@ -20,7 +19,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class User(
 	@SerializedName("_id") val id: String?,
-	val googleId: String? = null,
 	var role: Role? = null,
 	var displayName: String? = null,
 	var mainPhoneNumber: String? = null,
@@ -42,5 +40,20 @@ data class User(
 	/** Minimum info of the user, to send with socket messages */
 	val minInfo: UserInfoMsg
 		get() = UserInfoMsg(id!!, displayName!!)
+
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (javaClass != other?.javaClass) return false
+
+		other as User
+
+		if (id != other.id) return false
+
+		return true
+	}
+
+	override fun hashCode(): Int {
+		return id?.hashCode() ?: 0
+	}
 
 }

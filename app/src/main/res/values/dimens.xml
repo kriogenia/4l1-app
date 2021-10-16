@@ -13,13 +13,14 @@
     <dimen name="round_corner">4dp</dimen>
     <dimen name="little_margin">4dp</dimen>
     <dimen name="card_icon_size">32dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="half_base_margin">4dp</dimen>
     <dimen name="extra_round_corner">12dp</dimen>
     <dimen name="max_msg_size">260dp</dimen>
     <dimen name="msg_font_size">16sp</dimen>
-    <dimen name="timestamp_msg_font_size">10sp</dimen>
+    <dimen name="task_title_font_size">24sp</dimen>
+    <dimen name="timestamp_msg_font_size">12sp</dimen>
     <dimen name="no_elevation">0dp</dimen>
+    <dimen name="task_icon_size">32dp</dimen>
 </resources>

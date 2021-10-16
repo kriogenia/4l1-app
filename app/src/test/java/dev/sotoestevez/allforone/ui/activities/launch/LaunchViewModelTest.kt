@@ -53,7 +53,7 @@ class LaunchViewModelTest {
 
     @Test
     fun `should handle the sign in as expected when given a valid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
-        val user = User("id", "valid", User.Role.BLANK, null)
+        val user = User("id", User.Role.BLANK, null)
         val signInResponse = SignInResponse(Session("auth", "refresh", 0), user)
         coEvery { mockSessionRepository.signIn("valid") } returns signInResponse
         // Perform the authentication
@@ -86,7 +86,7 @@ class LaunchViewModelTest {
     }
 
     private fun checkDestinyByRole(role: User.Role, destiny: Class<out Activity>) {
-        val user = User("id", "valid", role, null)
+        val user = User("id", role, null)
         val signInResponse = SignInResponse(Session("auth", "refresh", 0), user)
         coEvery { mockSessionRepository.signIn("valid") } returns signInResponse
         model.handleSignInResult("valid")

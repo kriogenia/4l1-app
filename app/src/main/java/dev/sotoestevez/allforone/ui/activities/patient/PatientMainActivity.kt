@@ -8,6 +8,7 @@ import dev.sotoestevez.allforone.ui.view.PrivateActivity
 import dev.sotoestevez.allforone.ui.activities.bonds.BondsActivity
 import dev.sotoestevez.allforone.ui.activities.feed.FeedActivity
 import dev.sotoestevez.allforone.ui.activities.location.LocationActivity
+import dev.sotoestevez.allforone.ui.activities.tasks.TasksActivity
 import java.util.*
 
 /**
@@ -30,12 +31,15 @@ class PatientMainActivity : PrivateActivity() {
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
-		binding.btnShareLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
-		binding.btnFeed.setOnClickListener {
-			startActivity(buildIntent(FeedActivity::class.java).apply {
-				putExtra(FeedActivity.OWNER, model.user.value!!.displayName)
-			})
+		binding.run {
+			btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
+			btnShareLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
+			btnTask.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
+			btnFeed.setOnClickListener {
+				startActivity(buildIntent(FeedActivity::class.java).apply {
+					putExtra(FeedActivity.OWNER, model!!.user.value!!.displayName)
+				})
+			}
 		}
 	}
 

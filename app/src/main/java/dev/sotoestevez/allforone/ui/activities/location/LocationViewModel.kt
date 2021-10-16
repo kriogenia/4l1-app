@@ -11,6 +11,7 @@ import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.repositories.LocationRepository
 import dev.sotoestevez.allforone.repositories.SessionRepository
+import dev.sotoestevez.allforone.ui.activities.location.helpers.MarkerManager
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.launch

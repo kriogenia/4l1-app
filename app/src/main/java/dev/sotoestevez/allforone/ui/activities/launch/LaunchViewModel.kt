@@ -64,12 +64,10 @@ class LaunchViewModel(
 	 * @param googleIdToken Id Token obtained in the authentication with Google
 	 */
 	fun handleSignInResult(googleIdToken: String){
-		logDebug("Google-SignIn-Authentication: $googleIdToken")
+		logDebug("Google-SignIMen-Authentication: $googleIdToken")
 		// Launch the coroutine with the request
 		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-			val result = sessionRepository.signIn(googleIdToken)
-			// Store all the session info
-			val ( session, user ) = result
+			val ( session, user ) = sessionRepository.signIn(googleIdToken)
 			logDebug("Authentication validated. User[${user.id}]")
 			sessionManager.setSession(session)
 			// Update the data in the Main thread

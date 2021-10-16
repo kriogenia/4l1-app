@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.ui.activities.bonds
+package dev.sotoestevez.allforone.ui.activities.bonds.adapters
 
 import android.transition.AutoTransition
 import android.transition.TransitionManager
@@ -38,7 +38,7 @@ class BondsAdapter : ListAdapter<User, BondsAdapter.BondViewHolder>(BondDiffCall
 
 		private val card = itemView.findViewById<LinearLayout>(R.id.cardBondItem)
 		private val expandableView = itemView.findViewById<LinearLayout>(R.id.layBondExpandable)
-		private val expandButton = itemView.findViewById<ImageButton>(R.id.btnExpandCard)
+		private val expandButton = itemView.findViewById<ImageButton>(R.id.btnTaskDone)
 
 		/**
 		 * Binding of the view with the user, particular onCreate

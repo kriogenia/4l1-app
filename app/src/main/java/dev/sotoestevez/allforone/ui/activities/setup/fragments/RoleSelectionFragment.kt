@@ -11,6 +11,7 @@ import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.databinding.FragmentRoleSelectionBinding
 import dev.sotoestevez.allforone.ui.activities.setup.SetUpViewModel
 import dev.sotoestevez.allforone.ui.components.fragments.BaseExtendedFragment
+import dev.sotoestevez.allforone.util.extensions.logDebug
 
 /**
  * [Fragment] of SetUpActivity to select the [User.Role].
@@ -32,11 +33,13 @@ class RoleSelectionFragment : BaseExtendedFragment() {
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.layButtonsRoleSelection.btnPrevious.setOnClickListener {
-			findNavController().navigate(R.id.action_RoleSelectionFragment_to_NameSelectionFragment)
-		}
-		binding.layButtonsRoleSelection.btnNext.setOnClickListener {
-			findNavController().navigate(R.id.action_RoleSelectionFragment_to_ContactFillFragment)
+		binding.layButtonsRoleSelection.run {
+			btnNegative.setOnClickListener {
+				findNavController().navigate(R.id.action_RoleSelectionFragment_to_NameSelectionFragment)
+			}
+			btnPositive.setOnClickListener {
+				findNavController().navigate(R.id.action_RoleSelectionFragment_to_ContactFillFragment)
+			}
 		}
 	}
 
@@ -47,7 +50,7 @@ class RoleSelectionFragment : BaseExtendedFragment() {
 
 	override fun updateUi() {
 		super.updateUi()
-		binding.layButtonsRoleSelection.btnNext.isEnabled = model.user.value?.role != User.Role.BLANK
+		binding.layButtonsRoleSelection.btnPositive.isEnabled = model.user.value?.role != User.Role.BLANK
 	}
 
 }

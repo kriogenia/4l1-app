@@ -6,7 +6,7 @@ import dev.sotoestevez.allforone.api.schemas.PlainMessage
 import dev.sotoestevez.allforone.util.rules.CoroutineRule
 import dev.sotoestevez.allforone.util.rules.WebServerRule
 import dev.sotoestevez.allforone.util.webserver.FeedDispatcher
-import dev.sotoestevez.allforone.vo.Message
+import dev.sotoestevez.allforone.vo.feed.Message
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -33,13 +33,15 @@ class FeedServiceTest {
     }
 
     @Test
-    fun `should parse FeedMessageResponse with no page provided`(): Unit = runBlocking {
+    fun `should parse FeedMessageResponse`(): Unit = runBlocking {
         val expected = FeedMessageResponse(arrayOf(
-            PlainMessage("id","message", "id", "name", 0, Message.Type.TEXT),
-            PlainMessage("id1","message1", "id1", "name1", 1, Message.Type.TASK)
+            PlainMessage(_id = "id", message = "message", submitter = "id", username = "name", timestamp = 0,
+                type = Message.Type.TEXT, lastUpdate = 0),
+            PlainMessage(_id = "id1", title = "title", description = "description", done = true, submitter = "id1",
+                username = "name1", timestamp = 1, type = Message.Type.TASK, lastUpdate = 0)
         ))
 
-        val actual = api.messages("valid", 1)
+        val actual = api.getMessages("valid", 1)
 
         Assert.assertTrue(actual is NetworkResponse.Success)
         Assert.assertEquals(expected, (actual as NetworkResponse.Success).body)

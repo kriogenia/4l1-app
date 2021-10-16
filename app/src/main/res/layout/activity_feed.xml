@@ -56,14 +56,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/double_base_margin"
             android:layout_marginVertical="@dimen/double_base_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/txtTaskDescription"
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtWriteMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/btnSendMsg"
+                android:layout_toStartOf="@+id/btnTask"
                 app:boxCornerRadiusBottomEnd="@dimen/extra_round_corner"
                 app:boxCornerRadiusBottomStart="@dimen/extra_round_corner"
                 app:boxCornerRadiusTopEnd="@dimen/extra_round_corner"
@@ -82,6 +82,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+                android:id="@+id/btnTask"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/btnSendMsg"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="@{!model.loading}"
+                android:text="@string/task"
+                android:textColor="@color/primaryColor" />
+
+            <Button
                 android:id="@+id/btnSendMsg"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
@@ -93,6 +104,29 @@
                 android:textColor="@color/primaryColor" />
 
         </RelativeLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtTaskDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin"
+            android:hint="@string/description"
+            android:visibility="@{model.taskMode ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eTxtTaskDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:lines="6" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

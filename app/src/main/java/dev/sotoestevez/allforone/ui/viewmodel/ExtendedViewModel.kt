@@ -47,6 +47,9 @@ interface ExtendedViewModel {
 		/** Context instance of [SessionRepository] */
 		val sessionRepository: SessionRepository by lazy { RepositoryContext.sessionRepository }
 
+		/** Context instance of [TaskRepository] */
+		val taskRepository: TaskRepository by lazy { RepositoryContext.taskRepository }
+
 		/** Context instance of [UserRepository] */
 		val userRepository: UserRepository by lazy { RepositoryContext.userRepository }
 

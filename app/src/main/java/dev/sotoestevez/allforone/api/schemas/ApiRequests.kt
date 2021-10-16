@@ -1,16 +1,46 @@
 package dev.sotoestevez.allforone.api.schemas
 
+import dev.sotoestevez.allforone.vo.Address
+import dev.sotoestevez.allforone.vo.User
+
 // Schemas of the different body requests to communicate with the API
 
 /**
- * Model of the request body for the auth/refresh endpoint
+ * Updatable fields of an user
  *
- * @property auth       Old authentication token to renew
- * @property refresh    Current refresh token
+ * @property role
+ * @property displayName
+ * @property mainPhoneNumber
+ * @property altPhoneNumber
+ * @property address
+ * @property email
  */
-data class RefreshRequest(
-	val auth: String,
-	val refresh: String
+data class UserUpdateRequest(
+	var role: User.Role? = null,
+	var displayName: String? = null,
+	var mainPhoneNumber: String? = null,
+	var altPhoneNumber: String? = null,
+	var address: Address? = null,
+	var email: String? = null
+)
+
+/**
+ * Properties of a request to create a new task
+ *
+ * @property title
+ * @property description
+ * @property submitter
+ * @property done
+ * @property timestamp
+ * @property lastUpdate
+ */
+data class TaskRequest(
+	val title: String,
+	val description: String?,
+	val submitter: UserInfoMsg,
+	val done: Boolean,
+	val timestamp: Long,
+	val lastUpdate: Long
 )
 
 /**

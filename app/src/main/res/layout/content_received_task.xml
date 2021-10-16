@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="dev.sotoestevez.allforone.ui.components.recyclerview.feed.ReceivedTaskMessageView" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/half_base_margin">
+
+        <!--ImageView   // TODO add images
+            android:id="@+id/image_gchat_profile_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:contentDescription="User Icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_gchat_date_other" /-->
+
+        <TextView
+            android:id="@+id/lblReceivedMessageAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/base_margin"
+            android:text="@{item.author}"
+            android:textSize="@dimen/msg_font_size"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tool:text="Author"/>
+            <!--app:layout_constraintStart_toEndOf="@+id/image_gchat_profile_other"-->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardReceivedMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/secondaryColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblReceivedMessageAuthor"
+            style="@style/AppTheme.Card">
+            <!--app:layout_constraintStart_toEndOf="@+id/image_gchat_profile_other"-->
+
+            <include
+                layout="@layout/content_task_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:item="@{item}"
+                app:dark="@{true}" />
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Time -->
+
+        <TextView
+            android:id="@+id/lblTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.time}"
+            android:textColor="@color/material_on_background_disabled"
+            android:textSize="@dimen/timestamp_msg_font_size"
+            app:layout_constraintBottom_toBottomOf="@+id/cardReceivedMessage"
+            app:layout_constraintStart_toEndOf="@+id/cardReceivedMessage"
+            tool:text="10:00"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -9,6 +9,7 @@ import dev.sotoestevez.allforone.databinding.ActivityLaunchBinding
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.view.BaseExtendedActivity
 import dev.sotoestevez.allforone.ui.activities.keeper.KeeperMainActivity
+import dev.sotoestevez.allforone.ui.activities.launch.helpers.GoogleAuthHelper
 import dev.sotoestevez.allforone.ui.activities.patient.PatientMainActivity
 import dev.sotoestevez.allforone.ui.activities.setup.SetUpActivity
 import dev.sotoestevez.allforone.util.extensions.logDebug

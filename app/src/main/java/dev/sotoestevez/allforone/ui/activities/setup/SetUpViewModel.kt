@@ -70,6 +70,7 @@ class SetUpViewModel(
 	 * @param role   New role of the user
 	 */
 	fun setRole(role: User.Role) {
+		logDebug("SET ROLE")
 		mSelectedRole.value = role
 		mUser.value = mUser.value?.also {
 			it.role = role

@@ -40,7 +40,7 @@ class SetUpViewModelTest {
 		every { anyConstructed<SessionManager>().getAuthToken() } returns "token"
 		// Init test object
 		model = SetUpViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider, mockk(), mockUserRepo)
-		model.injectUser(User("id", "google", User.Role.BLANK))
+		model.injectUser(User("id", User.Role.BLANK))
 	}
 
 	@After
@@ -93,7 +93,7 @@ class SetUpViewModelTest {
 	@Test
 	fun `should send the update to the server and change the destiny when invoked sendUpdate`(): Unit =
 		coroutineRule.testDispatcher.runBlockingTest {
-			model.injectUser(User("id", "googleId", User.Role.PATIENT))
+			model.injectUser(User("id", User.Role.PATIENT))
 			coEvery { mockUserRepo.update(any(), any()) } returns Unit
 
 			model.sendUpdate()

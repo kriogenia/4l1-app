@@ -1,13 +1,11 @@
 package dev.sotoestevez.allforone.api.services
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import dev.sotoestevez.allforone.api.schemas.RefreshRequest
 import dev.sotoestevez.allforone.api.schemas.BaseErrorResponse
 import dev.sotoestevez.allforone.api.schemas.RefreshResponse
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
-import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.Header
 import retrofit2.http.Path
 
 /** Service to handle the operations related to the /auth endpoints of the API */
@@ -20,7 +18,7 @@ interface AuthService {
 	 * @return      Response with the authentication data (session and user) or with an error
 	 */
 	@GET("/auth/signin/{token}")
-	suspend fun signIn(
+	suspend fun getSignIn(
 		@Path("token") token: String
 	): NetworkResponse<SignInResponse, BaseErrorResponse>
 
@@ -30,9 +28,10 @@ interface AuthService {
 	 * @param body   Current session tokens to renew (auth and refresh token)
 	 * @return       Response with the new session data
 	 */
-	@POST("/auth/refresh")
-	suspend fun refresh(
-		@Body body: RefreshRequest
+	@GET("/auth/refresh/{token}")
+	suspend fun getRefresh(
+		@Header("Authorization") auth: String,
+		@Path("token") refresh: String
 	): NetworkResponse<RefreshResponse, BaseErrorResponse>
 
 }

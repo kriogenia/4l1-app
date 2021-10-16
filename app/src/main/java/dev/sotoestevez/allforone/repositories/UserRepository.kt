@@ -6,6 +6,23 @@ import dev.sotoestevez.allforone.vo.User
 interface UserRepository {
 
 	/**
+	 * Updates the user data in the server
+	 *
+	 * @param user      User data
+	 * @param token     Authentication token
+	 */
+	suspend fun update(user: User, token: String)
+
+	/**
+	 * Retrieves the cared of the current user if it exists, null otherwise
+	 *
+	 * @param user  Current user
+	 * @param token Authentication token
+	 * @return      Patient cared by the current user
+	 */
+	suspend fun getCared(user: User, token: String): User?
+
+	/**
 	 * Retrieves a new bonding token from the server
 	 *
 	 * @param token Authentication token
@@ -27,21 +44,5 @@ interface UserRepository {
 	 * @return data of bonds for the user
 	 */
 	suspend fun getBonds(token: String): List<User>
-
-	/**
-	 * Retrieves the cared of the current user if it exists, null otherwise
-	 *
-	 * @param token Authentication token
-	 * @return      Patient cared by the current user
-	 */
-	suspend fun getCared(token: String): User?
-
-	/**
-	 * Updates the user data in the server
-	 *
-	 * @param user      User data
-	 * @param token     Authentication token
-	 */
-	suspend fun update(user: User, token: String)
 
 }

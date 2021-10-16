@@ -14,6 +14,7 @@ object RepositoryContext {
     private const val GLOBAL = "global"
     private const val LOCATION = "location"
     private const val SESSION = "session"
+    private const val TASK = "task"
     private const val USER = "user"
 
     /** Feed repository instance */
@@ -31,6 +32,10 @@ object RepositoryContext {
     /** Session repository instance */
     val sessionRepository: SessionRepository
         get() = (context[SESSION] ?: SessionRepositoryImpl(ApiFactory.getAuthService()).also { context[SESSION] = it }) as SessionRepository
+
+    /** Task repository instance */
+    val taskRepository: TaskRepository
+        get() = (context[TASK] ?: TaskRepositoryImpl(ApiFactory.getTaskService()).also { context[TASK] = it }) as TaskRepository
 
     /** User repository instance */
     val userRepository: UserRepository

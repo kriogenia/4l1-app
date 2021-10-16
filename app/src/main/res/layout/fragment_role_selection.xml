@@ -135,7 +135,7 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <include layout="@layout/content_navigation_buttons"
+        <include layout="@layout/content_option_buttons"
             android:id="@+id/layButtonsRoleSelection"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

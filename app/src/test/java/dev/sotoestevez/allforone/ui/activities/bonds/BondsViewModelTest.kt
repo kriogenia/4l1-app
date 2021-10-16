@@ -36,7 +36,7 @@ class BondsViewModelTest {
 		every { anyConstructed<SessionManager>().getAuthToken() } returns "token"
 		// Init test object
 		model = BondsViewModel(mockk(relaxed = true), coroutineRule.testDispatcherProvider, mockk(), mockUserRepository)
-		model.injectUser(User("id", "google", User.Role.BLANK))
+		model.injectUser(User("id", User.Role.BLANK))
 	}
 
 	@Test

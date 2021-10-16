@@ -33,10 +33,12 @@ class SetUpConfirmationFragment : BaseExtendedFragment() {
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.layButtonsSetUpConfirmation.btnPrevious.setOnClickListener {
-			findNavController().navigate(R.id.action_SetUpConfirmationFragment_to_ContactFillFragment)
+		binding.layButtonsSetUpConfirmation.run {
+			btnNegative.setOnClickListener {
+				findNavController().navigate(R.id.action_SetUpConfirmationFragment_to_ContactFillFragment)
+			}
+			btnPositive.setOnClickListener { model.sendUpdate() }
 		}
-		binding.layButtonsSetUpConfirmation.btnNext.setOnClickListener { model.sendUpdate() }
 	}
 
 	override fun attachObservers() {
@@ -45,9 +47,13 @@ class SetUpConfirmationFragment : BaseExtendedFragment() {
 	}
 
 	private fun uiLoading(loading: Boolean) {
-		binding.loadBarSetUp.visibility = if (loading) View.VISIBLE else View.GONE
-		binding.layButtonsSetUpConfirmation.btnPrevious.isEnabled = !loading
-		binding.layButtonsSetUpConfirmation.btnNext.isEnabled = !loading
+		binding.run {
+			loadBarSetUp.visibility = if (loading) View.VISIBLE else View.GONE
+			layButtonsSetUpConfirmation.run {
+				btnNegative.isEnabled = !loading
+				btnPositive.isEnabled = !loading
+			}
+		}
 	}
 
 }

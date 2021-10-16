@@ -2,7 +2,6 @@ package dev.sotoestevez.allforone.repositories.impl
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.ApiRequest
-import dev.sotoestevez.allforone.api.schemas.RefreshRequest
 import dev.sotoestevez.allforone.api.schemas.RefreshResponse
 import dev.sotoestevez.allforone.api.schemas.SignInResponse
 import dev.sotoestevez.allforone.api.services.AuthService
@@ -44,17 +43,17 @@ class SessionRepositoryImplTest {
     fun `should return the sign in response when provided a valid token`(): Unit = coroutineRule.testDispatcher.runBlockingTest {
         val signInResponse = SignInResponse(
             Session("auth", "refresh", 0),
-            User("id", "googleId", User.Role.BLANK)
+            User("id", User.Role.BLANK)
         )
         val response: NetworkResponse.Success<SignInResponse> = mockk()
         coEvery { response.code } returns 200
         coEvery { response.body } returns signInResponse
-        coEvery { mockAuthService.signIn(any()) } returns response
+        coEvery { mockAuthService.getSignIn(any()) } returns response
 
         val result = sessionRepository.signIn("valid")
 
         assertEquals(result, signInResponse)
-        coVerify(exactly = 1) { mockAuthService.signIn("valid") }
+        coVerify(exactly = 1) { mockAuthService.getSignIn("valid") }
     }
 
     @Test
@@ -65,12 +64,12 @@ class SessionRepositoryImplTest {
         val response: NetworkResponse.Success<RefreshResponse> = mockk()
         coEvery { response.code } returns 200
         coEvery { response.body } returns refreshResponse
-        coEvery { mockAuthService.refresh(any()) } returns response
+        coEvery { mockAuthService.getRefresh(any(), any()) } returns response
 
         val result = sessionRepository.refreshSession(Session("auth", "refresh", 0))
 
         assertEquals(result, refreshResponse.session)
-        coVerify(exactly = 1) { mockAuthService.refresh(RefreshRequest("auth", "refresh")) }
+        coVerify(exactly = 1) { mockAuthService.getRefresh("Bearer auth", "refresh") }
     }
 
 }

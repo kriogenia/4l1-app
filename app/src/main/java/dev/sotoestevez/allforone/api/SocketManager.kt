@@ -19,7 +19,7 @@ object SocketManager {
 	init {
 		val opts = IO.Options()
 		opts.transports = arrayOf(WebSocket.NAME)
-		mSocket = IO.socket(BuildConfig.SERVER_IP)
+		mSocket = IO.socket(BuildConfig.SERVER_IP, opts)
 	}
 
 	/** Sends a connection request if the socket is not yet connected */

@@ -1,7 +1,7 @@
 package dev.sotoestevez.allforone.api.schemas
 
-import dev.sotoestevez.allforone.vo.Message
 import dev.sotoestevez.allforone.vo.User
+import dev.sotoestevez.allforone.vo.feed.Message
 
 /**
  * Model of the response to be received from the /user/bond/generate endpoint
@@ -24,6 +24,25 @@ data class BondListResponse(
 
     override fun hashCode(): Int {
         return bonds.contentHashCode()
+    }
+}
+
+data class TaskListResponse (
+    val tasks: Array<TaskResponse>
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TaskListResponse
+
+        if (!tasks.contentEquals(other.tasks)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return tasks.contentHashCode()
     }
 }
 
@@ -52,20 +71,28 @@ data class FeedMessageResponse(
 }
 
 /**
- * Model of the messages to be received from the /feed/messages endpoint
+ * Model with the property joining of the messages to be received from the /feed/messages endpoint
  *
- * @property _id        ID of the message
- * @property message	Content of the message
- * @property user		ID of the message submitter
- * @property username	Username of the message submitter
- * @property timestamp	Creation timestamp of the message
- * @property type		Type of message
+ * @property submitter      ID of the message submitter
+ * @property username	    Username of the message submitter
+ * @property timestamp	    Creation timestamp of the message
+ * @property lastUpdate	    Last update timestamp of the message
+ * @property type		    Type of message
+ * @property _id            ID of the message
+ * @property message	    Content of the TextMessages
+ * @property title	        Title of the TaskMessages
+ * @property description	Description of the TaskMessages
+ * @property done	        State of the TaskMessages
  */
 data class PlainMessage(
-    val _id: String,
-    val message: String,
-    val user: String,
+    val submitter: String,
     val username: String,
     val timestamp: Long,
-    val type: Message.Type
+    val lastUpdate: Long,
+    val type: Message.Type,
+    val _id: String? = null,
+    val message: String? = null,
+    val title: String? = null,
+    val description: String? = null,
+    val done: Boolean? = null
 )
