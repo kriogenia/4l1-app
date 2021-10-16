@@ -17,7 +17,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:onLongClick="@{() -> item.onLongPress()}">
 
             <ImageButton
                 android:id="@+id/btnTaskDone"
@@ -35,6 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tool:tint="@color/secondaryTextColor"
                 tool:src="@drawable/ic_check_box"
+                android:onClick="@{() -> item.onDoneButtonClick()}"
                 tool:ignore="UseAppTint" />
 
             <TextView

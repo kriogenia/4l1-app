@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/base_margin"
-        android:text="@{String.format(context.getString(item.template), item.author, item.subject)}"
+        android:text="@{String.format(context.getString(item.template), item.firstArg, item.secondArg)}"
         android:textSize="@dimen/msg_font_size"
         android:gravity="center_horizontal"
         tool:text="John update the task Go to park"/>

@@ -9,6 +9,7 @@ import dev.sotoestevez.allforone.ui.components.exchange.dialog.DialogConfirmatio
 import dev.sotoestevez.allforone.ui.view.PrivateActivity
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.util.extensions.openActionConfirmationDialog
 import dev.sotoestevez.allforone.vo.User
 import java.util.*
 
@@ -43,15 +44,6 @@ class TasksActivity : PrivateActivity() {
         CreateTaskDialog { title, desc -> model.createTask(title, desc) }
             .apply { submitter = model.user.value!!.displayName }
             .show(supportFragmentManager, CreateTaskDialog.TAG)
-    }
-
-    private fun openActionConfirmationDialog(request: DialogConfirmationRequest) {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(request.getTitle(this))
-            .setMessage(request.getMessage(this))
-            .setNegativeButton(getString(R.string.cancel)) { _, _ -> logDebug("Canceled action request") }
-            .setPositiveButton(getString(R.string.confirm)) { _, _ -> request.onConfirm() }
-            .show()
     }
 
 }

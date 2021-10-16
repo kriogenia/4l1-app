@@ -16,8 +16,8 @@ import dev.sotoestevez.allforone.vo.User
  * @property data           Data of the task to display
  * @property listener       Button's action listener
  */
-class TaskView(
-    val data: Task,
+open class TaskView(
+    var data: Task,
     val listener: TaskListener
 ) : BaseObservable(), BindedItemView {
 
@@ -28,16 +28,19 @@ class TaskView(
     override val viewType: Int = 0
 
     /** Bindable completion state of the task */
-    @get:Bindable val done: Boolean
+    @get:Bindable
+    val done: Boolean
         get() = data.done
 
     /** Bindable last update time of the task */
-    @get:Bindable val lastUpdate: Long
+    @get:Bindable
+    val lastUpdate: Long
         get() = data.lastUpdate
 
     /** Bindable state of the card */
-    @get:Bindable var collapsed: Boolean = data.done
-        private set
+    @get:Bindable
+    open var collapsed: Boolean = data.done
+        protected set
 
     /** Changes the state of the task */
     fun swapState() {

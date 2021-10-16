@@ -6,12 +6,12 @@ import dev.sotoestevez.allforone.R
  * View for user's action to notify in the feed
  *
  * @property template   text template
- * @property author     author of the action
- * @property subject    affected action
+ * @property firstArg   text arg
+ * @property secondArg  text arg
  */
-class UserActionView(val template: Int, val author: String, val subject: String) : FeedView {
+class UserActionView(val template: Int, val firstArg: String, val secondArg: String = "") : FeedView {
 
-    override val id: String = author + subject + template
+    override val id: String = firstArg + secondArg + template
 
     override val layoutId: Int = R.layout.content_feed_user_action
 

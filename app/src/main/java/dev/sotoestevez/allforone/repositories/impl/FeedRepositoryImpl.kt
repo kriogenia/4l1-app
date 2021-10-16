@@ -24,6 +24,8 @@ class FeedRepositoryImpl(
 
 	/** Events managed by the Feed Repository **/
 	private enum class Events(val path: String) {
+		/** Event to notify clients about the deletion of a message */
+		DELETE("feed:delete"),
 		/** Event to leave the room and get notifications of users leaving */
 		LEAVE("feed:leave"),
 		/** Event to notify clients about new messages on the feed */
@@ -53,8 +55,15 @@ class FeedRepositoryImpl(
 		return messages.map { Message.Builder().apply { data = it }.build() }
 	}
 
-	override fun onNewMessage(callback: (Message) -> Unit) {	// TODO needs change
+	override fun onNewMessage(callback: (Message) -> Unit) {
 		socket.on(Events.NEW.path) {
+			val message = fromJson(it, PlainMessage::class.java)
+			callback(Message.Builder().apply { data = message }.build())
+		}
+	}
+
+	override fun onMessageDeleted(callback: (Message) -> Unit) {
+		socket.on(Events.DELETE.path) {
 			val message = fromJson(it, PlainMessage::class.java)
 			callback(Message.Builder().apply { data = message }.build())
 		}

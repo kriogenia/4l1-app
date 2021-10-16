@@ -12,6 +12,7 @@ import dev.sotoestevez.allforone.ui.components.exchange.notification.TextNotific
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.view.PrivateActivity
+import dev.sotoestevez.allforone.util.extensions.openActionConfirmationDialog
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -60,6 +61,7 @@ class FeedActivity : PrivateActivity() {
 		super.attachObservers()
 		model.feedList.observe(this) { autoscroll(it) }
 		model.notification.observe(this) { it?.let { updateNotification(it) } }
+		model.actionTaskToConfirm.observe(this) { openActionConfirmationDialog(it) }
 	}
 
 	private fun sendMessage() {

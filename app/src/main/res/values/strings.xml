@@ -104,4 +104,5 @@
     <string name="empty_template">%s</string>
     <string name="user_set_task_done">Task %s has been completed</string>
     <string name="user_set_task_not_done">Task %s has ben set as not done</string>
+    <string name="user_deleted_message">Deleted %s</string>
 </resources>

@@ -28,6 +28,14 @@ interface FeedRepository: SocketRepository {
 	 */
 	fun onNewMessage(callback: (Message) -> Unit)
 
+
+	/**
+	 * Subscribes the callback to deletion of messages on the feed room
+	 *
+	 * @param callback  Event listener, receives the message
+	 */
+	fun onMessageDeleted(callback: (Message) -> Unit)
+
 	/**
 	 * Subscribes the callback to task state updates on the feed room
 	 *

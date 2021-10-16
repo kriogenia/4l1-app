@@ -1,8 +1,9 @@
 package dev.sotoestevez.allforone.ui.components.recyclerview.feed
 
-import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import dev.sotoestevez.allforone.BR
+import dev.sotoestevez.allforone.ui.components.recyclerview.tasks.TaskView
+import dev.sotoestevez.allforone.ui.components.recyclerview.tasks.listeners.TaskListener
 import dev.sotoestevez.allforone.vo.feed.TaskMessage
 
 /**
@@ -10,32 +11,30 @@ import dev.sotoestevez.allforone.vo.feed.TaskMessage
  *
  * @property data   Nested TaskMessage
  */
-abstract class TaskMessageView(var data: TaskMessage): BaseObservable(), FeedView {
-
-    override val id: String = data.task.id
+sealed class TaskMessageView(
+    var message: TaskMessage,
+    listener: TaskListener
+) : TaskView(message.task, listener), FeedView {
 
     /** Body of the message */
-    val text: String = data.content
+    val text: String = message.content
 
     /** Task description */
-    val description: String? = data.task.description
+    val description: String? = data.description
 
     /** Sending time of the message */
-    val time: String = data.time
-
-    /** Bindable completion state of the task */
-    @get:Bindable
-    val done: Boolean
-        get() = data.task.done
+    val time: String = message.time
 
     /** Bindable state of the card */
-    @get:Bindable var collapsed: Boolean = true
-        private set
+    @get:Bindable
+    override var collapsed: Boolean = true
 
-    /** Collapses expanded profile cards and expands collapse profile cards */
-    fun onExpandButtonClick() {
-        collapsed = !collapsed
-        notifyPropertyChanged(BR.collapsed)
+    fun update(message: TaskMessage) {
+        this.message = message
+        data = message.task
+        notifyPropertyChanged(BR.done)
     }
+
+    fun onLongPress() = true.also { onRemoveButtonClick() }
 
 }
