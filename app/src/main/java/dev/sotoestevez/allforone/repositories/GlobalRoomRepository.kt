@@ -1,5 +1,7 @@
 package dev.sotoestevez.allforone.repositories
 
+import dev.sotoestevez.allforone.vo.Notification
+
 /** Repository in charge of the Global Room connections and events */
 interface GlobalRoomRepository: SocketRepository {
 
@@ -8,6 +10,6 @@ interface GlobalRoomRepository: SocketRepository {
 	 *
 	 * @param callback  Event listener, receives the name of the subscribed user
 	 */
-	fun onSharingLocation(callback: (name: String) -> Unit)
+	fun onSharingLocation(callback: (name: Notification) -> Unit)
 
 }

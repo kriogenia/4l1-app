@@ -21,8 +21,8 @@
 
         <include
             layout="@layout/content_warning_box"
-            android:visibility="@{model.warning > 0 ? View.VISIBLE : View.GONE}"
-            app:message='@{model.warning &lt; 0 ? "" : String.format(context.getString(model.warning), model.sharing) }' />
+            android:visibility="@{model.notification != null ? View.VISIBLE : View.GONE}"
+            app:message='@{model.notification.print(context) }' />
 
         <!-- No bond panel -->
 

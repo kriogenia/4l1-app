@@ -11,6 +11,7 @@ import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
+import dev.sotoestevez.allforone.vo.Notification
 
 /** View Model of the Main activity for Patients */
 class PatientMainViewModel(
@@ -21,9 +22,9 @@ class PatientMainViewModel(
 ): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
 
 	/** LiveData holding the identifier of the message to show in the warning panel */
-	val warning: LiveData<Int>
-		get() = mWarning
-	private val mWarning = MutableLiveData(-1)
+	val notification: LiveData<Notification>
+		get() = mNotification
+	private val mNotification: MutableLiveData<Notification> = MutableLiveData(null)
 
 	/** User sharing its location */
 	var sharing: String = ""
@@ -42,10 +43,7 @@ class PatientMainViewModel(
 	)
 
 	init {
-		globalRoomRepository.onSharingLocation {
-			sharing = it
-			mWarning.postValue(R.string.warn_searching)
-		}
+		globalRoomRepository.onSharingLocation { mNotification.postValue(it) }
 		globalRoomRepository.join(user.value!!)
 	}
 

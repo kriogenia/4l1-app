@@ -15,6 +15,7 @@ import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.vo.Notification
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -32,13 +33,10 @@ class KeeperMainViewModel(
         get() = mCared
     private val mCared = MutableLiveData<User>(null)
 
-    /** LiveData holding the identifier of the message to show in the warning panel */
-    val warning: LiveData<Int>
-        get() = mWarning
-    private val mWarning = MutableLiveData(-1)
-
-    /** User sharing its location */
-    var sharing: String = ""
+    /** LiveData holding the notifications to display */
+    val notification: LiveData<Notification>
+        get() = mNotification
+    private val mNotification: MutableLiveData<Notification> = MutableLiveData(null)
 
     // WithProfileCard
     override val profileCardExpandable: Boolean = true
@@ -92,16 +90,9 @@ class KeeperMainViewModel(
      */
     private suspend fun setCared(cared: User) {
         logDebug("Retrieved cared user ${cared.displayName}")
-        withContext(dispatchers.main()) {
-            if (warning.value == R.string.warn_no_bonds)
-                mWarning.value = -1
-            mCared.value = cared     // update the cared user
-        }
+        withContext(dispatchers.main()) { mCared.value = cared }
         // Connect to room
-        globalRoomRepository.onSharingLocation {
-            sharing = it
-            mWarning.postValue(R.string.warn_sharing_location)
-        }
+        globalRoomRepository.onSharingLocation {  mNotification.postValue(it) }
         globalRoomRepository.join(user.value!!)
     }
 

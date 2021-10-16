@@ -6,6 +6,8 @@ import dev.sotoestevez.allforone.api.schemas.GlobalSubscriptionMsg
 import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.vo.Action
+import dev.sotoestevez.allforone.vo.Notification
 import dev.sotoestevez.allforone.vo.User
 
 /**
@@ -24,9 +26,7 @@ class GlobalRoomRepositoryImpl(gson: Gson = Gson()): BaseSocketRepository(gson),
 		/** Event to subscribe to the global room*/
 		SUBSCRIBE("global:subscribe"),
 		/** Even sent to the socket when a subscription to the global room is confirmed */
-		SUBSCRIPTION("global:subscription"),
-		/** Event sent to the socket when a user of the same global room starts sharing its location */
-		SHARING_LOCATION("global:sharing_location")
+		SUBSCRIPTION("global:subscription")
 	}
 
 	override fun join(user: User) {
@@ -45,9 +45,9 @@ class GlobalRoomRepositoryImpl(gson: Gson = Gson()): BaseSocketRepository(gson),
 		throw NotImplementedError()	// TODO
 	}
 
-	override fun onSharingLocation(callback: (name: String) -> Unit) {
-		socket.on(Events.SHARING_LOCATION.path) {
-			callback(fromJson(it, UserInfoMsg::class.java).displayName)
+	override fun onSharingLocation(callback: (Notification) -> Unit) {
+		socket.on(Action.LOCATION_SHARING_START.path) {
+			callback(fromJson(it, Notification::class.java))
 		}
 	}
 
