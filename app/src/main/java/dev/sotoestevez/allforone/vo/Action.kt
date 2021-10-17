@@ -8,6 +8,9 @@ import java.util.*
 /** Enumeration of the possible notifiable actions */
 enum class Action(private val template: Int) {
 
+    @SerializedName("bond_created") BOND_CREATED
+        (R.string.user_has_bonded),
+
     /** User has created a new task */
     @SerializedName("task_created") TASK_CREATED
         (R.string.user_created_new_task),

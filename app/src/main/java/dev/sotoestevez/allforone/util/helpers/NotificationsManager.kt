@@ -29,8 +29,11 @@ class NotificationsManager: BaseObservable() {
      */
     fun subscribe(repository: GlobalRoomRepository) {
         repository.apply {
+            onNotification(Action.BOND_CREATED) { add(it) }
             onNotification(Action.TASK_CREATED) { add(it) }
             onNotification(Action.TASK_DELETED) { add(it) }
+            onNotification(Action.TASK_DONE) { add(it) }
+            onNotification(Action.TASK_UNDONE) { add(it) }
             onNotification(Action.LOCATION_SHARING_START) { add(it) }
             onNotification(Action.LOCATION_SHARING_STOP) { add(it) }
         }
