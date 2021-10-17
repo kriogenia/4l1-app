@@ -6,6 +6,7 @@ import dev.sotoestevez.allforone.api.schemas.PlainMessage
 import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.api.services.FeedService
 import dev.sotoestevez.allforone.repositories.FeedRepository
+import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.vo.feed.Message
@@ -66,13 +67,6 @@ class FeedRepositoryImpl(
 		socket.on(Events.DELETE.path) {
 			val message = fromJson(it, PlainMessage::class.java)
 			callback(Message.Builder().apply { data = message }.build())
-		}
-	}
-
-	override fun onTaskStateUpdate(callback: (Message) -> Unit) {
-		socket.on(Events.TASK_STATE_UPDATE.path) {
-			val task = fromJson(it, PlainMessage::class.java)
-			callback(Message.Builder().apply { data = task }.build())
 		}
 	}
 

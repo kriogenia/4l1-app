@@ -91,7 +91,12 @@ class KeeperMainViewModel(
     private suspend fun setCared(cared: User) {
         logDebug("Retrieved cared user ${cared.displayName}")
         withContext(dispatchers.main()) { mCared.value = cared }
-        // Connect to room
+        setSocket()
+    }
+
+    private fun setSocket() {
+        globalRoomRepository.onNotification(Action.TASK_CREATED) { logDebug("New task created") }
+        globalRoomRepository.onNotification(Action.TASK_DELETED) { logDebug("Task deleted") }
         globalRoomRepository.onNotification(Action.LOCATION_SHARING_START) {  mNotification.postValue(it) }
         globalRoomRepository.onNotification(Action.LOCATION_SHARING_STOP) {  mNotification.postValue(null) }
         globalRoomRepository.join(user.value!!)

@@ -10,6 +10,7 @@ import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
+import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 
@@ -39,10 +40,16 @@ class PatientMainViewModel(
 		builder.globalRoomRepository
 	)
 
-	init {
-		globalRoomRepository.onNotification(Action.LOCATION_SHARING_START) { mNotification.postValue(it) }
-		globalRoomRepository.onNotification(Action.LOCATION_SHARING_STOP) { mNotification.postValue(null) }
-		globalRoomRepository.join(user.value!!)
+	init { setSocket(globalRoomRepository) }
+
+	private fun setSocket(repository: GlobalRoomRepository) {
+		repository.onNotification(Action.TASK_CREATED) { logDebug("New task created") }
+		repository.onNotification(Action.TASK_DELETED) { logDebug("Task deleted") }
+		repository.onNotification(Action.TASK_DONE) { logDebug("Task completed") }
+		repository.onNotification(Action.TASK_UNDONE) { logDebug("Task undone") }
+		repository.onNotification(Action.LOCATION_SHARING_START) {  mNotification.postValue(it) }
+		repository.onNotification(Action.LOCATION_SHARING_STOP) {  mNotification.postValue(null) }
+		repository.join(user.value!!)
 	}
 
 }

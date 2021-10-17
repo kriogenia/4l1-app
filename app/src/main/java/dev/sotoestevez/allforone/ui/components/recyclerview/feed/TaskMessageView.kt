@@ -9,7 +9,8 @@ import dev.sotoestevez.allforone.vo.feed.TaskMessage
 /**
  * Base class for Task Messages view
  *
- * @property data   Nested TaskMessage
+ * @property message   Nested TaskMessage
+ * @property listener  Action listener
  */
 sealed class TaskMessageView(
     var message: TaskMessage,
@@ -29,12 +30,18 @@ sealed class TaskMessageView(
     @get:Bindable
     override var collapsed: Boolean = true
 
-    fun update(message: TaskMessage) {
-        this.message = message
-        data = message.task
+    /**
+     * Updates the state of the task
+     *
+     * @param newDone   New state
+     */
+    fun updateState(newDone: Boolean) {
+        this.message.task.done = newDone
+        data.done = newDone
         notifyPropertyChanged(BR.done)
     }
 
+    /** On long press action listener */
     fun onLongPress() = true.also { onRemoveButtonClick() }
 
 }

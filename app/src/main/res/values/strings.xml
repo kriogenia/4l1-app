@@ -94,16 +94,18 @@
     <string name="mandatory">Mandatory</string>
     <string name="complete_task_title">Complete task</string>
     <string name="revert_task_title">Revert task</string>
-    <string name="complete_task_msg">Are you you want to set %s as completed?</string>
-    <string name="revert_task_msg">Are you you want to change %s to not completed?</string>
+    <string name="complete_task_msg">Are you sure you want to set %s as completed?</string>
+    <string name="revert_task_msg">Are you sure you want to change %s to not completed?</string>
     <string name="confirm">Confirm</string>
     <string name="task">Task</string>
     <string name="desc_remove_task">Remove task</string>
     <string name="delete_task_title">Delete task</string>
     <string name="delete_task_msg">Are you sure you want to delete %s? If you do, the rest of users won\'t be able to see the task. You don\'t need to delete a completed task to hide, it will do itself after a few days</string>
     <string name="empty_template">%s</string>
-    <string name="user_set_task_done">Task %s has been completed</string>
-    <string name="user_set_task_not_done">Task %s has ben set as not done</string>
+    <string name="user_set_task_not_done">%s has set task %s as not done</string>
     <string name="user_deleted_message">Deleted %s</string>
     <string name="user_stopped_sharing">%s stopped sharing its location</string>
+    <string name="user_created_new_task">%s has created the task %s</string>
+    <string name="user_deleted_task">%s has deleted the task %s</string>
+    <string name="user_completed_task">%s completed the task %s</string>
 </resources>

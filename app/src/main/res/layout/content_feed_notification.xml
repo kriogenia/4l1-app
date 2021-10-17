@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="dev.sotoestevez.allforone.ui.components.recyclerview.feed.UserActionView" />
+            type="dev.sotoestevez.allforone.ui.components.recyclerview.feed.NotificationView" />
     </data>
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/base_margin"
-        android:text="@{String.format(context.getString(item.template), item.firstArg, item.secondArg)}"
+        android:text="@{item.print(context)}"
         android:textSize="@dimen/msg_font_size"
         android:gravity="center_horizontal"
         tool:text="John update the task Go to park"/>

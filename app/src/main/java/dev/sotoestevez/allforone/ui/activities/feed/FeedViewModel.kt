@@ -11,6 +11,7 @@ import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.repositories.FeedRepository
+import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.TaskRepository
 import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteTaskConfirmation
@@ -29,6 +30,8 @@ import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.invoke
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.TimeFormatter
+import dev.sotoestevez.allforone.vo.Action
+import dev.sotoestevez.allforone.vo.Notification
 import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.vo.feed.Message
@@ -43,6 +46,7 @@ class FeedViewModel(
 	savedStateHandle: SavedStateHandle,
 	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
 	sessionRepository: SessionRepository,
+	private val globalRoomRepository: GlobalRoomRepository,
 	private val feedRepository: FeedRepository,
 	private val taskRepository: TaskRepository
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
@@ -79,17 +83,20 @@ class FeedViewModel(
 		builder.savedStateHandle,
 		builder.dispatchers,
 		builder.sessionRepository,
+		builder.globalRoomRepository,
 		builder.feedRepository,
 		builder.taskRepository
 	)
 
 	init {
 		retrieveMessages()
+		globalRoomRepository.onNotification(Action.TASK_DELETED) { showNotification(it) }
+		globalRoomRepository.onNotification(Action.TASK_DONE) { onTaskStateUpdate(it, true) }
+		globalRoomRepository.onNotification(Action.TASK_UNDONE) { onTaskStateUpdate(it, false) }
 		feedRepository.onUserJoining { mNotification.postValue(UserJoiningNotification(it)) }
 		feedRepository.onUserLeaving { mNotification.postValue(UserLeavingNotification(it)) }
 		feedRepository.onNewMessage { onNewMessage(it) }
 		feedRepository.onMessageDeleted { onMessageRemoval(it) }
-		feedRepository.onTaskStateUpdate { onTaskStateUpdate(it) }
 		feedRepository.join(user.value!!)
 	}
 
@@ -150,27 +157,21 @@ class FeedViewModel(
 	}
 
 	private fun onMessageRemoval(message: Message) {
-		mList.apply {
-			// Remove the message
-			removeIf { it.id == message.id }
-			// Notify it in case if it's a task
-			if (message is TaskMessage) add(UserActionView(R.string.user_deleted_message, message.content))
-		}
+		mList.removeIf { it.id == message.id }
 		mFeedList.apply { postValue(value) }
 	}
 
-	private fun onTaskStateUpdate(message: Message) {
-		if (message !is TaskMessage) throw IllegalStateException("Task updated is not a Task")
-		// Update task view
-		mList.find { it.id == message.id }.run {
-			if (this !is TaskMessageView) return@run
-			this.update(message)
-		}
-		// Add advise
-		val template = if (message.task.done) R.string.user_set_task_done else R.string.user_set_task_not_done
-		mList.add(UserActionView(template, message.content, ""))
-		// Update list
+	private fun showNotification(notification: Notification) {
+		mList.add(NotificationView(notification))
 		mFeedList.apply { postValue(value) }
+	}
+
+	private fun onTaskStateUpdate(notification: Notification, done: Boolean) {
+		mList.find { it.id == notification.tags[1] }.run {
+			if (this !is TaskMessageView) return@run
+			this.updateState(done)
+		}
+		showNotification(notification)
 	}
 
 	private fun wrapList(messages: List<Message>): List<FeedView> {

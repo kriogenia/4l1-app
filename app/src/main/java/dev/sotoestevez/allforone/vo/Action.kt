@@ -6,21 +6,31 @@ import dev.sotoestevez.allforone.R
 import java.util.*
 
 /** Enumeration of the possible notifiable actions */
-enum class Action {
+enum class Action(private val template: Int) {
+
+    /** User has created a new task */
+    @SerializedName("task_created") TASK_CREATED
+        (R.string.user_created_new_task),
+
+    /** User has deleted a new task */
+    @SerializedName("task_deleted") TASK_DELETED
+        (R.string.user_deleted_task),
+
+    /** User has deleted a new task */
+    @SerializedName("task_done") TASK_DONE
+        (R.string.user_completed_task),
+
+    /** User has deleted a new task */
+    @SerializedName("task_undone") TASK_UNDONE
+        (R.string.user_set_task_not_done),
 
     /** User started sharing its location */
-    @SerializedName("location_sharing_start") LOCATION_SHARING_START {
-        override fun print(context: Context, vararg args: String): String {
-            return String.format(context.getString(R.string.warn_sharing_location), *args)
-        }
-    },
+    @SerializedName("location_sharing_start") LOCATION_SHARING_START
+        (R.string.warn_sharing_location),
 
     /** User stopped sharing its location */
-    @SerializedName("location_sharing_stop") LOCATION_SHARING_STOP {
-        override fun print(context: Context, vararg args: String): String {
-            return String.format(context.getString(R.string.user_stopped_sharing), *args)
-        }
-    };
+    @SerializedName("location_sharing_stop") LOCATION_SHARING_STOP
+        (R.string.user_stopped_sharing);
 
     /** Socket event path of the notification */
     val path = "notify:${name.lowercase(Locale.getDefault())}"
@@ -32,6 +42,6 @@ enum class Action {
      * @param args      Arguments to add to the template
      * @return          Printable string
      */
-    abstract fun print(context: Context, vararg args: String): String
+    fun print(context: Context, vararg args: String): String = String.format(context.getString(template), *args)
 
 }
