@@ -13,6 +13,13 @@ enum class Action {
         override fun print(context: Context, vararg args: String): String {
             return String.format(context.getString(R.string.warn_sharing_location), *args)
         }
+    },
+
+    /** User stopped sharing its location */
+    @SerializedName("location_sharing_stop") LOCATION_SHARING_STOP {
+        override fun print(context: Context, vararg args: String): String {
+            return String.format(context.getString(R.string.user_stopped_sharing), *args)
+        }
     };
 
     /** Socket event path of the notification */

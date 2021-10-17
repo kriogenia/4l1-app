@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
@@ -15,6 +14,7 @@ import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -92,7 +92,8 @@ class KeeperMainViewModel(
         logDebug("Retrieved cared user ${cared.displayName}")
         withContext(dispatchers.main()) { mCared.value = cared }
         // Connect to room
-        globalRoomRepository.onSharingLocation {  mNotification.postValue(it) }
+        globalRoomRepository.onNotification(Action.LOCATION_SHARING_START) {  mNotification.postValue(it) }
+        globalRoomRepository.onNotification(Action.LOCATION_SHARING_STOP) {  mNotification.postValue(null) }
         globalRoomRepository.join(user.value!!)
     }
 

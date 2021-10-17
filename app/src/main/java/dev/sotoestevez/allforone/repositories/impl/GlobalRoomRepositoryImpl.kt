@@ -45,10 +45,8 @@ class GlobalRoomRepositoryImpl(gson: Gson = Gson()): BaseSocketRepository(gson),
 		throw NotImplementedError()	// TODO
 	}
 
-	override fun onSharingLocation(callback: (Notification) -> Unit) {
-		socket.on(Action.LOCATION_SHARING_START.path) {
-			callback(fromJson(it, Notification::class.java))
-		}
+	override fun onNotification(action: Action, callback: (Notification) -> Unit) {
+		socket.on(action.path) { callback(fromJson(it, Notification::class.java)) }
 	}
 
 }
