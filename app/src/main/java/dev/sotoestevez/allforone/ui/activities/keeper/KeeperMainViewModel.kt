@@ -14,6 +14,7 @@ import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.util.helpers.NotificationsManager
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 import kotlinx.coroutines.launch
@@ -42,6 +43,8 @@ class KeeperMainViewModel(
     override val profileCardExpandable: Boolean = true
     override val profileCardWithBanner: Boolean = true
     override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val notificationManager = NotificationsManager()
 
     @Suppress("unused") // Used in the factory with a class call
     constructor(builder: ExtendedViewModel.Builder): this(
@@ -95,8 +98,8 @@ class KeeperMainViewModel(
     }
 
     private fun setSocket() {
-        globalRoomRepository.onNotification(Action.TASK_CREATED) { logDebug("New task created") }
-        globalRoomRepository.onNotification(Action.TASK_DELETED) { logDebug("Task deleted") }
+        globalRoomRepository.onNotification(Action.TASK_CREATED) { notificationManager.increase() }
+        globalRoomRepository.onNotification(Action.TASK_DELETED) { notificationManager.increase() }
         globalRoomRepository.onNotification(Action.LOCATION_SHARING_START) {  mNotification.postValue(it) }
         globalRoomRepository.onNotification(Action.LOCATION_SHARING_STOP) {  mNotification.postValue(null) }
         globalRoomRepository.join(user.value!!)

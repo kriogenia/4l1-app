@@ -108,4 +108,5 @@
     <string name="user_created_new_task">%s has created the task %s</string>
     <string name="user_deleted_task">%s has deleted the task %s</string>
     <string name="user_completed_task">%s completed the task %s</string>
+    <string name="notifications">Notifications</string>
 </resources>
