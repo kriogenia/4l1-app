@@ -44,6 +44,7 @@ class KeeperMainViewModel(
     override val profileCardWithBanner: Boolean = true
     override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    /** Notifications manager */
     val notificationManager = NotificationsManager()
 
     @Suppress("unused") // Used in the factory with a class call
@@ -94,14 +95,8 @@ class KeeperMainViewModel(
     private suspend fun setCared(cared: User) {
         logDebug("Retrieved cared user ${cared.displayName}")
         withContext(dispatchers.main()) { mCared.value = cared }
-        setSocket()
-    }
-
-    private fun setSocket() {
-        globalRoomRepository.onNotification(Action.TASK_CREATED) { notificationManager.increase() }
-        globalRoomRepository.onNotification(Action.TASK_DELETED) { notificationManager.increase() }
-        globalRoomRepository.onNotification(Action.LOCATION_SHARING_START) {  mNotification.postValue(it) }
-        globalRoomRepository.onNotification(Action.LOCATION_SHARING_STOP) {  mNotification.postValue(null) }
+        // Start socket connection
+        notificationManager.subscribe(globalRoomRepository)
         globalRoomRepository.join(user.value!!)
     }
 

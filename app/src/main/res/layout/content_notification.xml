@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="dev.sotoestevez.allforone.ui.components.recyclerview.feed.FeedNotificationView" />
+            type="dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationView" />
     </data>
 
     <TextView

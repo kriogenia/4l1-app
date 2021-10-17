@@ -30,20 +30,5 @@ class NotificationsDialog(private val notificationsManager: NotificationsManager
         binding.manager = notificationsManager
         return binding.root
     }
-/*
-    @Suppress("KDocMissingDocumentation")  // override method, it overrides the dialog theme
-    override fun getTheme(): Int = R.style.AppTheme_FullDialog
 
-    @Suppress("KDocMissingDocumentation")  // override method
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.layButtonsTask.apply {
-            btnNegative.setOnClickListener { dismiss() }
-            btnPositive.setOnClickListener {
-                onCreate(binding.eTxtTaskTitle.text.toString(), binding.eTxtTaskDescription.text.toString())
-                dismiss()
-            }
-        }
-    }
-*/
 }

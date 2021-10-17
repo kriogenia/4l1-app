@@ -17,7 +17,7 @@ data class Notification(
     val action: Action,
     val instigator: String,
     val timestamp: Long,
-    val tags: Array<String>
+    val tags: Array<String> = arrayOf()
 ) {
 
     /**

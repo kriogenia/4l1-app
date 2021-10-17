@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.util.Strings
-import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
@@ -162,7 +161,7 @@ class FeedViewModel(
 	}
 
 	private fun showNotification(notification: Notification) {
-		mList.add(NotificationView(notification))
+		mList.add(FeedNotificationView(notification))
 		mFeedList.apply { postValue(value) }
 	}
 
