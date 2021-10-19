@@ -110,4 +110,7 @@
     <string name="user_completed_task">%s completed the task %s</string>
     <string name="notifications">Notifications</string>
     <string name="user_has_bonded">Your cared is now bonded with %s</string>
+    <string name="desc_mark_as_read">Mark the notification as read</string>
+    <string name="mark_all_as_read">Mark all as read</string>
+    <string name="back">Back</string>
 </resources>

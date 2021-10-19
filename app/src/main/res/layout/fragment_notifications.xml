@@ -13,7 +13,31 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/activity_vertical_margin">
+        android:padding="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:id="@+id/lblNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/notifications"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/TextAppearance.MaterialComponents.Headline2"/>
+
+        <!-- Mark all as read button -->
+
+        <Button
+            android:id="@+id/btnReadAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_baseline_read_24"
+            android:text="@string/mark_all_as_read"
+            app:layout_constraintTop_toBottomOf="@id/lblNotifications"
+            app:layout_constraintEnd_toEndOf="@id/lblNotifications"
+            android:enabled="@{manager.numberOfNotifications > 0}"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
 
         <!-- Notification list -->
 
@@ -24,19 +48,19 @@
             app:layout_constrainedHeight="true"
             app:heldItems="@{manager.notifications}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnReadAll"
             app:layout_constraintStart_toStartOf="parent"  />
 
-        <TextView
-            android:id="@+id/lblTaskSubmitter"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@{manager.size}"
-            android:gravity="center_horizontal"
-            tool:text="Notification"
-            app:layout_constraintTop_toBottomOf="@id/rvNotifications"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="@string/back"
+            app:icon="@drawable/ic_baseline_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

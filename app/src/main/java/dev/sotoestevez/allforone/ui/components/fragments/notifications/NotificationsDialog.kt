@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import dev.sotoestevez.allforone.databinding.FragmentNotificationsBinding
 import dev.sotoestevez.allforone.util.helpers.NotificationsManager
+import androidx.recyclerview.widget.DividerItemDecoration
+import dev.sotoestevez.allforone.R
+
 
 /**
  * Dialog to display and manage the pending notifications of the user
@@ -28,7 +31,11 @@ class NotificationsDialog(private val notificationsManager: NotificationsManager
     ): View {
         binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         binding.manager = notificationsManager
+        binding.rvNotifications.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         return binding.root
     }
+
+    @Suppress("KDocMissingDocumentation")  // override method, it overrides the dialog theme
+    override fun getTheme(): Int = R.style.AppTheme_FullDialog
 
 }

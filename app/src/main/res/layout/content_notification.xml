@@ -9,15 +9,33 @@
             type="dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationView" />
     </data>
 
-    <TextView
-        android:id="@+id/lblReceivedMessageAuthor"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/base_margin"
-        android:text="@{item.print(context)}"
-        android:textSize="@dimen/msg_font_size"
-        android:gravity="center_horizontal"
-        tool:text="John update the task Go to park"/>
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/lblReceivedMessageAuthor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:text="@{item.print(context)}"
+            android:textSize="@dimen/msg_font_size"
+            tool:text="John updated the task Go to park"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/desc_mark_as_read"
+            android:minWidth="@dimen/task_icon_size"
+            android:minHeight="@dimen/task_icon_size"
+            android:src="@drawable/ic_baseline_read_24"
+            android:onClickListener="@{() -> item.onClickListener()}" />
+
+    </LinearLayout>
+
 
 </layout>

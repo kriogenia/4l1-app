@@ -21,4 +21,6 @@ class NotificationView(private val notification: Notification) : BindedItemView 
      */
     fun print(context: Context) = notification.print(context)
 
+    fun onClickListener() {}
+
 }
