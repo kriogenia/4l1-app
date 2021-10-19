@@ -5,10 +5,15 @@ import androidx.databinding.Bindable
 import dev.sotoestevez.allforone.BR
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.NotificationRepository
+import dev.sotoestevez.allforone.ui.components.recyclerview.feed.FeedView
+import dev.sotoestevez.allforone.ui.components.recyclerview.feed.TextHeaderView
+import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationDateHeaderView
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationView
+import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationsView
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
+import dev.sotoestevez.allforone.vo.feed.Message
 import java.util.*
 
 /** Controls the logic of managing the incoming notifications */
@@ -16,9 +21,9 @@ class NotificationsManager: BaseObservable() {
 
     /** List of pending notifications to display */
     @get:Bindable
-    val notifications: List<NotificationView>
+    val notifications: List<NotificationsView>
         get() = mNotifications
-    private val mNotifications: LinkedList<NotificationView> = LinkedList()
+    private val mNotifications: LinkedList<NotificationsView> = LinkedList()
 
     /** Current size of pending notifications */
     @get:Bindable
@@ -32,7 +37,12 @@ class NotificationsManager: BaseObservable() {
      */
     fun load(notifications: List<Notification>) {
         mNotifications.clear()
-        mNotifications.addAll(notifications.sortedByDescending { it.timestamp }.map { NotificationView(it) })
+        val notificationByDate = notifications.sortedByDescending { it.timestamp }.groupBy { TimeFormatter.getDate(it.timestamp) }
+        notificationByDate.keys.forEach {
+            mNotifications.removeIf { v -> v.id == it }
+            mNotifications.add(NotificationDateHeaderView(it))
+            notificationByDate[it]?.map { m -> NotificationView(m) }?.let { i -> mNotifications.addAll(i) }
+        }
         reload()
     }
 

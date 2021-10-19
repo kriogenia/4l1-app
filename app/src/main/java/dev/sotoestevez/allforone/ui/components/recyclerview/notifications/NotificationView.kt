@@ -6,13 +6,13 @@ import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.vo.Notification
 
 /** View for user's action to notify in the feed */
-class NotificationView(private val notification: Notification) : BindedItemView {
+class NotificationView(private val notification: Notification) : NotificationsView {
 
     override val id: String = notification.id
 
     override val layoutId: Int = R.layout.content_notification
 
-    override val viewType: Int = 0
+    override val viewType: Int = NotificationsView.Type.NOTIFICATION.ordinal
 
     /**
      * Prints the notification text
