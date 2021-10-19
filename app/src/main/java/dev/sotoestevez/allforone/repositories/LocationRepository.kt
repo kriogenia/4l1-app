@@ -6,7 +6,7 @@ import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.vo.UserMarker
 
 /** Repository to manage all the location sharing related operations */
-interface LocationRepository: SocketRepository {
+interface LocationRepository: SocketRoomRepository {
 
 	/**
 	 * Sends the new location of the user to the server

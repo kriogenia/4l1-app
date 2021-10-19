@@ -1,10 +1,9 @@
 package dev.sotoestevez.allforone.repositories
 
-import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.feed.Message
 
 /** Repository to manage all the feed and messaging related operations */
-interface FeedRepository: SocketRepository {
+interface FeedRepository: SocketRoomRepository {
 
 	/**
 	 * Sends a message from the repository

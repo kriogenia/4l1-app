@@ -11,6 +11,7 @@ import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.WithProfileCard
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
+import dev.sotoestevez.allforone.repositories.NotificationRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
@@ -26,7 +27,8 @@ class KeeperMainViewModel(
     dispatchers: DispatcherProvider,
     sessionRepository: SessionRepository,
     private val userRepository: UserRepository,
-    private val globalRoomRepository: GlobalRoomRepository
+    private val globalRoomRepository: GlobalRoomRepository,
+    private val notificationRepository: NotificationRepository
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
 
     /** LiveData holding the info about the patient cared by this user */
@@ -53,7 +55,8 @@ class KeeperMainViewModel(
         builder.dispatchers,
         builder.sessionRepository,
         builder.userRepository,
-        builder.globalRoomRepository
+        builder.globalRoomRepository,
+        builder.notificationRepository
     )
 
     init {
@@ -64,6 +67,7 @@ class KeeperMainViewModel(
             userRepository.getCared(user.value!!, authHeader())?.let { setCared(it) }
             loading.postValue(false)
         }
+        viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { getNotifications() }
     }
 
 
@@ -87,17 +91,14 @@ class KeeperMainViewModel(
         }
     }
 
-    /**
-     * Sets the cared user updating the UI and requesting access to its global room
-     *
-     * @param cared cared user
-     */
     private suspend fun setCared(cared: User) {
         logDebug("Retrieved cared user ${cared.displayName}")
         withContext(dispatchers.main()) { mCared.value = cared }
         // Start socket connection
-        notificationManager.subscribe(globalRoomRepository)
+        notificationManager.subscribe(notificationRepository)
         globalRoomRepository.join(user.value!!)
     }
+
+    private suspend fun getNotifications() = notificationManager.load(notificationRepository.getNotifications(authHeader()))
 
 }

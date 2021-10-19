@@ -73,7 +73,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnNotifications"
                 android:layout_width="match_parent"
-                android:text="@string/notifications"
+                android:text="@{@string/notifications + model.notificationManager.numberOfNotifications}"
                 tools:text="Notifications"
                 style="@style/AppTheme.MainButton" />
 

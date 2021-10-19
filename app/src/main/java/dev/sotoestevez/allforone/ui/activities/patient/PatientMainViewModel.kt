@@ -43,12 +43,12 @@ class PatientMainViewModel(
 	init { setSocket(globalRoomRepository) }
 
 	private fun setSocket(repository: GlobalRoomRepository) {
-		repository.onNotification(Action.TASK_CREATED) { logDebug("New task created") }
+	/*	repository.onNotification(Action.TASK_CREATED) { logDebug("New task created") }
 		repository.onNotification(Action.TASK_DELETED) { logDebug("Task deleted") }
 		repository.onNotification(Action.TASK_DONE) { logDebug("Task completed") }
 		repository.onNotification(Action.TASK_UNDONE) { logDebug("Task undone") }
 		repository.onNotification(Action.LOCATION_SHARING_START) {  mNotification.postValue(it) }
-		repository.onNotification(Action.LOCATION_SHARING_STOP) {  mNotification.postValue(null) }
+		repository.onNotification(Action.LOCATION_SHARING_STOP) {  mNotification.postValue(null) }*/
 		repository.join(user.value!!)
 	}
 

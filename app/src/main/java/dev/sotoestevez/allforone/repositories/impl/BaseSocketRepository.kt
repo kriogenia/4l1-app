@@ -10,7 +10,7 @@ import org.json.JSONObject
  *
  * @property gson   Gson serializer/deserializer
  */
-abstract class BaseSocketRepository(private val gson: Gson = Gson()) {
+abstract class BaseSocketRepository(private val gson: Gson) {
 
 	/** Current socket */
 	protected val socket: Socket = SocketManager.socket

@@ -6,13 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.util.Strings
+import dev.sotoestevez.allforone.repositories.*
 import dev.sotoestevez.allforone.vo.feed.TextMessage
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
-import dev.sotoestevez.allforone.repositories.FeedRepository
-import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
-import dev.sotoestevez.allforone.repositories.SessionRepository
-import dev.sotoestevez.allforone.repositories.TaskRepository
 import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteTaskConfirmation
 import dev.sotoestevez.allforone.ui.components.exchange.dialog.DialogConfirmationRequest
 import dev.sotoestevez.allforone.ui.components.exchange.dialog.SetTaskDoneConfirmation
@@ -45,7 +42,7 @@ class FeedViewModel(
 	savedStateHandle: SavedStateHandle,
 	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
 	sessionRepository: SessionRepository,
-	private val globalRoomRepository: GlobalRoomRepository,
+	private val notificationRepository: NotificationRepository,
 	private val feedRepository: FeedRepository,
 	private val taskRepository: TaskRepository
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
@@ -82,20 +79,14 @@ class FeedViewModel(
 		builder.savedStateHandle,
 		builder.dispatchers,
 		builder.sessionRepository,
-		builder.globalRoomRepository,
+		builder.notificationRepository,
 		builder.feedRepository,
 		builder.taskRepository
 	)
 
 	init {
 		retrieveMessages()
-		globalRoomRepository.onNotification(Action.TASK_DELETED) { showNotification(it) }
-		globalRoomRepository.onNotification(Action.TASK_DONE) { onTaskStateUpdate(it, true) }
-		globalRoomRepository.onNotification(Action.TASK_UNDONE) { onTaskStateUpdate(it, false) }
-		feedRepository.onUserJoining { mNotification.postValue(UserJoiningNotification(it)) }
-		feedRepository.onUserLeaving { mNotification.postValue(UserLeavingNotification(it)) }
-		feedRepository.onNewMessage { onNewMessage(it) }
-		feedRepository.onMessageDeleted { onMessageRemoval(it) }
+		subscribe()
 		feedRepository.join(user.value!!)
 	}
 
@@ -148,6 +139,16 @@ class FeedViewModel(
 				Log.d(FeedViewModel::class.simpleName, "Retrieved list of ${messages.size} messages")
 			}
 		}
+	}
+
+	private fun subscribe() {
+		notificationRepository.onNotification(Action.TASK_DELETED) { showNotification(it) }
+		notificationRepository.onNotification(Action.TASK_DONE) { onTaskStateUpdate(it, true) }
+		notificationRepository.onNotification(Action.TASK_UNDONE) { onTaskStateUpdate(it, false) }
+		feedRepository.onUserJoining { mNotification.postValue(UserJoiningNotification(it)) }
+		feedRepository.onUserLeaving { mNotification.postValue(UserLeavingNotification(it)) }
+		feedRepository.onNewMessage { onNewMessage(it) }
+		feedRepository.onMessageDeleted { onMessageRemoval(it) }
 	}
 
 	private fun onNewMessage(message: Message) {

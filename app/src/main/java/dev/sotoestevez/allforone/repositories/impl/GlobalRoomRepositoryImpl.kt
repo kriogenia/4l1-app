@@ -45,8 +45,4 @@ class GlobalRoomRepositoryImpl(gson: Gson = Gson()): BaseSocketRepository(gson),
 		throw NotImplementedError()	// TODO
 	}
 
-	override fun onNotification(action: Action, callback: (Notification) -> Unit) {
-		socket.on(action.path) { callback(fromJson(it, Notification::class.java)) }
-	}
-
 }
