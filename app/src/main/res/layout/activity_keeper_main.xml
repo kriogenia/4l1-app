@@ -17,13 +17,6 @@
         android:orientation="vertical"
         tools:context=".ui.activities.patient.KeeperMainActivity">
 
-        <!-- Warning panel -->
-
-        <include
-            layout="@layout/content_warning_box"
-            android:visibility="@{model.notification != null ? View.VISIBLE : View.GONE}"
-            app:message='@{model.notification.print(context) }' />
-
         <!-- Bonded layout -->
 
         <LinearLayout

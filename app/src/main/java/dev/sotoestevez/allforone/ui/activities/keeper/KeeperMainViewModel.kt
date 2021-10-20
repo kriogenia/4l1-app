@@ -16,6 +16,7 @@ import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.NotificationsManager
+import dev.sotoestevez.allforone.util.helpers.ViewModelNotificationsHandler
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 import kotlinx.coroutines.launch
@@ -36,18 +37,27 @@ class KeeperMainViewModel(
         get() = mCared
     private val mCared = MutableLiveData<User>(null)
 
-    /** LiveData holding the notifications to display */
-    val notification: LiveData<Notification>
-        get() = mNotification
-    private val mNotification: MutableLiveData<Notification> = MutableLiveData(null)
-
     // WithProfileCard
     override val profileCardExpandable: Boolean = true
     override val profileCardWithBanner: Boolean = true
     override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /** Notifications manager */
-    val notificationManager = NotificationsManager()
+    val notificationManager = NotificationsManager(object: ViewModelNotificationsHandler {
+        override suspend fun getNotifications(): List<Notification> {
+           return notificationRepository.getNotifications(authHeader())
+        }
+
+        override fun onNotification(action: Action, callback: (name: Notification) -> Unit) {
+            notificationRepository.onNotification(action, callback)
+        }
+
+        override fun setAsRead(notification: Notification) {
+            viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
+                notificationRepository.setAsRead(notification, authHeader())
+            }
+        }
+    })
 
     @Suppress("unused") // Used in the factory with a class call
     constructor(builder: ExtendedViewModel.Builder): this(
@@ -67,7 +77,7 @@ class KeeperMainViewModel(
             userRepository.getCared(user.value!!, authHeader())?.let { setCared(it) }
             loading.postValue(false)
         }
-        viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { getNotifications() }
+        viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { notificationManager.load() }
     }
 
 
@@ -95,10 +105,8 @@ class KeeperMainViewModel(
         logDebug("Retrieved cared user ${cared.displayName}")
         withContext(dispatchers.main()) { mCared.value = cared }
         // Start socket connection
-        notificationManager.subscribe(notificationRepository)
+        notificationManager.subscribe()
         globalRoomRepository.join(user.value!!)
     }
-
-    private suspend fun getNotifications() = notificationManager.load(notificationRepository.getNotifications(authHeader()))
 
 }

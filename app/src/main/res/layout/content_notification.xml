@@ -33,7 +33,7 @@
             android:minWidth="@dimen/task_icon_size"
             android:minHeight="@dimen/task_icon_size"
             android:src="@drawable/ic_baseline_read_24"
-            android:onClickListener="@{() -> item.onClickListener()}" />
+            android:onClickListener="@{() -> item.onIconClickListener()}" />
 
     </LinearLayout>
 
