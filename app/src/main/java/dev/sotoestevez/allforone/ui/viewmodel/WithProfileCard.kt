@@ -2,7 +2,7 @@ package dev.sotoestevez.allforone.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 
-/** ViewModel of on Activity featuring a profile card */
+/** ViewModel of an Activity featuring a profile card */
 interface WithProfileCard {
 
 	/** Defines if the featured profile card is expandable or not */

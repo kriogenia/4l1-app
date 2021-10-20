@@ -1,4 +1,4 @@
-package dev.sotoestevez.allforone.util.helpers
+package dev.sotoestevez.allforone.util.helpers.notifications
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
@@ -7,6 +7,7 @@ import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.Notifi
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationView
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationsView
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.listeners.NotificationListener
+import dev.sotoestevez.allforone.util.helpers.TimeFormatter
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 import java.lang.IllegalStateException
@@ -37,14 +38,7 @@ class NotificationsManager(
     /** Loads the given list of notifications */
     suspend fun load() {
         clear()
-        val notifications = handler.getNotifications()
-        val notificationByDate = notifications.sortedByDescending { it.timestamp }.groupBy { TimeFormatter.getDate(it.timestamp) }
-        notificationByDate.keys.forEach {
-            mNotifications.removeIf { v -> v.id == it }
-            mNotifications.add(NotificationDateHeaderView(it)).also { headers++ }
-            notificationByDate[it]?.map { m -> NotificationView(m, listener) }?.let { i -> mNotifications.addAll(i) }
-        }
-        notifyChanges()
+        handler.getNotifications{ addAll(it) }
     }
 
     /** Reads all the notifications */
@@ -67,6 +61,16 @@ class NotificationsManager(
     }
 
     private fun add(notification: Notification) = mNotifications.addFirst(NotificationView(notification, listener)).also { notifyChanges() }
+
+    private fun addAll(notifications: List<Notification>) {
+        val notificationByDate = notifications.sortedByDescending { it.timestamp }.groupBy { TimeFormatter.getDate(it.timestamp) }
+        notificationByDate.keys.forEach {
+            mNotifications.removeIf { v -> v.id == it }
+            mNotifications.add(NotificationDateHeaderView(it)).also { headers++ }
+            notificationByDate[it]?.map { m -> NotificationView(m, listener) }?.let { i -> mNotifications.addAll(i) }
+        }
+        notifyChanges()
+    }
 
     private fun clear() = mNotifications.clear().also { headers = 0 }
 

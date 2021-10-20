@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import dev.sotoestevez.allforone.databinding.FragmentNotificationsBinding
-import dev.sotoestevez.allforone.util.helpers.NotificationsManager
+import dev.sotoestevez.allforone.util.helpers.notifications.NotificationsManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import dev.sotoestevez.allforone.R
 

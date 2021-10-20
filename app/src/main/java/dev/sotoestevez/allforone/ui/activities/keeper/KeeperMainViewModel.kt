@@ -14,10 +14,12 @@ import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.NotificationRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
+import dev.sotoestevez.allforone.ui.viewmodel.WithNotifications
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
-import dev.sotoestevez.allforone.util.helpers.NotificationsManager
-import dev.sotoestevez.allforone.util.helpers.ViewModelNotificationsHandler
+import dev.sotoestevez.allforone.util.helpers.notifications.NotificationsManager
+import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandler
+import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandlerImpl
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 import kotlinx.coroutines.launch
@@ -30,8 +32,8 @@ class KeeperMainViewModel(
     sessionRepository: SessionRepository,
     private val userRepository: UserRepository,
     private val globalRoomRepository: GlobalRoomRepository,
-    private val notificationRepository: NotificationRepository
-) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
+    override val notificationRepository: NotificationRepository
+) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard, WithNotifications {
 
     /** LiveData holding the info about the patient cared by this user */
     val cared: LiveData<User>
@@ -49,7 +51,9 @@ class KeeperMainViewModel(
     override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /** Entity in charge of managing the notifications */
-    val notificationManager: NotificationsManager by lazy { NotificationsManager(handler) }
+    val notificationManager: NotificationsManager by lazy {
+        NotificationsManager(ViewModelNotificationsHandlerImpl(this))
+    }
 
     @Suppress("unused") // Used in the factory with a class call
     constructor(builder: ExtendedViewModel.Builder): this(
@@ -101,28 +105,11 @@ class KeeperMainViewModel(
         globalRoomRepository.join(user.value!!)
     }
 
-    /** Notifications manager */
-    private val handler by lazy { object: ViewModelNotificationsHandler {
+    override fun setDestiny(destiny: Class<out Activity>) { mDestiny.value = destiny }
 
-        override suspend fun getNotifications(): List<Notification> = notificationRepository.getNotifications(authHeader())
+    override fun runNotificationRequest(request: suspend (String) -> Unit) {
+        viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { request(authHeader()) }
+    }
 
-        override fun gotToNotificationDestiny(destiny: Class<out Activity>) { mDestiny.value = destiny }
-
-        override fun onNotification(action: Action, callback: (name: Notification) -> Unit) =
-            notificationRepository.onNotification(action, callback)
-
-        override fun setAllAsRead() {
-            viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-                notificationRepository.setAllAsRead(authHeader())
-            }
-        }
-
-        override fun setAsRead(notification: Notification) {
-            viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-                notificationRepository.setAsRead(notification, authHeader())
-            }
-        }
-
-    } }
 
 }

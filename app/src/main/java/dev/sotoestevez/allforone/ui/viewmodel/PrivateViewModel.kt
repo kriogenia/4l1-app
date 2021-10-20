@@ -23,7 +23,7 @@ import org.jetbrains.annotations.TestOnly
  */
 abstract class PrivateViewModel(
 	savedStateHandle: SavedStateHandle,
-	protected val dispatchers: DispatcherProvider,
+	val dispatchers: DispatcherProvider,
 	protected val sessionRepository: SessionRepository
 ): ViewModel(), ExtendedViewModel {
 
