@@ -1,6 +1,5 @@
 package dev.sotoestevez.allforone.repositories
 
-import dev.sotoestevez.allforone.repositories.impl.BaseSocketRepository
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 
@@ -10,7 +9,6 @@ interface NotificationRepository {
 	/**
 	 * Retrieves the pending notifications
 	 *
-	 * @param maxDays	Limit of days of the notification
 	 * @param token 	Authentication token
 	 */
 	suspend fun getNotifications(token: String): List<Notification>
@@ -21,5 +19,13 @@ interface NotificationRepository {
 	 * @param callback  Event listener, receives the notification
 	 */
 	fun onNotification(action: Action, callback: (name: Notification) -> Unit)
+
+	/**
+	 * Sets a notification as read by the user
+	 *
+	 * @param notification	Notification to set as read
+	 * @param token			Authentication token
+	 */
+	suspend fun setAsRead(notification: Notification, token: String)
 
 }

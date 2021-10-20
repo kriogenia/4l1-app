@@ -3,8 +3,11 @@ package dev.sotoestevez.allforone.util.helpers
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 
+/** Handler to perform the notifications repository actions with the viewmodel coroutine and network logic
+ */
 interface ViewModelNotificationsHandler {
 
+    /** Retrieves the pending notifications */
     suspend fun getNotifications(): List<Notification>
 
     /**

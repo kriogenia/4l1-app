@@ -42,22 +42,8 @@ class KeeperMainViewModel(
     override val profileCardWithBanner: Boolean = true
     override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    /** Notifications manager */
-    val notificationManager = NotificationsManager(object: ViewModelNotificationsHandler {
-        override suspend fun getNotifications(): List<Notification> {
-           return notificationRepository.getNotifications(authHeader())
-        }
-
-        override fun onNotification(action: Action, callback: (name: Notification) -> Unit) {
-            notificationRepository.onNotification(action, callback)
-        }
-
-        override fun setAsRead(notification: Notification) {
-            viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-                notificationRepository.setAsRead(notification, authHeader())
-            }
-        }
-    })
+    /** Entity in charge of managing the notifications */
+    val notificationManager: NotificationsManager by lazy { NotificationsManager(handler) }
 
     @Suppress("unused") // Used in the factory with a class call
     constructor(builder: ExtendedViewModel.Builder): this(
@@ -107,6 +93,21 @@ class KeeperMainViewModel(
         // Start socket connection
         notificationManager.subscribe()
         globalRoomRepository.join(user.value!!)
+    }
+
+    /** Notifications manager */
+    private val handler = object: ViewModelNotificationsHandler {
+
+        override suspend fun getNotifications(): List<Notification> = notificationRepository.getNotifications(authHeader())
+
+        override fun onNotification(action: Action, callback: (name: Notification) -> Unit) = notificationRepository.onNotification(action, callback)
+
+        override fun setAsRead(notification: Notification) {
+            viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
+                notificationRepository.setAsRead(notification, authHeader())
+            }
+        }
+
     }
 
 }

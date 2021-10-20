@@ -7,6 +7,7 @@ import dev.sotoestevez.allforone.repositories.NotificationRepository
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationDateHeaderView
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationView
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationsView
+import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.listeners.NotificationListener
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +31,9 @@ class NotificationsManager(
     /** Current size of pending notifications */
     @get:Bindable
     val numberOfNotifications: Int
-        get() = mNotifications.size
+        get() = mNotifications.size - headers
+
+    private var headers: Int = 0
 
     /** Loads the given list of notifications */
     suspend fun load() {
@@ -39,8 +42,8 @@ class NotificationsManager(
         val notificationByDate = notifications.sortedByDescending { it.timestamp }.groupBy { TimeFormatter.getDate(it.timestamp) }
         notificationByDate.keys.forEach {
             mNotifications.removeIf { v -> v.id == it }
-            mNotifications.add(NotificationDateHeaderView(it))
-            notificationByDate[it]?.map { m -> NotificationView(m) }?.let { i -> mNotifications.addAll(i) }
+            mNotifications.add(NotificationDateHeaderView(it)).also { headers++ }
+            notificationByDate[it]?.map { m -> NotificationView(m, listener) }?.let { i -> mNotifications.addAll(i) }
         }
         reload()
     }
@@ -58,13 +61,22 @@ class NotificationsManager(
         }
     }
 
-    private fun add(notification: Notification) = mNotifications.addFirst(NotificationView(notification)).also { reload() }
+    private fun add(notification: Notification) = mNotifications.addFirst(NotificationView(notification, listener)).also { reload() }
 
     private fun remove(id: String) = mNotifications.removeIf { it.id == id }
 
     private fun reload() {
         notifyPropertyChanged(BR.notifications)
         notifyPropertyChanged(BR.numberOfNotifications)
+    }
+
+    private val listener: NotificationListener = object: NotificationListener {
+
+        override fun onRead(notification: Notification) {
+            handler.setAsRead(notification)
+            remove(notification.id).also { reload() }
+        }
+
     }
 
 }

@@ -4,10 +4,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.schemas.BaseErrorResponse
 import dev.sotoestevez.allforone.api.schemas.FeedMessageResponse
 import dev.sotoestevez.allforone.api.schemas.FeedNotificationsResponse
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /** Service to handle the operations related to the /feed endpoints of the API */
 interface FeedService {
@@ -37,5 +34,18 @@ interface FeedService {
         @Header("Authorization") token: String,
         @Query("page") page: Int?
     ): NetworkResponse<FeedMessageResponse, BaseErrorResponse>
+
+    /**
+     * Post the state of a notification as read
+     *
+     * @param token Authorization token to perform the request
+     * @param id    Unique identifier of the notification
+     * @return      Response of the operation
+     */
+    @POST("/feed/notifications/{id}/read")
+    suspend fun postNotificationsRead(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): NetworkResponse<Unit, BaseErrorResponse>
 
 }

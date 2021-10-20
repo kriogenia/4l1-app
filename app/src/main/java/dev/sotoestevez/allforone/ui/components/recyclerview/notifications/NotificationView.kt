@@ -3,10 +3,14 @@ package dev.sotoestevez.allforone.ui.components.recyclerview.notifications
 import android.content.Context
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
+import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.listeners.NotificationListener
 import dev.sotoestevez.allforone.vo.Notification
 
 /** View for user's action to notify in the feed */
-class NotificationView(private val notification: Notification) : NotificationsView {
+class NotificationView(
+    private val notification: Notification,
+    private val listener: NotificationListener
+    ) : NotificationsView {
 
     override val id: String = notification.id
 
@@ -21,6 +25,7 @@ class NotificationView(private val notification: Notification) : NotificationsVi
      */
     fun print(context: Context) = notification.print(context)
 
-    fun onClickListener() {}
+    /** On Read icon press listener */
+    fun onIconClickListener() = listener.onRead(notification)
 
 }
