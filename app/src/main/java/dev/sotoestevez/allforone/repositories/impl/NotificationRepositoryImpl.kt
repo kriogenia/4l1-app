@@ -29,6 +29,10 @@ class NotificationRepositoryImpl(
         socket.on(action.path) { callback(fromJson(it, Notification::class.java)) }
     }
 
+    override suspend fun setAllAsRead(token: String) {
+        ApiRequest(suspend { service.postNotificationsRead(token) }).performRequest()
+    }
+
     override suspend fun setAsRead(notification: Notification, token: String) {
         ApiRequest(suspend { service.postNotificationsRead(token, notification.id) }).performRequest()
     }

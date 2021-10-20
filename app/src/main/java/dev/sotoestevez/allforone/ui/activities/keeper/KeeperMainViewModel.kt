@@ -102,6 +102,12 @@ class KeeperMainViewModel(
 
         override fun onNotification(action: Action, callback: (name: Notification) -> Unit) = notificationRepository.onNotification(action, callback)
 
+        override fun setAllAsRead() {
+            viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
+                notificationRepository.setAllAsRead(authHeader())
+            }
+        }
+
         override fun setAsRead(notification: Notification) {
             viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
                 notificationRepository.setAsRead(notification, authHeader())

@@ -72,7 +72,7 @@ class KeeperMainActivity : PrivateActivity() {
 
 	private fun openNotificationsDialog() {
 		NotificationsDialog(model.notificationManager)
-			.show(supportFragmentManager, CreateTaskDialog.TAG)
+			.show(supportFragmentManager, NotificationsDialog.TAG)
 	}
 
 }

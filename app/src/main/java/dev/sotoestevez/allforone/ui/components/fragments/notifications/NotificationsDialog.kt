@@ -38,4 +38,9 @@ class NotificationsDialog(private val notificationsManager: NotificationsManager
     @Suppress("KDocMissingDocumentation")  // override method, it overrides the dialog theme
     override fun getTheme(): Int = R.style.AppTheme_FullDialog
 
+    @Suppress("KDocMissingDocumentation")  // override method
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnBack.setOnClickListener { this.dismiss() }
+    }
 }

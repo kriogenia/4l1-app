@@ -21,6 +21,13 @@ interface NotificationRepository {
 	fun onNotification(action: Action, callback: (name: Notification) -> Unit)
 
 	/**
+	 * Sets all the notifications of the user as read
+	 *
+	 * @param token		Authentication token
+	 */
+	suspend fun setAllAsRead(token: String)
+
+	/**
 	 * Sets a notification as read by the user
 	 *
 	 * @param notification	Notification to set as read

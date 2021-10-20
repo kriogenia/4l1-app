@@ -3,14 +3,12 @@ package dev.sotoestevez.allforone.util.helpers
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import dev.sotoestevez.allforone.BR
-import dev.sotoestevez.allforone.repositories.NotificationRepository
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationDateHeaderView
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationView
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationsView
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.listeners.NotificationListener
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
-import kotlinx.coroutines.CoroutineScope
 import java.util.*
 
 /**
@@ -37,7 +35,7 @@ class NotificationsManager(
 
     /** Loads the given list of notifications */
     suspend fun load() {
-        mNotifications.clear()
+        clear()
         val notifications = handler.getNotifications()
         val notificationByDate = notifications.sortedByDescending { it.timestamp }.groupBy { TimeFormatter.getDate(it.timestamp) }
         notificationByDate.keys.forEach {
@@ -45,7 +43,13 @@ class NotificationsManager(
             mNotifications.add(NotificationDateHeaderView(it)).also { headers++ }
             notificationByDate[it]?.map { m -> NotificationView(m, listener) }?.let { i -> mNotifications.addAll(i) }
         }
-        reload()
+        notifyChanges()
+    }
+
+    /** Reads all the notifications */
+    fun readAll() {
+        handler.setAllAsRead()
+        clear().also { notifyChanges() }
     }
 
     /** Subscribes the manager to the notification events */
@@ -57,15 +61,17 @@ class NotificationsManager(
             onNotification(Action.TASK_DONE) { add(it) }
             onNotification(Action.TASK_UNDONE) { add(it) }
             onNotification(Action.LOCATION_SHARING_START) { add(it) }
-            onNotification(Action.LOCATION_SHARING_STOP) { remove(it.id).also { reload() } }
+            onNotification(Action.LOCATION_SHARING_STOP) { remove(it.id).also { notifyChanges() } }
         }
     }
 
-    private fun add(notification: Notification) = mNotifications.addFirst(NotificationView(notification, listener)).also { reload() }
+    private fun add(notification: Notification) = mNotifications.addFirst(NotificationView(notification, listener)).also { notifyChanges() }
+
+    private fun clear() = mNotifications.clear().also { headers = 0 }
 
     private fun remove(id: String) = mNotifications.removeIf { it.id == id }
 
-    private fun reload() {
+    private fun notifyChanges() {
         notifyPropertyChanged(BR.notifications)
         notifyPropertyChanged(BR.numberOfNotifications)
     }
@@ -74,7 +80,7 @@ class NotificationsManager(
 
         override fun onRead(notification: Notification) {
             handler.setAsRead(notification)
-            remove(notification.id).also { reload() }
+            remove(notification.id).also { notifyChanges() }
         }
 
     }

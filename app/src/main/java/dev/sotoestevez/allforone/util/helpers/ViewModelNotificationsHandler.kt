@@ -17,6 +17,9 @@ interface ViewModelNotificationsHandler {
      */
     fun onNotification(action: Action, callback: (name: Notification) -> Unit)
 
+    /** Sets a notification as read by the user */
+    fun setAllAsRead()
+
     /**
      * Sets a notification as read by the user
      *

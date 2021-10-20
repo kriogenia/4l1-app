@@ -36,6 +36,17 @@ interface FeedService {
     ): NetworkResponse<FeedMessageResponse, BaseErrorResponse>
 
     /**
+     * Post the state of all the notifications of an user as read
+     *
+     * @param token Authorization token to perform the request
+     * @return      Response of the operation
+     */
+    @POST("/feed/notifications/read")
+    suspend fun postNotificationsRead(
+        @Header("Authorization") token: String
+    ): NetworkResponse<Unit, BaseErrorResponse>
+
+    /**
      * Post the state of a notification as read
      *
      * @param token Authorization token to perform the request
