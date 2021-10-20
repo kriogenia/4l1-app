@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.ui.activities.keeper
 
+import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -36,6 +37,11 @@ class KeeperMainViewModel(
     val cared: LiveData<User>
         get() = mCared
     private val mCared = MutableLiveData<User>(null)
+
+    /** Live data holding the class of the next activity to launch from the LaunchActivity **/
+    val destiny: LiveData<Class<out Activity>>
+        get() = mDestiny
+    private var mDestiny = MutableLiveData<Class<out Activity>>()
 
     // WithProfileCard
     override val profileCardExpandable: Boolean = true
@@ -96,11 +102,14 @@ class KeeperMainViewModel(
     }
 
     /** Notifications manager */
-    private val handler = object: ViewModelNotificationsHandler {
+    private val handler by lazy { object: ViewModelNotificationsHandler {
 
         override suspend fun getNotifications(): List<Notification> = notificationRepository.getNotifications(authHeader())
 
-        override fun onNotification(action: Action, callback: (name: Notification) -> Unit) = notificationRepository.onNotification(action, callback)
+        override fun gotToNotificationDestiny(destiny: Class<out Activity>) { mDestiny.value = destiny }
+
+        override fun onNotification(action: Action, callback: (name: Notification) -> Unit) =
+            notificationRepository.onNotification(action, callback)
 
         override fun setAllAsRead() {
             viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
@@ -114,6 +123,6 @@ class KeeperMainViewModel(
             }
         }
 
-    }
+    } }
 
 }

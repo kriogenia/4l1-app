@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.util.helpers
 
+import android.app.Activity
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 
@@ -9,6 +10,13 @@ interface ViewModelNotificationsHandler {
 
     /** Retrieves the pending notifications */
     suspend fun getNotifications(): List<Notification>
+
+    /**
+     * Navigates to the notification defined destiny
+     *
+     * @param destiny   Destination activity
+     */
+    fun gotToNotificationDestiny(destiny: Class<out Activity>)
 
     /**
      * Subscribes the socket to a certain notification and executes the given callback

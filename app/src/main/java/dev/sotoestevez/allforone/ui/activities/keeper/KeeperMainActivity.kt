@@ -70,6 +70,11 @@ class KeeperMainActivity : PrivateActivity() {
 		}
 	}
 
+	override fun attachObservers() {
+		super.attachObservers()
+		model.destiny.observe(this) { startActivity(buildIntent(it)) }
+	}
+
 	private fun openNotificationsDialog() {
 		NotificationsDialog(model.notificationManager)
 			.show(supportFragmentManager, NotificationsDialog.TAG)

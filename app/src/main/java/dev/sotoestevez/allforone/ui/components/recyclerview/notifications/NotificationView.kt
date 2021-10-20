@@ -18,12 +18,18 @@ class NotificationView(
 
     override val viewType: Int = NotificationsView.Type.NOTIFICATION.ordinal
 
+    /** If the notification view has an active action */
+    val hasAction: Boolean = notification.action.destiny != null
+
     /**
      * Prints the notification text
      *
      * @param context   Application context
      */
     fun print(context: Context) = notification.print(context)
+
+    /** On Go button press listener */
+    fun onGoListener() = listener.onGo(notification)
 
     /** On Read icon press listener */
     fun onIconClickListener() = listener.onRead(notification)

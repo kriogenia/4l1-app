@@ -9,6 +9,7 @@ import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.Notifi
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.listeners.NotificationListener
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
+import java.lang.IllegalStateException
 import java.util.*
 
 /**
@@ -77,6 +78,11 @@ class NotificationsManager(
     }
 
     private val listener: NotificationListener = object: NotificationListener {
+
+        override fun onGo(notification: Notification) {
+            val destiny = notification.action.destiny ?: throw IllegalStateException("Accessing to destiny of invalid action")
+            handler.gotToNotificationDestiny(destiny)
+        }
 
         override fun onRead(notification: Notification) {
             handler.setAsRead(notification)

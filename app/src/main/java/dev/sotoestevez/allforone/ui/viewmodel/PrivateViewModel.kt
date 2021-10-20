@@ -69,7 +69,7 @@ abstract class PrivateViewModel(
 	}
 
 	/** Base coroutine exception handler */
-	protected open val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+	open val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
 		mError.postValue(throwable)
 	}
 
