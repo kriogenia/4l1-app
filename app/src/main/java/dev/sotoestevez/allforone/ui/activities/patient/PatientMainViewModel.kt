@@ -1,31 +1,49 @@
 package dev.sotoestevez.allforone.ui.activities.patient
 
+import android.app.Activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.WithProfileCard
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
+import dev.sotoestevez.allforone.repositories.NotificationRepository
+import dev.sotoestevez.allforone.ui.viewmodel.WithNotifications
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.util.helpers.notifications.NotificationsManager
+import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandlerImpl
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
+import kotlinx.coroutines.launch
 
 /** View Model of the Main activity for Patients */
 class PatientMainViewModel(
 	savedStateHandle: SavedStateHandle,
 	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
 	sessionRepository: SessionRepository,
-	globalRoomRepository: GlobalRoomRepository
-): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
+	globalRoomRepository: GlobalRoomRepository,
+	override val notificationRepository: NotificationRepository
+): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard, WithNotifications {
 
 	/** LiveData holding the identifier of the message to show in the warning panel */
 	val notification: LiveData<Notification>
 		get() = mNotification
 	private val mNotification: MutableLiveData<Notification> = MutableLiveData(null)
+
+	/** Live data holding the class of the next activity to launch from the LaunchActivity **/
+	val destiny: LiveData<Class<out Activity>>
+		get() = mDestiny
+	private var mDestiny = MutableLiveData<Class<out Activity>>()
+
+	/** Entity in charge of managing the notifications */
+	val notificationManager: NotificationsManager by lazy {
+		NotificationsManager(ViewModelNotificationsHandlerImpl(this))
+	}
 
 	/** WithProfileCard */
 	override val profileCardExpandable: Boolean = true
@@ -37,19 +55,19 @@ class PatientMainViewModel(
 		builder.savedStateHandle,
 		builder.dispatchers,
 		builder.sessionRepository,
-		builder.globalRoomRepository
+		builder.globalRoomRepository,
+		builder.notificationRepository
 	)
 
-	init { setSocket(globalRoomRepository) }
+	init {
+		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { notificationManager.load() }
+		globalRoomRepository.join(user.value!!)
+	}
 
-	private fun setSocket(repository: GlobalRoomRepository) {
-	/*	repository.onNotification(Action.TASK_CREATED) { logDebug("New task created") }
-		repository.onNotification(Action.TASK_DELETED) { logDebug("Task deleted") }
-		repository.onNotification(Action.TASK_DONE) { logDebug("Task completed") }
-		repository.onNotification(Action.TASK_UNDONE) { logDebug("Task undone") }
-		repository.onNotification(Action.LOCATION_SHARING_START) {  mNotification.postValue(it) }
-		repository.onNotification(Action.LOCATION_SHARING_STOP) {  mNotification.postValue(null) }*/
-		repository.join(user.value!!)
+	override fun setDestiny(destiny: Class<out Activity>) { mDestiny.value = destiny }
+
+	override fun runNotificationRequest(request: suspend (String) -> Unit) {
+		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { request(authHeader()) }
 	}
 
 }

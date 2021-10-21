@@ -9,6 +9,7 @@ import dev.sotoestevez.allforone.ui.activities.bonds.BondsActivity
 import dev.sotoestevez.allforone.ui.activities.feed.FeedActivity
 import dev.sotoestevez.allforone.ui.activities.location.LocationActivity
 import dev.sotoestevez.allforone.ui.activities.tasks.TasksActivity
+import dev.sotoestevez.allforone.ui.components.fragments.notifications.NotificationsDialog
 import java.util.*
 
 /**
@@ -35,12 +36,23 @@ class PatientMainActivity : PrivateActivity() {
 			btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
 			btnShareLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
 			btnTask.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
+			btnNotifications.setOnClickListener { openNotificationsDialog() }
 			btnFeed.setOnClickListener {
 				startActivity(buildIntent(FeedActivity::class.java).apply {
 					putExtra(FeedActivity.OWNER, model!!.user.value!!.displayName)
 				})
 			}
 		}
+	}
+
+	override fun attachObservers() {
+		super.attachObservers()
+		model.destiny.observe(this) { startActivity(buildIntent(it)) }
+	}
+
+	private fun openNotificationsDialog() {
+		NotificationsDialog(model.notificationManager)
+			.show(supportFragmentManager, NotificationsDialog.TAG)
 	}
 
 }

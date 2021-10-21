@@ -17,13 +17,6 @@
         android:orientation="vertical"
         tools:context=".ui.activities.patient.PatientMainActivity">
 
-        <!-- Warning panel TODO no bond warning -->
-
-        <include
-            layout="@layout/content_warning_box"
-            android:visibility="@{model.notification != null ? View.VISIBLE : View.GONE}"
-            app:message='@{model.notification.print(context) }' />
-
         <!-- Top profile card -->
 
         <include
@@ -67,9 +60,15 @@
             android:text="@string/share_location"
             style="@style/AppTheme.MainButton" />
 
+        <!-- Notifications -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNotifications"
+            android:layout_width="match_parent"
+            android:text="@{@string/notifications + model.notificationManager.numberOfNotifications}"
+            tools:text="Notifications"
+            style="@style/AppTheme.MainButton" />
+
     </LinearLayout>
-
-
-
 
 </layout>
