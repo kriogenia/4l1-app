@@ -19,58 +19,115 @@
 
         <!-- Bonded layout -->
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:visibility="@{model.cared != null ? View.VISIBLE : View.GONE}"
             android:orientation="vertical">
 
             <!-- Cared profile card -->
 
             <include
+                layout="@layout/content_profile_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:id="@+id/profileCard"
-                layout="@layout/content_profile_card"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:user="@{model.cared}"
                 app:model="@{model}"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnBonds"
-                android:layout_width="match_parent"
-                android:text="@string/bonds"
-                style="@style/AppTheme.MainButton" />
+            <!-- Middle buttons -->
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnFindLocation"
+            <LinearLayout
+                android:id="@+id/layMiddleButtons"
                 android:layout_width="match_parent"
-                android:text="@{String.format(@string/find, model.cared.displayName)}"
-                tools:text="Find cared"
-                style="@style/AppTheme.MainButton" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                app:layout_constraintBottom_toTopOf="@id/layButtonGrid">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnFeed"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNotifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{Integer.toString(model.notificationManager.numberOfNotifications)}"
+                    tools:text="Notifications" />
+
+            </LinearLayout>
+
+
+            <!-- Main buttons -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layButtonGrid"
                 android:layout_width="match_parent"
-                android:text="@string/feed"
-                style="@style/AppTheme.MainButton" />
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnTasks"
-                android:layout_width="match_parent"
-                android:text="@{String.format(@string/cared_tasks, model.cared.displayName)}"
-                tools:text="Cared tasks"
-                style="@style/AppTheme.MainButton" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnFeed"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@string/feed"
+                    app:icon="@drawable/ic_tasks"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/btnTasks"
+                    app:layout_constraintBottom_toTopOf="@id/btnBonds"
+                    style="@style/AppTheme.MainButton" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnNotifications"
-                android:layout_width="match_parent"
-                android:text="@{@string/notifications + model.notificationManager.numberOfNotifications}"
-                tools:text="Notifications"
-                style="@style/AppTheme.MainButton" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnTasks"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@{String.format(@string/cared_tasks, model.cared.displayName)}"
+                    tools:text="Cared tasks"
+                    app:icon="@drawable/ic_tasks"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnFeed"
+                    app:layout_constraintBottom_toTopOf="@id/btnFindLocation"
+                    style="@style/AppTheme.MainButton" />
 
-        </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBonds"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@string/bonds"
+                    app:icon="@drawable/ic_tasks"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintTop_toBottomOf="@id/btnFeed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/btnFindLocation"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/AppTheme.MainButton" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnFindLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@{String.format(@string/find, model.cared.displayName)}"
+                    app:icon="@drawable/ic_tasks"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintTop_toBottomOf="@id/btnTasks"
+                    app:layout_constraintStart_toEndOf="@id/btnBonds"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="Find cared"
+                    style="@style/AppTheme.MainButton" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- No bond panel -->
 
@@ -86,8 +143,10 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnForgeBond"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:text="@string/forge_bond"
+                app:icon="@drawable/ic_tasks"
                 style="@style/AppTheme.MainButton" />
 
         </LinearLayout>

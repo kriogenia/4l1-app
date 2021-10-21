@@ -39,7 +39,7 @@
                 android:contentDescription="@string/desc_mark_as_read"
                 android:minWidth="@dimen/task_icon_size"
                 android:minHeight="@dimen/task_icon_size"
-                android:src="@drawable/ic_baseline_read_24"
+                android:src="@drawable/ic_baseline_read"
                 android:onClickListener="@{() -> item.onIconClickListener()}" />
 
         </LinearLayout>

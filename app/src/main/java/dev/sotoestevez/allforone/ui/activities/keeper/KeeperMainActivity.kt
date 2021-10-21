@@ -49,7 +49,7 @@ class KeeperMainActivity : PrivateActivity() {
 			btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
 			btnFindLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
 			btnTasks.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
-			btnNotifications.setOnClickListener { openNotificationsDialog() }
+			//btnNotifications.setOnClickListener { openNotificationsDialog() }
 			btnFeed.setOnClickListener {
 				startActivity(buildIntent(FeedActivity::class.java).apply {
 					putExtra(FeedActivity.OWNER, model!!.cared.value!!.displayName)

@@ -54,7 +54,7 @@
                 android:contentDescription="@string/desc_expand_card_view"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
-                android:src="@drawable/expand_arrow"
+                android:src="@drawable/ic_expand_arrow"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
