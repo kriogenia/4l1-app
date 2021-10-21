@@ -32,17 +32,17 @@ class PatientMainActivity : PrivateActivity() {
 
 	override fun attachListeners() {
 		super.attachListeners()
-		binding.run {
-			btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
-			btnShareLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
-			btnTask.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
-			btnNotifications.setOnClickListener { openNotificationsDialog() }
-			btnFeed.setOnClickListener {
-				startActivity(buildIntent(FeedActivity::class.java).apply {
-					putExtra(FeedActivity.OWNER, model!!.user.value!!.displayName)
-				})
-			}
+		binding.buttons.run {
+				btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
+				btnLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
+				btnTasks.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
+				btnFeed.setOnClickListener {
+					startActivity(buildIntent(FeedActivity::class.java).apply {
+						putExtra(FeedActivity.OWNER, model.user.value!!.displayName)
+					})
+				}
 		}
+		binding.btnNotifications.setOnClickListener { openNotificationsDialog() }
 	}
 
 	override fun attachObservers() {

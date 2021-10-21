@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="model"
             type="dev.sotoestevez.allforone.ui.activities.patient.PatientMainViewModel" />
@@ -17,57 +19,59 @@
         android:orientation="vertical"
         tools:context=".ui.activities.patient.PatientMainActivity">
 
-        <!-- Top profile card -->
-
-        <include
-            android:id="@+id/profileCard"
-            layout="@layout/content_profile_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:model="@{model}"
-            app:user="@{model.user}" />
-
-        <!-- Bond button -->
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnBonds"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:text="@string/bonds"
-            style="@style/AppTheme.MainButton" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <!-- Feed -->
+            <!-- Top profile card -->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnFeed"
-            android:layout_width="match_parent"
-            android:text="@string/feed"
-            style="@style/AppTheme.MainButton" />
+            <include
+                android:id="@+id/profileCard"
+                layout="@layout/content_profile_card"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:model="@{model}"
+                app:user="@{model.user}" />
 
-        <!-- Tasks -->
+            <!-- Middle buttons -->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnTask"
-            android:layout_width="match_parent"
-            android:text="@string/tasks"
-            style="@style/AppTheme.MainButton" />
+            <LinearLayout
+                android:id="@+id/layMiddleButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/buttons">
 
-        <!-- Share location -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNotifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{Integer.toString(model.notificationManager.numberOfNotifications)}"
+                    tools:text="Notifications" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnShareLocation"
-            android:layout_width="match_parent"
-            android:text="@string/share_location"
-            style="@style/AppTheme.MainButton" />
+            </LinearLayout>
 
-        <!-- Notifications -->
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnNotifications"
-            android:layout_width="match_parent"
-            android:text="@{@string/notifications + model.notificationManager.numberOfNotifications}"
-            tools:text="Notifications"
-            style="@style/AppTheme.MainButton" />
+            <!-- Main buttons -->
+
+            <include
+                android:id="@+id/buttons"
+                layout="@layout/content_buttons_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:name="@{null}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

@@ -35,7 +35,7 @@
             android:layout_height="0dp"
             android:text="@{name != null ? String.format(@string/cared_tasks, name) : @string/my_tasks}"
             app:icon="@drawable/ic_tasks"
-            app:layout_constraintBottom_toTopOf="@id/btnFindLocation"
+            app:layout_constraintBottom_toTopOf="@id/btnLocation"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnFeed"
@@ -51,12 +51,12 @@
             app:icon="@drawable/ic_tasks"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H,1:1"
-            app:layout_constraintEnd_toStartOf="@id/btnFindLocation"
+            app:layout_constraintEnd_toStartOf="@id/btnLocation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnFeed" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnFindLocation"
+            android:id="@+id/btnLocation"
             style="@style/AppTheme.MainButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
