@@ -45,14 +45,14 @@ class KeeperMainActivity : PrivateActivity() {
 	override fun attachListeners() {
 		super.attachListeners()
 		/* With bond listeners */
-		binding.run {
+		binding.buttons.run {
 			btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
 			btnFindLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
 			btnTasks.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
 			//btnNotifications.setOnClickListener { openNotificationsDialog() }
 			btnFeed.setOnClickListener {
 				startActivity(buildIntent(FeedActivity::class.java).apply {
-					putExtra(FeedActivity.OWNER, model!!.cared.value!!.displayName)
+					putExtra(FeedActivity.OWNER, model.cared.value!!.displayName)
 				})
 			}
 		}

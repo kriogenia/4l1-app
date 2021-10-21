@@ -61,6 +61,7 @@
     <string name="title_activity_location">Find</string>
     <string name="share_location">Share location</string>
     <string name="find">Find %s</string>
+    <string name="find_me">Find me</string>
     <string name="cared_tasks">%s tasks</string>
     <string name="warn_searching">%s is searching for you, you should start sharing your location.</string>
     <string name="warn_sharing_location">%s is sharing their location, you should probably check it out.</string>
@@ -82,6 +83,7 @@
     <string name="title_activity_tasks">My Tasks</string>
     <string name="desc_task_fab">Create a task</string>
     <string name="tasks">Tasks</string>
+    <string name="my_tasks">My tasks</string>
     <string name="desc_complete_task">Mark task as done or undone</string>
     <string name="desc_expand_task">Show or hide all the task info</string>
     <string name="created_by">Created by %s</string>

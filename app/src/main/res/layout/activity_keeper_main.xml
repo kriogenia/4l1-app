@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal"
-                app:layout_constraintBottom_toTopOf="@id/layButtonGrid">
+                app:layout_constraintBottom_toTopOf="@id/buttons">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnNotifications"
@@ -62,6 +62,18 @@
 
             <!-- Main buttons -->
 
+
+            <include
+                android:id="@+id/buttons"
+                layout="@layout/content_buttons_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:name="@{model.cared.displayName}" />
+
+<!--
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layButtonGrid"
                 android:layout_width="match_parent"
@@ -126,9 +138,9 @@
                     style="@style/AppTheme.MainButton" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
         <!-- No bond panel -->
 
         <LinearLayout
