@@ -41,7 +41,6 @@ class SetUpViewModel(
 
 	// WithProfileCard
 	override val profileCardExpandable: Boolean = false
-	override val profileCardWithBanner: Boolean = true
 	override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(true)
 
 

@@ -5,19 +5,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
-import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
-import dev.sotoestevez.allforone.ui.viewmodel.WithProfileCard
-import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.NotificationRepository
+import dev.sotoestevez.allforone.repositories.SessionRepository
+import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
+import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.WithNotifications
+import dev.sotoestevez.allforone.ui.viewmodel.WithProfileCard
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
-import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.notifications.NotificationsManager
 import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandlerImpl
-import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 import kotlinx.coroutines.launch
 
@@ -47,7 +45,6 @@ class PatientMainViewModel(
 
 	/** WithProfileCard */
 	override val profileCardExpandable: Boolean = true
-	override val profileCardWithBanner: Boolean = true
 	override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
 
 	@Suppress("unused") // Used in the factory with a class call

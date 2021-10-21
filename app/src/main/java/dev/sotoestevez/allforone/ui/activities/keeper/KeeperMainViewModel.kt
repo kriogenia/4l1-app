@@ -47,7 +47,6 @@ class KeeperMainViewModel(
 
     // WithProfileCard
     override val profileCardExpandable: Boolean = true
-    override val profileCardWithBanner: Boolean = true
     override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /** Entity in charge of managing the notifications */

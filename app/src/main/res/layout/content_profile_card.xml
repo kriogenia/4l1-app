@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <data>
-        <import type="com.google.android.gms.common.util.Strings"/>
+
+        <import type="com.google.android.gms.common.util.Strings" />
+
         <import type="dev.sotoestevez.allforone.vo.User.Role" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="user"
             type="dev.sotoestevez.allforone.vo.User" />
+
         <variable
             name="model"
             type="dev.sotoestevez.allforone.ui.viewmodel.WithProfileCard" />
@@ -22,12 +27,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/double_base_margin"
             android:orientation="vertical">
 
             <!-- Banner -->
@@ -37,7 +41,7 @@
                 android:layout_height="@dimen/card_image_height"
                 android:contentDescription="@string/profile_banner_description"
                 android:scaleType="centerCrop"
-                android:visibility="@{model.profileCardWithBanner ? View.VISIBLE : View.GONE}"
+                android:visibility="@{model.profileCardExpanded ? View.GONE : View.VISIBLE}"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <!-- Name section -->
@@ -45,7 +49,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layProfileCardTop"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:visibility="@{model.profileCardExpanded ? View.GONE : View.VISIBLE}">
 
                 <!-- Profile picture -->
 
@@ -72,13 +77,14 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/base_margin"
                     android:layout_marginEnd="@dimen/base_margin"
+                    android:enabled="true"
                     android:text="@{user.displayName}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                    android:enabled="true"
                     app:layout_constraintBottom_toTopOf="@id/lblProfileCardRole"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imgProfileCardPicture"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Name"/>
 
                 <!-- Role -->
 
@@ -94,146 +100,183 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imgProfileCardPicture"
-                    app:layout_constraintTop_toBottomOf="@+id/lblProfileCardName" />
-
-                <!-- Expansion button -->
-
-                <ImageButton
-                    android:id="@+id/btnTaskDone"
-                    android:src="@drawable/ic_expand_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/double_base_margin"
-                    android:layout_marginBottom="@dimen/base_margin"
-                    android:onClick="@{() -> model.onExpandButtonClick()}"
-                    android:visibility="@{model.profileCardExpandable ? View.VISIBLE : View.GONE}"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/desc_expand_card_view"
-                    android:rotationX="@{model.profileCardExpanded ? 180f : 0f}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/lblProfileCardName"
+                    tools:text="ROLE" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/dvdProfileCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:dividerInsetEnd="@dimen/double_base_margin"
-                app:dividerInsetStart="@dimen/double_base_margin" />
-
-            <!-- TODO change phone numbers -->
-
-            <!-- Expandable section -->
+            <!-- Card back -->
 
             <LinearLayout
-                android:id="@+id/layExpandableSection"
+                android:id="@+id/layBondExpandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="@{model.profileCardExpanded ? View.VISIBLE : View.GONE}">
+                android:visibility="@{model.profileCardExpanded ? View.VISIBLE : View.GONE}"
+                tools:visibility="visible">
+
+                <!-- Phones -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="top"
                     android:orientation="horizontal"
-                    android:visibility="@{Strings.isEmptyOrWhitespace(user.mainPhoneNumber) ? View.GONE : View.VISIBLE}">
+                    android:padding="@dimen/base_margin"
+                    android:visibility="@{Strings.isEmptyOrWhitespace(user.mainPhoneNumber) &amp; Strings.isEmptyOrWhitespace(user.altPhoneNumber) ? View.GONE : View.VISIBLE}">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:layout_marginEnd="@dimen/base_margin"
-                        android:text="@string/phone_number" />
+                    <ImageView
+                        android:id="@+id/imgMainPhone"
+                        android:layout_width="@dimen/card_icon_size"
+                        android:layout_height="@dimen/card_icon_size"
+                        android:contentDescription="@string/desc_user_phone"
+                        android:padding="4dp"
+                        app:srcCompat="@drawable/ic_phone" />
 
-                    <TextView
-                        android:id="@+id/lblProfileCardPhoneNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@{user.mainPhoneNumber}" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtMainPhone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/base_margin"
+                            android:text="@{user.mainPhoneNumber}"
+                            tools:text="654654654"/>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="@{Strings.isEmptyOrWhitespace(user.altPhoneNumber) ? View.GONE : View.VISIBLE}"
+                            app:dividerInsetStart="@dimen/base_margin" />
+
+                        <TextView
+                            android:id="@+id/txtBondAltPhone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/base_margin"
+                            android:visibility="@{Strings.isEmptyOrWhitespace(user.altPhoneNumber) ? View.GONE : View.VISIBLE}"
+                            android:text="@{user.altPhoneNumber}"
+                            tools:text="765654543" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerInsetEnd="@dimen/base_margin"
+                    app:dividerInsetStart="@dimen/base_margin"
+                    android:visibility="@{user.address != null ? View.VISIBLE : View.GONE}"/>
+
+                <!-- Postal Address -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="top"
                     android:orientation="horizontal"
-                    android:visibility="@{Strings.isEmptyOrWhitespace(user.altPhoneNumber) ? View.GONE : View.VISIBLE}">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:layout_marginEnd="@dimen/base_margin"
-                        android:text="@string/alt_phone_number" />
-
-                    <TextView
-                        android:id="@+id/lblProfileCardPhoneNumberAlt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@{user.altPhoneNumber}" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="@{Strings.isEmptyOrWhitespace(user.email) ? View.GONE : View.VISIBLE}">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:layout_marginEnd="@dimen/base_margin"
-                        android:text="@string/hint_email" />
-
-                    <TextView
-                        android:id="@+id/lblProfileCardEmail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@{user.email}" />
-
-                </LinearLayout>
-
-                <!-- TODO change Address -->
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:padding="@dimen/base_margin"
                     android:visibility="@{user.address != null ? View.VISIBLE : View.GONE}">
 
-                    <TextView
-                        android:id="@+id/lblProfileCardAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:text="@string/address"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/imgBondPostalAddress"
+                        android:layout_width="@dimen/card_icon_size"
+                        android:layout_height="@dimen/card_icon_size"
+                        android:contentDescription="@string/desc_address"
+                        android:padding="2dp"
+                        app:srcCompat="@drawable/ic_postal_address" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/txtBondStreet"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/base_margin"
+                            android:text="@{user.address.postalAddress}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="False St., 123 2º" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/dvdBondAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:dividerInsetStart="@dimen/base_margin"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/txtBondStreet"
+                            app:layout_constraintTop_toBottomOf="@id/txtBondStreet" />
+
+                        <TextView
+                            android:id="@+id/txtBondLocality"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/base_margin"
+                            android:text="@{user.address.localityFull}"
+                            app:layout_constraintStart_toStartOf="@id/txtBondStreet"
+                            app:layout_constraintTop_toBottomOf="@id/dvdBondAddress"
+                            tools:text="New City, TriState" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerInsetEnd="@dimen/base_margin"
+                    app:dividerInsetStart="@dimen/base_margin"
+                    android:visibility="@{Strings.isEmptyOrWhitespace(user.email) ? View.GONE : View.VISIBLE}"/>
+
+                <!-- Email -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/base_margin"
+                    android:visibility="@{Strings.isEmptyOrWhitespace(user.email) ? View.GONE : View.VISIBLE}"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/imgBondEmail"
+                        android:layout_width="@dimen/card_icon_size"
+                        android:layout_height="@dimen/card_icon_size"
+                        android:contentDescription="@string/desc_email"
+                        app:srcCompat="@drawable/ic_email" />
 
                     <TextView
-                        android:id="@+id/lblProfileCardAddressLine"
+                        android:id="@+id/txtBondEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:text="@{user.address.postalAddress}"
-                        app:layout_constraintStart_toEndOf="@id/lblProfileCardAddress"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:padding="@dimen/base_margin"
+                        android:text="@{user.email}"
+                        tools:text="email@address.com" />
 
-                    <TextView
-                        android:id="@+id/lblProfileCardAddressLocality"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{user.address.localityFull}"
-                        app:layout_constraintStart_toStartOf="@id/lblProfileCardAddressLine"
-                        app:layout_constraintTop_toBottomOf="@id/lblProfileCardAddressLine" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
             </LinearLayout>
+
+            <!-- Flip button -->
+
+            <ImageButton
+                android:id="@+id/btnFlip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/double_base_margin"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/desc_expand_card_view"
+                android:onClick="@{() -> model.onExpandButtonClick()}"
+                android:rotationX="@{model.profileCardExpanded ? 0f : 180f}"
+                android:src="@drawable/ic_expand_arrow" />
 
         </LinearLayout>
 

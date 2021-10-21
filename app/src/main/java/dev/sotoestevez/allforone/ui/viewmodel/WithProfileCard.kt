@@ -8,9 +8,6 @@ interface WithProfileCard {
 	/** Defines if the featured profile card is expandable or not */
 	val profileCardExpandable: Boolean
 
-	/** Defines if the featured profile card is expandable or not */
-	val profileCardWithBanner: Boolean
-
 	/** LiveData managing the expansion state of the profile card */
 	val profileCardExpanded: MutableLiveData<Boolean>
 

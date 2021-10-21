@@ -13,3 +13,4 @@ The following third-party resources where used in the development of this applic
 * [New task icon](https://www.flaticon.com/free-icon/list_1545582) by Freepik
 * [Phone icon](https://www.flaticon.com/free-icon/phone-call_597177) by Prosymbols
 * [Postal Address icon](https://www.flaticon.com/free-icon/home_31771) by Freepik
+* [Tasks icon](https://freeicons.io/notes-and-tasks/notes-icon-24926) by Muhammad Haq
