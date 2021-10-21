@@ -15,6 +15,8 @@ import dev.sotoestevez.allforone.ui.activities.bonds.BondsActivity
 import dev.sotoestevez.allforone.ui.activities.feed.FeedActivity
 import dev.sotoestevez.allforone.ui.activities.location.LocationActivity
 import dev.sotoestevez.allforone.ui.activities.tasks.TasksActivity
+import dev.sotoestevez.allforone.ui.activities.tasks.fragments.CreateTaskDialog
+import dev.sotoestevez.allforone.ui.components.fragments.notifications.NotificationsDialog
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.toast
 import java.util.*
@@ -47,6 +49,7 @@ class KeeperMainActivity : PrivateActivity() {
 			btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
 			btnFindLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
 			btnTasks.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
+			btnNotifications.setOnClickListener { openNotificationsDialog() }
 			btnFeed.setOnClickListener {
 				startActivity(buildIntent(FeedActivity::class.java).apply {
 					putExtra(FeedActivity.OWNER, model!!.cared.value!!.displayName)
@@ -65,6 +68,16 @@ class KeeperMainActivity : PrivateActivity() {
 			logDebug("Launching QR Scanner")
 			qrScannerLauncher.launch(Intent(this, QRScannerActivity::class.java))
 		}
+	}
+
+	override fun attachObservers() {
+		super.attachObservers()
+		model.destiny.observe(this) { startActivity(buildIntent(it)) }
+	}
+
+	private fun openNotificationsDialog() {
+		NotificationsDialog(model.notificationManager)
+			.show(supportFragmentManager, NotificationsDialog.TAG)
 	}
 
 }

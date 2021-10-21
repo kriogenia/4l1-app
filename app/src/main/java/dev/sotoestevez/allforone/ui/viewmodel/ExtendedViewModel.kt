@@ -42,6 +42,9 @@ interface ExtendedViewModel {
 		val globalRoomRepository: GlobalRoomRepository by lazy { RepositoryContext.globalRoomRepository }
 
 		/** Context instance of [LocationRepository] */
+		val notificationRepository: NotificationRepository by lazy { RepositoryContext.notificationRepository }
+
+		/** Context instance of [LocationRepository] */
 		val locationRepository: LocationRepository by lazy { RepositoryContext.locationRepository }
 
 		/** Context instance of [SessionRepository] */

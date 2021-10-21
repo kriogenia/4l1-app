@@ -3,13 +3,24 @@ package dev.sotoestevez.allforone.api.services
 import com.haroldadmin.cnradapter.NetworkResponse
 import dev.sotoestevez.allforone.api.schemas.BaseErrorResponse
 import dev.sotoestevez.allforone.api.schemas.FeedMessageResponse
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Path
-import retrofit2.http.Query
+import dev.sotoestevez.allforone.api.schemas.FeedNotificationsResponse
+import retrofit2.http.*
 
 /** Service to handle the operations related to the /feed endpoints of the API */
 interface FeedService {
+
+    /**
+     * Retrieves hte pending notifications of the user from the API
+     *
+     * @param token    Authorization token to perform the request
+     * @param maxDays  Max number of days of the notification
+     * @return      Response with the list of notifications
+     */
+    @GET("/feed/notifications")
+    suspend fun getNotifications(
+        @Header("Authorization") token: String,
+        @Query("maxDays") maxDays: Int? = null
+    ): NetworkResponse<FeedNotificationsResponse, BaseErrorResponse>
 
     /**
      * Retrieves a batch of messages from the API
@@ -23,5 +34,29 @@ interface FeedService {
         @Header("Authorization") token: String,
         @Query("page") page: Int?
     ): NetworkResponse<FeedMessageResponse, BaseErrorResponse>
+
+    /**
+     * Post the state of all the notifications of an user as read
+     *
+     * @param token Authorization token to perform the request
+     * @return      Response of the operation
+     */
+    @POST("/feed/notifications/read")
+    suspend fun postNotificationsRead(
+        @Header("Authorization") token: String
+    ): NetworkResponse<Unit, BaseErrorResponse>
+
+    /**
+     * Post the state of a notification as read
+     *
+     * @param token Authorization token to perform the request
+     * @param id    Unique identifier of the notification
+     * @return      Response of the operation
+     */
+    @POST("/feed/notifications/{id}/read")
+    suspend fun postNotificationsRead(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): NetworkResponse<Unit, BaseErrorResponse>
 
 }

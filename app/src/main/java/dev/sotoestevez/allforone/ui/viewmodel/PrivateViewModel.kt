@@ -23,7 +23,7 @@ import org.jetbrains.annotations.TestOnly
  */
 abstract class PrivateViewModel(
 	savedStateHandle: SavedStateHandle,
-	protected val dispatchers: DispatcherProvider,
+	val dispatchers: DispatcherProvider,
 	protected val sessionRepository: SessionRepository
 ): ViewModel(), ExtendedViewModel {
 
@@ -69,7 +69,7 @@ abstract class PrivateViewModel(
 	}
 
 	/** Base coroutine exception handler */
-	protected open val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+	open val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
 		mError.postValue(throwable)
 	}
 

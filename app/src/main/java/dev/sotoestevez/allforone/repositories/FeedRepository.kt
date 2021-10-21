@@ -1,10 +1,9 @@
 package dev.sotoestevez.allforone.repositories
 
-import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.feed.Message
 
 /** Repository to manage all the feed and messaging related operations */
-interface FeedRepository: SocketRepository {
+interface FeedRepository: SocketRoomRepository {
 
 	/**
 	 * Sends a message from the repository
@@ -35,13 +34,6 @@ interface FeedRepository: SocketRepository {
 	 * @param callback  Event listener, receives the message
 	 */
 	fun onMessageDeleted(callback: (Message) -> Unit)
-
-	/**
-	 * Subscribes the callback to task state updates on the feed room
-	 *
-	 * @param callback	Event listener, receives the task
-	 */
-	fun onTaskStateUpdate(callback: (Message) -> Unit)
 
 	/**
 	 * Subscribes the callback to updates of users joining the room

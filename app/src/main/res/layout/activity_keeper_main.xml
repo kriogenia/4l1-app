@@ -17,33 +17,6 @@
         android:orientation="vertical"
         tools:context=".ui.activities.patient.KeeperMainActivity">
 
-        <!-- Warning panel -->
-
-        <include
-            layout="@layout/content_warning_box"
-            android:visibility="@{model.warning > 0 ? View.VISIBLE : View.GONE}"
-            app:message='@{model.warning &lt; 0 ? "" : String.format(context.getString(model.warning), model.sharing) }' />
-
-        <!-- No bond panel -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="@{model.loading || model.cared != null ? View.GONE : View.VISIBLE}">
-
-
-            <!-- Forge bond button -->
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnForgeBond"
-                android:layout_width="match_parent"
-                android:text="@string/forge_bond"
-                style="@style/AppTheme.MainButton" />
-
-        </LinearLayout>
-
         <!-- Bonded layout -->
 
         <LinearLayout
@@ -74,6 +47,7 @@
                 android:id="@+id/btnFindLocation"
                 android:layout_width="match_parent"
                 android:text="@{String.format(@string/find, model.cared.displayName)}"
+                tools:text="Find cared"
                 style="@style/AppTheme.MainButton" />
 
             <com.google.android.material.button.MaterialButton
@@ -86,6 +60,34 @@
                 android:id="@+id/btnTasks"
                 android:layout_width="match_parent"
                 android:text="@{String.format(@string/cared_tasks, model.cared.displayName)}"
+                tools:text="Cared tasks"
+                style="@style/AppTheme.MainButton" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnNotifications"
+                android:layout_width="match_parent"
+                android:text="@{@string/notifications + model.notificationManager.numberOfNotifications}"
+                tools:text="Notifications"
+                style="@style/AppTheme.MainButton" />
+
+        </LinearLayout>
+
+        <!-- No bond panel -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{model.loading || model.cared != null ? View.GONE : View.VISIBLE}">
+
+
+            <!-- Forge bond button -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnForgeBond"
+                android:layout_width="match_parent"
+                android:text="@string/forge_bond"
                 style="@style/AppTheme.MainButton" />
 
         </LinearLayout>

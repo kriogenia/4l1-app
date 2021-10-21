@@ -13,6 +13,7 @@ object RepositoryContext {
     private const val FEED = "feed"
     private const val GLOBAL = "global"
     private const val LOCATION = "location"
+    private const val NOTIFICATION = "notification"
     private const val SESSION = "session"
     private const val TASK = "task"
     private const val USER = "user"
@@ -24,6 +25,10 @@ object RepositoryContext {
     /** Global room repository instance */
     val globalRoomRepository: GlobalRoomRepository
         get() = (context[GLOBAL] ?: GlobalRoomRepositoryImpl().also { context[GLOBAL] = it }) as GlobalRoomRepository
+
+    /** Location repository instance */
+    val notificationRepository: NotificationRepository
+        get() = (context[NOTIFICATION] ?: NotificationRepositoryImpl(ApiFactory.getFeedService()).also { context[NOTIFICATION] = it }) as NotificationRepository
 
     /** Location repository instance */
     val locationRepository: LocationRepository

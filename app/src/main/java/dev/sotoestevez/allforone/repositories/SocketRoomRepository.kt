@@ -3,7 +3,7 @@ package dev.sotoestevez.allforone.repositories
 import dev.sotoestevez.allforone.vo.User
 
 /** Common socket repository functionality */
-interface SocketRepository {
+interface SocketRoomRepository {
 
     /**
      * Connects the user to the repository room

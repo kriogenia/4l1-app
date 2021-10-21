@@ -11,6 +11,7 @@
     <color name="surfaceColor">#eaf4f6</color>
     <!-- Extra theme colors -->
     <color name="darkPrimaryTextColor">#ffffff</color>
+    <color name="shadowSurfaceColor">#2229b6f6</color>
     <!-- Markers colors -->
     <color name="patient_marker">#F5EC11</color>
     <color name="blue_marker">#0C77A8</color>

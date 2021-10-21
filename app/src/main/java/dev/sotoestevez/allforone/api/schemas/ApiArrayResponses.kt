@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.api.schemas
 
+import dev.sotoestevez.allforone.vo.Notification
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.vo.feed.Message
 
@@ -43,6 +44,30 @@ data class TaskListResponse (
 
     override fun hashCode(): Int {
         return tasks.contentHashCode()
+    }
+}
+
+/**
+ * Model of the response to be received from the /feed/notifications endpoint
+ *
+ * @property notifications	list of notifications retrieved
+ */
+data class FeedNotificationsResponse(
+    val notifications: Array<Notification>
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as FeedMessageResponse
+
+        if (!notifications.contentEquals(other.messages)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return notifications.contentHashCode()
     }
 }
 

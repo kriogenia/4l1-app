@@ -1,20 +1,27 @@
 package dev.sotoestevez.allforone.ui.activities.keeper
 
+import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.WithProfileCard
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
+import dev.sotoestevez.allforone.repositories.NotificationRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
+import dev.sotoestevez.allforone.ui.viewmodel.WithNotifications
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.util.helpers.notifications.NotificationsManager
+import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandler
+import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandlerImpl
+import dev.sotoestevez.allforone.vo.Action
+import dev.sotoestevez.allforone.vo.Notification
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -24,26 +31,29 @@ class KeeperMainViewModel(
     dispatchers: DispatcherProvider,
     sessionRepository: SessionRepository,
     private val userRepository: UserRepository,
-    private val globalRoomRepository: GlobalRoomRepository
-) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard {
+    private val globalRoomRepository: GlobalRoomRepository,
+    override val notificationRepository: NotificationRepository
+) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard, WithNotifications {
 
     /** LiveData holding the info about the patient cared by this user */
     val cared: LiveData<User>
         get() = mCared
     private val mCared = MutableLiveData<User>(null)
 
-    /** LiveData holding the identifier of the message to show in the warning panel */
-    val warning: LiveData<Int>
-        get() = mWarning
-    private val mWarning = MutableLiveData(-1)
-
-    /** User sharing its location */
-    var sharing: String = ""
+    /** Live data holding the class of the next activity to launch from the LaunchActivity **/
+    val destiny: LiveData<Class<out Activity>>
+        get() = mDestiny
+    private var mDestiny = MutableLiveData<Class<out Activity>>()
 
     // WithProfileCard
     override val profileCardExpandable: Boolean = true
     override val profileCardWithBanner: Boolean = true
     override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    /** Entity in charge of managing the notifications */
+    val notificationManager: NotificationsManager by lazy {
+        NotificationsManager(ViewModelNotificationsHandlerImpl(this))
+    }
 
     @Suppress("unused") // Used in the factory with a class call
     constructor(builder: ExtendedViewModel.Builder): this(
@@ -51,7 +61,8 @@ class KeeperMainViewModel(
         builder.dispatchers,
         builder.sessionRepository,
         builder.userRepository,
-        builder.globalRoomRepository
+        builder.globalRoomRepository,
+        builder.notificationRepository
     )
 
     init {
@@ -62,6 +73,7 @@ class KeeperMainViewModel(
             userRepository.getCared(user.value!!, authHeader())?.let { setCared(it) }
             loading.postValue(false)
         }
+        viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { notificationManager.load() }
     }
 
 
@@ -85,24 +97,19 @@ class KeeperMainViewModel(
         }
     }
 
-    /**
-     * Sets the cared user updating the UI and requesting access to its global room
-     *
-     * @param cared cared user
-     */
     private suspend fun setCared(cared: User) {
         logDebug("Retrieved cared user ${cared.displayName}")
-        withContext(dispatchers.main()) {
-            if (warning.value == R.string.warn_no_bonds)
-                mWarning.value = -1
-            mCared.value = cared     // update the cared user
-        }
-        // Connect to room
-        globalRoomRepository.onSharingLocation {
-            sharing = it
-            mWarning.postValue(R.string.warn_sharing_location)
-        }
+        withContext(dispatchers.main()) { mCared.value = cared }
+        // Start socket connection
+        notificationManager.subscribe()
         globalRoomRepository.join(user.value!!)
     }
+
+    override fun setDestiny(destiny: Class<out Activity>) { mDestiny.value = destiny }
+
+    override fun runNotificationRequest(request: suspend (String) -> Unit) {
+        viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { request(authHeader()) }
+    }
+
 
 }
