@@ -10,6 +10,7 @@ import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
+import dev.sotoestevez.allforone.ui.components.recyclerview.bonds.BondView
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
@@ -32,9 +33,9 @@ class BondsViewModel(
     private val mQrCode: MutableLiveData<String> = MutableLiveData("")
 
     /** List of bonds of the user */
-    val bonds: LiveData<List<User>>
+    val bonds: LiveData<List<BondView>>
         get() = mBonds
-    private val mBonds: MutableLiveData<List<User>> = MutableLiveData(ArrayList())
+    private val mBonds: MutableLiveData<List<BondView>> = MutableLiveData(ArrayList())
 
     /** Mutable live data to manage the QR section loading state */
     val loadingQr: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -58,7 +59,7 @@ class BondsViewModel(
             logDebug("Retrieved ${response.size} bonds")
             withContext(dispatchers.main()) {
                 loading.value = false
-                mBonds.value = response     // updates retrieved bonds
+                mBonds.value = response.map { BondView(it) }
             }
         }
     }

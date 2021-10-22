@@ -24,5 +24,5 @@
     <dimen name="no_dim">0dp</dimen>
     <dimen name="task_icon_size">32dp</dimen>
     <dimen name="badge_vertical_padding">2dp</dimen>
-    <dimen name="elevation_above_fab">10dp</dimen>
+    <dimen name="elevation_above_fab">12dp</dimen>
 </resources>

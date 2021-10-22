@@ -1,233 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardBond"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/card_layout_margin"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    style="@style/AppTheme.Card">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:id="@+id/cardBondItem"
+    <data>
+
+        <import type="com.google.android.gms.common.util.Strings" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="dev.sotoestevez.allforone.ui.components.recyclerview.bonds.BondView" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardBond"
+        style="@style/AppTheme.Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <!-- Visible section -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/imgBondPicture"
-                android:layout_width="@dimen/pfp_size"
-                android:layout_height="@dimen/pfp_size"
-                app:srcCompat="@drawable/ic_default_user"
-                android:contentDescription="@string/desc_user_icon"
-                android:padding="@dimen/base_margin"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txtBondName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:text="@string/app_name"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imgBondPicture"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/btnTaskDone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/double_base_margin"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/desc_expand_card_view"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                android:src="@drawable/ic_expand_arrow"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- Expandable section -->
+        android:layout_margin="@dimen/card_layout_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/layBondExpandable"
+            android:id="@+id/cardBondItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:orientation="vertical">
 
-            <!-- Phones -->
-
-            <LinearLayout
+            <!-- Visible section -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="top"
-                android:padding="@dimen/base_margin">
+                android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/imgBondMainPhone"
-                    android:layout_width="@dimen/card_icon_size"
-                    android:layout_height="@dimen/card_icon_size"
-                    app:srcCompat="@drawable/ic_phone"
-                    android:contentDescription="@string/desc_user_phone"
-                    android:padding="4dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txtBondMainPhone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/base_margin"
-                        android:text="@string/app_name"/>
-
-                    <com.google.android.material.divider.MaterialDivider
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:dividerInsetStart="@dimen/base_margin"/>
-
-                    <TextView
-                        android:id="@+id/txtBondAltPhone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/base_margin"
-                        android:text="@string/app_name" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:dividerInsetStart="@dimen/base_margin"
-                app:dividerInsetEnd="@dimen/base_margin"/>
-
-            <!-- Postal Address -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="top"
-                android:padding="@dimen/base_margin">
-
-                <ImageView
-                    android:id="@+id/imgBondPostalAddress"
-                    android:layout_width="@dimen/card_icon_size"
-                    android:layout_height="@dimen/card_icon_size"
-                    android:contentDescription="@string/desc_address"
-                    android:padding="2dp"
-                    app:srcCompat="@drawable/ic_postal_address" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <TextView
-                        android:id="@+id/txtBondStreet"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/base_margin"
-                        android:text="@string/app_name"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
-
-                    <TextView
-                        android:id="@+id/txtBondDoor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/base_margin"
-                        android:text="@string/app_name"
-                        app:layout_constraintStart_toEndOf="@id/txtBondStreet"
-                        app:layout_constraintTop_toTopOf="@id/txtBondStreet"/>
-
-                    <com.google.android.material.divider.MaterialDivider
-                        android:id="@+id/dvdBondAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:dividerInsetStart="@dimen/base_margin"
-                        app:layout_constraintTop_toBottomOf="@id/txtBondStreet"
-                        app:layout_constraintStart_toStartOf="@id/txtBondStreet"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-
-                    <TextView
-                        android:id="@+id/txtBondLocality"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/base_margin"
-                        android:text="@string/app_name"
-                        app:layout_constraintStart_toStartOf="@id/txtBondStreet"
-                        app:layout_constraintTop_toBottomOf="@id/dvdBondAddress"/>
-
-                    <TextView
-                        android:id="@+id/txtBondRegion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/base_margin"
-                        android:text="@string/app_name"
-                        app:layout_constraintStart_toEndOf="@id/txtBondLocality"
-                        app:layout_constraintTop_toTopOf="@id/txtBondLocality"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:dividerInsetStart="@dimen/base_margin"
-                app:dividerInsetEnd="@dimen/base_margin"/>
-
-            <!-- Email -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="top"
-                android:padding="@dimen/base_margin"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:id="@+id/imgBondEmail"
-                    android:layout_width="@dimen/card_icon_size"
-                    android:layout_height="@dimen/card_icon_size"
-                    app:srcCompat="@drawable/ic_email"
-                    android:contentDescription="@string/desc_email" />
+                    android:id="@+id/imgBondPicture"
+                    android:layout_width="@dimen/pfp_size"
+                    android:layout_height="@dimen/pfp_size"
+                    android:contentDescription="@string/desc_user_icon"
+                    android:padding="@dimen/base_margin"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_keeper" />
 
                 <TextView
-                    android:id="@+id/txtBondEmail"
+                    android:id="@+id/txtBondName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/base_margin"
-                    android:text="@string/app_name"/>
+                    android:text="@{item.data.displayName}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imgBondPicture"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+                <ImageButton
+                    android:id="@+id/btnTaskDone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/double_base_margin"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/desc_expand_card_view"
+                    android:minWidth="48dp"
+                    android:minHeight="48dp"
+                    android:src="@drawable/ic_expand_arrow"
+                    android:onClick="@{() -> item.swapState()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Expandable section -->
+
+            <include
+                layout="@layout/content_user_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{item.expanded ? View.VISIBLE : View.GONE}"
+                app:user="@{item.data}"
+                tools:visibility="visible"/>
 
         </LinearLayout>
 
-
-    </LinearLayout>
-
-</com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
