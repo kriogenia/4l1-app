@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme.MainButton" parent="Widget.AppCompat.Button.Colored">
+    <style name="AppTheme.Button.Main.Primary" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textSize">@dimen/txt_btn_extra</item>
         <item name="iconGravity">textTop</item>
         <item name="cornerRadius">@dimen/extra_round_corner</item>
@@ -13,22 +13,34 @@
         <item name="cardPreventCornerOverlap">false</item>
     </style>
 
-    <style name="AppTheme.FullDialog" parent="Theme.4l1app">
+    <style name="AppTheme.Dialog.Full" parent="Theme.4l1app">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
     </style>
 
-    <style name="AppTheme.SecondaryButton" parent="ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton">
+    <style name="AppTheme.Button.Main.Secondary" parent="ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton">
         <item name="android:backgroundTint">@android:color/white</item>
         <item name="borderWidth">@dimen/no_dim</item>
     </style>
 
-    <style name="AppTheme.SecondaryButton.Badge" parent="Widget.Design.FloatingActionButton">
-        <item name="android:elevation">@dimen/elevation_above_fab</item>
+    <style name="AppTheme.Badge" parent="Widget.Design.FloatingActionButton">
+        <item name="elevation">@dimen/elevation_above_fab</item>
         <item name="android:paddingHorizontal">@dimen/base_margin</item>
         <item name="android:paddingVertical">@dimen/badge_vertical_padding</item>
     </style>
 
-    <dimen name="elevation_above_fab">10dp</dimen>
+    <style name="AppTheme.Button.Feed.Send" parent="Widget.Design.FloatingActionButton">
+        <item name="backgroundTint">@color/primaryDarkColor</item>
+        <item name="elevation">@dimen/no_dim</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconTint">@android:color/white</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
 </resources>

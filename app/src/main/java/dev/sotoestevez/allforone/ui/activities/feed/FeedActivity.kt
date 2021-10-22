@@ -12,6 +12,7 @@ import dev.sotoestevez.allforone.ui.components.exchange.notification.TextNotific
 import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.ui.view.PrivateActivity
+import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.openActionConfirmationDialog
 import java.util.*
 import kotlin.concurrent.schedule
@@ -52,10 +53,9 @@ class FeedActivity : PrivateActivity() {
         super.attachListeners()
         binding.run {
             btnSendMsg.setOnClickListener { sendMessage() }
-            btnTask.setOnClickListener { swapTaskMode() }
+            txtWriteMessage.setEndIconOnClickListener { swapTaskMode() }
             rvFeed.addOnScrollListener(onScrollListener)
         }
-        // TODO only send if text is present
     }
 
     override fun attachObservers() {
@@ -78,6 +78,7 @@ class FeedActivity : PrivateActivity() {
     }
 
     private fun swapTaskMode() {
+        logDebug("Changed to task mode")
         model.taskMode.value = !model.taskMode.value!!
     }
 

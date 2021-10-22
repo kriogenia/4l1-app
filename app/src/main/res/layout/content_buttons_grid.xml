@@ -18,7 +18,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnFeed"
-            style="@style/AppTheme.MainButton"
+            style="@style/AppTheme.Button.Main.Primary"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="@string/feed"
@@ -31,7 +31,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnTasks"
-            style="@style/AppTheme.MainButton"
+            style="@style/AppTheme.Button.Main.Primary"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="@{name != null ? String.format(@string/cared_tasks, name) : @string/my_tasks}"
@@ -45,7 +45,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLocation"
-            style="@style/AppTheme.MainButton"
+            style="@style/AppTheme.Button.Main.Primary"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="@{name != null ? String.format(@string/find, name) : @string/find_me}"
@@ -59,7 +59,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBonds"
-            style="@style/AppTheme.MainButton"
+            style="@style/AppTheme.Button.Main.Primary"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="@string/bonds"

@@ -28,7 +28,7 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnNotifications"
-                style="@style/AppTheme.SecondaryButton"
+                style="@style/AppTheme.Button.Main.Secondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/half_base_margin"
@@ -39,7 +39,7 @@
 
             <TextView
                 android:id="@+id/count"
-                style="@style/AppTheme.SecondaryButton.Badge"
+                style="@style/AppTheme.Badge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{Integer.toString(model.notificationManager.numberOfNotifications)}"
@@ -51,7 +51,7 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnSettings"
-                style="@style/AppTheme.SecondaryButton"
+                style="@style/AppTheme.Button.Main.Secondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/half_base_margin"

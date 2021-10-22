@@ -310,7 +310,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/D:/Android/sdk/icons/material/materialicons/settings/baseline_settings_24.xml" />
+                                      <entry key="url" value="file:/D:/Android/sdk/icons/material/materialicons/close/baseline_close_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -320,8 +320,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_flip" />
+                            <entry key="outputName" value="ic_baseline_close" />
                             <entry key="sourceFile" value="E:\Descargas\flip.svg" />
                           </map>
                         </option>
