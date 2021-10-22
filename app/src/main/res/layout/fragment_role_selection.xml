@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="dev.sotoestevez.allforone.vo.User"/>
+
+        <import type="dev.sotoestevez.allforone.vo.User" />
+
         <variable
             name="model"
             type="dev.sotoestevez.allforone.ui.activities.setup.SetUpViewModel" />
@@ -11,7 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <!-- TODO extract cards to content -->
 
@@ -19,130 +22,64 @@
             android:id="@+id/lblGreetingsName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.format(@string/welcome, model.user.displayName)}"
+            android:text="@{String.format(@string/welcome_user, model.user.displayName)}"
             app:layout_constraintBottom_toTopOf="@id/lblRoleSelection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Welcome User" />
 
         <TextView
             android:id="@+id/lblRoleSelection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/role_selection"
-            app:layout_constraintBottom_toTopOf="@id/cardPatient"
+            app:layout_constraintBottom_toTopOf="@id/cardKeeper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblGreetingsName" />
 
-        <!-- Patient card -->
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardPatient"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/card_layout_margin"
-            app:strokeWidth="@dimen/card_stroke_width"
-            app:strokeColor="@color/stroke_color"
-            android:onClick="@{() -> model.setRole(User.Role.PATIENT)}"
-            android:background="@{model.selectedRole == User.Role.PATIENT ? @color/cardview_dark_background : @color/cardview_light_background}"
-            app:layout_constraintBottom_toTopOf="@id/cardKeeper"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblRoleSelection">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Title -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/patient"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-                <!-- Media -->
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/card_image_height"
-                    android:contentDescription="@string/patient_media_description"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_launcher_foreground" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/patient_definition"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary"
-                    />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
         <!-- Keeper card -->
 
-        <com.google.android.material.card.MaterialCardView
+        <include
             android:id="@+id/cardKeeper"
+            layout="@layout/content_role_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/card_layout_margin"
-            app:strokeWidth="@dimen/card_stroke_width"
-            app:strokeColor="@color/stroke_color"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:onClick="@{() -> model.setRole(User.Role.KEEPER)}"
-            android:background="@{model.selectedRole == User.Role.KEEPER ? @color/cardview_dark_background : @color/cardview_light_background}"
+            app:layout_constraintBottom_toTopOf="@id/cardPatient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblRoleSelection"
+            app:role="@{User.Role.KEEPER}"
+            app:selected="@{model.selectedRole == User.Role.KEEPER}" />
+
+        <!-- Patient card -->
+
+        <include
+            android:id="@+id/cardPatient"
+            layout="@layout/content_role_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:onClick="@{() -> model.setRole(User.Role.PATIENT)}"
             app:layout_constraintBottom_toTopOf="@id/layButtonsRoleSelection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardPatient">
+            app:layout_constraintTop_toBottomOf="@id/cardKeeper"
+            app:role="@{User.Role.PATIENT}"
+            app:selected="@{model.selectedRole == User.Role.PATIENT}" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Title -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/keeper"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-                <!-- Media -->
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/card_image_height"
-                    android:contentDescription="@string/patient_media_description"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_launcher_foreground" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/keeper_definition"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary"
-                    />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <include layout="@layout/content_option_buttons"
+        <include
             android:id="@+id/layButtonsRoleSelection"
+            layout="@layout/content_option_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardKeeper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            app:layout_constraintTop_toBottomOf="@id/cardPatient" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

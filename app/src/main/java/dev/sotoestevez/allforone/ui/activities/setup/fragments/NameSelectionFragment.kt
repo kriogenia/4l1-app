@@ -33,7 +33,7 @@ class NameSelectionFragment : BaseExtendedFragment() {
     override fun attachListeners() {
         super.attachListeners()
         binding.run {
-            txtNameSelection.doAfterTextChanged { model.setDisplayName(it.toString()) }
+            eTxtNameSelection.doAfterTextChanged { model.setDisplayName(it.toString()) }
             btnNextNameSelection.setOnClickListener {
                 findNavController().navigate(R.id.action_NameSelectionFragment_to_RoleSelectionFragment)
             }

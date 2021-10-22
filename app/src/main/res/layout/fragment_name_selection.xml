@@ -17,45 +17,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/welcome"
-            app:layout_constraintBottom_toTopOf="@id/layNameSelection"
+            app:layout_constraintBottom_toTopOf="@id/txtNameSelection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layNameSelection"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtNameSelection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="@string/hint_name"
+            app:helperText="@string/choose_name"
             app:layout_constraintBottom_toTopOf="@id/btnNextNameSelection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblWelcome">
 
-            <TextView
-                android:id="@+id/lblNameSelection"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eTxtNameSelection"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/choose_name"
-                app:layout_constraintBottom_toTopOf="@id/txtNameSelection"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/txtNameSelection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
+                android:autofillHints=".AUTOFILL_HINT_PERSON_NAME_GIVEN"
                 android:inputType="textPersonName"
-                android:hint="@string/hint_name"
-                android:text="@{name}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblNameSelection"
-                android:autofillHints=".AUTOFILL_HINT_PERSON_NAME_GIVEN" />
+                android:text="@{name}" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnNextNameSelection"
@@ -65,7 +51,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layNameSelection" />
+            app:layout_constraintTop_toBottomOf="@id/txtNameSelection" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
