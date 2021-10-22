@@ -24,7 +24,44 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- Top profile card -->
+            <!-- Notification button -->
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnNotifications"
+                style="@style/AppTheme.SecondaryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_base_margin"
+                android:contentDescription="@string/desc_notifications"
+                android:src="@drawable/ic_baseline_notifications"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/count"
+                style="@style/AppTheme.SecondaryButton.Badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{Integer.toString(model.notificationManager.numberOfNotifications)}"
+                android:visibility="@{model.notificationManager.numberOfNotifications > 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="@id/btnNotifications"
+                app:layout_constraintTop_toTopOf="@id/btnNotifications" />
+
+            <!-- Settings button -->
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnSettings"
+                style="@style/AppTheme.SecondaryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_base_margin"
+                android:contentDescription="@string/desc_settings"
+                android:src="@drawable/ic_baseline_settings"
+                app:fabSize="mini"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnNotifications" />
+
+            <!-- Profile card -->
 
             <include
                 android:id="@+id/profileCard"
@@ -33,31 +70,13 @@
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
+                app:layout_constraintBottom_toTopOf="@id/buttons"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:model="@{model}"
                 app:user="@{model.user}" />
-
-            <!-- Middle buttons -->
-
-            <LinearLayout
-                android:id="@+id/layMiddleButtons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/buttons">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNotifications"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{Integer.toString(model.notificationManager.numberOfNotifications)}"
-                    tools:text="Notifications" />
-
-            </LinearLayout>
-
 
             <!-- Main buttons -->
 

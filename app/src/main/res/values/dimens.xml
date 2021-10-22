@@ -21,6 +21,7 @@
     <dimen name="msg_font_size">16sp</dimen>
     <dimen name="task_title_font_size">24sp</dimen>
     <dimen name="timestamp_msg_font_size">12sp</dimen>
-    <dimen name="no_elevation">0dp</dimen>
+    <dimen name="no_dim">0dp</dimen>
     <dimen name="task_icon_size">32dp</dimen>
+    <dimen name="badge_vertical_padding">2dp</dimen>
 </resources>

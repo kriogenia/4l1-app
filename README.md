@@ -11,6 +11,7 @@ The following third-party resources where used in the development of this applic
 * [Default user icon](https://www.flaticon.com/free-icon/user_1077114) by Freepik
 * [Email icon](https://www.flaticon.com/free-icon/email_2250044) by srip
 * [Feed icon](https://freeicons.io/miscellaneous-elements/chat-icon-23924) by Muhammad Haq
+* [Flip icon](https://freeicons.io/interface-v.1/flip-shuffle-repeat-arrow-arrows-icon-105588#) by ColourCreaType
 * [New task icon](https://www.flaticon.com/free-icon/list_1545582) by Freepik
 * [Phone icon](https://www.flaticon.com/free-icon/phone-call_597177) by Prosymbols
 * [Postal Address icon](https://www.flaticon.com/free-icon/home_31771) by Freepik
