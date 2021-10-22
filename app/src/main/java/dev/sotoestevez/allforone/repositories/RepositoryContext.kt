@@ -28,7 +28,9 @@ object RepositoryContext {
 
     /** Location repository instance */
     val notificationRepository: NotificationRepository
-        get() = (context[NOTIFICATION] ?: NotificationRepositoryImpl(ApiFactory.getFeedService()).also { context[NOTIFICATION] = it }) as NotificationRepository
+        get() = (context[NOTIFICATION] ?: NotificationRepositoryImpl(ApiFactory.getFeedService()).also {
+            context[NOTIFICATION] = it
+        }) as NotificationRepository
 
     /** Location repository instance */
     val locationRepository: LocationRepository
@@ -36,7 +38,9 @@ object RepositoryContext {
 
     /** Session repository instance */
     val sessionRepository: SessionRepository
-        get() = (context[SESSION] ?: SessionRepositoryImpl(ApiFactory.getAuthService()).also { context[SESSION] = it }) as SessionRepository
+        get() = (context[SESSION] ?: SessionRepositoryImpl(ApiFactory.getAuthService()).also {
+            context[SESSION] = it
+        }) as SessionRepository
 
     /** Task repository instance */
     val taskRepository: TaskRepository

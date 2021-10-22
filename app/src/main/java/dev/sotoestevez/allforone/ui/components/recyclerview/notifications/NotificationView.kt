@@ -10,7 +10,7 @@ import dev.sotoestevez.allforone.vo.Notification
 class NotificationView(
     private val notification: Notification,
     private val listener: NotificationListener
-    ) : NotificationsView {
+) : NotificationsView {
 
     override val id: String = notification.id
 

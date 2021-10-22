@@ -12,7 +12,7 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class Session(
-	val auth: String,
-	val refresh: String,
-	val expiration: Int
+    val auth: String,
+    val refresh: String,
+    val expiration: Int
 ) : Parcelable

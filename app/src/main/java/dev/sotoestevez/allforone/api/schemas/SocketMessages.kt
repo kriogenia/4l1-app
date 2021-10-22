@@ -12,8 +12,8 @@ import java.time.Instant
  * @property room id of the room the user has joined
  */
 data class GlobalSubscriptionMsg(
-	val id: String,
-	val room: String
+    val id: String,
+    val room: String
 )
 
 /**
@@ -23,6 +23,6 @@ data class GlobalSubscriptionMsg(
  * @property displayName display name of the current user
  */
 data class UserInfoMsg(
-	@SerializedName("_id") val id: String,
-	val displayName: String
+    @SerializedName("_id") val id: String,
+    val displayName: String
 )

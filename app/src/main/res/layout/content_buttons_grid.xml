@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="name"
             type="String" />
@@ -12,8 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/activity_horizontal_margin"
-        android:paddingHorizontal="@dimen/activity_horizontal_margin">
+        android:paddingHorizontal="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_horizontal_margin">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnFeed"
@@ -21,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="@string/feed"
-            app:icon="@drawable/ic_tasks"
+            app:icon="@drawable/ic_feed"
             app:layout_constraintBottom_toTopOf="@id/btnBonds"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintEnd_toStartOf="@id/btnTasks"
@@ -43,31 +44,31 @@
             tools:text="Cared tasks" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnBonds"
-            style="@style/AppTheme.MainButton"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="@string/bonds"
-            app:icon="@drawable/ic_tasks"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="H,1:1"
-            app:layout_constraintEnd_toStartOf="@id/btnLocation"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnFeed" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLocation"
             style="@style/AppTheme.MainButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="@{name != null ? String.format(@string/find, name) : @string/find_me}"
-            app:icon="@drawable/ic_tasks"
+            app:icon="@drawable/ic_location"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintEnd_toStartOf="@id/btnBonds"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnFeed"
+            tools:text="Find cared" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBonds"
+            style="@style/AppTheme.MainButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/bonds"
+            app:icon="@drawable/ic_bonds"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnBonds"
-            app:layout_constraintTop_toBottomOf="@id/btnTasks"
-            tools:text="Find cared" />
+            app:layout_constraintStart_toEndOf="@id/btnLocation"
+            app:layout_constraintTop_toBottomOf="@id/btnTasks" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

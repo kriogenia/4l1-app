@@ -17,42 +17,42 @@ import java.util.*
  */
 class PatientMainActivity : PrivateActivity() {
 
-	override val model: PatientMainViewModel by viewModels { ExtendedViewModelFactory(this) }
+    override val model: PatientMainViewModel by viewModels { ExtendedViewModelFactory(this) }
 
-	private lateinit var binding: ActivityPatientMainBinding
+    private lateinit var binding: ActivityPatientMainBinding
 
-	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT)
+    override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT)
 
-	override fun bindLayout() {
-		binding = ActivityPatientMainBinding.inflate(layoutInflater)
-		binding.model = model
-		binding.lifecycleOwner = this
-		setContentView(binding.root)
-	}
+    override fun bindLayout() {
+        binding = ActivityPatientMainBinding.inflate(layoutInflater)
+        binding.model = model
+        binding.lifecycleOwner = this
+        setContentView(binding.root)
+    }
 
-	override fun attachListeners() {
-		super.attachListeners()
-		binding.buttons.run {
-				btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
-				btnLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
-				btnTasks.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
-				btnFeed.setOnClickListener {
-					startActivity(buildIntent(FeedActivity::class.java).apply {
-						putExtra(FeedActivity.OWNER, model.user.value!!.displayName)
-					})
-				}
-		}
-		binding.btnNotifications.setOnClickListener { openNotificationsDialog() }
-	}
+    override fun attachListeners() {
+        super.attachListeners()
+        binding.buttons.run {
+            btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
+            btnLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
+            btnTasks.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
+            btnFeed.setOnClickListener {
+                startActivity(buildIntent(FeedActivity::class.java).apply {
+                    putExtra(FeedActivity.OWNER, model.user.value!!.displayName)
+                })
+            }
+        }
+        binding.btnNotifications.setOnClickListener { openNotificationsDialog() }
+    }
 
-	override fun attachObservers() {
-		super.attachObservers()
-		model.destiny.observe(this) { startActivity(buildIntent(it)) }
-	}
+    override fun attachObservers() {
+        super.attachObservers()
+        model.destiny.observe(this) { startActivity(buildIntent(it)) }
+    }
 
-	private fun openNotificationsDialog() {
-		NotificationsDialog(model.notificationManager)
-			.show(supportFragmentManager, NotificationsDialog.TAG)
-	}
+    private fun openNotificationsDialog() {
+        NotificationsDialog(model.notificationManager)
+            .show(supportFragmentManager, NotificationsDialog.TAG)
+    }
 
 }

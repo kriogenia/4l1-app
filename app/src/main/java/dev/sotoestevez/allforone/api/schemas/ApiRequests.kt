@@ -16,12 +16,12 @@ import dev.sotoestevez.allforone.vo.User
  * @property email
  */
 data class UserUpdateRequest(
-	var role: User.Role? = null,
-	var displayName: String? = null,
-	var mainPhoneNumber: String? = null,
-	var altPhoneNumber: String? = null,
-	var address: Address? = null,
-	var email: String? = null
+    var role: User.Role? = null,
+    var displayName: String? = null,
+    var mainPhoneNumber: String? = null,
+    var altPhoneNumber: String? = null,
+    var address: Address? = null,
+    var email: String? = null
 )
 
 /**
@@ -35,12 +35,12 @@ data class UserUpdateRequest(
  * @property lastUpdate
  */
 data class TaskRequest(
-	val title: String,
-	val description: String?,
-	val submitter: UserInfoMsg,
-	val done: Boolean,
-	val timestamp: Long,
-	val lastUpdate: Long
+    val title: String,
+    val description: String?,
+    val submitter: UserInfoMsg,
+    val done: Boolean,
+    val timestamp: Long,
+    val lastUpdate: Long
 )
 
 /**
@@ -49,6 +49,6 @@ data class TaskRequest(
  * @property code   Bonding token to verify
  */
 data class BondEstablishRequest(
-	val code: String
+    val code: String
 )
 

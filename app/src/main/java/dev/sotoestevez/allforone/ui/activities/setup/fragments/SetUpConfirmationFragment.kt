@@ -19,41 +19,41 @@ import dev.sotoestevez.allforone.ui.components.fragments.BaseExtendedFragment
  */
 class SetUpConfirmationFragment : BaseExtendedFragment() {
 
-	private val binding: FragmentSetUpConfirmationBinding
-		get() = _binding!!
-	private var _binding: FragmentSetUpConfirmationBinding? = null
+    private val binding: FragmentSetUpConfirmationBinding
+        get() = _binding!!
+    private var _binding: FragmentSetUpConfirmationBinding? = null
 
-	override val model: SetUpViewModel by activityViewModels()
+    override val model: SetUpViewModel by activityViewModels()
 
-	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
-		_binding = FragmentSetUpConfirmationBinding.inflate(inflater, container, false)
-		binding.model = model
-		return binding.root
-	}
+    override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
+        _binding = FragmentSetUpConfirmationBinding.inflate(inflater, container, false)
+        binding.model = model
+        return binding.root
+    }
 
-	override fun attachListeners() {
-		super.attachListeners()
-		binding.layButtonsSetUpConfirmation.run {
-			btnNegative.setOnClickListener {
-				findNavController().navigate(R.id.action_SetUpConfirmationFragment_to_ContactFillFragment)
-			}
-			btnPositive.setOnClickListener { model.sendUpdate() }
-		}
-	}
+    override fun attachListeners() {
+        super.attachListeners()
+        binding.layButtonsSetUpConfirmation.run {
+            btnNegative.setOnClickListener {
+                findNavController().navigate(R.id.action_SetUpConfirmationFragment_to_ContactFillFragment)
+            }
+            btnPositive.setOnClickListener { model.sendUpdate() }
+        }
+    }
 
-	override fun attachObservers() {
-		super.attachObservers()
-		model.loading.observe(this) { uiLoading(it) }
-	}
+    override fun attachObservers() {
+        super.attachObservers()
+        model.loading.observe(this) { uiLoading(it) }
+    }
 
-	private fun uiLoading(loading: Boolean) {
-		binding.run {
-			loadBarSetUp.visibility = if (loading) View.VISIBLE else View.GONE
-			layButtonsSetUpConfirmation.run {
-				btnNegative.isEnabled = !loading
-				btnPositive.isEnabled = !loading
-			}
-		}
-	}
+    private fun uiLoading(loading: Boolean) {
+        binding.run {
+            loadBarSetUp.visibility = if (loading) View.VISIBLE else View.GONE
+            layButtonsSetUpConfirmation.run {
+                btnNegative.isEnabled = !loading
+                btnPositive.isEnabled = !loading
+            }
+        }
+    }
 
 }

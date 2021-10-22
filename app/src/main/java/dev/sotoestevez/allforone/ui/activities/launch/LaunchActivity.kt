@@ -22,57 +22,57 @@ import dev.sotoestevez.allforone.util.extensions.toast
  */
 class LaunchActivity : BaseExtendedActivity() {
 
-	override val model: LaunchViewModel by viewModels { ExtendedViewModelFactory(this) }
+    override val model: LaunchViewModel by viewModels { ExtendedViewModelFactory(this) }
 
-	private lateinit var binding: ActivityLaunchBinding
+    private lateinit var binding: ActivityLaunchBinding
 
-	// Module with the logic to perform Google authentications
-	private val googleAuthHelper = GoogleAuthHelper(this)
+    // Module with the logic to perform Google authentications
+    private val googleAuthHelper = GoogleAuthHelper(this)
 
-	@Suppress("KDocMissingDocumentation")
-	override fun onStart() {
-		super.onStart()
-		logDebug("Application started")
-		// TODO silent sign in
-	}
+    @Suppress("KDocMissingDocumentation")
+    override fun onStart() {
+        super.onStart()
+        logDebug("Application started")
+        // TODO silent sign in
+    }
 
-	override fun bindLayout() {
-		binding = ActivityLaunchBinding.inflate(layoutInflater)
-		setContentView(binding.root)
-	}
+    override fun bindLayout() {
+        binding = ActivityLaunchBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
 
-	override fun attachListeners() {
-		googleAuthHelper.setCallback({ onFailedAuthentication() }) { token -> model.handleSignInResult(token) }
-		binding.btnSignIn.setOnClickListener {
-			model.loading.value = true
-			googleAuthHelper.invokeSignInAPI()
-		}
-	}
+    override fun attachListeners() {
+        googleAuthHelper.setCallback({ onFailedAuthentication() }) { token -> model.handleSignInResult(token) }
+        binding.btnSignIn.setOnClickListener {
+            model.loading.value = true
+            googleAuthHelper.invokeSignInAPI()
+        }
+    }
 
-	override fun attachObservers() {
-		model.error.observe(this) { handleError(it) }
-		model.loading.observe(this) { uiLoading(it) }
-		model.destiny.observe(this) { nextActivity(it) }
-	}
+    override fun attachObservers() {
+        model.error.observe(this) { handleError(it) }
+        model.loading.observe(this) { uiLoading(it) }
+        model.destiny.observe(this) { nextActivity(it) }
+    }
 
-	override fun handleError(error: Throwable) {
-		model.loading.value = false
-		super.handleError(error)
-	}
+    override fun handleError(error: Throwable) {
+        model.loading.value = false
+        super.handleError(error)
+    }
 
-	private fun nextActivity(next: Class<out Activity>) {
-		startActivity(buildIntent(next))
-		finish()
-	}
+    private fun nextActivity(next: Class<out Activity>) {
+        startActivity(buildIntent(next))
+        finish()
+    }
 
-	private fun uiLoading(loading: Boolean) {
-		binding.btnSignIn.visibility = if (loading) GONE else VISIBLE
-		binding.loadCircleLaunch.visibility = if (loading) VISIBLE else GONE
-	}
+    private fun uiLoading(loading: Boolean) {
+        binding.btnSignIn.visibility = if (loading) GONE else VISIBLE
+        binding.loadCircleLaunch.visibility = if (loading) VISIBLE else GONE
+    }
 
-	private fun onFailedAuthentication () {
-		uiLoading(false)
-		toast(getString(R.string.error_google_auth))
-	}
+    private fun onFailedAuthentication() {
+        uiLoading(false)
+        toast(getString(R.string.error_google_auth))
+    }
 
 }

@@ -5,14 +5,14 @@ import androidx.annotation.LayoutRes
 /** Wrapper of value objects to display in the [BindableRecyclerViewAdapter] */
 interface BindedItemView {
 
-	/** Identification of the view */
-	val id: String
+    /** Identification of the view */
+    val id: String
 
-	/** Id of the layout associated with the object */
-	@get:LayoutRes
-	val layoutId: Int
+    /** Id of the layout associated with the object */
+    @get:LayoutRes
+    val layoutId: Int
 
-	/** ViewType to work with the RecyclerView lifecycle */
-	val viewType: Int
+    /** ViewType to work with the RecyclerView lifecycle */
+    val viewType: Int
 
 }

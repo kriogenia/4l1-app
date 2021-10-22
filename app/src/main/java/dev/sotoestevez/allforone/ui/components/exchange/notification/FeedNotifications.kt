@@ -9,16 +9,16 @@ import dev.sotoestevez.allforone.R
  * @property message    Code of the message to print
  * @property extraArg   Extra argument to use in the message if any
  */
-abstract class FeedNotification(private val message: Int, private val extraArg: String): TextNotification {
+abstract class FeedNotification(private val message: Int, private val extraArg: String) : TextNotification {
 
     override fun getString(context: Context) = String.format(context.getString(message), extraArg)
 }
 
 /** [TextNotification] for new users joining the room */
-class UserJoiningNotification(extraArg: String): FeedNotification(R.string.user_joined_room, extraArg)
+class UserJoiningNotification(extraArg: String) : FeedNotification(R.string.user_joined_room, extraArg)
 
 /** [TextNotification] for users leaving the room */
-class UserLeavingNotification(extraArg: String): FeedNotification(R.string.user_left_room, extraArg)
+class UserLeavingNotification(extraArg: String) : FeedNotification(R.string.user_left_room, extraArg)
 
 /** [TextNotification] for new messages incoming */
-class NewMessageNotification(extraArg: String): FeedNotification(R.string.new_message, extraArg)
+class NewMessageNotification(extraArg: String) : FeedNotification(R.string.new_message, extraArg)

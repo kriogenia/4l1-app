@@ -11,7 +11,7 @@ import dev.sotoestevez.allforone.vo.feed.Message
  * @property message with the error info
  */
 interface ErrorResponse {
-	val message: String
+    val message: String
 }
 
 /**
@@ -27,7 +27,7 @@ data class BaseErrorResponse(override val message: String) : ErrorResponse
  * @property message    Returned message
  */
 data class MessageResponse(
-	val message: String
+    val message: String
 )
 
 /**
@@ -36,7 +36,7 @@ data class MessageResponse(
  * @property code    Returned bonding token
  */
 data class BondGenerateResponse(
-	val code: String
+    val code: String
 )
 
 /**
@@ -45,7 +45,7 @@ data class BondGenerateResponse(
  * @property cared  Patient cared by the current user if it exists
  */
 data class CaredResponse(
-	val cared: User?
+    val cared: User?
 )
 
 
@@ -55,7 +55,7 @@ data class CaredResponse(
  * @property session    Session info
  */
 data class RefreshResponse(
-	val session: Session
+    val session: Session
 )
 
 /**
@@ -65,8 +65,8 @@ data class RefreshResponse(
  * @property user       Data of the user
  */
 data class SignInResponse(
-	val session: Session,
-	val user: User
+    val session: Session,
+    val user: User
 )
 
 /**
@@ -82,12 +82,12 @@ data class SignInResponse(
  * @property type
  */
 data class TaskResponse(
-	val _id: String,
-	val title: String,
-	val description: String?,
-	val submitter: UserInfoMsg,
-	val done: Boolean,
-	val timestamp: Long,
-	val lastUpdate: Long,
-	val type: Message.Type
+    val _id: String,
+    val title: String,
+    val description: String?,
+    val submitter: UserInfoMsg,
+    val done: Boolean,
+    val timestamp: Long,
+    val lastUpdate: Long,
+    val type: Message.Type
 )

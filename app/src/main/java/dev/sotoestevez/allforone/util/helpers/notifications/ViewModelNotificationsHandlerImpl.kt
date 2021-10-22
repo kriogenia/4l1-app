@@ -30,7 +30,7 @@ class ViewModelNotificationsHandlerImpl(private val model: WithNotifications) : 
     override fun setAllAsRead() =
         model.runNotificationRequest { repository.setAllAsRead(it) }
 
-    override fun setAsRead(notification: Notification)  =
+    override fun setAsRead(notification: Notification) =
         model.runNotificationRequest { repository.setAsRead(notification, it) }
 
 }

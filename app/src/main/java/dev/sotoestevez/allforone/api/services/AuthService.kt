@@ -11,27 +11,27 @@ import retrofit2.http.Path
 /** Service to handle the operations related to the /auth endpoints of the API */
 interface AuthService {
 
-	/**
-	 * Sends the user credentials to the server to handle the log in request
-	 *
-	 * @param token Google Id Token to perform the authentication
-	 * @return      Response with the authentication data (session and user) or with an error
-	 */
-	@GET("/auth/signin/{token}")
-	suspend fun getSignIn(
-		@Path("token") token: String
-	): NetworkResponse<SignInResponse, BaseErrorResponse>
+    /**
+     * Sends the user credentials to the server to handle the log in request
+     *
+     * @param token Google Id Token to perform the authentication
+     * @return      Response with the authentication data (session and user) or with an error
+     */
+    @GET("/auth/signin/{token}")
+    suspend fun getSignIn(
+        @Path("token") token: String
+    ): NetworkResponse<SignInResponse, BaseErrorResponse>
 
-	/**
-	 * Sends the current session data to the server to renew the tokens
-	 *
-	 * @param body   Current session tokens to renew (auth and refresh token)
-	 * @return       Response with the new session data
-	 */
-	@GET("/auth/refresh/{token}")
-	suspend fun getRefresh(
-		@Header("Authorization") auth: String,
-		@Path("token") refresh: String
-	): NetworkResponse<RefreshResponse, BaseErrorResponse>
+    /**
+     * Sends the current session data to the server to renew the tokens
+     *
+     * @param body   Current session tokens to renew (auth and refresh token)
+     * @return       Response with the new session data
+     */
+    @GET("/auth/refresh/{token}")
+    suspend fun getRefresh(
+        @Header("Authorization") auth: String,
+        @Path("token") refresh: String
+    ): NetworkResponse<RefreshResponse, BaseErrorResponse>
 
 }

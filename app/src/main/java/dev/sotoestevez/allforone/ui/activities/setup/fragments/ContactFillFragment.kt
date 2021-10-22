@@ -17,47 +17,47 @@ import dev.sotoestevez.allforone.ui.components.fragments.BaseExtendedFragment
  */
 class ContactFillFragment : BaseExtendedFragment() {
 
-	private val binding
-		get() = _binding!!
-	private var _binding: FragmentContactFillBinding? = null
+    private val binding
+        get() = _binding!!
+    private var _binding: FragmentContactFillBinding? = null
 
-	override val model: SetUpViewModel by activityViewModels()
+    override val model: SetUpViewModel by activityViewModels()
 
-	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
-		_binding = FragmentContactFillBinding.inflate(inflater, container, false).apply { user = model.user.value }
-		return binding.root
-	}
+    override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
+        _binding = FragmentContactFillBinding.inflate(inflater, container, false).apply { user = model.user.value }
+        return binding.root
+    }
 
-	override fun attachListeners() {
-		super.attachListeners()
-		binding.run {
-			eTxtContactPhone.doAfterTextChanged { model.setMainPhoneNumber(it.toString()) }
-			eTxtContactPhoneAlt.doAfterTextChanged { model.setAltPhoneNumber(it.toString()) }
-			eTxtContactEmail.doAfterTextChanged { model.setEmail(it.toString()) }
+    override fun attachListeners() {
+        super.attachListeners()
+        binding.run {
+            eTxtContactPhone.doAfterTextChanged { model.setMainPhoneNumber(it.toString()) }
+            eTxtContactPhoneAlt.doAfterTextChanged { model.setAltPhoneNumber(it.toString()) }
+            eTxtContactEmail.doAfterTextChanged { model.setEmail(it.toString()) }
 
-			eTxtContactAddressStreet.doAfterTextChanged { updateAddress() }
-			eTxtContactAddressExtended.doAfterTextChanged { updateAddress() }
-			eTxtContactAddressLocality.doAfterTextChanged { updateAddress() }
-			eTxtContactAddressRegion.doAfterTextChanged { updateAddress() }
+            eTxtContactAddressStreet.doAfterTextChanged { updateAddress() }
+            eTxtContactAddressExtended.doAfterTextChanged { updateAddress() }
+            eTxtContactAddressLocality.doAfterTextChanged { updateAddress() }
+            eTxtContactAddressRegion.doAfterTextChanged { updateAddress() }
 
-			layButtonsContactFill.run {
-				btnNegative.setOnClickListener {
-					findNavController().navigate(R.id.action_ContactFillFragment_to_RoleSelectionFragment)
-				}
-				btnPositive.setOnClickListener {
-					findNavController().navigate(R.id.action_ContactFillFragment_to_SetUpConfirmationFragment)
-				}
-			}
-		}
-	}
+            layButtonsContactFill.run {
+                btnNegative.setOnClickListener {
+                    findNavController().navigate(R.id.action_ContactFillFragment_to_RoleSelectionFragment)
+                }
+                btnPositive.setOnClickListener {
+                    findNavController().navigate(R.id.action_ContactFillFragment_to_SetUpConfirmationFragment)
+                }
+            }
+        }
+    }
 
-	private fun updateAddress() = binding.run {
-			model.setAddress(
-				eTxtContactAddressStreet.text.toString(),
-				eTxtContactAddressExtended.text.toString(),
-				eTxtContactAddressLocality.text.toString(),
-				eTxtContactAddressRegion.text.toString()
-			)
-	}
+    private fun updateAddress() = binding.run {
+        model.setAddress(
+            eTxtContactAddressStreet.text.toString(),
+            eTxtContactAddressExtended.text.toString(),
+            eTxtContactAddressLocality.text.toString(),
+            eTxtContactAddressRegion.text.toString()
+        )
+    }
 
 }

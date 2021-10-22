@@ -25,39 +25,39 @@ import java.util.*
  */
 class SetUpActivity : PrivateActivity() {
 
-	override val model: SetUpViewModel by viewModels { ExtendedViewModelFactory(this) }
+    override val model: SetUpViewModel by viewModels { ExtendedViewModelFactory(this) }
 
-	private lateinit var binding: ActivitySetUpBinding
-	private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var binding: ActivitySetUpBinding
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
-	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.BLANK)
+    override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.BLANK)
 
-	@Suppress("KDocMissingDocumentation")
-	override fun onSupportNavigateUp(): Boolean {
-		val navController = findNavController(R.id.nav_host_fragment_set_up)
-		return navController.navigateUp(appBarConfiguration)
-				|| super.onSupportNavigateUp()
-	}
+    @Suppress("KDocMissingDocumentation")
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment_set_up)
+        return navController.navigateUp(appBarConfiguration)
+                || super.onSupportNavigateUp()
+    }
 
-	override fun bindLayout() {
-		binding = ActivitySetUpBinding.inflate(layoutInflater)
-		setContentView(binding.root)
+    override fun bindLayout() {
+        binding = ActivitySetUpBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-		setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.toolbar)
 
-		val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_set_up) as NavHostFragment
-		val navController = navHostFragment.navController
-		appBarConfiguration = AppBarConfiguration(navController.graph)
-		setupActionBarWithNavController(navController, appBarConfiguration)
-	}
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_set_up) as NavHostFragment
+        val navController = navHostFragment.navController
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
 
-	override fun attachObservers() {
-		super.attachObservers()
-		model.destiny.observe(this) {	nextActivity(it) }
-	}
+    override fun attachObservers() {
+        super.attachObservers()
+        model.destiny.observe(this) { nextActivity(it) }
+    }
 
-	private fun nextActivity(next: Class<out Activity>) {
-		startActivity(buildIntent(next))
-		finish()
-	}
+    private fun nextActivity(next: Class<out Activity>) {
+        startActivity(buildIntent(next))
+        finish()
+    }
 }

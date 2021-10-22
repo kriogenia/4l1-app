@@ -19,98 +19,99 @@ import kotlin.concurrent.schedule
 /** Activity with the message Feed */
 class FeedActivity : PrivateActivity() {
 
-	companion object {
-		private const val NOTIFICATION_DURATION = 2000L
-		/** Key for owner intent property */
-		const val OWNER = "owner"
-	}
+    companion object {
+        private const val NOTIFICATION_DURATION = 2000L
 
-	override val model: FeedViewModel by viewModels { ExtendedViewModelFactory(this) }
+        /** Key for owner intent property */
+        const val OWNER = "owner"
+    }
 
-	private lateinit var binding: ActivityFeedBinding
+    override val model: FeedViewModel by viewModels { ExtendedViewModelFactory(this) }
 
-	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT, User.Role.KEEPER)
+    private lateinit var binding: ActivityFeedBinding
 
-	private var autoScrolling: Boolean = true
+    override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT, User.Role.KEEPER)
 
-	@Suppress("KDocMissingDocumentation")	// override method
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		intent.getStringExtra(OWNER)?.let { title = String.format(getString(R.string.title_activity_feed), it) }
-	}
+    private var autoScrolling: Boolean = true
 
-	override fun bindLayout() {
-		binding = ActivityFeedBinding.inflate(layoutInflater)
-		binding.model = model
-		binding.lifecycleOwner = this
-		setContentView(binding.root)
+    @Suppress("KDocMissingDocumentation")    // override method
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        intent.getStringExtra(OWNER)?.let { title = String.format(getString(R.string.title_activity_feed), it) }
+    }
 
-	}
+    override fun bindLayout() {
+        binding = ActivityFeedBinding.inflate(layoutInflater)
+        binding.model = model
+        binding.lifecycleOwner = this
+        setContentView(binding.root)
 
-	override fun attachListeners() {
-		super.attachListeners()
-		binding.run {
-			btnSendMsg.setOnClickListener { sendMessage() }
-			btnTask.setOnClickListener { swapTaskMode() }
-			rvFeed.addOnScrollListener(onScrollListener)
-		}
-		// TODO only send if text is present
-	}
+    }
 
-	override fun attachObservers() {
-		super.attachObservers()
-		model.feedList.observe(this) { autoscroll(it) }
-		model.notification.observe(this) { it?.let { updateNotification(it) } }
-		model.actionTaskToConfirm.observe(this) { openActionConfirmationDialog(it) }
-	}
+    override fun attachListeners() {
+        super.attachListeners()
+        binding.run {
+            btnSendMsg.setOnClickListener { sendMessage() }
+            btnTask.setOnClickListener { swapTaskMode() }
+            rvFeed.addOnScrollListener(onScrollListener)
+        }
+        // TODO only send if text is present
+    }
 
-	private fun sendMessage() {
-		if (model.taskMode.value == true) {
-			val title = binding.eTxtWriteMessage.text.toString()
-			if (Strings.isEmptyOrWhitespace(title)) return	// TODO show error of title needed
-			model.sendTaskMessage(title, binding.eTxtTaskDescription.text.toString())
-			binding.eTxtTaskDescription.text?.clear()
-		} else {
-			model.sendTextMessage(binding.eTxtWriteMessage.text.toString())
-		}
-		binding.eTxtWriteMessage.text?.clear()
-	}
+    override fun attachObservers() {
+        super.attachObservers()
+        model.feedList.observe(this) { autoscroll(it) }
+        model.notification.observe(this) { it?.let { updateNotification(it) } }
+        model.actionTaskToConfirm.observe(this) { openActionConfirmationDialog(it) }
+    }
 
-	private fun swapTaskMode() {
-		model.taskMode.value = !model.taskMode.value!!
-	}
+    private fun sendMessage() {
+        if (model.taskMode.value == true) {
+            val title = binding.eTxtWriteMessage.text.toString()
+            if (Strings.isEmptyOrWhitespace(title)) return    // TODO show error of title needed
+            model.sendTaskMessage(title, binding.eTxtTaskDescription.text.toString())
+            binding.eTxtTaskDescription.text?.clear()
+        } else {
+            model.sendTextMessage(binding.eTxtWriteMessage.text.toString())
+        }
+        binding.eTxtWriteMessage.text?.clear()
+    }
 
-	private fun autoscroll(list: List<BindedItemView>) {
-		if (!autoScrolling) return	// Only move scroll when auto scrolling
-		binding.rvFeed.post { binding.rvFeed.smoothScrollToPosition((list.size - 1).coerceAtLeast(0)) }
-	}
+    private fun swapTaskMode() {
+        model.taskMode.value = !model.taskMode.value!!
+    }
 
-	private fun updateNotification(notification: TextNotification) {
-		if (notification is NewMessageNotification && autoScrolling) return	// Don't notify new messages when scrolled down
-		val string = notification.getString(this)
-		binding.lblFeedNotification.text = string
-		Timer().schedule(NOTIFICATION_DURATION) {
-			runOnUiThread { if (binding.lblFeedNotification.text == string) binding.lblFeedNotification.text = "" }
-		}
-	}
+    private fun autoscroll(list: List<BindedItemView>) {
+        if (!autoScrolling) return    // Only move scroll when auto scrolling
+        binding.rvFeed.post { binding.rvFeed.smoothScrollToPosition((list.size - 1).coerceAtLeast(0)) }
+    }
 
-	/** on reaching top of the list, request to load more messages */
-	private val onScrollListener = object : RecyclerView.OnScrollListener() {
+    private fun updateNotification(notification: TextNotification) {
+        if (notification is NewMessageNotification && autoScrolling) return    // Don't notify new messages when scrolled down
+        val string = notification.getString(this)
+        binding.lblFeedNotification.text = string
+        Timer().schedule(NOTIFICATION_DURATION) {
+            runOnUiThread { if (binding.lblFeedNotification.text == string) binding.lblFeedNotification.text = "" }
+        }
+    }
 
-		private var isFirst = true	// flag to discern call on loading
+    /** on reaching top of the list, request to load more messages */
+    private val onScrollListener = object : RecyclerView.OnScrollListener() {
 
-		override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-			if (isFirst) {
-				isFirst = false
-				return
-			}
-			autoScrolling = false
-			// Message loading if reaching top
-			if (!recyclerView.canScrollVertically(-1)) model.addMessages()
-			// reaching bottom resets autoscroll
-			if (!recyclerView.canScrollVertically(1)) autoScrolling = true
-		}
+        private var isFirst = true    // flag to discern call on loading
 
-	}
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            if (isFirst) {
+                isFirst = false
+                return
+            }
+            autoScrolling = false
+            // Message loading if reaching top
+            if (!recyclerView.canScrollVertically(-1)) model.addMessages()
+            // reaching bottom resets autoscroll
+            if (!recyclerView.canScrollVertically(1)) autoScrolling = true
+        }
+
+    }
 
 }

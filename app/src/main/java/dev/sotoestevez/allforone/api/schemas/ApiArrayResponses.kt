@@ -28,7 +28,7 @@ data class BondListResponse(
     }
 }
 
-data class TaskListResponse (
+data class TaskListResponse(
     val tasks: Array<TaskResponse>
 ) {
     override fun equals(other: Any?): Boolean {
@@ -50,7 +50,7 @@ data class TaskListResponse (
 /**
  * Model of the response to be received from the /feed/notifications endpoint
  *
- * @property notifications	list of notifications retrieved
+ * @property notifications    list of notifications retrieved
  */
 data class FeedNotificationsResponse(
     val notifications: Array<Notification>
@@ -74,7 +74,7 @@ data class FeedNotificationsResponse(
 /**
  * Model of the response to be received from the /feed/messages endpoint
  *
- * @property messages	list of messages retrieved
+ * @property messages    list of messages retrieved
  */
 data class FeedMessageResponse(
     val messages: Array<PlainMessage>
@@ -99,15 +99,15 @@ data class FeedMessageResponse(
  * Model with the property joining of the messages to be received from the /feed/messages endpoint
  *
  * @property submitter      ID of the message submitter
- * @property username	    Username of the message submitter
- * @property timestamp	    Creation timestamp of the message
- * @property lastUpdate	    Last update timestamp of the message
- * @property type		    Type of message
+ * @property username        Username of the message submitter
+ * @property timestamp        Creation timestamp of the message
+ * @property lastUpdate        Last update timestamp of the message
+ * @property type            Type of message
  * @property _id            ID of the message
- * @property message	    Content of the TextMessages
- * @property title	        Title of the TaskMessages
- * @property description	Description of the TaskMessages
- * @property done	        State of the TaskMessages
+ * @property message        Content of the TextMessages
+ * @property title            Title of the TaskMessages
+ * @property description    Description of the TaskMessages
+ * @property done            State of the TaskMessages
  */
 data class PlainMessage(
     val submitter: String,

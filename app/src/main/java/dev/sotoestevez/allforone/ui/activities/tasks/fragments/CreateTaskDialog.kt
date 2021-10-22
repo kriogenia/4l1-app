@@ -13,7 +13,7 @@ import dev.sotoestevez.allforone.databinding.FragmentCreateTaskBinding
  *
  * @property onCreate   callback to send the task input data
  */
-class CreateTaskDialog(val onCreate: (String, String) -> Unit): DialogFragment() {
+class CreateTaskDialog(val onCreate: (String, String) -> Unit) : DialogFragment() {
 
     companion object {
         /** Tag of the fragment */

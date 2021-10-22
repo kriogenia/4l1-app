@@ -18,7 +18,7 @@ import dev.sotoestevez.allforone.vo.Notification
 class NotificationRepositoryImpl(
     private val service: FeedService,
     gson: Gson = Gson()
-): BaseSocketRepository(gson), NotificationRepository {
+) : BaseSocketRepository(gson), NotificationRepository {
 
     override suspend fun getNotifications(token: String): List<Notification> {
         logDebug("Retrieving the pending notifications of the user")

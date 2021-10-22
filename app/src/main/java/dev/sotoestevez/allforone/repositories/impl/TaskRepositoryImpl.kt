@@ -16,36 +16,39 @@ import dev.sotoestevez.allforone.vo.User
  * @constructor
  */
 class TaskRepositoryImpl(
-	private val service: TaskService
-): TaskRepository {
+    private val service: TaskService
+) : TaskRepository {
 
-	override suspend fun getTasks(token: String): List<Task> {
-		logDebug("Requested the retrieval of tasks")
-		val response = ApiRequest(suspend { service.getTasks(token) }).performRequest()
-		return response.tasks.map { buildTask(it) }
-	}
+    override suspend fun getTasks(token: String): List<Task> {
+        logDebug("Requested the retrieval of tasks")
+        val response = ApiRequest(suspend { service.getTasks(token) }).performRequest()
+        return response.tasks.map { buildTask(it) }
+    }
 
-	override suspend fun save(task: Task, token: String): Task {
-		val data = TaskRequest(task.title, task.description, UserInfoMsg(task.submitter.id!!, task.submitter.displayName!!),
-			task.done, task.timestamp, task.lastUpdate)
-		val response = ApiRequest(suspend { service.postTask(token, data) }).performRequest()
-		return buildTask(response)
-	}
+    override suspend fun save(task: Task, token: String): Task {
+        val data = TaskRequest(
+            task.title, task.description, UserInfoMsg(task.submitter.id!!, task.submitter.displayName!!),
+            task.done, task.timestamp, task.lastUpdate
+        )
+        val response = ApiRequest(suspend { service.postTask(token, data) }).performRequest()
+        return buildTask(response)
+    }
 
-	override suspend fun delete(task: Task, token: String) {
-		logDebug("Requested deletion of Task[${task.id}]")
-		ApiRequest(suspend { service.deleteTask(token, task.id) }).performRequest()
-	}
+    override suspend fun delete(task: Task, token: String) {
+        logDebug("Requested deletion of Task[${task.id}]")
+        ApiRequest(suspend { service.deleteTask(token, task.id) }).performRequest()
+    }
 
-	override suspend fun updateDone(task: Task, token: String) {
-		if (task.done) service.postTaskDone(token, task.id)
-		else service.deleteTaskDone(token, task.id)
-	}
+    override suspend fun updateDone(task: Task, token: String) {
+        if (task.done) service.postTaskDone(token, task.id)
+        else service.deleteTaskDone(token, task.id)
+    }
 
-	private fun buildTask(response: TaskResponse) = Task(
-		response._id, response.title,
-		User(id = response.submitter.id, displayName = response.submitter.displayName),
-		response.description, response.done, response.timestamp)
-		.apply { lastUpdate = response.lastUpdate }
+    private fun buildTask(response: TaskResponse) = Task(
+        response._id, response.title,
+        User(id = response.submitter.id, displayName = response.submitter.displayName),
+        response.description, response.done, response.timestamp
+    )
+        .apply { lastUpdate = response.lastUpdate }
 
 }

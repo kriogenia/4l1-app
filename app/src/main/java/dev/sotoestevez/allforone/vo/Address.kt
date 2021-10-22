@@ -14,22 +14,22 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class Address(
-	val firstLine: String?,
-	val secondLine: String?,
-	val locality: String?,
-	val region: String?
-): Parcelable {
+    val firstLine: String?,
+    val secondLine: String?,
+    val locality: String?,
+    val region: String?
+) : Parcelable {
 
-	/**
-	 * Postal address of the user combining both lines
-	 */
-	val postalAddress: String
-		get() = "$firstLine, $secondLine"
+    /**
+     * Postal address of the user combining both lines
+     */
+    val postalAddress: String
+        get() = "$firstLine, $secondLine"
 
-	/**
-	 * String combining the locality of the user with its region
-	 */
-	val localityFull: String
-		get() = "$locality ($region)"
+    /**
+     * String combining the locality of the user with its region
+     */
+    val localityFull: String
+        get() = "$locality ($region)"
 
 }

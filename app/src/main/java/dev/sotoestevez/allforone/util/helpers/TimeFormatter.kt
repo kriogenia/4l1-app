@@ -39,7 +39,7 @@ object TimeFormatter {
      * @param timestamp instant to transform
      * @return date and time of the instant
      */
-    fun getDateTime(timestamp: Long): String = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), zoneId).
-        format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
+    fun getDateTime(timestamp: Long): String = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), zoneId)
+        .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
 
 }

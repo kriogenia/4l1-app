@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 /**
  * Default implementation of the [DispatcherProvider]. It returns all the dispatches of [Dispatchers]
  */
-object DefaultDispatcherProvider: DispatcherProvider {
+object DefaultDispatcherProvider : DispatcherProvider {
 
     override fun main(): CoroutineDispatcher = Dispatchers.Main
     override fun default(): CoroutineDispatcher = Dispatchers.Default
