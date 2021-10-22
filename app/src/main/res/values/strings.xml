@@ -116,4 +116,6 @@
     <string name="mark_all_as_read">Mark all as read</string>
     <string name="back">Back</string>
     <string name="go">Go</string>
+    <string name="desc_notifications">Show the notifications</string>
+    <string name="desc_settings">Opens the settings menu</string>
 </resources>

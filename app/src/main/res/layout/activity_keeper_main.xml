@@ -27,6 +27,50 @@
             android:orientation="vertical"
             android:visibility="@{model.cared != null ? View.VISIBLE : View.GONE}">
 
+            <!-- Notification button -->
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnNotifications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/desc_notifications"
+                android:src="@drawable/ic_baseline_notifications"
+                android:backgroundTint="@android:color/white"
+                app:borderWidth="0dp"
+                android:layout_margin="@dimen/half_base_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/count"
+                android:elevation="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/base_margin"
+                android:paddingVertical="2dp"
+                android:visibility="@{model.notificationManager.numberOfNotifications > 0 ? View.VISIBLE : View.GONE}"
+                android:text="@{Integer.toString(model.notificationManager.numberOfNotifications)}"
+                app:layout_constraintTop_toTopOf="@id/btnNotifications"
+                app:layout_constraintEnd_toEndOf="@id/btnNotifications"
+                style="@style/Widget.Design.FloatingActionButton" />
+
+            <!-- Settings button -->
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/desc_settings"
+                android:src="@drawable/ic_baseline_settings"
+                android:backgroundTint="@android:color/white"
+                app:fabSize="mini"
+                app:borderWidth="0dp"
+                android:layout_margin="@dimen/half_base_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnNotifications" />
+
+
+
             <!-- Cared profile card -->
 
             <include
@@ -34,36 +78,17 @@
                 layout="@layout/content_profile_card"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                app:layout_constraintHorizontal_weight="1"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/buttons"
                 app:model="@{model}"
                 app:user="@{model.cared}" />
 
-            <!-- Middle buttons -->
-
-            <LinearLayout
-                android:id="@+id/layMiddleButtons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/buttons">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNotifications"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{Integer.toString(model.notificationManager.numberOfNotifications)}"
-                    tools:text="Notifications" />
-
-            </LinearLayout>
-
-
             <!-- Main buttons -->
-
 
             <include
                 android:id="@+id/buttons"
@@ -84,7 +109,6 @@
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="@{model.loading || model.cared != null ? View.GONE : View.VISIBLE}">
-
 
             <!-- Forge bond button -->
 
