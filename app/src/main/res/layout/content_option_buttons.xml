@@ -1,22 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="negativeText"
             type="String" />
+
+        <variable
+            name="negativeIcon"
+            type="android.graphics.drawable.Drawable" />
+
         <variable
             name="positiveText"
             type="String" />
+
+        <variable
+            name="positiveIcon"
+            type="android.graphics.drawable.Drawable" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNegative"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{negativeText ?? @string/previous}"
@@ -24,9 +36,11 @@
             app:layout_constraintEnd_toStartOf="@id/btnPositive"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            style="@style/Widget.MaterialComponents.Button.TextButton" />
+            app:icon="@{negativeIcon ?? @drawable/ic_baseline_arrow_back}"
+            tools:text="@string/previous"
+            tools:icon="@drawable/ic_baseline_arrow_back" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPositive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +48,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnNegative"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:icon="@{positiveIcon ?? @drawable/ic_baseline_arrow_forward}"
+            app:iconGravity="end"
+            tools:text="@string/next"
+            tools:icon="@drawable/ic_baseline_arrow_forward" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

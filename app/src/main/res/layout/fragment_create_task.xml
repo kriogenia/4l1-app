@@ -87,7 +87,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:negativeText="@{@string/cancel}"
-            app:positiveText="@{@string/create}" />
+            app:positiveText="@{@string/create}"
+            app:negativeIcon="@{@drawable/ic_baseline_close}"
+            app:positiveIcon="@{@drawable/ic_baseline_send}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,6 +2,7 @@ package dev.sotoestevez.allforone.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.ui.activities.launch.LaunchActivity
@@ -20,8 +21,14 @@ abstract class PrivateActivity : BaseExtendedActivity() {
     @Suppress("KDocMissingDocumentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+        }
         checkUser()
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = true.also { onBackPressed() }
 
     override fun bindLayout() {}
 
