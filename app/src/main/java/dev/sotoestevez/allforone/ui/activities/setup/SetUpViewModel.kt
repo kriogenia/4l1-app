@@ -40,9 +40,7 @@ class SetUpViewModel(
     private var mSelectedRole = MutableLiveData(User.Role.BLANK)
 
     // WithProfileCard
-    override val profileCardExpandable: Boolean = false
-    override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(true)
-
+    override val profileCardReversed: MutableLiveData<Boolean> = MutableLiveData(false)
 
     constructor(builder: ExtendedViewModel.Builder) : this(
         builder.savedStateHandle,
@@ -50,7 +48,6 @@ class SetUpViewModel(
         builder.sessionRepository,
         builder.userRepository
     )
-
 
     /**
      * Updates the display name of the user also calling the observers
@@ -69,7 +66,7 @@ class SetUpViewModel(
      * @param role   New role of the user
      */
     fun setRole(role: User.Role) {
-        logDebug("SET ROLE")
+        logDebug("Selected role $role")
         mSelectedRole.value = role
         mUser.value = mUser.value?.also {
             it.role = role

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="model"
             type="dev.sotoestevez.allforone.ui.activities.setup.SetUpViewModel" />
@@ -10,7 +11,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/loadBarSetUp"
@@ -44,32 +45,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblProfileCardDescription" />
 
-        <include layout="@layout/content_profile_card"
+        <include
             android:id="@+id/profileCard"
-            android:layout_width="0dp"
+            layout="@layout/content_profile_card"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
             app:model="@{model}"
             app:user="@{model.user}" />
 
         <!-- Buttons -->
 
-        <include layout="@layout/content_option_buttons"
+        <include
             android:id="@+id/layButtonsSetUpConfirmation"
+            layout="@layout/content_option_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/profileCard"
-
-            app:positiveText="@{@string/finish}"/>
+            app:positiveText="@{@string/finish}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

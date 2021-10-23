@@ -25,13 +25,10 @@ abstract class BaseExtendedFragment : Fragment(), ExtendedFragment, SteppedCreat
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         attachListeners()
         attachObservers()
-        updateUi()
     }
 
     override fun attachListeners() {}
 
     override fun attachObservers() {}
-
-    override fun updateUi() {}
 
 }

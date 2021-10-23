@@ -42,7 +42,7 @@
                 android:layout_weight="1"
                 android:contentDescription="@string/profile_banner_description"
                 android:scaleType="centerCrop"
-                android:visibility="@{model.profileCardExpanded ? View.GONE : View.VISIBLE}"
+                android:visibility="@{model.profileCardReversed ? View.GONE : View.VISIBLE}"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <!-- Name section -->
@@ -51,7 +51,7 @@
                 android:id="@+id/layProfileCardTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="@{model.profileCardExpanded ? View.GONE : View.VISIBLE}">
+                android:visibility="@{model.profileCardReversed ? View.GONE : View.VISIBLE}">
 
                 <!-- Profile picture -->
 
@@ -113,9 +113,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:visibility="@{model.profileCardExpanded ? View.VISIBLE : View.GONE}"
+                android:visibility="@{model.profileCardReversed ? View.VISIBLE : View.GONE}"
                 app:user="@{user}"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
 
             <!-- Flip button -->
 
@@ -128,8 +128,8 @@
                 android:layout_marginBottom="@dimen/base_margin"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/desc_expand_card_view"
-                android:onClick="@{() -> model.onExpandButtonClick()}"
-                android:rotationX="@{model.profileCardExpanded ? 0f : 180f}"
+                android:onClick="@{() -> model.onFlipButtonClick()}"
+                android:rotationX="@{model.profileCardReversed ? 0f : 180f}"
                 android:src="@drawable/ic_flip" />
 
         </LinearLayout>

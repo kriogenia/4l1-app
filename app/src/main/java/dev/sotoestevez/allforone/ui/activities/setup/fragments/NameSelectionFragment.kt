@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.ui.activities.setup.fragments
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,12 @@ class NameSelectionFragment : BaseExtendedFragment() {
 
     override val model: SetUpViewModel by activityViewModels()
 
+    @Suppress("KDocMissingDocumentation")   // override method
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnNextNameSelection.isEnabled = !Strings.isEmptyOrWhitespace(model.user.value?.displayName)
+    }
+
     override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
         _binding = FragmentNameSelectionBinding.inflate(inflater, container, false)
             .apply { name = model.user.value?.displayName }
@@ -42,12 +49,11 @@ class NameSelectionFragment : BaseExtendedFragment() {
 
     override fun attachObservers() {
         super.attachObservers()
-        model.user.observe(viewLifecycleOwner) { updateUi() }
-    }
-
-    override fun updateUi() {
-        super.updateUi()
-        binding.btnNextNameSelection.isEnabled = !Strings.isEmptyOrWhitespace(model.user.value?.displayName)
+        model.user.observe(viewLifecycleOwner) {
+            if (!Strings.isEmptyOrWhitespace(model.user.value?.displayName)) {
+                binding.btnNextNameSelection.isEnabled = true
+            }
+        }
     }
 
 }

@@ -17,7 +17,4 @@ interface ExtendedFragment : WithModel {
      */
     fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View
 
-    /** Operation to update the UI */
-    fun updateUi()
-
 }

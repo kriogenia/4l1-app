@@ -44,8 +44,7 @@ class PatientMainViewModel(
     }
 
     /** WithProfileCard */
-    override val profileCardExpandable: Boolean = true
-    override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val profileCardReversed: MutableLiveData<Boolean> = MutableLiveData(false)
 
     @Suppress("unused") // Used in the factory with a class call
     constructor(builder: ExtendedViewModel.Builder) : this(

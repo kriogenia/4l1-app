@@ -4,10 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="dev.sotoestevez.allforone.vo.User.Role"/>
+
+        <import type="dev.sotoestevez.allforone.vo.User.Role" />
+
         <variable
             name="selected"
             type="Boolean" />
+
         <variable
             name="role"
             type="dev.sotoestevez.allforone.vo.User.Role" />
@@ -34,7 +37,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/img_patient_card"/>
+                tools:src="@drawable/img_patient_card" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -71,7 +74,7 @@
                     android:textColor="@color/primaryTextColor"
                     app:layout_constraintStart_toEndOf="@id/imgRoleLogo"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Patient"/>
+                    tools:text="Patient" />
 
                 <!-- Description -->
                 <TextView
@@ -85,7 +88,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imgRoleLogo"
                     app:layout_constraintTop_toBottomOf="@id/txtRoleName"
-                    tools:text="@string/patient_definition"/>
+                    tools:text="@string/patient_definition" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

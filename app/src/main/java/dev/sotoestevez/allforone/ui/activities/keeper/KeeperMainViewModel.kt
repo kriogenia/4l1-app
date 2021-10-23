@@ -46,8 +46,7 @@ class KeeperMainViewModel(
     private var mDestiny = MutableLiveData<Class<out Activity>>()
 
     // WithProfileCard
-    override val profileCardExpandable: Boolean = true
-    override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val profileCardReversed: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /** Entity in charge of managing the notifications */
     val notificationManager: NotificationsManager by lazy {
@@ -70,7 +69,9 @@ class KeeperMainViewModel(
         logDebug("Requesting info of cared user")
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
             userRepository.getCared(user.value!!, authHeader())?.let { setCared(it) }
+            logDebug("Yey")
             loading.postValue(false)
+            logDebug(loading.value.toString())
         }
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { notificationManager.load() }
     }
@@ -111,6 +112,5 @@ class KeeperMainViewModel(
     override fun runNotificationRequest(request: suspend (String) -> Unit) {
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { request(authHeader()) }
     }
-
 
 }
