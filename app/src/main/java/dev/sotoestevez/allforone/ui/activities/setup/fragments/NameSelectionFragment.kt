@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.ui.activities.setup.fragments
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,36 +19,41 @@ import dev.sotoestevez.allforone.ui.components.fragments.BaseExtendedFragment
  */
 class NameSelectionFragment : BaseExtendedFragment() {
 
-	private val binding: FragmentNameSelectionBinding
-		get() = _binding!!
-	private var _binding: FragmentNameSelectionBinding? = null
+    private val binding: FragmentNameSelectionBinding
+        get() = _binding!!
+    private var _binding: FragmentNameSelectionBinding? = null
 
-	override val model: SetUpViewModel by activityViewModels()
+    override val model: SetUpViewModel by activityViewModels()
 
-	override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
-		_binding = FragmentNameSelectionBinding.inflate(inflater, container, false)
-			.apply { name = model.user.value?.displayName }
-		return binding.root
-	}
+    @Suppress("KDocMissingDocumentation")   // override method
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnNextNameSelection.isEnabled = !Strings.isEmptyOrWhitespace(model.user.value?.displayName)
+    }
 
-	override fun attachListeners() {
-		super.attachListeners()
-		binding.run {
-			txtNameSelection.doAfterTextChanged { model.setDisplayName(it.toString()) }
-			btnNextNameSelection.setOnClickListener {
-				findNavController().navigate(R.id.action_NameSelectionFragment_to_RoleSelectionFragment)
-			}
-		}
-	}
+    override fun bindLayout(inflater: LayoutInflater, container: ViewGroup?): View {
+        _binding = FragmentNameSelectionBinding.inflate(inflater, container, false)
+            .apply { name = model.user.value?.displayName }
+        return binding.root
+    }
 
-	override fun attachObservers() {
-		super.attachObservers()
-		model.user.observe(viewLifecycleOwner) { updateUi() }
-	}
+    override fun attachListeners() {
+        super.attachListeners()
+        binding.run {
+            eTxtNameSelection.doAfterTextChanged { model.setDisplayName(it.toString()) }
+            btnNextNameSelection.setOnClickListener {
+                findNavController().navigate(R.id.action_NameSelectionFragment_to_RoleSelectionFragment)
+            }
+        }
+    }
 
-	override fun updateUi() {
-		super.updateUi()
-		binding.btnNextNameSelection.isEnabled = !Strings.isEmptyOrWhitespace(model.user.value?.displayName)
-	}
+    override fun attachObservers() {
+        super.attachObservers()
+        model.user.observe(viewLifecycleOwner) {
+            if (!Strings.isEmptyOrWhitespace(model.user.value?.displayName)) {
+                binding.btnNextNameSelection.isEnabled = true
+            }
+        }
+    }
 
 }

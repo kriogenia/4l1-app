@@ -9,55 +9,58 @@ import java.lang.IllegalStateException
 /** Interface of messages displayable in the feed */
 sealed interface Message {
 
-	/** Different types of messages of the application */
-	enum class Type {
-		/** Task messages */
-		@SerializedName("task") TASK,
-		/** Basic and plain text messages */
-		@SerializedName("text") TEXT
-	}
+    /** Different types of messages of the application */
+    enum class Type {
+        /** Task messages */
+        @SerializedName("task")
+        TASK,
 
-	/** Unique identifier of the message */
-	val id: String
+        /** Basic and plain text messages */
+        @SerializedName("text")
+        TEXT
+    }
 
-	/** Text content of the message to display in the feed */
-	val content: String
+    /** Unique identifier of the message */
+    val id: String
 
-	/** User that submitted the message */
-	val submitter: User
+    /** Text content of the message to display in the feed */
+    val content: String
 
-	/** Timestamp of the message creation */
-	val timestamp: Long
+    /** User that submitted the message */
+    val submitter: User
 
-	/** Formatted local time of the message */
-	val time: String
-		get() = TimeFormatter.getTime(timestamp)
+    /** Timestamp of the message creation */
+    val timestamp: Long
 
-	/**
-	 * Returns the dto of the message to send
-	 */
-	fun toDto(): PlainMessage
+    /** Formatted local time of the message */
+    val time: String
+        get() = TimeFormatter.getTime(timestamp)
 
-	/** Message dedicated builder */
-	class Builder() {
+    /**
+     * Returns the dto of the message to send
+     */
+    fun toDto(): PlainMessage
 
-		/** Data to use in the message construction */
-		var data: PlainMessage? = null
+    /** Message dedicated builder */
+    class Builder() {
 
-		/**
-		 * Builds the message with the specified data
-		 *
-		 * @return	Message built
-		 * @throws	IllegalStateException if no data has been set
-		 */
-		fun build(): Message {
-			if (data == null) throw IllegalStateException("Can't build a message with no data")
-			return when (data!!.type) {
-				Type.TEXT -> TextMessage(this)
-				Type.TASK -> TaskMessage(this)
-			}
-		}
+        /** Data to use in the message construction */
+        var data: PlainMessage? = null
 
-	}
+        /**
+         * Builds the message with the specified data
+         *
+         * @return    Message built
+         * @throws    IllegalStateException if no data has been set
+         */
+        fun build(): Message {
+            if (data == null) throw IllegalStateException("Can't build a message with no data")
+            return when (data!!.type) {
+                Type.TEXT -> TextMessage(this)
+                Type.TASK -> TaskMessage(this)
+            }
+        }
+
+    }
 
 }

@@ -15,34 +15,36 @@ import dev.sotoestevez.allforone.vo.User
  *
  * @constructor
  *
- * @param gson	JSON serializer/deserializer
+ * @param gson    JSON serializer/deserializer
  */
-class GlobalRoomRepositoryImpl(gson: Gson = Gson()): BaseSocketRepository(gson), GlobalRoomRepository {
+class GlobalRoomRepositoryImpl(gson: Gson = Gson()) : BaseSocketRepository(gson), GlobalRoomRepository {
 
-	/** Events managed by the Global Room Repository **/
-	enum class Events(internal val path: String) {
-		/** Event sent to the socket when it's successfully connected */
-		CONNECT("connect"),
-		/** Event to subscribe to the global room*/
-		SUBSCRIBE("global:subscribe"),
-		/** Even sent to the socket when a subscription to the global room is confirmed */
-		SUBSCRIPTION("global:subscription")
-	}
+    /** Events managed by the Global Room Repository **/
+    enum class Events(internal val path: String) {
+        /** Event sent to the socket when it's successfully connected */
+        CONNECT("connect"),
 
-	override fun join(user: User) {
-		socket.on(Events.CONNECT.path) {
-			logDebug("Socket connected to the server with id[${socket.id()}]")
-			socket.emit(Events.SUBSCRIBE.path, user.id)
-		}
-		socket.on(Events.SUBSCRIPTION.path) {
-			val received = fromJson(it, GlobalSubscriptionMsg::class.java)
-			logDebug("New subscriber joined the Global Room: ${received.room}")
-		}
-		SocketManager.start()
-	}
+        /** Event to subscribe to the global room*/
+        SUBSCRIBE("global:subscribe"),
 
-	override fun leave(user: User) {
-		throw NotImplementedError()	// TODO
-	}
+        /** Even sent to the socket when a subscription to the global room is confirmed */
+        SUBSCRIPTION("global:subscription")
+    }
+
+    override fun join(user: User) {
+        socket.on(Events.CONNECT.path) {
+            logDebug("Socket connected to the server with id[${socket.id()}]")
+            socket.emit(Events.SUBSCRIBE.path, user.id)
+        }
+        socket.on(Events.SUBSCRIPTION.path) {
+            val received = fromJson(it, GlobalSubscriptionMsg::class.java)
+            logDebug("New subscriber joined the Global Room: ${received.room}")
+        }
+        SocketManager.start()
+    }
+
+    override fun leave(user: User) {
+        throw NotImplementedError()    // TODO
+    }
 
 }

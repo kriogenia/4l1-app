@@ -20,7 +20,7 @@ import java.util.*
  */
 class NotificationsManager(
     private val handler: ViewModelNotificationsHandler
-): BaseObservable() {
+) : BaseObservable() {
 
     /** List of pending notifications to display */
     @get:Bindable
@@ -38,7 +38,7 @@ class NotificationsManager(
     /** Loads the given list of notifications */
     suspend fun load() {
         clear()
-        handler.getNotifications{ addAll(it) }
+        handler.getNotifications { addAll(it) }
     }
 
     /** Reads all the notifications */
@@ -60,7 +60,8 @@ class NotificationsManager(
         }
     }
 
-    private fun add(notification: Notification) = mNotifications.addFirst(NotificationView(notification, listener)).also { notifyChanges() }
+    private fun add(notification: Notification) =
+        mNotifications.addFirst(NotificationView(notification, listener)).also { notifyChanges() }
 
     private fun addAll(notifications: List<Notification>) {
         val notificationByDate = notifications.sortedByDescending { it.timestamp }.groupBy { TimeFormatter.getDate(it.timestamp) }
@@ -81,7 +82,7 @@ class NotificationsManager(
         notifyPropertyChanged(BR.numberOfNotifications)
     }
 
-    private val listener: NotificationListener = object: NotificationListener {
+    private val listener: NotificationListener = object : NotificationListener {
 
         override fun onGo(notification: Notification) {
             val destiny = notification.action.destiny ?: throw IllegalStateException("Accessing to destiny of invalid action")

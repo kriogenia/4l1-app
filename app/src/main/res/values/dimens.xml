@@ -1,6 +1,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="card_image_height">150dp</dimen>
+    <dimen name="card_image_size">150dp</dimen>
     <dimen name="card_stroke_width">1dp</dimen>
     <dimen name="card_layout_margin">8dp</dimen>
     <dimen name="txt_min_height">48dp</dimen>
@@ -21,6 +21,8 @@
     <dimen name="msg_font_size">16sp</dimen>
     <dimen name="task_title_font_size">24sp</dimen>
     <dimen name="timestamp_msg_font_size">12sp</dimen>
-    <dimen name="no_elevation">0dp</dimen>
+    <dimen name="no_dim">0dp</dimen>
     <dimen name="task_icon_size">32dp</dimen>
+    <dimen name="badge_vertical_padding">2dp</dimen>
+    <dimen name="elevation_above_fab">12dp</dimen>
 </resources>

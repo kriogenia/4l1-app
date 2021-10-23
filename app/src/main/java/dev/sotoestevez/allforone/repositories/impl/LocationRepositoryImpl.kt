@@ -16,39 +16,41 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
  *
  * @param gson   Gson serializer/deserializer
  */
-class LocationRepositoryImpl(gson: Gson = Gson()): BaseSocketRepository(gson), LocationRepository {
+class LocationRepositoryImpl(gson: Gson = Gson()) : BaseSocketRepository(gson), LocationRepository {
 
-	/** Events managed by the Location Repository **/
-	enum class Events(internal val path: String) {
-		/** Event to start sharing the user location */
-		SHARE("location:share"),
-		/** Event to leave the location room */
-		STOP("location:stop"),
-		/** Event with the location update of an user */
-		UPDATE("location:update")
-	}
+    /** Events managed by the Location Repository **/
+    enum class Events(internal val path: String) {
+        /** Event to start sharing the user location */
+        SHARE("location:share"),
 
-	override fun join(user: User) {
-		socket.emit(Events.SHARE.path, toJson(user.minInfo))
-		logDebug("User[${user.id}] has started sharing its location")
-	}
+        /** Event to leave the location room */
+        STOP("location:stop"),
 
-	override fun update(user: User, location: Location) {
-		// TODO convert UserMarker to use user info instead of the spread properties
-		val locationUpdate = UserMarker(user.id!!, user.displayName!!, LatLng(location.latitude, location.longitude))
-		socket.emit(Events.UPDATE.path, toJson(locationUpdate))
-	}
+        /** Event with the location update of an user */
+        UPDATE("location:update")
+    }
 
-	override fun leave(user: User) {
-		socket.emit(Events.STOP.path, toJson(user.minInfo))
-	}
+    override fun join(user: User) {
+        socket.emit(Events.SHARE.path, toJson(user.minInfo))
+        logDebug("User[${user.id}] has started sharing its location")
+    }
 
-	override fun onExternalUpdate(callback: (userMarker: UserMarker) -> Unit) {
-		socket.on(Events.UPDATE.path) { callback(fromJson(it, UserMarker::class.java)) }
-	}
+    override fun update(user: User, location: Location) {
+        // TODO convert UserMarker to use user info instead of the spread properties
+        val locationUpdate = UserMarker(user.id!!, user.displayName!!, LatLng(location.latitude, location.longitude))
+        socket.emit(Events.UPDATE.path, toJson(locationUpdate))
+    }
 
-	override fun onUserLeaving(callback: (userInfo: UserInfoMsg) -> Unit) {
-		socket.on(Events.STOP.path) { callback(fromJson(it, UserInfoMsg::class.java)) }
-	}
+    override fun leave(user: User) {
+        socket.emit(Events.STOP.path, toJson(user.minInfo))
+    }
+
+    override fun onExternalUpdate(callback: (userMarker: UserMarker) -> Unit) {
+        socket.on(Events.UPDATE.path) { callback(fromJson(it, UserMarker::class.java)) }
+    }
+
+    override fun onUserLeaving(callback: (userInfo: UserInfoMsg) -> Unit) {
+        socket.on(Events.STOP.path) { callback(fromJson(it, UserInfoMsg::class.java)) }
+    }
 
 }

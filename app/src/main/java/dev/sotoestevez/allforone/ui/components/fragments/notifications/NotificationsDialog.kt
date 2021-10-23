@@ -14,7 +14,7 @@ import dev.sotoestevez.allforone.R
 /**
  * Dialog to display and manage the pending notifications of the user
  */
-class NotificationsDialog(private val notificationsManager: NotificationsManager): DialogFragment() {
+class NotificationsDialog(private val notificationsManager: NotificationsManager) : DialogFragment() {
 
     companion object {
         /** Tag of the fragment */
@@ -36,7 +36,7 @@ class NotificationsDialog(private val notificationsManager: NotificationsManager
     }
 
     @Suppress("KDocMissingDocumentation")  // override method, it overrides the dialog theme
-    override fun getTheme(): Int = R.style.AppTheme_FullDialog
+    override fun getTheme(): Int = R.style.AppTheme_Dialog_Full
 
     @Suppress("KDocMissingDocumentation")  // override method
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -4,11 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.google.android.gms.common.util.Strings"/>
-        <import type="android.view.View"/>
+
+        <import type="com.google.android.gms.common.util.Strings" />
+
+        <import type="dev.sotoestevez.allforone.vo.User.Role" />
+
+        <import type="android.view.View" />
+
         <variable
             name="user"
             type="dev.sotoestevez.allforone.vo.User" />
+
         <variable
             name="model"
             type="dev.sotoestevez.allforone.ui.viewmodel.WithProfileCard" />
@@ -17,28 +23,26 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardUserProfile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/card_layout_margin"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/AppTheme.Card">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/double_base_margin"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <!-- Banner -->
             <ImageView
                 android:id="@+id/profileCardBanner"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/card_image_height"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:contentDescription="@string/profile_banner_description"
                 android:scaleType="centerCrop"
-                android:visibility="@{model.profileCardWithBanner ? View.VISIBLE : View.GONE}"
+                android:visibility="@{model.profileCardReversed ? View.GONE : View.VISIBLE}"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <!-- Name section -->
@@ -46,7 +50,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layProfileCardTop"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:visibility="@{model.profileCardReversed ? View.GONE : View.VISIBLE}">
 
                 <!-- Profile picture -->
 
@@ -58,6 +63,7 @@
                     android:layout_marginTop="@dimen/base_margin"
                     android:layout_marginBottom="@dimen/base_margin"
                     android:contentDescription="@string/profile_picture_description"
+                    android:src="@{user.role == Role.PATIENT ? @drawable/ic_patient : @drawable/ic_keeper}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -72,12 +78,14 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/base_margin"
                     android:layout_marginEnd="@dimen/base_margin"
+                    android:enabled="true"
                     android:text="@{user.displayName}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                     app:layout_constraintBottom_toTopOf="@id/lblProfileCardRole"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imgProfileCardPicture"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Name" />
 
                 <!-- Role -->
 
@@ -93,146 +101,36 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imgProfileCardPicture"
-                    app:layout_constraintTop_toBottomOf="@+id/lblProfileCardName" />
-
-                <!-- Expansion button -->
-
-                <ImageButton
-                    android:id="@+id/btnTaskDone"
-                    android:src="@drawable/expand_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/double_base_margin"
-                    android:layout_marginBottom="@dimen/base_margin"
-                    android:onClick="@{() -> model.onExpandButtonClick()}"
-                    android:visibility="@{model.profileCardExpandable ? View.VISIBLE : View.GONE}"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/desc_expand_card_view"
-                    android:rotationX="@{model.profileCardExpanded ? 180f : 0f}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/lblProfileCardName"
+                    tools:text="ROLE" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/dvdProfileCard"
+            <!-- Card back -->
+
+            <include
+                layout="@layout/content_user_contact"
                 android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:visibility="@{model.profileCardReversed ? View.VISIBLE : View.GONE}"
+                app:user="@{user}"
+                tools:visibility="visible" />
+
+            <!-- Flip button -->
+
+            <ImageButton
+                android:id="@+id/btnFlip"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:dividerInsetEnd="@dimen/double_base_margin"
-                app:dividerInsetStart="@dimen/double_base_margin" />
-
-            <!-- TODO change phone numbers -->
-
-            <!-- Expandable section -->
-
-            <LinearLayout
-                android:id="@+id/layExpandableSection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="@{model.profileCardExpanded ? View.VISIBLE : View.GONE}">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="@{Strings.isEmptyOrWhitespace(user.mainPhoneNumber) ? View.GONE : View.VISIBLE}">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:layout_marginEnd="@dimen/base_margin"
-                        android:text="@string/phone_number" />
-
-                    <TextView
-                        android:id="@+id/lblProfileCardPhoneNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@{user.mainPhoneNumber}" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="@{Strings.isEmptyOrWhitespace(user.altPhoneNumber) ? View.GONE : View.VISIBLE}">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:layout_marginEnd="@dimen/base_margin"
-                        android:text="@string/alt_phone_number" />
-
-                    <TextView
-                        android:id="@+id/lblProfileCardPhoneNumberAlt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@{user.altPhoneNumber}" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="@{Strings.isEmptyOrWhitespace(user.email) ? View.GONE : View.VISIBLE}">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:layout_marginEnd="@dimen/base_margin"
-                        android:text="@string/hint_email" />
-
-                    <TextView
-                        android:id="@+id/lblProfileCardEmail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@{user.email}" />
-
-                </LinearLayout>
-
-                <!-- TODO change Address -->
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="@{user.address != null ? View.VISIBLE : View.GONE}">
-
-                    <TextView
-                        android:id="@+id/lblProfileCardAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:text="@string/address"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/lblProfileCardAddressLine"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/base_margin"
-                        android:text="@{user.address.postalAddress}"
-                        app:layout_constraintStart_toEndOf="@id/lblProfileCardAddress"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/lblProfileCardAddressLocality"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{user.address.localityFull}"
-                        app:layout_constraintStart_toStartOf="@id/lblProfileCardAddressLine"
-                        app:layout_constraintTop_toBottomOf="@id/lblProfileCardAddressLine" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/double_base_margin"
+                android:layout_marginBottom="@dimen/base_margin"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/desc_expand_card_view"
+                android:onClick="@{() -> model.onFlipButtonClick()}"
+                android:rotationX="@{model.profileCardReversed ? 0f : 180f}"
+                android:src="@drawable/ic_flip" />
 
         </LinearLayout>
 

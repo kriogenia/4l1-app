@@ -63,11 +63,14 @@
                 android:id="@+id/txtWriteMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/btnTask"
+                android:layout_toStartOf="@+id/btnSendMsg"
                 app:boxCornerRadiusBottomEnd="@dimen/extra_round_corner"
                 app:boxCornerRadiusBottomStart="@dimen/extra_round_corner"
                 app:boxCornerRadiusTopEnd="@dimen/extra_round_corner"
                 app:boxCornerRadiusTopStart="@dimen/extra_round_corner"
+                app:endIconMode="custom"
+                app:endIconDrawable="@{model.taskMode ? @drawable/ic_baseline_close : @drawable/ic_feed_task}"
+                app:endIconCheckable="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -82,26 +85,15 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/btnTask"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@id/btnSendMsg"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="@{!model.loading}"
-                android:text="@string/task"
-                android:textColor="@color/primaryColor" />
-
-            <Button
                 android:id="@+id/btnSendMsg"
+                style="@style/AppTheme.Button.Feed.Send"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="@{!model.loading}"
-                android:text="@string/send"
-                android:textColor="@color/primaryColor" />
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:enabled="@{!model.loading}"
+                app:icon="@drawable/ic_baseline_send" />
 
         </RelativeLayout>
 

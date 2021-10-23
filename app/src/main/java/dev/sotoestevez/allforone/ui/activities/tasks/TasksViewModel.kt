@@ -29,7 +29,7 @@ class TasksViewModel(
     dispatchers: DispatcherProvider = DefaultDispatcherProvider,
     sessionRepository: SessionRepository,
     private val taskRepository: TaskRepository
-): PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
+) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
 
     /** LiveData holding the list of pending tasks */
     val taskList: LiveData<List<TaskView>>
@@ -48,7 +48,7 @@ class TasksViewModel(
         get() = mError
 
     @Suppress("unused") // Used in the factory with a class call
-    constructor(builder: ExtendedViewModel.Builder): this(
+    constructor(builder: ExtendedViewModel.Builder) : this(
         builder.savedStateHandle,
         builder.dispatchers,
         builder.sessionRepository,

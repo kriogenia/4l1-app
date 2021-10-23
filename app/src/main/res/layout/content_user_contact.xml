@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.google.android.gms.common.util.Strings" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="user"
+            type="dev.sotoestevez.allforone.vo.User" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layBondExpandable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Phones -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:padding="@dimen/base_margin"
+            android:visibility="@{Strings.isEmptyOrWhitespace(user.mainPhoneNumber) &amp; Strings.isEmptyOrWhitespace(user.altPhoneNumber) ? View.GONE : View.VISIBLE}">
+
+            <ImageView
+                android:id="@+id/imgMainPhone"
+                android:layout_width="@dimen/card_icon_size"
+                android:layout_height="@dimen/card_icon_size"
+                android:contentDescription="@string/desc_user_phone"
+                android:padding="4dp"
+                app:srcCompat="@drawable/ic_phone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtMainPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/base_margin"
+                    android:text="@{user.mainPhoneNumber}"
+                    android:visibility="@{Strings.isEmptyOrWhitespace(user.mainPhoneNumber) ? View.GONE : View.VISIBLE}"
+                    tools:text="654654654" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{Strings.isEmptyOrWhitespace(user.mainPhoneNumber) | Strings.isEmptyOrWhitespace(user.altPhoneNumber) ? View.GONE : View.VISIBLE}"
+                    app:dividerInsetStart="@dimen/base_margin" />
+
+                <TextView
+                    android:id="@+id/txtBondAltPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/base_margin"
+                    android:text="@{user.altPhoneNumber}"
+                    android:visibility="@{Strings.isEmptyOrWhitespace(user.altPhoneNumber) ? View.GONE : View.VISIBLE}"
+                    tools:text="765654543" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{Strings.isEmptyOrWhitespace(user.mainPhoneNumber) &amp; Strings.isEmptyOrWhitespace(user.altPhoneNumber) ? View.GONE : View.VISIBLE}"
+            app:dividerInsetEnd="@dimen/base_margin"
+            app:dividerInsetStart="@dimen/base_margin" />
+
+        <!-- Postal Address -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:padding="@dimen/base_margin"
+            android:visibility="@{user.address != null ? View.VISIBLE : View.GONE}">
+
+            <ImageView
+                android:id="@+id/imgBondPostalAddress"
+                android:layout_width="@dimen/card_icon_size"
+                android:layout_height="@dimen/card_icon_size"
+                android:contentDescription="@string/desc_address"
+                android:padding="2dp"
+                app:srcCompat="@drawable/ic_postal_address" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtBondStreet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/base_margin"
+                    android:text="@{user.address.postalAddress}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="False St., 123 2º" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/dvdBondAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerInsetStart="@dimen/base_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/txtBondStreet"
+                    app:layout_constraintTop_toBottomOf="@id/txtBondStreet" />
+
+                <TextView
+                    android:id="@+id/txtBondLocality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/base_margin"
+                    android:text="@{user.address.localityFull}"
+                    app:layout_constraintStart_toStartOf="@id/txtBondStreet"
+                    app:layout_constraintTop_toBottomOf="@id/dvdBondAddress"
+                    tools:text="New City, TriState" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{user.address != null ? View.VISIBLE : View.GONE}"
+            app:dividerInsetEnd="@dimen/base_margin"
+            app:dividerInsetStart="@dimen/base_margin" />
+
+        <!-- Email -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:padding="@dimen/base_margin"
+            android:visibility="@{Strings.isEmptyOrWhitespace(user.email) ? View.GONE : View.VISIBLE}"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/imgBondEmail"
+                android:layout_width="@dimen/card_icon_size"
+                android:layout_height="@dimen/card_icon_size"
+                android:contentDescription="@string/desc_email"
+                app:srcCompat="@drawable/ic_email" />
+
+            <TextView
+                android:id="@+id/txtBondEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/base_margin"
+                android:text="@{user.email}"
+                tools:text="email@address.com" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:alpha="0.2"
+            android:contentDescription="@string/desc_logo"
+            android:padding="@dimen/base_margin"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_app_complete"
+            app:tint="@android:color/darker_gray"
+            tools:ignore="NestedWeights" />
+
+    </LinearLayout>
+
+</layout>

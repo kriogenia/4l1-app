@@ -24,7 +24,8 @@
             android:scrollbars="vertical"
             app:layout_constrainedHeight="true"
             app:heldItems="@{model.taskList}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"  />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/content_sent_message"  />
 
         <!-- FAB -->
 

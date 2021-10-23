@@ -10,6 +10,7 @@ import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
+import dev.sotoestevez.allforone.ui.components.recyclerview.bonds.BondView
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
@@ -20,63 +21,63 @@ import java.util.ArrayList
 
 /** ViewModel of the Bonds Activity */
 class BondsViewModel(
-	savedStateHandle: SavedStateHandle,
-	dispatchers: DispatcherProvider = DefaultDispatcherProvider,
-	sessionRepository: SessionRepository,
-	private val userRepository: UserRepository
+    savedStateHandle: SavedStateHandle,
+    dispatchers: DispatcherProvider = DefaultDispatcherProvider,
+    sessionRepository: SessionRepository,
+    private val userRepository: UserRepository
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
 
-	/** Current QR Code to create a bond */
-	val qrCode: LiveData<String>
-		get() = mQrCode
-	private val mQrCode: MutableLiveData<String> = MutableLiveData("")
+    /** Current QR Code to create a bond */
+    val qrCode: LiveData<String>
+        get() = mQrCode
+    private val mQrCode: MutableLiveData<String> = MutableLiveData("")
 
-	/** List of bonds of the user */
-	val bonds: LiveData<List<User>>
-		get() = mBonds
-	private val mBonds: MutableLiveData<List<User>> = MutableLiveData(ArrayList())
+    /** List of bonds of the user */
+    val bonds: LiveData<List<BondView>>
+        get() = mBonds
+    private val mBonds: MutableLiveData<List<BondView>> = MutableLiveData(ArrayList())
 
-	/** Mutable live data to manage the QR section loading state */
-	val loadingQr: MutableLiveData<Boolean> = MutableLiveData(false)
+    /** Mutable live data to manage the QR section loading state */
+    val loadingQr: MutableLiveData<Boolean> = MutableLiveData(false)
 
-	/** Timestamp in seconds of the QR request*/
-	private var lastQRRequest: Long = 0
+    /** Timestamp in seconds of the QR request*/
+    private var lastQRRequest: Long = 0
 
-	@Suppress("unused") // Used in the factory with a class call
-	constructor(builder: ExtendedViewModel.Builder): this(
-		builder.savedStateHandle,
-		builder.dispatchers,
-		builder.sessionRepository,
-		builder.userRepository
-	)
+    @Suppress("unused") // Used in the factory with a class call
+    constructor(builder: ExtendedViewModel.Builder) : this(
+        builder.savedStateHandle,
+        builder.dispatchers,
+        builder.sessionRepository,
+        builder.userRepository
+    )
 
-	init {
-		loading.value = true
-		// Load bonds
-		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-			val response = userRepository.getBonds(authHeader())
-			logDebug("Retrieved ${response.size} bonds")
-			withContext(dispatchers.main()) {
-				loading.value = false
-				mBonds.value = response     // updates retrieved bonds
-			}
-		}
-	}
+    init {
+        loading.value = true
+        // Load bonds
+        viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
+            val response = userRepository.getBonds(authHeader())
+            logDebug("Retrieved ${response.size} bonds")
+            withContext(dispatchers.main()) {
+                loading.value = false
+                mBonds.value = response.map { BondView(it) }
+            }
+        }
+    }
 
-	/** Requests a new QR code if the current one is not valid */
-	fun generateNewQRCode() {
-		if (lastQRRequest + 50 > Instant.now().epochSecond)
-			return  // Don't request a new QR if the current one is still valid
-		logDebug("Requesting a new QR code")
-		loadingQr.value = true
-		lastQRRequest = Instant.now().epochSecond
-		viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
-			val code = userRepository.requestBondingCode(authHeader())
-			Log.d(BondsViewModel::class.simpleName, "[${user.value?.id}] Generated new bonding token: ${code.substring(0, 6)}...")
-			withContext(dispatchers.main()) {
-				mQrCode.value = code
-			}
-		}
-	}
+    /** Requests a new QR code if the current one is not valid */
+    fun generateNewQRCode() {
+        if (lastQRRequest + 50 > Instant.now().epochSecond)
+            return  // Don't request a new QR if the current one is still valid
+        logDebug("Requesting a new QR code")
+        loadingQr.value = true
+        lastQRRequest = Instant.now().epochSecond
+        viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
+            val code = userRepository.requestBondingCode(authHeader())
+            Log.d(BondsViewModel::class.simpleName, "[${user.value?.id}] Generated new bonding token: ${code.substring(0, 6)}...")
+            withContext(dispatchers.main()) {
+                mQrCode.value = code
+            }
+        }
+    }
 
 }

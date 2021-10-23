@@ -35,7 +35,7 @@ interface ViewModelNotificationsHandler {
     /**
      * Sets a notification as read by the user
      *
-     * @param notification	Notification to set as read
+     * @param notification    Notification to set as read
      */
     fun setAsRead(notification: Notification)
 

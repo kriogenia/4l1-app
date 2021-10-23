@@ -18,42 +18,47 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class User(
-	@SerializedName("_id") val id: String?,
-	var role: Role? = null,
-	var displayName: String? = null,
-	var mainPhoneNumber: String? = null,
-	var altPhoneNumber: String? = null,
-	var address: Address? = null,
-	var email: String? = null
-	): Parcelable {
+    @SerializedName("_id") val id: String?,
+    var role: Role? = null,
+    var displayName: String? = null,
+    var mainPhoneNumber: String? = null,
+    var altPhoneNumber: String? = null,
+    var address: Address? = null,
+    var email: String? = null
+) : Parcelable {
 
-	/** Different types of users of the application */
-	enum class Role {
-		/** Users that didn't select a [Role] yet */
-		@SerializedName("blank") BLANK,
-		/** Users helping a patient */
-		@SerializedName("keeper") KEEPER,
-		/** Users suffering the disease */
-		@SerializedName("patient") PATIENT
-	}
+    /** Different types of users of the application */
+    enum class Role {
+        /** Users that didn't select a [Role] yet */
+        @SerializedName("blank")
+        BLANK,
 
-	/** Minimum info of the user, to send with socket messages */
-	val minInfo: UserInfoMsg
-		get() = UserInfoMsg(id!!, displayName!!)
+        /** Users helping a patient */
+        @SerializedName("keeper")
+        KEEPER,
 
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (javaClass != other?.javaClass) return false
+        /** Users suffering the disease */
+        @SerializedName("patient")
+        PATIENT
+    }
 
-		other as User
+    /** Minimum info of the user, to send with socket messages */
+    val minInfo: UserInfoMsg
+        get() = UserInfoMsg(id!!, displayName!!)
 
-		if (id != other.id) return false
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
-		return true
-	}
+        other as User
 
-	override fun hashCode(): Int {
-		return id?.hashCode() ?: 0
-	}
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
+    }
 
 }

@@ -13,7 +13,7 @@ import com.google.gson.annotations.SerializedName
  * @property tags List of tags of the notification
  */
 data class Notification(
-    @SerializedName("_id")  val id: String,
+    @SerializedName("_id") val id: String,
     val action: Action,
     val instigator: String,
     val timestamp: Long,

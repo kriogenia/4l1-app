@@ -46,9 +46,7 @@ class KeeperMainViewModel(
     private var mDestiny = MutableLiveData<Class<out Activity>>()
 
     // WithProfileCard
-    override val profileCardExpandable: Boolean = true
-    override val profileCardWithBanner: Boolean = true
-    override val profileCardExpanded: MutableLiveData<Boolean> = MutableLiveData(false)
+    override val profileCardReversed: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /** Entity in charge of managing the notifications */
     val notificationManager: NotificationsManager by lazy {
@@ -56,7 +54,7 @@ class KeeperMainViewModel(
     }
 
     @Suppress("unused") // Used in the factory with a class call
-    constructor(builder: ExtendedViewModel.Builder): this(
+    constructor(builder: ExtendedViewModel.Builder) : this(
         builder.savedStateHandle,
         builder.dispatchers,
         builder.sessionRepository,
@@ -66,12 +64,14 @@ class KeeperMainViewModel(
     )
 
     init {
-    	loading.value = true
+        loading.value = true
         // Load cared user
         logDebug("Requesting info of cared user")
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
             userRepository.getCared(user.value!!, authHeader())?.let { setCared(it) }
+            logDebug("Yey")
             loading.postValue(false)
+            logDebug(loading.value.toString())
         }
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { notificationManager.load() }
     }
@@ -83,7 +83,7 @@ class KeeperMainViewModel(
      * @param code  Scanned code to perform the bond operation
      */
     fun bond(code: String) {
-        logDebug("[${user.value?.id}] scanned QR Code: ${code.substring(0,6)}...")
+        logDebug("[${user.value?.id}] scanned QR Code: ${code.substring(0, 6)}...")
         loading.value = true
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
             viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
@@ -105,11 +105,12 @@ class KeeperMainViewModel(
         globalRoomRepository.join(user.value!!)
     }
 
-    override fun setDestiny(destiny: Class<out Activity>) { mDestiny.value = destiny }
+    override fun setDestiny(destiny: Class<out Activity>) {
+        mDestiny.value = destiny
+    }
 
     override fun runNotificationRequest(request: suspend (String) -> Unit) {
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { request(authHeader()) }
     }
-
 
 }

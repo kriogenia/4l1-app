@@ -27,57 +27,57 @@ import java.util.*
  */
 class KeeperMainActivity : PrivateActivity() {
 
-	override val model: KeeperMainViewModel by viewModels { ExtendedViewModelFactory(this) }
+    override val model: KeeperMainViewModel by viewModels { ExtendedViewModelFactory(this) }
 
-	private lateinit var binding: ActivityKeeperMainBinding
+    private lateinit var binding: ActivityKeeperMainBinding
 
-	override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.KEEPER)
+    override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.KEEPER)
 
-	private lateinit var qrScannerLauncher: ActivityResultLauncher<Intent>
+    private lateinit var qrScannerLauncher: ActivityResultLauncher<Intent>
 
-	override fun bindLayout() {
-		binding = ActivityKeeperMainBinding.inflate(layoutInflater)
-		binding.model = model
-		binding.lifecycleOwner = this
-		setContentView(binding.root)
-	}
+    override fun bindLayout() {
+        binding = ActivityKeeperMainBinding.inflate(layoutInflater)
+        binding.model = model
+        binding.lifecycleOwner = this
+        setContentView(binding.root)
+    }
 
-	override fun attachListeners() {
-		super.attachListeners()
-		/* With bond listeners */
-		binding.run {
-			btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
-			btnFindLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
-			btnTasks.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
-			btnNotifications.setOnClickListener { openNotificationsDialog() }
-			btnFeed.setOnClickListener {
-				startActivity(buildIntent(FeedActivity::class.java).apply {
-					putExtra(FeedActivity.OWNER, model!!.cared.value!!.displayName)
-				})
-			}
-		}
-		/* No bond listeners */
-		qrScannerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-		{ result ->
-			if (result.resultCode == Activity.RESULT_OK)
-				model.bond(result.data?.data.toString())
-			else
-				toast(getString(R.string.error_qr_scanner))
-		}
-		binding.btnForgeBond.setOnClickListener {
-			logDebug("Launching QR Scanner")
-			qrScannerLauncher.launch(Intent(this, QRScannerActivity::class.java))
-		}
-	}
+    override fun attachListeners() {
+        super.attachListeners()
+        /* With bond listeners */
+        binding.buttons.run {
+            btnBonds.setOnClickListener { startActivity(buildIntent(BondsActivity::class.java)) }
+            btnLocation.setOnClickListener { startActivity(buildIntent(LocationActivity::class.java)) }
+            btnTasks.setOnClickListener { startActivity(buildIntent(TasksActivity::class.java)) }
+            btnFeed.setOnClickListener {
+                startActivity(buildIntent(FeedActivity::class.java).apply {
+                    putExtra(FeedActivity.OWNER, model.cared.value!!.displayName)
+                })
+            }
+        }
+        binding.btnNotifications.setOnClickListener { openNotificationsDialog() }
+        /* No bond listeners */
+        qrScannerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+        { result ->
+            if (result.resultCode == Activity.RESULT_OK)
+                model.bond(result.data?.data.toString())
+            else
+                toast(getString(R.string.error_qr_scanner))
+        }
+        binding.btnForgeBond.setOnClickListener {
+            logDebug("Launching QR Scanner")
+            qrScannerLauncher.launch(Intent(this, QRScannerActivity::class.java))
+        }
+    }
 
-	override fun attachObservers() {
-		super.attachObservers()
-		model.destiny.observe(this) { startActivity(buildIntent(it)) }
-	}
+    override fun attachObservers() {
+        super.attachObservers()
+        model.destiny.observe(this) { startActivity(buildIntent(it)) }
+    }
 
-	private fun openNotificationsDialog() {
-		NotificationsDialog(model.notificationManager)
-			.show(supportFragmentManager, NotificationsDialog.TAG)
-	}
+    private fun openNotificationsDialog() {
+        NotificationsDialog(model.notificationManager)
+            .show(supportFragmentManager, NotificationsDialog.TAG)
+    }
 
 }

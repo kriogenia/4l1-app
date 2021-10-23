@@ -12,17 +12,17 @@ import com.google.android.gms.maps.model.MarkerOptions
  * @property color color of the marker
  */
 data class UserMarker(
-	val id: String,
-	val displayName: String,
-	val position: LatLng,
-	var color: Int? = null
+    val id: String,
+    val displayName: String,
+    val position: LatLng,
+    var color: Int? = null
 ) {
 
-	/**
-	 * Creates the equivalent MarkerOptions object of Google to show the marker in the map
-	 *
-	 * @return Google marker
-	 */
-	fun build(): MarkerOptions =  MarkerOptions().title(displayName).position(position)
+    /**
+     * Creates the equivalent MarkerOptions object of Google to show the marker in the map
+     *
+     * @return Google marker
+     */
+    fun build(): MarkerOptions = MarkerOptions().title(displayName).position(position)
 
 }

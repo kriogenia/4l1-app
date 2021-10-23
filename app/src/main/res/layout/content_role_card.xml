@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="dev.sotoestevez.allforone.vo.User.Role" />
+
+        <variable
+            name="selected"
+            type="Boolean" />
+
+        <variable
+            name="role"
+            type="dev.sotoestevez.allforone.vo.User.Role" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@{selected ? @color/secondaryDarkColor : @color/primaryLightColor}"
+        tools:backgroundTint="@color/primaryLightColor">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:alpha="0.2"
+                android:contentDescription="@string/desc_card_background"
+                android:scaleType="centerCrop"
+                android:src="@{role == Role.PATIENT ? @drawable/img_patient_card : @drawable/img_keeper_card}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/img_patient_card" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/base_margin"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Role logo -->
+                <ImageView
+                    android:id="@+id/imgRoleLogo"
+                    android:layout_width="@dimen/card_image_size"
+                    android:layout_height="@dimen/card_image_size"
+                    android:contentDescription="@{role == Role.PATIENT ? @string/patient_media_description : @string/keeper_media_description}"
+                    android:scaleType="fitStart"
+                    android:src="@{role == Role.PATIENT ? @drawable/ic_patient : @drawable/ic_keeper }"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_patient" />
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/txtRoleName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/base_margin"
+                    android:text="@{role == Role.PATIENT ? @string/patient : @string/keeper}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/primaryTextColor"
+                    app:layout_constraintStart_toEndOf="@id/imgRoleLogo"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Patient" />
+
+                <!-- Description -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/base_margin"
+                    android:layout_marginTop="16dp"
+                    android:text="@{role == Role.PATIENT ? @string/patient_definition : @string/keeper_definition }"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="@color/primaryTextColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imgRoleLogo"
+                    app:layout_constraintTop_toBottomOf="@id/txtRoleName"
+                    tools:text="@string/patient_definition" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

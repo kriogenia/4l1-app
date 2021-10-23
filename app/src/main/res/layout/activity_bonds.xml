@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+        <import type="dev.sotoestevez.allforone.vo.User.Role"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="model"
             type="dev.sotoestevez.allforone.ui.activities.bonds.BondsViewModel" />
@@ -14,8 +17,8 @@
         android:id="@+id/layBonds"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="bottom"
+        android:orientation="vertical"
         tools:context=".ui.activities.bonds.BondsActivity">
 
         <!-- Bonds list -->
@@ -25,22 +28,23 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            app:heldItems="@{model.bonds}"
             app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/content_bond_item"/>
+            tools:listitem="@layout/content_bond_item" />
 
         <!-- New bond section, only for Patients -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:gravity="bottom"
-            android:visibility="@{model.bonds.size() &lt; 6 ? View.VISIBLE : View.GONE }"
+            android:orientation="vertical"
+            android:visibility="@{model.user.Role == Role.PATIENT &amp; model.bonds.size() &lt; 6 ? View.VISIBLE : View.GONE }"
             tools:context=".ui.activities.bonds.BondsActivity">
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <!-- Expand button -->
 
@@ -59,31 +63,31 @@
                 android:id="@+id/layQr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:gravity="center_horizontal"
-                android:visibility="gone" >
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_collapse_qr"
-                    android:text="@string/collapse"
-                    app:icon="@drawable/expand_arrow"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+                    android:text="@string/collapse"
+                    app:icon="@drawable/ic_expand_arrow" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/scan_instructions"
                     android:layout_marginStart="@dimen/base_margin"
-                    android:layout_marginEnd="@dimen/base_margin"/>
+                    android:layout_marginEnd="@dimen/base_margin"
+                    android:text="@string/scan_instructions" />
 
                 <ImageView
                     android:id="@+id/imgQrCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:src="@tools:sample/backgrounds/scenic"
-                    android:contentDescription="@string/desc_qr_code" />
+                    android:contentDescription="@string/desc_qr_code"
+                    tools:src="@tools:sample/backgrounds/scenic" />
 
             </LinearLayout>
 

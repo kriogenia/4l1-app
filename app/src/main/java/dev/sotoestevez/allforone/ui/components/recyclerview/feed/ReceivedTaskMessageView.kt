@@ -7,7 +7,7 @@ import dev.sotoestevez.allforone.vo.feed.TaskMessage
 class ReceivedTaskMessageView(
     data: TaskMessage,
     listener: TaskListener
-): TaskMessageView(data, listener) {
+) : TaskMessageView(data, listener) {
 
     override val layoutId: Int = R.layout.content_received_task
 
