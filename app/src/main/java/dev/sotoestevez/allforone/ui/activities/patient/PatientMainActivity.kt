@@ -10,6 +10,7 @@ import dev.sotoestevez.allforone.ui.activities.feed.FeedActivity
 import dev.sotoestevez.allforone.ui.activities.location.LocationActivity
 import dev.sotoestevez.allforone.ui.activities.tasks.TasksActivity
 import dev.sotoestevez.allforone.ui.components.fragments.notifications.NotificationsDialog
+import dev.sotoestevez.allforone.ui.components.fragments.settings.SettingsDialog
 import java.util.*
 
 /**
@@ -43,6 +44,7 @@ class PatientMainActivity : PrivateActivity() {
             }
         }
         binding.btnNotifications.setOnClickListener { openNotificationsDialog() }
+        binding.btnSettings.setOnClickListener { openSettingsDialog() }
     }
 
     override fun attachObservers() {
@@ -53,6 +55,11 @@ class PatientMainActivity : PrivateActivity() {
     private fun openNotificationsDialog() {
         NotificationsDialog(model.notificationManager)
             .show(supportFragmentManager, NotificationsDialog.TAG)
+    }
+
+    private fun openSettingsDialog() {
+        SettingsDialog(model.settingsHandler)
+            .show(supportFragmentManager, SettingsDialog.TAG)
     }
 
 }

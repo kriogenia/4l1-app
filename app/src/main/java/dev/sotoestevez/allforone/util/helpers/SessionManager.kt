@@ -44,7 +44,7 @@ class SessionManager(private val state: SavedStateHandle) {
      *
      * @return true if the session is open, false otherwise
      */
-    private fun isLoggedIn(): Boolean {
+    fun isLoggedIn(): Boolean {
         return state.get(LOGGED_IN) ?: false
     }
 

@@ -15,6 +15,13 @@ interface SessionRepository {
     suspend fun signIn(googleIdToken: String): SignInResponse
 
     /**
+     * Closes the current session of the user .
+     *
+     * @param token   Current authentication token
+     */
+    suspend fun signOut(token: String)
+
+    /**
      * Sends the current session data to the server to renew the session info
      * and refresh the tokens, retrieving a new session
      *

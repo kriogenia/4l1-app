@@ -1,13 +1,9 @@
 package dev.sotoestevez.allforone.util.helpers.notifications
 
 import android.app.Activity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.WithNotifications
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
-import kotlinx.coroutines.launch
 
 /**
  * Default implementation of the [ViewModelNotificationsHandler]
@@ -19,7 +15,7 @@ class ViewModelNotificationsHandlerImpl(private val model: WithNotifications) : 
     private val repository = model.notificationRepository
 
     override suspend fun getNotifications(callback: (List<Notification>) -> Unit) =
-        model.runNotificationRequest { callback(repository.getNotifications(it)) }
+        model.runRequest { callback(repository.getNotifications(it)) }
 
     override fun gotToNotificationDestiny(destiny: Class<out Activity>) =
         model.setDestiny(destiny)
@@ -28,9 +24,9 @@ class ViewModelNotificationsHandlerImpl(private val model: WithNotifications) : 
         repository.onNotification(action, callback)
 
     override fun setAllAsRead() =
-        model.runNotificationRequest { repository.setAllAsRead(it) }
+        model.runRequest { repository.setAllAsRead(it) }
 
     override fun setAsRead(notification: Notification) =
-        model.runNotificationRequest { repository.setAsRead(notification, it) }
+        model.runRequest { repository.setAsRead(notification, it) }
 
 }

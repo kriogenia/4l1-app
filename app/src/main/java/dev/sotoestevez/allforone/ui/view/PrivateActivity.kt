@@ -36,6 +36,11 @@ abstract class PrivateActivity : BaseExtendedActivity() {
 
     override fun attachObservers() {
         model.error.observe(this, { handleError(it) })
+        model.user.observe(this, {
+            if (it == null) {
+                closeSession()
+            }
+        })
     }
 
     override fun handleError(error: Throwable) {
@@ -51,9 +56,16 @@ abstract class PrivateActivity : BaseExtendedActivity() {
         val user = model.user.value
         if (user == null || !roles.contains(user.role)) {
             logError(getString(R.string.error_invalid_permissions))
-            startActivity(Intent(this, LaunchActivity::class.java))
-            finish()
+            closeSession()
         }
+    }
+
+    /**
+     * Closes the activity and returns to the [LaunchActivity]
+     */
+    private fun closeSession() {
+        startActivity(Intent(this, LaunchActivity::class.java))
+        finish()
     }
 
 }

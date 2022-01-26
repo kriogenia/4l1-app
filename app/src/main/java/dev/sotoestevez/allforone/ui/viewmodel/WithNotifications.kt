@@ -12,7 +12,7 @@ interface WithNotifications {
     /** Call to perform an activity navigation */
     fun setDestiny(destiny: Class<out Activity>)
 
-    /** Request for ViewModel to run a asynchronous notification request */
-    fun runNotificationRequest(request: suspend (String) -> Unit)
+    /** Request for ViewModel to run an asynchronous notification request */
+    fun runRequest(request: suspend (String) -> Unit)
 
 }

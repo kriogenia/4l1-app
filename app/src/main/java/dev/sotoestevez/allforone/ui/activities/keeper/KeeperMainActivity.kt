@@ -17,8 +17,11 @@ import dev.sotoestevez.allforone.ui.activities.location.LocationActivity
 import dev.sotoestevez.allforone.ui.activities.tasks.TasksActivity
 import dev.sotoestevez.allforone.ui.activities.tasks.fragments.CreateTaskDialog
 import dev.sotoestevez.allforone.ui.components.fragments.notifications.NotificationsDialog
+import dev.sotoestevez.allforone.ui.components.fragments.settings.SettingsDialog
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.extensions.toast
+import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandler
+import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandlerImpl
 import java.util.*
 
 /**
@@ -56,6 +59,7 @@ class KeeperMainActivity : PrivateActivity() {
             }
         }
         binding.btnNotifications.setOnClickListener { openNotificationsDialog() }
+        binding.btnSettings.setOnClickListener { openSettingsDialog() }
         /* No bond listeners */
         qrScannerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
         { result ->
@@ -78,6 +82,11 @@ class KeeperMainActivity : PrivateActivity() {
     private fun openNotificationsDialog() {
         NotificationsDialog(model.notificationManager)
             .show(supportFragmentManager, NotificationsDialog.TAG)
+    }
+
+    private fun openSettingsDialog() {
+        SettingsDialog(model.settingsHandler)
+            .show(supportFragmentManager, SettingsDialog.TAG)
     }
 
 }

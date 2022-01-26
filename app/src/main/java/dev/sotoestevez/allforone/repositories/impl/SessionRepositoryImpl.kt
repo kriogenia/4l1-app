@@ -17,6 +17,11 @@ class SessionRepositoryImpl(
         return ApiRequest(suspend { service.getSignIn(googleIdToken) }).performRequest()
     }
 
+    override suspend fun signOut(token: String) {
+        val authToken = token.split(" ")[1]
+        ApiRequest(suspend { service.deleteSession(token, authToken) }).performRequest()
+    }
+
     override suspend fun refreshSession(session: Session): Session {
         logDebug("Refreshing session")
         return ApiRequest(suspend { service.getRefresh("Bearer ${session.auth}", session.refresh) })

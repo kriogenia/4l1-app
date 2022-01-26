@@ -24,7 +24,7 @@ import org.jetbrains.annotations.TestOnly
 abstract class PrivateViewModel(
     savedStateHandle: SavedStateHandle,
     val dispatchers: DispatcherProvider,
-    protected val sessionRepository: SessionRepository
+    val sessionRepository: SessionRepository
 ) : ViewModel(), ExtendedViewModel {
 
     companion object {

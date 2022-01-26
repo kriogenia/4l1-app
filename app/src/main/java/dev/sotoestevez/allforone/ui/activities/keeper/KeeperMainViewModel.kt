@@ -7,19 +7,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dev.sotoestevez.allforone.vo.User
-import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
-import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
-import dev.sotoestevez.allforone.ui.viewmodel.WithProfileCard
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.NotificationRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
-import dev.sotoestevez.allforone.ui.viewmodel.WithNotifications
+import dev.sotoestevez.allforone.ui.activities.launch.LaunchActivity
+import dev.sotoestevez.allforone.ui.viewmodel.*
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.notifications.NotificationsManager
 import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandler
 import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandlerImpl
+import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandler
+import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandlerImpl
 import dev.sotoestevez.allforone.vo.Action
 import dev.sotoestevez.allforone.vo.Notification
 import kotlinx.coroutines.launch
@@ -30,10 +30,10 @@ class KeeperMainViewModel(
     savedStateHandle: SavedStateHandle,
     dispatchers: DispatcherProvider,
     sessionRepository: SessionRepository,
-    private val userRepository: UserRepository,
+    override val userRepository: UserRepository,
     private val globalRoomRepository: GlobalRoomRepository,
     override val notificationRepository: NotificationRepository
-) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard, WithNotifications {
+) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard, WithNotifications, WithSettings {
 
     /** LiveData holding the info about the patient cared by this user */
     val cared: LiveData<User>
@@ -51,6 +51,11 @@ class KeeperMainViewModel(
     /** Entity in charge of managing the notifications */
     val notificationManager: NotificationsManager by lazy {
         NotificationsManager(ViewModelNotificationsHandlerImpl(this))
+    }
+
+    /** Entity in charge of managing the settings */
+    val settingsHandler: ViewModelSettingsHandler by lazy {
+        ViewModelSettingsHandlerImpl(this)
     }
 
     @Suppress("unused") // Used in the factory with a class call
@@ -109,8 +114,13 @@ class KeeperMainViewModel(
         mDestiny.value = destiny
     }
 
-    override fun runNotificationRequest(request: suspend (String) -> Unit) {
+    override fun runRequest(request: suspend (String) -> Unit) {
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { request(authHeader()) }
+    }
+
+    override fun toLaunch() {
+        sessionManager.closeSession()
+        mUser.postValue(null)
     }
 
 }
