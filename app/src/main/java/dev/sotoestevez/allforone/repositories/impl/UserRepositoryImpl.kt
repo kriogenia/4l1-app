@@ -7,6 +7,7 @@ import dev.sotoestevez.allforone.api.services.UserService
 import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import java.lang.IllegalStateException
 
 /** Repository to make all the user related operations */
 class UserRepositoryImpl(
@@ -46,6 +47,14 @@ class UserRepositoryImpl(
         val bonds = ApiRequest(suspend { service.getBonds(token) }).performRequest().bonds
         logDebug("Retrieved bonds: $bonds")
         return ArrayList(bonds.asList())
+    }
+
+    override suspend fun unbond(user: User, token: String) {
+        logDebug("Send unbonding request")
+        if (user.id == null) {
+            throw IllegalStateException("Missing ID of the user")
+        }
+        ApiRequest(suspend { service.deleteBonds(token, user.id) }).performRequest()
     }
 
 }

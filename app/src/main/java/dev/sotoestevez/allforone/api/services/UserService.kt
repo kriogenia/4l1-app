@@ -45,6 +45,13 @@ interface UserService {
         @Header("Authorization") token: String
     ): NetworkResponse<BondListResponse, BaseErrorResponse>
 
+
+    @DELETE("/user/bonds/{id}")
+    suspend fun deleteBonds(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): NetworkResponse<Unit, BaseErrorResponse>
+
     /**
      * Requests to the server to establish a bond
      *

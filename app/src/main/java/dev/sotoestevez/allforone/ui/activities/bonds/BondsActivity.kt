@@ -9,6 +9,7 @@ import dev.sotoestevez.allforone.databinding.ActivityBondsBinding
 import dev.sotoestevez.allforone.ui.view.PrivateActivity
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModelFactory
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.util.extensions.openActionConfirmationDialog
 import dev.sotoestevez.allforone.util.helpers.BitmapGenerator
 import dev.sotoestevez.allforone.vo.User
 import java.util.*
@@ -43,6 +44,7 @@ class BondsActivity : PrivateActivity() {
 
     override fun attachObservers() {
         super.attachObservers()
+        model.actionTaskToConfirm.observe(this) { openActionConfirmationDialog(it) }
         model.qrCode.observe(this) {
             if (Strings.isEmptyOrWhitespace(it))
                 return@observe

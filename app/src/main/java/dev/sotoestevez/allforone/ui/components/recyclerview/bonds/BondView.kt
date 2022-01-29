@@ -8,7 +8,10 @@ import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.vo.User
 import java.lang.IllegalStateException
 
-class BondView(val data: User) : BaseObservable(), BindedItemView {
+class BondView(
+    val data: User,
+    private val longPressCallback: (BondView) -> Unit
+    ) : BaseObservable(), BindedItemView {
 
     override val id: String = data.displayName ?: throw IllegalStateException("Received bond without display name")
 
@@ -26,5 +29,8 @@ class BondView(val data: User) : BaseObservable(), BindedItemView {
         mExpanded = !mExpanded
         notifyPropertyChanged(BR.expanded)
     }
+
+    /** On long press action listener */
+    fun onLongPress() = true.also { longPressCallback(this) }
 
 }

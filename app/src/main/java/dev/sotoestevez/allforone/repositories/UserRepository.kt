@@ -45,4 +45,12 @@ interface UserRepository {
      */
     suspend fun getBonds(token: String): List<User>
 
+    /**
+     * Removes the bond with the specified user
+     *
+     * @param user User to unbond
+     * @param token Authentication token
+     */
+    suspend fun unbond(user: User, token: String)
+
 }

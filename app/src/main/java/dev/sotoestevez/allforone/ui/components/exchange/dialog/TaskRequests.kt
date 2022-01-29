@@ -2,7 +2,9 @@ package dev.sotoestevez.allforone.ui.components.exchange.dialog
 
 import android.content.Context
 import dev.sotoestevez.allforone.R
+import dev.sotoestevez.allforone.ui.components.recyclerview.bonds.BondView
 import dev.sotoestevez.allforone.ui.components.recyclerview.tasks.TaskView
+import dev.sotoestevez.allforone.vo.User
 
 /** [DialogConfirmationRequest] for setting task as done or not done */
 data class SetTaskDoneConfirmation(private val task: TaskView, private val confirmAction: (TaskView) -> Unit) :
@@ -29,5 +31,18 @@ data class DeleteTaskConfirmation(private val task: TaskView, private val confir
 
     override fun getMessage(context: Context): String =
         String.format(context.getString(R.string.delete_task_msg), task.data.title)
+
+}
+
+/** [DialogConfirmationRequest] to delete a bond */
+data class DeleteBondConfirmation(private val bond: BondView, private val confirmAction: (BondView) -> Unit) :
+    DialogConfirmationRequest {
+
+    override fun onConfirm() = confirmAction(bond)
+
+    override fun getTitle(context: Context): String = context.getString(R.string.delete_bond_title)
+
+    override fun getMessage(context: Context): String =
+        String.format(context.getString(R.string.delete_bond_msg), bond.data.displayName)
 
 }
