@@ -9,7 +9,6 @@ import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.NotificationRepository
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
-import dev.sotoestevez.allforone.ui.activities.launch.LaunchActivity
 import dev.sotoestevez.allforone.ui.viewmodel.*
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
@@ -19,6 +18,7 @@ import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandler
 import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandlerImpl
 import dev.sotoestevez.allforone.vo.Notification
 import kotlinx.coroutines.launch
+import java.lang.IllegalStateException
 
 /** View Model of the Main activity for Patients */
 class PatientMainViewModel(
@@ -47,7 +47,7 @@ class PatientMainViewModel(
 
     /** Entity in charge of managing the settings */
     val settingsHandler: ViewModelSettingsHandler by lazy {
-        ViewModelSettingsHandlerImpl(this)
+        ViewModelSettingsHandlerImpl(this, true)
     }
 
     /** WithProfileCard */
@@ -79,6 +79,10 @@ class PatientMainViewModel(
     override fun toLaunch() {
         sessionManager.closeSession()
         mUser.postValue(null)
+    }
+
+    override fun removeBond(callback: () -> Unit) {
+        throw IllegalStateException("Patients can't remove its bonds from here")
     }
 
 }

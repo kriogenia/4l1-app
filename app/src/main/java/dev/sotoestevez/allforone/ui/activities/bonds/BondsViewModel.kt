@@ -10,11 +10,9 @@ import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
-import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteBondConfirmation
-import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteTaskConfirmation
+import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteBondViewConfirmation
 import dev.sotoestevez.allforone.ui.components.exchange.dialog.DialogConfirmationRequest
 import dev.sotoestevez.allforone.ui.components.recyclerview.bonds.BondView
-import dev.sotoestevez.allforone.ui.components.recyclerview.tasks.TaskView
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.invoke
@@ -22,7 +20,6 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
-import java.util.ArrayList
 
 /** ViewModel of the Bonds Activity */
 class BondsViewModel(
@@ -43,7 +40,7 @@ class BondsViewModel(
     private val mList: MutableList<BondView> = mutableListOf()
     private val mBonds: MutableLiveData<List<BondView>> = MutableLiveData(mList)
 
-    /** LiveData holding the last task changed */
+    /** LiveData holding the an action needed of confirmation */
     val actionTaskToConfirm: LiveData<DialogConfirmationRequest>
         get() = mActionTaskToConfirm
     private val mActionTaskToConfirm: MutableLiveData<DialogConfirmationRequest> = MutableLiveData()
@@ -99,7 +96,7 @@ class BondsViewModel(
     */
     private fun onRemoveBond(bond: BondView) {
         if (this.user.value?.role == User.Role.PATIENT) {
-            mActionTaskToConfirm.value = DeleteBondConfirmation(bond) { removeBond(it) }
+            mActionTaskToConfirm.value = DeleteBondViewConfirmation(bond) { removeBond(it) }
         }
     }
 

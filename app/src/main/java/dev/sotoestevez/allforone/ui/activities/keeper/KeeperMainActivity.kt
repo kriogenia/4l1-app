@@ -15,13 +15,11 @@ import dev.sotoestevez.allforone.ui.activities.bonds.BondsActivity
 import dev.sotoestevez.allforone.ui.activities.feed.FeedActivity
 import dev.sotoestevez.allforone.ui.activities.location.LocationActivity
 import dev.sotoestevez.allforone.ui.activities.tasks.TasksActivity
-import dev.sotoestevez.allforone.ui.activities.tasks.fragments.CreateTaskDialog
 import dev.sotoestevez.allforone.ui.components.fragments.notifications.NotificationsDialog
 import dev.sotoestevez.allforone.ui.components.fragments.settings.SettingsDialog
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.util.extensions.openActionConfirmationDialog
 import dev.sotoestevez.allforone.util.extensions.toast
-import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandler
-import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandlerImpl
 import java.util.*
 
 /**
@@ -77,6 +75,7 @@ class KeeperMainActivity : PrivateActivity() {
     override fun attachObservers() {
         super.attachObservers()
         model.destiny.observe(this) { startActivity(buildIntent(it)) }
+        model.actionTaskToConfirm.observe(this) { openActionConfirmationDialog(it) }
     }
 
     private fun openNotificationsDialog() {

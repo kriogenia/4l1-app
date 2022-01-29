@@ -18,4 +18,7 @@ interface WithSettings {
     /** Call to perform a navigation to LaunchActivity */
     fun toLaunch()
 
+    /** Call to invoke the removal of the current bond */
+    fun removeBond(callback: () -> Unit)
+
 }

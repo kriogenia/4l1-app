@@ -11,19 +11,18 @@ import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.NotificationRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
-import dev.sotoestevez.allforone.ui.activities.launch.LaunchActivity
+import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteBondUserConfirmation
+import dev.sotoestevez.allforone.ui.components.exchange.dialog.DialogConfirmationRequest
 import dev.sotoestevez.allforone.ui.viewmodel.*
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.notifications.NotificationsManager
-import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandler
 import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandlerImpl
 import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandler
 import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandlerImpl
-import dev.sotoestevez.allforone.vo.Action
-import dev.sotoestevez.allforone.vo.Notification
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.IllegalStateException
 
 /** ViewModel to handle the logic of the keeper's main activity */
 class KeeperMainViewModel(
@@ -36,14 +35,19 @@ class KeeperMainViewModel(
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository), WithProfileCard, WithNotifications, WithSettings {
 
     /** LiveData holding the info about the patient cared by this user */
-    val cared: LiveData<User>
+    val cared: LiveData<User?>
         get() = mCared
-    private val mCared = MutableLiveData<User>(null)
+    private val mCared = MutableLiveData<User?>(null)
 
     /** Live data holding the class of the next activity to launch from the LaunchActivity **/
     val destiny: LiveData<Class<out Activity>>
         get() = mDestiny
     private var mDestiny = MutableLiveData<Class<out Activity>>()
+
+    /** LiveData holding the an action needed of confirmation */
+    val actionTaskToConfirm: LiveData<DialogConfirmationRequest>
+        get() = mActionTaskToConfirm
+    private val mActionTaskToConfirm: MutableLiveData<DialogConfirmationRequest> = MutableLiveData()
 
     // WithProfileCard
     override val profileCardReversed: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -55,7 +59,7 @@ class KeeperMainViewModel(
 
     /** Entity in charge of managing the settings */
     val settingsHandler: ViewModelSettingsHandler by lazy {
-        ViewModelSettingsHandlerImpl(this)
+        ViewModelSettingsHandlerImpl(this, false)
     }
 
     @Suppress("unused") // Used in the factory with a class call
@@ -74,9 +78,7 @@ class KeeperMainViewModel(
         logDebug("Requesting info of cared user")
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
             userRepository.getCared(user.value!!, authHeader())?.let { setCared(it) }
-            logDebug("Yey")
             loading.postValue(false)
-            logDebug(loading.value.toString())
         }
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { notificationManager.load() }
     }
@@ -123,4 +125,21 @@ class KeeperMainViewModel(
         mUser.postValue(null)
     }
 
+    override fun removeBond(callback: () -> Unit) {
+        logDebug("User requesting to delete its bond")
+        if (cared.value == null) {
+            throw IllegalStateException("An unbonded keeper can't remove its bond")
+        }
+        mActionTaskToConfirm.postValue(DeleteBondUserConfirmation(cared.value!!) { deleteCared(it, callback) })
+    }
+
+    private fun deleteCared(bond: User, settingsDismisser: () -> Unit) {
+        logDebug("Requesting the removal of the bond with ${bond.displayName}")
+        viewModelScope.launch(dispatchers.io()) {
+            userRepository.unbond(bond, authHeader())
+            mCared.postValue(null)
+            settingsDismisser()
+        }
+        logDebug("Deleted the bond with User[${bond.displayName}]")
+    }
 }

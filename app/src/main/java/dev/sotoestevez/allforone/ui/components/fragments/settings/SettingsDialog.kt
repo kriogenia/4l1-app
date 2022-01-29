@@ -5,13 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import dev.sotoestevez.allforone.databinding.FragmentNotificationsBinding
-import dev.sotoestevez.allforone.util.helpers.notifications.NotificationsManager
-import androidx.recyclerview.widget.DividerItemDecoration
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.databinding.FragmentSettingsBinding
-import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandler
+import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandlerImpl
 
 
 /**
@@ -32,6 +29,7 @@ class SettingsDialog(private val handler: ViewModelSettingsHandler) : DialogFrag
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        handler.settingsDismisser = { dismiss() }
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
         binding.handler = handler
         return binding.root
@@ -45,4 +43,5 @@ class SettingsDialog(private val handler: ViewModelSettingsHandler) : DialogFrag
         super.onViewCreated(view, savedInstanceState)
         binding.btnBack.setOnClickListener { this.dismiss() }
     }
+
 }

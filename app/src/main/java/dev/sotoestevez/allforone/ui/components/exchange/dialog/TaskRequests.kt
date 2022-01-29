@@ -34,8 +34,8 @@ data class DeleteTaskConfirmation(private val task: TaskView, private val confir
 
 }
 
-/** [DialogConfirmationRequest] to delete a bond */
-data class DeleteBondConfirmation(private val bond: BondView, private val confirmAction: (BondView) -> Unit) :
+/** [DialogConfirmationRequest] to delete a bond from a bond view */
+data class DeleteBondViewConfirmation(private val bond: BondView, private val confirmAction: (BondView) -> Unit) :
     DialogConfirmationRequest {
 
     override fun onConfirm() = confirmAction(bond)
@@ -44,5 +44,18 @@ data class DeleteBondConfirmation(private val bond: BondView, private val confir
 
     override fun getMessage(context: Context): String =
         String.format(context.getString(R.string.delete_bond_msg), bond.data.displayName)
+
+}
+
+/** [DialogConfirmationRequest] to delete a bond */
+data class DeleteBondUserConfirmation(private val bond: User, private val confirmAction: (User) -> Unit) :
+    DialogConfirmationRequest {
+
+    override fun onConfirm() = confirmAction(bond)
+
+    override fun getTitle(context: Context): String = context.getString(R.string.delete_bond_title)
+
+    override fun getMessage(context: Context): String =
+        String.format(context.getString(R.string.delete_bond_msg), bond.displayName)
 
 }
