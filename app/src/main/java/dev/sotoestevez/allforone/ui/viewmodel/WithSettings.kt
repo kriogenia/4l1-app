@@ -2,6 +2,7 @@ package dev.sotoestevez.allforone.ui.viewmodel
 
 import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
+import dev.sotoestevez.allforone.vo.User
 
 /** ViewModel of an Activity featuring a notifications management */
 interface WithSettings {
@@ -14,6 +15,9 @@ interface WithSettings {
 
     /** Request for ViewModel to run an asynchronous settings request */
     fun runRequest(request: suspend (String) -> Unit)
+
+    /** Call to perform a user data update */
+    fun updateUser(user: User)
 
     /** Call to perform a navigation to LaunchActivity */
     fun toLaunch()

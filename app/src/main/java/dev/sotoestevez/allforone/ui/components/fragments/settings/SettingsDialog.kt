@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import dev.sotoestevez.allforone.R
 import dev.sotoestevez.allforone.databinding.FragmentSettingsBinding
 import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandler
-import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandlerImpl
+import dev.sotoestevez.allforone.vo.Address
+import dev.sotoestevez.allforone.vo.User
 
 
 /**
@@ -32,6 +35,7 @@ class SettingsDialog(private val handler: ViewModelSettingsHandler) : DialogFrag
         handler.settingsDismisser = { dismiss() }
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
         binding.handler = handler
+        binding.updating = handler.updating
         return binding.root
     }
 
@@ -41,7 +45,27 @@ class SettingsDialog(private val handler: ViewModelSettingsHandler) : DialogFrag
     @Suppress("KDocMissingDocumentation")  // override method
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnBack.setOnClickListener { this.dismiss() }
+        binding.run {
+            btnBack.setOnClickListener { dismiss() }
+            eTxtDisplayName.doAfterTextChanged { handler?.user?.displayName = it.toString() }
+            eTxtContactPhone.doAfterTextChanged { handler?.user?.mainPhoneNumber = it.toString() }
+            eTxtContactPhoneAlt.doAfterTextChanged { handler?.user?.altPhoneNumber = it.toString() }
+            eTxtContactEmail.doAfterTextChanged { handler?.user?.email = it.toString() }
+
+            eTxtContactAddressStreet.doAfterTextChanged { updateAddress(handler?.user!!) }
+            eTxtContactAddressExtended.doAfterTextChanged { updateAddress(handler?.user!!) }
+            eTxtContactAddressLocality.doAfterTextChanged { updateAddress(handler?.user!!) }
+            eTxtContactAddressRegion.doAfterTextChanged { updateAddress(handler?.user!!) }
+        }
+    }
+
+    private fun updateAddress(user: User) = binding.run {
+        user.address = Address(
+            eTxtContactAddressStreet.text.toString(),
+            eTxtContactAddressExtended.text.toString(),
+            eTxtContactAddressLocality.text.toString(),
+            eTxtContactAddressRegion.text.toString()
+        )
     }
 
 }

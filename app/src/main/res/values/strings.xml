@@ -139,4 +139,6 @@
     <string name="channel_location_desc">Notifications of geolocation sharings</string>
     <string name="channel_task">Tasks</string>
     <string name="channel_task_desc">Notification of creation, edition or removal of tasks</string>
+    <string name="update_user">Update user</string>
+    <string name="edit_user">Edit profile</string>
 </resources>

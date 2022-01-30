@@ -20,7 +20,6 @@ import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.notifications.NotificationsManager
 import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandlerImpl
 import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandler
-import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandlerImpl
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.IllegalStateException
@@ -58,7 +57,7 @@ class KeeperMainViewModel(
 
     /** Entity in charge of managing the settings */
     val settingsHandler: ViewModelSettingsHandler by lazy {
-        ViewModelSettingsHandlerImpl(this, false)
+        ViewModelSettingsHandler(this, user.value!!)
     }
 
     @Suppress("unused") // Used in the factory with a class call
@@ -121,6 +120,13 @@ class KeeperMainViewModel(
 
     override fun runRequest(request: suspend (String) -> Unit) {
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { request(authHeader()) }
+    }
+
+    override fun updateUser(user: User) {
+        mUser.value = user
+        viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
+            userRepository.update(user, authHeader())
+        }
     }
 
     override fun toLaunch() {
