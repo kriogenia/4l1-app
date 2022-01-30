@@ -26,8 +26,8 @@ import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.invoke
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.TimeFormatter
-import dev.sotoestevez.allforone.vo.Action
-import dev.sotoestevez.allforone.vo.Notification
+import dev.sotoestevez.allforone.vo.notification.Action
+import dev.sotoestevez.allforone.vo.notification.Notification
 import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.vo.feed.Message

@@ -2,8 +2,8 @@ package dev.sotoestevez.allforone.util.helpers.notifications
 
 import android.app.Activity
 import dev.sotoestevez.allforone.ui.viewmodel.WithNotifications
-import dev.sotoestevez.allforone.vo.Action
-import dev.sotoestevez.allforone.vo.Notification
+import dev.sotoestevez.allforone.vo.notification.Action
+import dev.sotoestevez.allforone.vo.notification.Notification
 
 /**
  * Default implementation of the [ViewModelNotificationsHandler]

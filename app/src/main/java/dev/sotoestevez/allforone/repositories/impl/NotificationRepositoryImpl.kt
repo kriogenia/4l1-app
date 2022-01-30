@@ -5,8 +5,8 @@ import dev.sotoestevez.allforone.api.ApiRequest
 import dev.sotoestevez.allforone.api.services.FeedService
 import dev.sotoestevez.allforone.repositories.NotificationRepository
 import dev.sotoestevez.allforone.util.extensions.logDebug
-import dev.sotoestevez.allforone.vo.Action
-import dev.sotoestevez.allforone.vo.Notification
+import dev.sotoestevez.allforone.vo.notification.Action
+import dev.sotoestevez.allforone.vo.notification.Notification
 
 /**
  * Implementation of [NotificationRepository]

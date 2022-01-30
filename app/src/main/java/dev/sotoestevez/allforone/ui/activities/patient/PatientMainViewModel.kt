@@ -1,6 +1,7 @@
 package dev.sotoestevez.allforone.ui.activities.patient
 
 import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -16,7 +17,7 @@ import dev.sotoestevez.allforone.util.helpers.notifications.NotificationsManager
 import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandlerImpl
 import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandler
 import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandlerImpl
-import dev.sotoestevez.allforone.vo.Notification
+import dev.sotoestevez.allforone.vo.notification.Notification
 import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
 
@@ -41,9 +42,7 @@ class PatientMainViewModel(
     private var mDestiny = MutableLiveData<Class<out Activity>>()
 
     /** Entity in charge of managing the notifications */
-    val notificationManager: NotificationsManager by lazy {
-        NotificationsManager(ViewModelNotificationsHandlerImpl(this))
-    }
+    lateinit var notificationManager: NotificationsManager
 
     /** Entity in charge of managing the settings */
     val settingsHandler: ViewModelSettingsHandler by lazy {
@@ -64,8 +63,12 @@ class PatientMainViewModel(
     )
 
     init {
-        viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { notificationManager.load() }
         globalRoomRepository.join(user.value!!)
+    }
+
+    fun init(context: Context) {
+        notificationManager = NotificationsManager(ViewModelNotificationsHandlerImpl(this), context)
+        viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { notificationManager.load() }
     }
 
     override fun setDestiny(destiny: Class<out Activity>) {

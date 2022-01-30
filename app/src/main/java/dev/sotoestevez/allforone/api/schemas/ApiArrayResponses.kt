@@ -1,6 +1,6 @@
 package dev.sotoestevez.allforone.api.schemas
 
-import dev.sotoestevez.allforone.vo.Notification
+import dev.sotoestevez.allforone.vo.notification.Notification
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.vo.feed.Message
 

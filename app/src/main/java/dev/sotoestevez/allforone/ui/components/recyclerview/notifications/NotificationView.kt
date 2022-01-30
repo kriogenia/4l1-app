@@ -2,9 +2,8 @@ package dev.sotoestevez.allforone.ui.components.recyclerview.notifications
 
 import android.content.Context
 import dev.sotoestevez.allforone.R
-import dev.sotoestevez.allforone.ui.components.recyclerview.BindedItemView
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.listeners.NotificationListener
-import dev.sotoestevez.allforone.vo.Notification
+import dev.sotoestevez.allforone.vo.notification.Notification
 
 /** View for user's action to notify in the feed */
 class NotificationView(

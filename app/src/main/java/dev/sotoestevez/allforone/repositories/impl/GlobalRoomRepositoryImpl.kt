@@ -3,11 +3,8 @@ package dev.sotoestevez.allforone.repositories.impl
 import com.google.gson.Gson
 import dev.sotoestevez.allforone.api.SocketManager
 import dev.sotoestevez.allforone.api.schemas.GlobalSubscriptionMsg
-import dev.sotoestevez.allforone.api.schemas.UserInfoMsg
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.util.extensions.logDebug
-import dev.sotoestevez.allforone.vo.Action
-import dev.sotoestevez.allforone.vo.Notification
 import dev.sotoestevez.allforone.vo.User
 
 /**

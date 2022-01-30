@@ -1,6 +1,6 @@
 package dev.sotoestevez.allforone.ui.components.recyclerview.notifications.listeners
 
-import dev.sotoestevez.allforone.vo.Notification
+import dev.sotoestevez.allforone.vo.notification.Notification
 
 /** Interface to specify NotificationView buttons logic */
 interface NotificationListener {

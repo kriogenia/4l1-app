@@ -125,4 +125,18 @@
     <string name="settings">Settings</string>
     <string name="log_out">Log out</string>
     <string name="delete_bond_title">Delete bond</string>
+    <string name="title_new_bond">New bond</string>
+    <string name="title_bond_deleted">Bond deleted</string>
+    <string name="title_task_created">New task</string>
+    <string name="title_task_deleted">Task deleted</string>
+    <string name="title_task_done">Task completed</string>
+    <string name="title_task_undone">Task resetted</string>
+    <string name="title_location_sharing">Location share</string>
+    <string name="title_location_stop">Location sharing stopped</string>
+    <string name="channel_bond">Bond</string>
+    <string name="channel_bond_desc">Notifications of new or deleted bonds</string>
+    <string name="channel_location">Location</string>
+    <string name="channel_location_desc">Notifications of geolocation sharings</string>
+    <string name="channel_task">Tasks</string>
+    <string name="channel_task_desc">Notification of creation, edition or removal of tasks</string>
 </resources>

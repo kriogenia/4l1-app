@@ -1,7 +1,9 @@
-package dev.sotoestevez.allforone.vo
+package dev.sotoestevez.allforone.vo.notification
 
 import android.content.Context
+import androidx.core.app.NotificationCompat
 import com.google.gson.annotations.SerializedName
+import dev.sotoestevez.allforone.R
 
 /**
  * Notifications received from the server representing user actions
@@ -27,6 +29,18 @@ data class Notification(
      * @return          Printable string
      */
     fun print(context: Context) = action.print(context, instigator, *tags)
+
+    /**
+     * Builds an Android notification with the info of this notification
+     *
+     * @param context   Context to retrieve the notification strings
+     * @return          Android notification
+     */
+    fun build(context: Context)  = NotificationCompat.Builder(context, action.channel.id)
+        .setSmallIcon(R.drawable.ic_app_complete)
+        .setContentTitle(context.getString(action.contentTitle))
+        .setContentText(print(context))
+        .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -1,7 +1,7 @@
 package dev.sotoestevez.allforone.repositories
 
-import dev.sotoestevez.allforone.vo.Action
-import dev.sotoestevez.allforone.vo.Notification
+import dev.sotoestevez.allforone.vo.notification.Action
+import dev.sotoestevez.allforone.vo.notification.Notification
 
 /** Repository in charge of the notifications */
 interface NotificationRepository {

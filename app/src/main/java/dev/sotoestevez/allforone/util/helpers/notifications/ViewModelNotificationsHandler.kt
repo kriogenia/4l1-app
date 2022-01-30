@@ -1,8 +1,8 @@
 package dev.sotoestevez.allforone.util.helpers.notifications
 
 import android.app.Activity
-import dev.sotoestevez.allforone.vo.Action
-import dev.sotoestevez.allforone.vo.Notification
+import dev.sotoestevez.allforone.vo.notification.Action
+import dev.sotoestevez.allforone.vo.notification.Notification
 
 /** Handler to perform the notifications repository actions with the viewmodel coroutine and network logic
  */

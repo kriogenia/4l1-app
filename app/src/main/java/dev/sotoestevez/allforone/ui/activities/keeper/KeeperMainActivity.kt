@@ -2,6 +2,7 @@ package dev.sotoestevez.allforone.ui.activities.keeper
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -35,6 +36,11 @@ class KeeperMainActivity : PrivateActivity() {
     override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.KEEPER)
 
     private lateinit var qrScannerLauncher: ActivityResultLauncher<Intent>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        model.init(this)
+    }
 
     override fun bindLayout() {
         binding = ActivityKeeperMainBinding.inflate(layoutInflater)

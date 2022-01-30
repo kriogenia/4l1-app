@@ -1,5 +1,6 @@
 package dev.sotoestevez.allforone.ui.activities.patient
 
+import android.os.Bundle
 import androidx.activity.viewModels
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.databinding.ActivityPatientMainBinding
@@ -23,6 +24,11 @@ class PatientMainActivity : PrivateActivity() {
     private lateinit var binding: ActivityPatientMainBinding
 
     override val roles: EnumSet<User.Role> = EnumSet.of(User.Role.PATIENT)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        model.init(this)
+    }
 
     override fun bindLayout() {
         binding = ActivityPatientMainBinding.inflate(layoutInflater)

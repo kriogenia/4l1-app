@@ -1,6 +1,7 @@
 package dev.sotoestevez.allforone.ui.activities.keeper
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -53,9 +54,7 @@ class KeeperMainViewModel(
     override val profileCardReversed: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /** Entity in charge of managing the notifications */
-    val notificationManager: NotificationsManager by lazy {
-        NotificationsManager(ViewModelNotificationsHandlerImpl(this))
-    }
+    lateinit var notificationManager: NotificationsManager
 
     /** Entity in charge of managing the settings */
     val settingsHandler: ViewModelSettingsHandler by lazy {
@@ -80,6 +79,10 @@ class KeeperMainViewModel(
             userRepository.getCared(user.value!!, authHeader())?.let { setCared(it) }
             loading.postValue(false)
         }
+    }
+
+    fun init(context: Context) {
+        notificationManager = NotificationsManager(ViewModelNotificationsHandlerImpl(this), context)
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { notificationManager.load() }
     }
 

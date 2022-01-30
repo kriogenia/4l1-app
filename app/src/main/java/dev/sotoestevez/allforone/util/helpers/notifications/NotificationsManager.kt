@@ -1,5 +1,8 @@
 package dev.sotoestevez.allforone.util.helpers.notifications
 
+import android.app.NotificationManager
+import android.content.Context
+import androidx.core.app.NotificationManagerCompat
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import dev.sotoestevez.allforone.BR
@@ -8,9 +11,9 @@ import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.Notifi
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.NotificationsView
 import dev.sotoestevez.allforone.ui.components.recyclerview.notifications.listeners.NotificationListener
 import dev.sotoestevez.allforone.util.helpers.TimeFormatter
-import dev.sotoestevez.allforone.vo.Action
-import dev.sotoestevez.allforone.vo.Notification
-import java.lang.IllegalStateException
+import dev.sotoestevez.allforone.vo.notification.Action
+import dev.sotoestevez.allforone.vo.notification.Channel
+import dev.sotoestevez.allforone.vo.notification.Notification
 import java.util.*
 
 /**
@@ -19,8 +22,20 @@ import java.util.*
  * @property handler Object containing the repository functions with viewmodel handling logic
  */
 class NotificationsManager(
-    private val handler: ViewModelNotificationsHandler
+    private val handler: ViewModelNotificationsHandler,
+    private val context: Context
 ) : BaseObservable() {
+
+    private var manager = NotificationManagerCompat.from(context)
+
+    init {
+        // Start notification channels
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
+            createNotificationChannel(Channel.BOND.build(context))
+            createNotificationChannel(Channel.LOCATION.build(context))
+            createNotificationChannel(Channel.TASK.build(context))
+        }
+    }
 
     /** List of pending notifications to display */
     @get:Bindable
@@ -51,6 +66,7 @@ class NotificationsManager(
     fun subscribe() {
         handler.apply {
             onNotification(Action.BOND_CREATED) { add(it) }
+            onNotification(Action.BOND_DELETED) { add(it) }
             onNotification(Action.TASK_CREATED) { add(it) }
             onNotification(Action.TASK_DELETED) { remove(it.id); add(it) }
             onNotification(Action.TASK_DONE) { add(it) }
@@ -60,8 +76,12 @@ class NotificationsManager(
         }
     }
 
-    private fun add(notification: Notification) =
+    private fun add(notification: Notification) {
+        // Show it
+        manager.notify(notification.id.hashCode(), notification.build(context))
+        // Store it
         mNotifications.addFirst(NotificationView(notification, listener)).also { notifyChanges() }
+    }
 
     private fun addAll(notifications: List<Notification>) {
         val notificationByDate = notifications.sortedByDescending { it.timestamp }.groupBy { TimeFormatter.getDate(it.timestamp) }
