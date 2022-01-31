@@ -82,6 +82,7 @@ class KeeperMainActivity : PrivateActivity() {
         super.attachObservers()
         model.destiny.observe(this) { startActivity(buildIntent(it)) }
         model.actionTaskToConfirm.observe(this) { openActionConfirmationDialog(it) }
+        model.actionIntent.observe(this) { startActivity(it.build()) }
     }
 
     private fun openNotificationsDialog() {

@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.view.View" />
-
         <variable
             name="model"
             type="dev.sotoestevez.allforone.ui.activities.keeper.KeeperMainViewModel" />
@@ -78,7 +76,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:model="@{model}"
-                app:user="@{model.cared}" />
+                app:user="@{model.cared}"
+                app:listener="@{model.listener}" />
 
             <!-- Main buttons -->
 

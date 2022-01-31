@@ -109,6 +109,7 @@ class BondsViewModel(
     val listener = object: BondListener {
         override fun onPhoneClick(number: String) {
             logDebug("Opening call intent to $number")
+
             mActionIntent.value = CallIntent(number)
         }
 

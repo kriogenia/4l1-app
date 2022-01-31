@@ -12,14 +12,22 @@ import dev.sotoestevez.allforone.repositories.SessionRepository
 import dev.sotoestevez.allforone.repositories.GlobalRoomRepository
 import dev.sotoestevez.allforone.repositories.NotificationRepository
 import dev.sotoestevez.allforone.repositories.UserRepository
+import dev.sotoestevez.allforone.ui.activities.bonds.ActionIntent
+import dev.sotoestevez.allforone.ui.activities.bonds.AddressIntent
+import dev.sotoestevez.allforone.ui.activities.bonds.CallIntent
+import dev.sotoestevez.allforone.ui.activities.bonds.EmailIntent
 import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteBondUserConfirmation
+import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteBondViewConfirmation
 import dev.sotoestevez.allforone.ui.components.exchange.dialog.DialogConfirmationRequest
+import dev.sotoestevez.allforone.ui.components.recyclerview.bonds.BondView
+import dev.sotoestevez.allforone.ui.components.recyclerview.bonds.listener.BondListener
 import dev.sotoestevez.allforone.ui.viewmodel.*
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.util.helpers.notifications.NotificationsManager
 import dev.sotoestevez.allforone.util.helpers.notifications.ViewModelNotificationsHandlerImpl
 import dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandler
+import dev.sotoestevez.allforone.vo.Address
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.IllegalStateException
@@ -48,6 +56,11 @@ class KeeperMainViewModel(
     val actionTaskToConfirm: LiveData<DialogConfirmationRequest>
         get() = mActionTaskToConfirm
     private val mActionTaskToConfirm: MutableLiveData<DialogConfirmationRequest> = MutableLiveData()
+
+    /** LiveData holding an intention to open an external application */
+    val actionIntent: LiveData<ActionIntent>
+        get() = mActionIntent
+    private val mActionIntent: MutableLiveData<ActionIntent> = MutableLiveData()
 
     // WithProfileCard
     override val profileCardReversed: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -151,4 +164,28 @@ class KeeperMainViewModel(
         }
         logDebug("Deleted the bond with User[${bond.displayName}]")
     }
+
+    /** Patient card actions listener */
+    val listener = object: BondListener {
+        override fun onPhoneClick(number: String) {
+            logDebug("Opening call intent to $number")
+            mActionIntent.value = CallIntent(number)
+        }
+
+        override fun onAddressClick(address: Address) {
+            val fullAddress = "${address.firstLine} ${address.locality}"
+            logDebug("Opening show intent to $fullAddress")
+            mActionIntent.value = AddressIntent(fullAddress)
+        }
+
+        override fun onEmailClick(address: String) {
+            logDebug("Opening email intent to $address")
+            mActionIntent.value = EmailIntent(address)
+        }
+
+        override fun onLongPress(view: BondView) {
+            throw IllegalStateException("Action not performable on Patient Card")
+        }
+    }
+
 }
