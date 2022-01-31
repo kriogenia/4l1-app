@@ -22,6 +22,7 @@ import dev.sotoestevez.allforone.vo.Task
 import dev.sotoestevez.allforone.vo.User
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.IllegalArgumentException
 
 /** ViewModel of the TasksActivity */
 class TasksViewModel(
@@ -67,6 +68,9 @@ class TasksViewModel(
      */
     fun createTask(title: String, description: String) {
         logDebug("Requested creation of new task: $title")
+        if (title.isBlank()) {
+            return
+        }
         viewModelScope.launch(dispatchers.io()) {
             val task = taskRepository.save(Task(title = title, description = description, submitter = user.value!!), authHeader())
             withContext(dispatchers.main()) {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">4l1-app</string>
+    <string name="app_name" translatable="false">4l1-app</string>
     <string name="keeper">Keeper</string>
     <string name="patient">Patient</string>
     <string name="address">Address</string>
@@ -69,7 +69,7 @@
     <string name="user_joined_search">%s has joined the search</string>
     <string name="user_joined_room">%s has joined the room</string>
     <string name="user_left_room">%s has left the room</string>
-    <string name="app_name_full">All For One</string>
+    <string name="app_name_full" translatable="false">All For One</string>
     <string name="title_activity_qr">Bond user</string>
     <string name="title_activity_bonds">Bonds</string>
     <string name="title_activity_keeper_main">Keeper Lobby</string>
@@ -79,7 +79,7 @@
     <string name="enter_message">Enter Message…</string>
     <string name="send">Send</string>
     <string name="title_activity_feed">%s Room</string>
-    <string name="default_timestamp">10:00</string>
+    <string name="default_timestamp" translatable="false">10:00</string>
     <string name="new_message">%s sent a new message</string>
     <string name="title_activity_tasks">My Tasks</string>
     <string name="desc_task_fab">Create a task</string>
