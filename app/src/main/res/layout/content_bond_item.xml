@@ -84,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="@{item.expanded ? View.VISIBLE : View.GONE}"
                 app:user="@{item.data}"
+                app:listener="@{item.listener}"
                 tools:visibility="visible"/>
 
         </LinearLayout>

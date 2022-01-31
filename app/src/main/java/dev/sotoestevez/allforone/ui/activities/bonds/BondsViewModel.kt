@@ -13,10 +13,12 @@ import dev.sotoestevez.allforone.repositories.UserRepository
 import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteBondViewConfirmation
 import dev.sotoestevez.allforone.ui.components.exchange.dialog.DialogConfirmationRequest
 import dev.sotoestevez.allforone.ui.components.recyclerview.bonds.BondView
+import dev.sotoestevez.allforone.ui.components.recyclerview.bonds.listener.BondListener
 import dev.sotoestevez.allforone.util.dispatcher.DefaultDispatcherProvider
 import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.invoke
 import dev.sotoestevez.allforone.util.extensions.logDebug
+import dev.sotoestevez.allforone.vo.Address
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
@@ -45,6 +47,11 @@ class BondsViewModel(
         get() = mActionTaskToConfirm
     private val mActionTaskToConfirm: MutableLiveData<DialogConfirmationRequest> = MutableLiveData()
 
+    /** LiveData holding an intention to open an external application */
+    val actionIntent: LiveData<ActionIntent>
+        get() = mActionIntent
+    private val mActionIntent: MutableLiveData<ActionIntent> = MutableLiveData()
+
     /** Mutable live data to manage the QR section loading state */
     val loadingQr: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -68,7 +75,7 @@ class BondsViewModel(
             withContext(dispatchers.main()) {
                 loading.value = false
                 mList.clear()
-                mList.addAll(response.map { bond -> BondView(bond) { onRemoveBond(it)} }).also {
+                mList.addAll(response.map { bond -> BondView(bond, listener) }).also {
                     mBonds.apply { postValue(value) }
                 }
             }
@@ -91,20 +98,36 @@ class BondsViewModel(
         }
     }
 
-    /**
-     * Calls for the removal of a bond with an User
-    */
-    private fun onRemoveBond(bond: BondView) {
-        if (this.user.value?.role == User.Role.PATIENT) {
-            mActionTaskToConfirm.value = DeleteBondViewConfirmation(bond) { removeBond(it) }
-        }
-    }
-
     private fun removeBond(bond: BondView) {
         logDebug("Requesting the removal of the bond with ${bond.data.displayName}")
         viewModelScope.launch(dispatchers.io()) { userRepository.unbond(bond.data, authHeader()) }
         mList.remove(bond).also { mBonds.invoke() }
         logDebug("Deleted the bond with User[${bond.data.displayName}]")
+    }
+
+    /** Bonds actions listener */
+    val listener = object: BondListener {
+        override fun onPhoneClick(number: String) {
+            logDebug("Opening call intent to $number")
+            mActionIntent.value = CallIntent(number)
+        }
+
+        override fun onAddressClick(address: Address) {
+            val fullAddress = "${address.firstLine} ${address.locality}"
+            logDebug("Opening show intent to $fullAddress")
+            mActionIntent.value = AddressIntent(fullAddress)
+        }
+
+        override fun onEmailClick(address: String) {
+            logDebug("Opening email intent to $address")
+            mActionIntent.value = EmailIntent(address)
+        }
+
+        override fun onLongPress(view: BondView) {
+            if (user.value?.role == User.Role.PATIENT) {
+                mActionTaskToConfirm.value = DeleteBondViewConfirmation(view) { removeBond(it) }
+            }
+        }
     }
 
 }

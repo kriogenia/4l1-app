@@ -45,6 +45,7 @@ class BondsActivity : PrivateActivity() {
     override fun attachObservers() {
         super.attachObservers()
         model.actionTaskToConfirm.observe(this) { openActionConfirmationDialog(it) }
+        model.actionIntent.observe(this) { startActivity(it.build()) }
         model.qrCode.observe(this) {
             if (Strings.isEmptyOrWhitespace(it))
                 return@observe
