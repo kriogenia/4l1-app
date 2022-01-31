@@ -72,7 +72,7 @@
     <string name="app_name_full" translatable="false">All For One</string>
     <string name="title_activity_qr">Bond user</string>
     <string name="title_activity_bonds">Bonds</string>
-    <string name="title_activity_keeper_main">Keeper Lobby</string>
+    <string name="title_activity_keeper_main">Main</string>
     <string name="title_activity_launch">Welcome</string>
     <string name="desc_logo">Logo of the app</string>
     <string name="feed">Feed</string>
