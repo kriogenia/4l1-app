@@ -91,7 +91,6 @@
     <string name="create">Crear</string>
     <string name="create_task">Crear tarea</string>
     <string name="title">Título</string>
-    <string name="description">Descripción</string>
     <string name="mandatory">Obligatorio</string>
     <string name="complete_task_title">Completar tarea</string>
     <string name="revert_task_title">Revertir tarea</string>
@@ -103,7 +102,6 @@
     <string name="delete_task_title">Eliminar tarea</string>
     <string name="delete_task_msg">¿Quieres eliminar %s? Si lo haces, el resto de usuarios no podrán ver la tarea. No hace falta eliminar una tarea para ocultarla, lo hará ella sóla tras unos días marcada como completa.</string>
     <string name="delete_bond_msg">¿Quieres eliminar tu vínculo con %s?</string>
-    <string name="empty_template">%s</string>
     <string name="user_set_task_not_done">%s ha marcado %s como no hecha</string>
     <string name="user_deleted_message">%s eliminada</string>
     <string name="user_stopped_sharing">%s ha dejado de compartir su ubicación</string>
@@ -139,4 +137,5 @@
     <string name="channel_task_desc">Notificaciones de creación, edición o eliminación de tareas</string>
     <string name="update_user">Actualizar usuario</string>
     <string name="edit_user">Editar perfil</string>
+    <string name="description">Descrición</string>
 </resources>

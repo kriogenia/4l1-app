@@ -105,7 +105,7 @@
     <string name="delete_task_title">Delete task</string>
     <string name="delete_task_msg">Are you sure you want to delete %s? If you do, the rest of users won\'t be able to see the task. You don\'t need to delete a completed task to hide, it will do itself after a few days</string>
     <string name="delete_bond_msg">Are you sure you want to delete the bond with %s?</string>
-    <string name="empty_template">%s</string>
+    <string name="empty_template" translatable="false">%s</string>
     <string name="user_set_task_not_done">%s has set task %s as not done</string>
     <string name="user_deleted_message">Deleted %s</string>
     <string name="user_stopped_sharing">%s stopped sharing its location</string>
