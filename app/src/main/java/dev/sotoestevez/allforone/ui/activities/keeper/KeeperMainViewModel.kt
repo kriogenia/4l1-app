@@ -17,7 +17,6 @@ import dev.sotoestevez.allforone.ui.activities.bonds.AddressIntent
 import dev.sotoestevez.allforone.ui.activities.bonds.CallIntent
 import dev.sotoestevez.allforone.ui.activities.bonds.EmailIntent
 import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteBondUserConfirmation
-import dev.sotoestevez.allforone.ui.components.exchange.dialog.DeleteBondViewConfirmation
 import dev.sotoestevez.allforone.ui.components.exchange.dialog.DialogConfirmationRequest
 import dev.sotoestevez.allforone.ui.components.recyclerview.bonds.BondView
 import dev.sotoestevez.allforone.ui.components.recyclerview.bonds.listener.BondListener

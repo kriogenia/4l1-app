@@ -69,6 +69,7 @@ class PatientMainViewModel(
     fun init(context: Context) {
         notificationManager = NotificationsManager(ViewModelNotificationsHandlerImpl(this), context)
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) { notificationManager.load() }
+        notificationManager.subscribe()
     }
 
     override fun setDestiny(destiny: Class<out Activity>) {

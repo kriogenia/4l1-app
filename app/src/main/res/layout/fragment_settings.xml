@@ -12,303 +12,310 @@
             type="dev.sotoestevez.allforone.util.helpers.settings.ViewModelSettingsHandler" />
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/activity_vertical_margin">
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/lblNotifications"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/settings"
-            style="@style/TextAppearance.MaterialComponents.Headline2"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_vertical_margin">
 
-        <!-- Update user -->
-
-        <Button
-            android:id="@+id/btnUpdateUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/ic_baseline_edit"
-            android:text="@string/edit_user"
-            android:layout_gravity="start"
-            android:enabled="@{!handler.updating}"
-            android:onClick="@{() -> handler.updateMode(true)}"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/base_margin"
-            android:visibility="@{handler.updating ? View.VISIBLE : View.GONE}">
-
-            <!-- Display name -->
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtDisplayName"
-                android:layout_width="@dimen/long_text_width"
+            <TextView
+                android:id="@+id/lblNotifications"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_name"
-                android:layout_marginBottom="@dimen/double_base_margin"
-                app:layout_constraintBottom_toTopOf="@id/txtContactPhone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/settings"
+                style="@style/TextAppearance.MaterialComponents.Headline2"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/eTxtDisplayName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints=".AUTOFILL_HINT_PHONE_NUMBER"
-                    android:inputType="textPersonName"
-                    android:text="@{handler.user.displayName}"/>
+            <!-- Update user -->
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Main phone number -->
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtContactPhone"
-                android:layout_width="@dimen/long_text_width"
-                android:layout_height="wrap_content"
-                android:hint="@string/phone_number"
-                app:layout_constraintBottom_toTopOf="@id/txtContactPhoneAlt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtDisplayName">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/eTxtContactPhone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints=".AUTOFILL_HINT_PHONE_NUMBER"
-                    android:inputType="phone"
-                    android:text="@{handler.user.mainPhoneNumber}"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Alternative phone number -->
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtContactPhoneAlt"
-                android:layout_width="@dimen/long_text_width"
-                android:layout_height="wrap_content"
-                android:hint="@string/choose_phone_alt"
-                app:layout_constraintBottom_toTopOf="@id/layContactAddress"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtContactPhone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/eTxtContactPhoneAlt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints=".AUTOFILL_HINT_PHONE_NUMBER"
-                    android:inputType="phone"
-                    android:text="@{handler.user.altPhoneNumber}"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Address -->
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layContactAddress"
+            <Button
+                android:id="@+id/btnUpdateUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintBottom_toTopOf="@id/txtContactEmail"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtContactPhoneAlt">
-
-                <!-- Street line and extra line -->
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtContactAddressStreet"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_address_street"
-                    app:layout_constraintBottom_toTopOf="@id/txtContactAddressLocality"
-                    app:layout_constraintEnd_toStartOf="@id/txtContactAddressExtended"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/eTxtContactAddressStreet"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_STREET_ADDRESS"
-                        android:inputType="textPostalAddress"
-                        android:text="@{handler.user.address.firstLine}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtContactAddressExtended"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_address_extended"
-                    app:layout_constraintBottom_toTopOf="@id/txtContactAddressRegion"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/txtContactAddressStreet" >
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/eTxtContactAddressExtended"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_STREET_ADDRESS"
-                        android:inputType="textPostalAddress"
-                        android:text="@{handler.user.address.secondLine}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Location and region line -->
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtContactAddressLocality"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/base_margin"
-                    android:hint="@string/hint_address_locality"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/txtContactAddressRegion"
-                    app:layout_constraintStart_toStartOf="@id/txtContactAddressStreet" >
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/eTxtContactAddressLocality"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_LOCALITY"
-                        android:inputType="textPostalAddress"
-                        android:text="@{handler.user.address.locality}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtContactAddressRegion"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_address_region"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/txtContactAddressExtended"
-                    app:layout_constraintStart_toEndOf="@id/txtContactAddressLocality"
-                    app:layout_constraintTop_toBottomOf="@id/txtContactAddressStreet">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/eTxtContactAddressRegion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_LOCALITY"
-                        android:inputType="textPostalAddress"
-                        android:text="@{handler.user.address.region}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- Email -->
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtContactEmail"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="@dimen/long_text_width"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="@string/hint_email"
-                app:layout_constraintBottom_toTopOf="@id/layButtonsConfirmUpdate"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layContactAddress">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/eTxtContactEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS"
-                    android:inputType="textEmailAddress"
-                    android:text="@{handler.user.email}" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:icon="@drawable/ic_baseline_edit"
+                android:text="@string/edit_user"
+                android:layout_gravity="start"
+                android:enabled="@{!handler.updating}"
+                android:onClick="@{() -> handler.updateMode(true)}"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layButtonsConfirmUpdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/base_margin"
-                app:layout_constraintTop_toBottomOf="@id/txtContactEmail">
+                android:visibility="@{handler.updating ? View.VISIBLE : View.GONE}">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNegative"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cancel"
-                    android:onClick="@{() -> handler.updateMode(false)}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/btnPositive"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:icon="@drawable/ic_baseline_close"/>
+                <!-- Display name -->
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnPositive"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtDisplayName"
+                    android:layout_width="@dimen/long_text_width"
                     android:layout_height="wrap_content"
-                    android:text="@string/confirm"
-                    android:onClickListener="@{() -> handler.confirmUpdate()}"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:hint="@string/hint_name"
+                    android:layout_marginBottom="@dimen/double_base_margin"
+                    app:layout_constraintBottom_toTopOf="@id/txtContactPhone"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/btnNegative"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:icon="@drawable/ic_baseline_send"
-                    app:iconGravity="end" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/eTxtDisplayName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=".AUTOFILL_HINT_PHONE_NUMBER"
+                        android:inputType="textPersonName"
+                        android:text="@{handler.user.displayName}"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Main phone number -->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtContactPhone"
+                    android:layout_width="@dimen/long_text_width"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/phone_number"
+                    app:layout_constraintBottom_toTopOf="@id/txtContactPhoneAlt"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtDisplayName">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/eTxtContactPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=".AUTOFILL_HINT_PHONE_NUMBER"
+                        android:inputType="phone"
+                        android:text="@{handler.user.mainPhoneNumber}"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Alternative phone number -->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtContactPhoneAlt"
+                    android:layout_width="@dimen/long_text_width"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/choose_phone_alt"
+                    app:layout_constraintBottom_toTopOf="@id/layContactAddress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtContactPhone"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/eTxtContactPhoneAlt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=".AUTOFILL_HINT_PHONE_NUMBER"
+                        android:inputType="phone"
+                        android:text="@{handler.user.altPhoneNumber}"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Address -->
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layContactAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintBottom_toTopOf="@id/txtContactEmail"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtContactPhoneAlt">
+
+                    <!-- Street line and extra line -->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtContactAddressStreet"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_address_street"
+                        app:layout_constraintBottom_toTopOf="@id/txtContactAddressLocality"
+                        app:layout_constraintEnd_toStartOf="@id/txtContactAddressExtended"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/eTxtContactAddressStreet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_STREET_ADDRESS"
+                            android:inputType="textPostalAddress"
+                            android:text="@{handler.user.address.firstLine}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtContactAddressExtended"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_address_extended"
+                        app:layout_constraintBottom_toTopOf="@id/txtContactAddressRegion"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txtContactAddressStreet" >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/eTxtContactAddressExtended"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_STREET_ADDRESS"
+                            android:inputType="textPostalAddress"
+                            android:text="@{handler.user.address.secondLine}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Location and region line -->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtContactAddressLocality"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/base_margin"
+                        android:hint="@string/hint_address_locality"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/txtContactAddressRegion"
+                        app:layout_constraintStart_toStartOf="@id/txtContactAddressStreet" >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/eTxtContactAddressLocality"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_LOCALITY"
+                            android:inputType="textPostalAddress"
+                            android:text="@{handler.user.address.locality}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtContactAddressRegion"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_address_region"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/txtContactAddressExtended"
+                        app:layout_constraintStart_toEndOf="@id/txtContactAddressLocality"
+                        app:layout_constraintTop_toBottomOf="@id/txtContactAddressStreet">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/eTxtContactAddressRegion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_LOCALITY"
+                            android:inputType="textPostalAddress"
+                            android:text="@{handler.user.address.region}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- Email -->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtContactEmail"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="@dimen/long_text_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/hint_email"
+                    app:layout_constraintBottom_toTopOf="@id/layButtonsConfirmUpdate"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layContactAddress">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/eTxtContactEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=".AUTOFILL_HINT_EMAIL_ADDRESS"
+                        android:inputType="textEmailAddress"
+                        android:text="@{handler.user.email}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layButtonsConfirmUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/base_margin"
+                    app:layout_constraintTop_toBottomOf="@id/txtContactEmail">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnNegative"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cancel"
+                        android:onClick="@{() -> handler.updateMode(false)}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/btnPositive"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:icon="@drawable/ic_baseline_close"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPositive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/confirm"
+                        android:onClickListener="@{() -> handler.confirmUpdate()}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/btnNegative"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:icon="@drawable/ic_baseline_send"
+                        app:iconGravity="end" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- Delete bond -->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/btnUnbond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_baseline_remove_bond"
+                android:text="@string/delete_bond_title"
+                android:layout_gravity="start"
+                android:onClick="@{() -> handler.removeBond()}"
+                android:visibility="@{handler.patient ? View.GONE : View.VISIBLE}"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
 
-        <!-- Delete bond -->
+            <!-- Log out button -->
 
-        <Button
-            android:id="@+id/btnUnbond"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/ic_baseline_remove_bond"
-            android:text="@string/delete_bond_title"
-            android:layout_gravity="start"
-            android:onClick="@{() -> handler.removeBond()}"
-            android:visibility="@{handler.patient ? View.GONE : View.VISIBLE}"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+            <Button
+                android:id="@+id/btnCloseSession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_baseline_log_out"
+                android:text="@string/log_out"
+                android:layout_gravity="start"
+                android:onClick="@{() -> handler.closeSession()}"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
 
-        <!-- Log out button -->
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/back"
+                app:icon="@drawable/ic_baseline_arrow_back"
+                android:layout_gravity="center_horizontal"
+                style="@style/Widget.MaterialComponents.Button.TextButton" />
 
-        <Button
-            android:id="@+id/btnCloseSession"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/ic_baseline_log_out"
-            android:text="@string/log_out"
-            android:layout_gravity="start"
-            android:onClick="@{() -> handler.closeSession()}"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back"
-            app:icon="@drawable/ic_baseline_arrow_back"
-            android:layout_gravity="center_horizontal"
-            style="@style/Widget.MaterialComponents.Button.TextButton" />
-
-    </LinearLayout>
+    </ScrollView>
 
 </layout>
