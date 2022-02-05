@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import dev.sotoestevez.allforone.repositories.NotificationRepository
 import dev.sotoestevez.allforone.vo.User
 import dev.sotoestevez.allforone.ui.viewmodel.ExtendedViewModel
 import dev.sotoestevez.allforone.ui.viewmodel.PrivateViewModel
@@ -19,6 +20,7 @@ import dev.sotoestevez.allforone.util.dispatcher.DispatcherProvider
 import dev.sotoestevez.allforone.util.extensions.invoke
 import dev.sotoestevez.allforone.util.extensions.logDebug
 import dev.sotoestevez.allforone.vo.Address
+import dev.sotoestevez.allforone.vo.notification.Action
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
@@ -28,7 +30,8 @@ class BondsViewModel(
     savedStateHandle: SavedStateHandle,
     dispatchers: DispatcherProvider = DefaultDispatcherProvider,
     sessionRepository: SessionRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val notificationRepository: NotificationRepository
 ) : PrivateViewModel(savedStateHandle, dispatchers, sessionRepository) {
 
     /** Current QR Code to create a bond */
@@ -63,12 +66,17 @@ class BondsViewModel(
         builder.savedStateHandle,
         builder.dispatchers,
         builder.sessionRepository,
-        builder.userRepository
+        builder.userRepository,
+        builder.notificationRepository
     )
 
     init {
-        loading.value = true
-        // Load bonds
+        loadBonds()
+        notificationRepository.onNotification(Action.BOND_CREATED) { loadBonds() }
+    }
+
+    private fun loadBonds() {
+        loading.postValue(true)
         viewModelScope.launch(dispatchers.io() + coroutineExceptionHandler) {
             val response = userRepository.getBonds(authHeader())
             logDebug("Retrieved ${response.size} bonds")
